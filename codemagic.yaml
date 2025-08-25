@@ -48,8 +48,15 @@ workflows:
         script: |
           echo "Installing Capacitor CLI globally for sync..."
           npm install -g @capacitor/cli
+          echo "Checking build output..."
+          ls -la dist/
+          ls -la dist/public/
+          echo "Converting capacitor config to JSON for sync..."
+          node -e "const config = require('./capacitor.config.cjs'); console.log(JSON.stringify(config, null, 2))" > capacitor.config.json
           echo "Running Capacitor sync..."
-          npx @capacitor/cli sync ios
+          npx @capacitor/cli sync ios --verbose
+          echo "Checking what was synced to iOS..."
+          ls -la ios/App/App/
           echo "Capacitor sync completed successfully"
       - name: Install iOS dependencies
         script: |

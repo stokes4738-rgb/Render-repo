@@ -1,0 +1,59 @@
+  cd /Users/builder/clone/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/clone/ios/App/App/public /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app
+error: lstat(/Users/builder/clone/ios/App/App/public): No such file or directory (2) (in target 'App' from project 'App')
+
+CpResource /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app/config.xml /Users/builder/clone/ios/App/App/config.xml (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/clone/ios/App/App/config.xml /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app
+error: lstat(/Users/builder/clone/ios/App/App/config.xml): No such file or directory (2) (in target 'App' from project 'App')
+
+MkDir /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_output/unthinned (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    /bin/mkdir -p /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_output/unthinned
+
+CpResource /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app/capacitor.config.json /Users/builder/clone/ios/App/App/capacitor.config.json (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/builder/clone/ios/App/App/capacitor.config.json /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app
+error: lstat(/Users/builder/clone/ios/App/App/capacitor.config.json): No such file or directory (2) (in target 'App' from project 'App')
+
+MkDir /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_output/thinned (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    /bin/mkdir -p /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_output/thinned
+
+CompileStoryboard /Users/builder/clone/ios/App/App/Base.lproj/Main.storyboard (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    /Applications/Xcode-16.4.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module App --output-partial-info-plist /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/Base.lproj/Main-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --minimum-deployment-target 14.0 --output-format human-readable-text /Users/builder/clone/ios/App/App/Base.lproj/Main.storyboard --compilation-directory /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/Base.lproj
+
+CompileStoryboard /Users/builder/clone/ios/App/App/Base.lproj/LaunchScreen.storyboard (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    /Applications/Xcode-16.4.app/Contents/Developer/usr/bin/ibtool --errors --warnings --notices --module App --output-partial-info-plist /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/Base.lproj/LaunchScreen-SBPartialInfo.plist --auto-activate-custom-fonts --target-device iphone --target-device ipad --minimum-deployment-target 14.0 --output-format human-readable-text /Users/builder/clone/ios/App/App/Base.lproj/LaunchScreen.storyboard --compilation-directory /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/Base.lproj
+
+CompileAssetCatalogVariant thinned /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app /Users/builder/clone/ios/App/App/Assets.xcassets (in target 'App' from project 'App')
+    cd /Users/builder/clone/ios/App
+    /Applications/Xcode-16.4.app/Contents/Developer/usr/bin/actool /Users/builder/clone/ios/App/App/Assets.xcassets --compile /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/IntermediateBuildFilesPath/App.build/Release-iphoneos/App.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 14.0 --platform iphoneos
+
+note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'App' from project 'App')
+warning: Run script build phase '[CP] Embed Pods Frameworks' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'App' from project 'App')
+** ARCHIVE FAILED **
+
+
+The following build commands failed:
+	CpResource /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app/public /Users/builder/clone/ios/App/App/public (in target 'App' from project 'App')
+	CpResource /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app/config.xml /Users/builder/clone/ios/App/App/config.xml (in target 'App' from project 'App')
+	CpResource /Users/builder/Library/Developer/Xcode/DerivedData/App-dauaqfqrctuewxfmikobeghbofmz/Build/Intermediates.noindex/ArchiveIntermediates/App/InstallationBuildProductsLocation/Applications/App.app/capacitor.config.json /Users/builder/clone/ios/App/App/capacitor.config.json (in target 'App' from project 'App')
+	Archiving project App with scheme App
+(4 failures)
+
+
+Build failed :|
+Step 9 script `Build unsigned app archive` exited with status code 65
+
+Export unsigned IPA
+< 1s
+Publishing
+1s
+Cleaning up
+< 1s
+Step 9 script `Build unsigned app archive` exited with status code 65
+Build for pocket-bounty-ipa-2 failed
+Step 9 script `Build unsigned app archive` exited with status code 65

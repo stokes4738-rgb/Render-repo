@@ -1,0 +1,68 @@
+C:\PocketBounty>npm run build
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.19 building for production...
+transforming (3) src\main.tsxBrowserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 1793 modules transformed.
+../dist/public/index.html                         3.45 kB │ gzip:  1.19 kB
+../dist/public/assets/index-DSV7XsC5.css         99.65 kB │ gzip: 16.01 kB
+../dist/public/assets/authUtils-CcDzk6i0.js       0.08 kB │ gzip:  0.10 kB
+../dist/public/assets/index-a0QT49T-.js           0.34 kB │ gzip:  0.24 kB
+../dist/public/assets/clock-wBfDbQf8.js           0.35 kB │ gzip:  0.27 kB
+../dist/public/assets/navigation-BQhmfZXH.js      0.37 kB │ gzip:  0.25 kB
+../dist/public/assets/star-v8fqhqKM.js            0.38 kB │ gzip:  0.29 kB
+../dist/public/assets/web-b5TI_cvF.js             0.38 kB │ gzip:  0.25 kB
+../dist/public/assets/shield-DSu-lIXI.js          0.44 kB │ gzip:  0.33 kB
+../dist/public/assets/users-BR9FCYoa.js           0.47 kB │ gzip:  0.33 kB
+../dist/public/assets/label-BicTl1Vn.js           0.55 kB │ gzip:  0.37 kB
+../dist/public/assets/badge-DYgkpcVu.js           0.71 kB │ gzip:  0.37 kB
+../dist/public/assets/not-found-COmHsaRe.js       0.96 kB │ gzip:  0.54 kB
+../dist/public/assets/zap-C8acBzT0.js             1.09 kB │ gzip:  0.47 kB
+../dist/public/assets/input-CFekciDm.js           3.40 kB │ gzip:  1.47 kB
+../dist/public/assets/AuthPage-5OOqPGIm.js        7.40 kB │ gzip:  2.28 kB
+../dist/public/assets/index-BrpUgTDZ.js           7.81 kB │ gzip:  3.22 kB
+../dist/public/assets/Landing-DpHp6sW9.js         7.91 kB │ gzip:  2.15 kB
+../dist/public/assets/Profile-5cAas2JP.js        11.43 kB │ gzip:  3.47 kB
+../dist/public/assets/CreatorInbox-B1C22x0Q.js   12.03 kB │ gzip:  4.20 kB
+../dist/public/assets/Account-BzHo50Io.js        71.25 kB │ gzip: 23.53 kB
+../dist/public/assets/index-BpHmunVh.js          87.23 kB │ gzip: 24.23 kB
+../dist/public/assets/Home-BObhhSTf.js          271.55 kB │ gzip: 56.01 kB
+../dist/public/assets/index-B-6efiOC.js         286.65 kB │ gzip: 94.03 kB
+✓ built in 6.68s
+X [ERROR] Unexpected end of file
+
+    server/index.ts:81:5:
+      81 │   });
+         ╵      ^
+
+1 error
+node:child_process:954
+    throw err;
+    ^
+
+Error: Command failed: C:\PocketBounty\node_modules\@esbuild\win32-x64\esbuild.exe server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:915:11)
+    at Object.execFileSync (node:child_process:951:15)
+    at Object.<anonymous> (C:\PocketBounty\node_modules\esbuild\bin\esbuild:221:28)
+    at Module._compile (node:internal/modules/cjs/loader:1688:14)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 5284,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.18.0
+
+C:\PocketBounty>

@@ -87,8 +87,9 @@ workflows:
           xcodebuild -workspace App.xcworkspace -list || echo "No workspace schemes found"
           echo "Checking project schemes..."
           xcodebuild -project App.xcodeproj -list || echo "No project schemes found"
-          echo "Building using project file directly..."
+          echo "Building using project file with App scheme..."
           xcodebuild -project App.xcodeproj \
+            -scheme App \
             -configuration Release \
             -destination generic/platform=iOS \
             -archivePath App.xcarchive \

@@ -1,0 +1,174 @@
+Microsoft Windows [Version 10.0.26100.4946]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\GSOcp>cd C:\PocketBounty
+
+C:\PocketBounty>pm2 stop pocket-bounty
+[PM2] Applying action stopProcessId on app [pocket-bounty](ids: [ 0 ])
+[PM2] [pocket-bounty](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ pocket-bounty      │ cluster  │ 216  │ stopped   │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+C:\PocketBounty>npm run build
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.19 building for production...
+transforming (3) src\main.tsxBrowserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 1793 modules transformed.
+../dist/public/index.html                         3.45 kB │ gzip:  1.19 kB
+../dist/public/assets/index-DSV7XsC5.css         99.65 kB │ gzip: 16.01 kB
+../dist/public/assets/authUtils-CcDzk6i0.js       0.08 kB │ gzip:  0.10 kB
+../dist/public/assets/index-a0QT49T-.js           0.34 kB │ gzip:  0.24 kB
+../dist/public/assets/clock-wBfDbQf8.js           0.35 kB │ gzip:  0.27 kB
+../dist/public/assets/navigation-BQhmfZXH.js      0.37 kB │ gzip:  0.25 kB
+../dist/public/assets/star-v8fqhqKM.js            0.38 kB │ gzip:  0.29 kB
+../dist/public/assets/web-b5TI_cvF.js             0.38 kB │ gzip:  0.25 kB
+../dist/public/assets/shield-DSu-lIXI.js          0.44 kB │ gzip:  0.33 kB
+../dist/public/assets/users-BR9FCYoa.js           0.47 kB │ gzip:  0.33 kB
+../dist/public/assets/label-BicTl1Vn.js           0.55 kB │ gzip:  0.37 kB
+../dist/public/assets/badge-DYgkpcVu.js           0.71 kB │ gzip:  0.37 kB
+../dist/public/assets/not-found-COmHsaRe.js       0.96 kB │ gzip:  0.54 kB
+../dist/public/assets/zap-C8acBzT0.js             1.09 kB │ gzip:  0.47 kB
+../dist/public/assets/input-CFekciDm.js           3.40 kB │ gzip:  1.47 kB
+../dist/public/assets/AuthPage-5OOqPGIm.js        7.40 kB │ gzip:  2.28 kB
+../dist/public/assets/index-BrpUgTDZ.js           7.81 kB │ gzip:  3.22 kB
+../dist/public/assets/Landing-DpHp6sW9.js         7.91 kB │ gzip:  2.15 kB
+../dist/public/assets/Profile-5cAas2JP.js        11.43 kB │ gzip:  3.47 kB
+../dist/public/assets/CreatorInbox-B1C22x0Q.js   12.03 kB │ gzip:  4.20 kB
+../dist/public/assets/Account-BzHo50Io.js        71.25 kB │ gzip: 23.53 kB
+../dist/public/assets/index-BpHmunVh.js          87.23 kB │ gzip: 24.23 kB
+../dist/public/assets/Home-BObhhSTf.js          271.55 kB │ gzip: 56.01 kB
+../dist/public/assets/index-B-6efiOC.js         286.65 kB │ gzip: 94.03 kB
+✓ built in 6.73s
+
+  dist\index.js  96.7kb
+
+Done in 17ms
+
+C:\PocketBounty>pm2 start ecosystem.config.cjs --env production
+[PM2] Applying action restartProcessId on app [pocket-bounty](ids: [ 0 ])
+[PM2] [pocket-bounty](0) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ pocket-bounty      │ cluster  │ 216  │ online    │ 0%       │ 0b       │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+C:\PocketBounty>pm2 logs pocket-bounty --lines 10
+[TAILING] Tailing last 10 lines for [pocket-bounty] process (change the value with --lines option)
+C:\PocketBounty\logs\out-0.log last 10 lines:
+0|pocket-b | 2025-08-25T16:35:26: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:27: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:28: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:30: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:32: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:33: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:35:34: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:36:00: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:36:01: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-b | 2025-08-25T16:36:03: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+
+C:\PocketBounty\logs\err-0.log last 10 lines:
+0|pocket-b | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-b |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-b |     at listenInCluster (node:net:1997:12)
+0|pocket-b |     at node:net:2206:7
+0|pocket-b |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-b | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-b |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-b |     at listenInCluster (node:net:1997:12)
+0|pocket-b |     at node:net:2206:7
+0|pocket-b |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+
+0|pocket-bounty  | 2025-08-25T16:36:04: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:06: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:07: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:08: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:10: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:11: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:13: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:14: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:16: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:17: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:18: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:20: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:21: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+0|pocket-bounty  | 2025-08-25T16:36:23: Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)
+0|pocket-bounty  | Error: listen ENOTSUP: operation not supported on socket 0.0.0.0:5000
+0|pocket-bounty  |     at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+0|pocket-bounty  |     at listenInCluster (node:net:1997:12)
+0|pocket-bounty  |     at node:net:2206:7
+0|pocket-bounty  |     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+^C

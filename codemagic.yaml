@@ -51,6 +51,12 @@ workflows:
           echo "Running Capacitor sync..."
           npx @capacitor/cli sync ios
           echo "Capacitor sync completed successfully"
+      - name: Install iOS dependencies
+        script: |
+          cd ios/App
+          echo "Installing CocoaPods dependencies..."
+          pod install --verbose
+          echo "CocoaPods installation completed"
       - name: Create export options for unsigned build
         script: |
           cd ios/App

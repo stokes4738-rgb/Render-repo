@@ -37,9 +37,11 @@ workflows:
           # Ensure NODE_ENV is set
           export NODE_ENV=production
           echo "Building with NODE_ENV=$NODE_ENV"
-          echo "Running build with npx to ensure correct vite version..."
-          # Run the build with npx to ensure we use the local vite
-          npx vite build && npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+          echo "Building frontend with Vite..."
+          npx vite build
+          echo "Building backend with esbuild..."
+          npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+          echo "Build completed successfully"
       - name: Update dependencies and copy web assets to native project
         script: |
           npx cap sync ios

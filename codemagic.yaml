@@ -46,7 +46,11 @@ workflows:
           echo "Build completed successfully"
       - name: Update dependencies and copy web assets to native project
         script: |
-          npx cap sync ios
+          echo "Installing Capacitor CLI globally for sync..."
+          npm install -g @capacitor/cli
+          echo "Running Capacitor sync..."
+          npx @capacitor/cli sync ios
+          echo "Capacitor sync completed successfully"
       - name: Create export options for unsigned build
         script: |
           cd ios/App

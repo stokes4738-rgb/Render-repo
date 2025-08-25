@@ -81,8 +81,13 @@ workflows:
       - name: Build unsigned app archive
         script: |
           cd ios/App
+          echo "Finding available schemes..."
+          xcodebuild -workspace App.xcworkspace -list
+          echo "Building with detected scheme..."
+          SCHEME=$(xcodebuild -workspace App.xcworkspace -list | grep -A 10 "Schemes:" | tail -n +2 | head -n 1 | xargs)
+          echo "Using scheme: $SCHEME"
           xcodebuild -workspace App.xcworkspace \
-            -scheme App \
+            -scheme "$SCHEME" \
             -configuration Release \
             -destination generic/platform=iOS \
             -archivePath App.xcarchive \

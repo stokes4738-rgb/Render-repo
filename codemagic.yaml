@@ -30,6 +30,8 @@ workflows:
           echo "Installing dependencies..."
           npm ci --verbose
           echo "Dependencies installed successfully"
+          echo "Ensuring TypeScript is available for Capacitor..."
+          npm install typescript --save-dev || echo "TypeScript already available"
           echo "Checking vite installation..."
           npx vite --version || echo "Vite not found in local installation"
       - name: Build web application  

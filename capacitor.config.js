@@ -1,6 +1,4 @@
-import { CapacitorConfig } from '@capacitor/cli';
-
-const config: CapacitorConfig = {
+const config = {
   appId: 'com.pocketbounty.app',
   appName: 'Pocket Bounty',
   webDir: 'dist/public',
@@ -14,4 +12,4 @@ const config: CapacitorConfig = {
   }
 };
 
-export default config;
+module.exports = config;

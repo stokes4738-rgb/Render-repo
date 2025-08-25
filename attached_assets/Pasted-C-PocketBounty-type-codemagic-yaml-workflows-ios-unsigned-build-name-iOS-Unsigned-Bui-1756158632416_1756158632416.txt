@@ -1,0 +1,112 @@
+C:\PocketBounty>type codemagic.yaml
+workflows:
+
+  ios-unsigned-build:
+    name: iOS Unsigned Build (for esign)
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      vars:
+        BUNDLE_ID: "com.pocketbounty.app"
+        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_SCHEME: "App"
+        NODE_ENV: "production"
+      node: 20.11.0
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Debug environment
+        script: |
+          echo "Node version: $(node --version)"
+          echo "NPM version: $(npm --version)"
+          echo "Current directory: $(pwd)"
+          echo "Environment variables:"
+          env | grep NODE
+          echo "Directory contents:"
+          ls -la
+          echo "Client directory exists:"
+          ls -la client/
+      - name: Install npm dependencies
+        script: |
+          echo "Installing dependencies..."
+          npm ci --verbose
+          echo "Dependencies installed successfully"
+          echo "Ensuring TypeScript is available for Capacitor..."
+          npm install typescript --save-dev || echo "TypeScript already available"
+          echo "Checking vite installation..."
+          npx vite --version || echo "Vite not found in local installation"
+        script: |
+          npm ci
+      - name: Build web application
+        script: |
+          # Ensure NODE_ENV is set
+          export NODE_ENV=production
+          echo "Building with NODE_ENV=$NODE_ENV"
+          echo "Building frontend with Vite..."
+          npx vite build
+          echo "Building backend with esbuild..."
+          npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+          echo "Build completed successfully"
+      - name: Update dependencies and copy web assets to native project
+        script: |
+          npx cap sync ios
+      - name: Create export options for unsigned build
+        script: |
+          cd ios/App
+          cat > ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>development</string>
+              <key>compileBitcode</key>
+              <false/>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>stripSwiftSymbols</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+      - name: Disable all code signing in Xcode project
+        script: |
+          cd ios/App
+          # Disable code signing completely
+          sed -i '' 's/CODE_SIGN_STYLE = Automatic;/CODE_SIGN_STYLE = Manual;/g' App.xcodeproj/project.pbxproj
+          sed -i '' 's/DEVELOPMENT_TEAM = .*;/DEVELOPMENT_TEAM = "";/g' App.xcodeproj/project.pbxproj
+          sed -i '' 's/CODE_SIGN_IDENTITY = .*/CODE_SIGN_IDENTITY = "";/g' App.xcodeproj/project.pbxproj
+          sed -i '' 's/PROVISIONING_PROFILE_SPECIFIER = .*/PROVISIONING_PROFILE_SPECIFIER = "";/g' App.xcodeproj/project.pbxproj
+      - name: Build unsigned app archive
+        script: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath App.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            PROVISIONING_PROFILE="" \
+            archive
+      - name: Export unsigned IPA
+        script: |
+          cd ios/App
+          xcodebuild -exportArchive \
+            -archivePath App.xcarchive \
+            -exportPath ./build \
+            -exportOptionsPlist ExportOptions.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: false
+C:\PocketBounty>

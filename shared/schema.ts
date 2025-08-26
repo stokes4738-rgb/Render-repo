@@ -49,6 +49,10 @@ export const users: any = pgTable("users", {
   referralCode: varchar("referral_code").unique(),
   referredBy: varchar("referred_by").references((): any => users.id),
   referralCount: integer("referral_count").default(0),
+  // 2FA Settings
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  twoFactorSecret: varchar("two_factor_secret"), // encrypted OTP secret
+  backupCodesHash: text("backup_codes_hash"), // encrypted backup codes
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 }, (table) => [
@@ -234,6 +238,8 @@ export const insertUserSchema = createInsertSchema(users).omit({
   referralCode: true,
   referredBy: true,
   referralCount: true,
+  twoFactorSecret: true,
+  backupCodesHash: true,
   lastSeen: true,
   isOnline: true,
 });
@@ -326,6 +332,25 @@ export const insertPlatformRevenueSchema = createInsertSchema(platformRevenue).o
   createdAt: true,
 });
 
+// 2FA verification logs table
+export const twoFactorLogs = pgTable("two_factor_logs", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  action: varchar("action", { length: 100 }).notNull(), // 'setup', 'verify', 'disable', 'backup_used'
+  success: boolean("success").notNull(),
+  ipAddress: varchar("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("idx_2fa_logs_user_id").on(table.userId),
+  index("idx_2fa_logs_created_at").on(table.createdAt),
+]);
+
+export const insertTwoFactorLogSchema = createInsertSchema(twoFactorLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
@@ -354,3 +379,5 @@ export type InsertPayment = z.infer<typeof insertPaymentSchema>;
 export type InsertBoostHistory = z.infer<typeof insertBoostHistorySchema>;
 export type PlatformRevenue = typeof platformRevenue.$inferSelect;
 export type InsertPlatformRevenue = z.infer<typeof insertPlatformRevenueSchema>;
+export type TwoFactorLog = typeof twoFactorLogs.$inferSelect;
+export type InsertTwoFactorLog = z.infer<typeof insertTwoFactorLogSchema>;

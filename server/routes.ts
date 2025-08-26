@@ -6,6 +6,8 @@ import { setupAuthJWT, verifyToken } from "./authJWT";
 import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema } from "@shared/schema";
 import { logger } from "./utils/logger";
 import { sendSupportEmail } from "./utils/email";
+import { TwoFactorService } from "./utils/twoFactor";
+import { require2FA } from "./middleware/twoFactor";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -723,6 +725,118 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // 2FA routes
+  app.get('/api/2fa/status', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      res.json({
+        enabled: user?.twoFactorEnabled || false,
+        hasBackupCodes: !!user?.backupCodesHash
+      });
+    } catch (error) {
+      logger.error("Error getting 2FA status:", error);
+      res.status(500).json({ message: "Failed to get 2FA status" });
+    }
+  });
+
+  app.post('/api/2fa/setup', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Generate new secret
+      const secret = TwoFactorService.generateSecret();
+      const qrCodeUrl = await TwoFactorService.generateQRCode(user.username || user.email || 'user', secret);
+      
+      // Generate backup codes
+      const backupCodes = TwoFactorService.generateBackupCodes();
+      
+      res.json({
+        secret,
+        qrCodeUrl,
+        backupCodes
+      });
+    } catch (error) {
+      logger.error("Error setting up 2FA:", error);
+      res.status(500).json({ message: "Failed to setup 2FA" });
+    }
+  });
+
+  app.post('/api/2fa/enable', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { secret, code, backupCodes } = req.body;
+      
+      // Verify the code before enabling
+      const isValid = TwoFactorService.verifyCode(secret, code);
+      if (!isValid) {
+        return res.status(400).json({ message: 'Invalid verification code' });
+      }
+
+      // Encrypt secret and hash backup codes
+      const encryptedSecret = TwoFactorService.encryptSecret(secret);
+      const hashedBackupCodes = TwoFactorService.hashBackupCodes(backupCodes);
+      
+      // Enable 2FA in database
+      await storage.enable2FA(userId, encryptedSecret, hashedBackupCodes);
+      
+      // Log activity
+      await storage.log2FAActivity({
+        userId,
+        action: 'setup',
+        success: true,
+        ipAddress: req.ip || 'unknown',
+        userAgent: req.get('User-Agent') || 'unknown',
+      });
+      
+      res.json({ success: true, message: '2FA enabled successfully' });
+    } catch (error) {
+      logger.error("Error enabling 2FA:", error);
+      res.status(500).json({ message: "Failed to enable 2FA" });
+    }
+  });
+
+  app.post('/api/2fa/disable', verifyToken, require2FA, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      
+      // Disable 2FA in database
+      await storage.disable2FA(userId);
+      
+      // Log activity
+      await storage.log2FAActivity({
+        userId,
+        action: 'disable',
+        success: true,
+        ipAddress: req.ip || 'unknown',
+        userAgent: req.get('User-Agent') || 'unknown',
+      });
+      
+      res.json({ success: true, message: '2FA disabled successfully' });
+    } catch (error) {
+      logger.error("Error disabling 2FA:", error);
+      res.status(500).json({ message: "Failed to disable 2FA" });
+    }
+  });
+
+  app.get('/api/2fa/logs', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const logs = await storage.get2FALogs(userId, 20);
+      
+      res.json(logs);
+    } catch (error) {
+      logger.error("Error fetching 2FA logs:", error);
+      res.status(500).json({ message: "Failed to fetch 2FA logs" });
+    }
+  });
+
   // Feedback system for users to contact creator
   app.post('/api/feedback', verifyToken, async (req: any, res) => {
     try {
@@ -1035,7 +1149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/deposit', verifyToken, async (req: any, res) => {
+  app.post('/api/payments/deposit', verifyToken, require2FA, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }

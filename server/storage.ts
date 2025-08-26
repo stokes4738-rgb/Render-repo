@@ -36,6 +36,9 @@ import {
   type InsertPlatformRevenue,
   type BoostHistory,
   type InsertBoostHistory,
+  twoFactorLogs,
+  type TwoFactorLog,
+  type InsertTwoFactorLog,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, or, sql } from "drizzle-orm";
@@ -141,6 +144,14 @@ export interface IStorage {
   
   // Data recovery operations
   recoverUserData(userId: string): Promise<void>;
+
+  // 2FA operations
+  enable2FA(userId: string, encryptedSecret: string, backupCodesHash: string): Promise<void>;
+  disable2FA(userId: string): Promise<void>;
+  update2FASecret(userId: string, encryptedSecret: string): Promise<void>;
+  updateBackupCodes(userId: string, backupCodesHash: string): Promise<void>;
+  log2FAActivity(data: InsertTwoFactorLog): Promise<void>;
+  get2FALogs(userId: string, limit?: number): Promise<TwoFactorLog[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1065,6 +1076,64 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       // Failed to recover data from backup
     }
+  }
+
+  // 2FA operations
+  async enable2FA(userId: string, encryptedSecret: string, backupCodesHash: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        twoFactorEnabled: true,
+        twoFactorSecret: encryptedSecret,
+        backupCodesHash: backupCodesHash,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
+
+  async disable2FA(userId: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        backupCodesHash: null,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
+
+  async update2FASecret(userId: string, encryptedSecret: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        twoFactorSecret: encryptedSecret,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
+
+  async updateBackupCodes(userId: string, backupCodesHash: string): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        backupCodesHash: backupCodesHash,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
+  }
+
+  async log2FAActivity(data: InsertTwoFactorLog): Promise<void> {
+    await db.insert(twoFactorLogs).values(data);
+  }
+
+  async get2FALogs(userId: string, limit: number = 50): Promise<TwoFactorLog[]> {
+    return db
+      .select()
+      .from(twoFactorLogs)
+      .where(eq(twoFactorLogs.userId, userId))
+      .orderBy(desc(twoFactorLogs.createdAt))
+      .limit(limit);
   }
 }
 

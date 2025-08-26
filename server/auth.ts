@@ -52,13 +52,14 @@ export function setupAuth(app: Express) {
 
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "pocket-bounty-secret-key",
-    resave: false,
-    saveUninitialized: false,
+    resave: true, // Changed to true to ensure session saves
+    saveUninitialized: true, // Changed to true to save uninitialized sessions
+    rolling: true, // Reset expiry on activity
     store: sessionStore,
     cookie: {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Allow cross-origin for mobile
+      secure: false, // Changed to false for development
+      sameSite: "lax",
       maxAge: sessionTtl,
     },
   };
@@ -183,16 +184,23 @@ export function setupAuth(app: Express) {
           return res.status(500).json({ message: "Login failed" });
         }
         
-        res.json({
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          handle: user.handle,
-          points: user.points,
-          balance: user.balance,
-          lifetimeEarned: user.lifetimeEarned,
+        // Force save session before responding
+        req.session.save((saveErr: any) => {
+          if (saveErr) {
+            console.error('Session save error:', saveErr);
+          }
+          
+          res.json({
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            handle: user.handle,
+            points: user.points,
+            balance: user.balance,
+            lifetimeEarned: user.lifetimeEarned,
+          });
         });
       });
     })(req, res, next);

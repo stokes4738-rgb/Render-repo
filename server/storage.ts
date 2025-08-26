@@ -249,7 +249,7 @@ export class DatabaseStorage implements IStorage {
 
   // Bounty operations
   async createBounty(bounty: InsertBounty): Promise<Bounty> {
-    const [newBounty] = await db.insert(bounties).values([bounty]).returning();
+    const [newBounty] = await db.insert(bounties).values(bounty).returning();
     return newBounty;
   }
 
@@ -954,7 +954,7 @@ export class DatabaseStorage implements IStorage {
   async recoverUserData(userId: string): Promise<void> {
     try {
       // Get the most recent backup for this user
-      const [backup] = await db.execute(sql`
+      const backupResult = await db.execute(sql`
         SELECT points, balance, lifetime_earned 
         FROM user_data_backups 
         WHERE user_id = ${userId}
@@ -962,7 +962,8 @@ export class DatabaseStorage implements IStorage {
         LIMIT 1
       `);
       
-      if (backup) {
+      if (backupResult.rows && backupResult.rows.length > 0) {
+        const backup = backupResult.rows[0] as any;
         // Restore the user's data from backup
         await db
           .update(users)

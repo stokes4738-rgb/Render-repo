@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { Capacitor } from "@capacitor/core";
+import IOSInput from "@/components/IOSInput";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
@@ -32,15 +30,17 @@ export default function AuthPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLogin, setIsLogin] = useState(true);
-
-  const {
-    register: registerField,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<LoginForm | RegisterForm>({
-    resolver: zodResolver(isLogin ? loginSchema : registerSchema),
+  
+  // Direct state management instead of react-hook-form to avoid iOS issues
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    email: '',
+    firstName: '',
+    lastName: ''
   });
+  
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginForm) => {
@@ -110,17 +110,66 @@ export default function AuthPage() {
     },
   });
 
-  const onSubmit = (data: LoginForm | RegisterForm) => {
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (formData.username.length < 3) {
+      newErrors.username = "Username must be at least 3 characters";
+    }
+    
+    if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    
+    if (!isLogin) {
+      if (!formData.email || !formData.email.includes('@')) {
+        newErrors.email = "Invalid email address";
+      }
+      if (!formData.firstName) {
+        newErrors.firstName = "First name is required";
+      }
+      if (!formData.lastName) {
+        newErrors.lastName = "Last name is required";
+      }
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
     if (isLogin) {
-      loginMutation.mutate(data as LoginForm);
+      loginMutation.mutate({
+        username: formData.username,
+        password: formData.password
+      });
     } else {
-      registerMutation.mutate(data as RegisterForm);
+      registerMutation.mutate({
+        username: formData.username,
+        password: formData.password,
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName
+      });
     }
   };
 
   const toggleMode = () => {
     setIsLogin(!isLogin);
-    reset();
+    setFormData({
+      username: '',
+      password: '',
+      email: '',
+      firstName: '',
+      lastName: ''
+    });
+    setErrors({});
   };
 
   const isPending = loginMutation.isPending || registerMutation.isPending;
@@ -149,24 +198,24 @@ export default function AuthPage() {
               </p>
             </CardHeader>
             <CardContent className="pt-0">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
+              <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
                 {!isLogin && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="firstName" className="text-white">
                         First Name
                       </Label>
-                      <Input
+                      <IOSInput
                         id="firstName"
                         type="text"
-                        {...registerField("firstName")}
+                        value={formData.firstName}
+                        onChange={(value) => setFormData(prev => ({ ...prev, firstName: value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="John"
-                        data-testid="input-first-name"
                       />
-                      {!isLogin && (errors as any).firstName && (
+                      {errors.firstName && (
                         <p className="text-red-300 text-sm mt-1">
-                          {(errors as any).firstName.message}
+                          {errors.firstName}
                         </p>
                       )}
                     </div>
@@ -175,17 +224,17 @@ export default function AuthPage() {
                       <Label htmlFor="lastName" className="text-white">
                         Last Name
                       </Label>
-                      <Input
+                      <IOSInput
                         id="lastName"
                         type="text"
-                        {...registerField("lastName")}
+                        value={formData.lastName}
+                        onChange={(value) => setFormData(prev => ({ ...prev, lastName: value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="Doe"
-                        data-testid="input-last-name"
                       />
-                      {!isLogin && (errors as any).lastName && (
+                      {errors.lastName && (
                         <p className="text-red-300 text-sm mt-1">
-                          {(errors as any).lastName.message}
+                          {errors.lastName}
                         </p>
                       )}
                     </div>
@@ -196,29 +245,18 @@ export default function AuthPage() {
                   <Label htmlFor="username" className="text-white">
                     Username
                   </Label>
-                  <Input
+                  <IOSInput
                     id="username"
                     type="text"
-                    {...registerField("username")}
+                    value={formData.username}
+                    onChange={(value) => setFormData(prev => ({ ...prev, username: value }))}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
-                    data-testid="input-username"
                     autoComplete="username"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                    style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
-                    onTouchStart={(e) => {
-                      e.currentTarget.focus();
-                      e.currentTarget.click();
-                    }}
-                    onFocus={(e) => {
-                      setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                    }}
                   />
                   {errors.username && (
                     <p className="text-red-300 text-sm mt-1">
-                      {errors.username.message}
+                      {errors.username}
                     </p>
                   )}
                 </div>
@@ -228,29 +266,18 @@ export default function AuthPage() {
                     <Label htmlFor="email" className="text-white">
                       Email
                     </Label>
-                    <Input
+                    <IOSInput
                       id="email"
                       type="email"
-                      {...registerField("email")}
+                      value={formData.email}
+                      onChange={(value) => setFormData(prev => ({ ...prev, email: value }))}
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       placeholder="john@example.com"
-                      data-testid="input-email"
                       autoComplete="email"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck="false"
-                      style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
-                      onTouchStart={(e) => {
-                        e.currentTarget.focus();
-                        e.currentTarget.click();
-                      }}
-                      onFocus={(e) => {
-                        setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                      }}
                     />
-                    {!isLogin && (errors as any).email && (
+                    {errors.email && (
                       <p className="text-red-300 text-sm mt-1">
-                        {(errors as any).email.message}
+                        {errors.email}
                       </p>
                     )}
                   </div>
@@ -260,29 +287,18 @@ export default function AuthPage() {
                   <Label htmlFor="password" className="text-white">
                     Password
                   </Label>
-                  <Input
+                  <IOSInput
                     id="password"
                     type="password"
-                    {...registerField("password")}
+                    value={formData.password}
+                    onChange={(value) => setFormData(prev => ({ ...prev, password: value }))}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your password" : "Choose a secure password"}
-                    data-testid="input-password"
                     autoComplete={isLogin ? "current-password" : "new-password"}
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
-                    style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
-                    onTouchStart={(e) => {
-                      e.currentTarget.focus();
-                      e.currentTarget.click();
-                    }}
-                    onFocus={(e) => {
-                      setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
-                    }}
                   />
                   {errors.password && (
                     <p className="text-red-300 text-sm mt-1">
-                      {errors.password.message}
+                      {errors.password}
                     </p>
                   )}
                 </div>

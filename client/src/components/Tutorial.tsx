@@ -19,7 +19,15 @@ import {
   PlusCircle,
   CheckCircle,
   CreditCard,
-  Gamepad2
+  Gamepad2,
+  Heart,
+  Award,
+  Briefcase,
+  TrendingUp,
+  Search,
+  Filter,
+  Bell,
+  Eye
 } from "lucide-react";
 
 interface TutorialProps {
@@ -29,24 +37,24 @@ interface TutorialProps {
 const tutorialSteps = [
   {
     id: 1,
-    title: "Welcome to the Chaos! 🎉",
-    description: "Where weird meets wallet-friendly",
+    title: "Welcome to Pocket Bounty! 🪙",
+    description: "Your complete guide to earning money from quick tasks",
     content: (
       <div className="space-y-4">
         <div className="text-center">
-          <div className="text-6xl mb-4">🤪</div>
+          <div className="text-6xl mb-4">🪙</div>
           <p className="text-muted-foreground">
-            This isn't your typical work platform. Here, you get paid for the random stuff you're already good at!
+            Turn your skills into cash! Complete bounties, build connections, and earn real money from tasks you're already good at.
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
             <DollarSign className="h-8 w-8 mx-auto text-green-600 mb-2" />
-            <p className="text-sm font-medium">Quick Cash</p>
+            <p className="text-sm font-medium">Real Money</p>
           </div>
           <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-center">
-            <Gamepad2 className="h-8 w-8 mx-auto text-purple-600 mb-2" />
-            <p className="text-sm font-medium">Have Fun</p>
+            <Users className="h-8 w-8 mx-auto text-purple-600 mb-2" />
+            <p className="text-sm font-medium">Community</p>
           </div>
         </div>
       </div>
@@ -54,133 +62,174 @@ const tutorialSteps = [
   },
   {
     id: 2,
-    title: "The Bounty Hunt Begins! 🎯",
-    description: "It's like treasure hunting, but for your skills",
+    title: "Finding & Applying to Bounties 🎯",
+    description: "Your guide to finding and applying for tasks",
     content: (
       <div className="space-y-4">
         <div className="p-4 border rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20">
           <div className="flex items-center gap-2 mb-3">
             <Trophy className="h-5 w-5 text-purple-600" />
-            <h3 className="font-semibold">Real Bounty Example</h3>
+            <h3 className="font-semibold">Example Bounty</h3>
           </div>
-          <h4 className="font-medium mb-2">Rate my outfit for a first date 👗</h4>
+          <h4 className="font-medium mb-2">Walk my dogs for 30 minutes 🐕</h4>
           <p className="text-sm text-muted-foreground mb-3">
-            Help me pick between 3 outfits! Just tell me which looks best and why. Takes 2 minutes max.
+            Need someone to walk my 2 friendly golden retrievers around the neighborhood. They're well-behaved!
           </p>
           <div className="flex items-center justify-between">
-            <Badge className="bg-green-600">Reward: $8.00</Badge>
-            <Badge variant="outline">💵 Quick Cash</Badge>
+            <Badge className="bg-green-600">Reward: $100.00</Badge>
+            <Badge variant="outline">💼 Local Work</Badge>
           </div>
         </div>
-        <div className="text-sm text-muted-foreground">
-          <p><strong>1.</strong> Find something that sounds fun (or weird)</p>
-          <p><strong>2.</strong> Jump in if you can do it</p>
-          <p><strong>3.</strong> Do the thing!</p>
-          <p><strong>4.</strong> Cash hits your account ⚡</p>
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <Search className="h-4 w-4 text-blue-600" />
+            <span className="text-sm"><strong>Browse:</strong> View all available bounties on the home page</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-purple-600" />
+            <span className="text-sm"><strong>Filter:</strong> Sort by reward amount, type, or location</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <PlusCircle className="h-4 w-4 text-green-600" />
+            <span className="text-sm"><strong>Apply:</strong> Click "Apply" and send a message</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Bell className="h-4 w-4 text-orange-600" />
+            <span className="text-sm"><strong>Wait:</strong> Get notified when accepted or rejected</span>
+          </div>
         </div>
       </div>
     )
   },
   {
     id: 3,
-    title: "Got Something Weird? Post It! 🎲",
-    description: "Turn your random problems into someone's payday",
+    title: "Creating Your Own Bounties 📝",
+    description: "Turn your needs into someone's payday",
     content: (
       <div className="space-y-4">
         <div className="p-4 border rounded-lg">
           <div className="flex items-center gap-2 mb-3">
             <PlusCircle className="h-5 w-5 text-pocket-red" />
-            <h3 className="font-semibold">Your Bounty Creation</h3>
+            <h3 className="font-semibold">Create a Bounty</h3>
           </div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Title:</span>
-              <span>Help me name my pet rock 🪨</span>
+              <span>Help me organize my closet</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Description:</span>
+              <span>Sort clothes by season/type</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Reward:</span>
-              <span className="text-green-600">$12.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Range:</span>
-              <span>💵 Quick Cash</span>
+              <span className="text-green-600">$75.00</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Duration:</span>
-              <span>1 day</span>
+              <span>3 days</span>
             </div>
           </div>
         </div>
         <div className="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg border border-orange-200 dark:border-orange-800">
-          <h4 className="font-semibold text-orange-800 dark:text-orange-200 text-sm mb-2">💰 How Payment Works:</h4>
+          <h4 className="font-semibold text-orange-800 dark:text-orange-200 text-sm mb-2">💰 Payment Process:</h4>
           <ul className="text-xs text-orange-700 dark:text-orange-300 space-y-1">
-            <li>• Full amount charged upfront (held safely in escrow)</li>
-            <li>• If someone completes it → they get paid instantly!</li>
-            <li>• If NO ONE takes it after 3 days → auto-refund minus fee:</li>
-            <li className="ml-4">→ Under $250: 5% fee</li>
-            <li className="ml-4">→ $250+: Only 3.5% fee (better deal!)</li>
-            <li>• No surprises, no hidden costs!</li>
+            <li>• Money is held securely when you post</li>
+            <li>• When someone completes it → they get paid instantly</li>
+            <li>• If no one completes it → automatic refund after 3 days</li>
+            <li>• Small platform fee only charged on completion</li>
           </ul>
         </div>
-        <p className="text-sm text-muted-foreground">
-          From $5 mini-tasks to $500 adventures - anything goes here!
-        </p>
       </div>
     )
   },
   {
     id: 4,
-    title: "Secure Payments",
-    description: "Get paid safely with Stripe",
+    title: "Managing Applications 📋",
+    description: "Accept, reject, and complete bounties",
     content: (
       <div className="space-y-4">
-        <div className="flex items-center justify-center mb-4">
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-full">
-            <CreditCard className="h-8 w-8 text-blue-600" />
-          </div>
-        </div>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3 p-3 border rounded-lg">
-            <Shield className="h-5 w-5 text-green-600" />
-            <div>
-              <p className="font-medium text-sm">Bank-Level Security</p>
-              <p className="text-xs text-muted-foreground">Powered by Stripe</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 p-3 border rounded-lg">
-            <Zap className="h-5 w-5 text-orange-600" />
-            <div>
-              <p className="font-medium text-sm">Instant Payouts</p>
-              <p className="text-xs text-muted-foreground">Withdraw to bank or card</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 p-3 border rounded-lg">
-            <DollarSign className="h-5 w-5 text-purple-600" />
-            <div>
-              <p className="font-medium text-sm">Low Fees</p>
-              <p className="text-xs text-muted-foreground">5% only on completion</p>
+        <div className="p-4 border rounded-lg">
+          <h3 className="font-semibold mb-3">Your Bounty Applications</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-2 border rounded">
+              <div>
+                <span className="font-medium">Deana</span>
+                <p className="text-xs text-muted-foreground">Applied to walk your dogs</p>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                  <CheckCircle className="h-3 w-3 mr-1" />
+                  Accept
+                </Button>
+                <Button size="sm" variant="destructive">
+                  <X className="h-3 w-3 mr-1" />
+                  Reject
+                </Button>
+              </div>
             </div>
           </div>
         </div>
         <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-          <p className="text-sm text-center">
-            Platform only earns when you do - fair and transparent!
-          </p>
+          <h4 className="font-semibold text-sm mb-2">When Work is Complete:</h4>
+          <div className="flex items-center gap-2">
+            <Trophy className="h-4 w-4 text-purple-600" />
+            <span className="text-sm">Click "Mark Complete & Pay" to release payment</span>
+          </div>
         </div>
       </div>
     )
   },
   {
     id: 5,
-    title: "Social Features",
-    description: "Connect, communicate, and build your reputation",
+    title: "Messaging & Communication 💬",
+    description: "Stay connected with real-time chat",
+    content: (
+      <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-3">
+          <div className="p-3 border rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <MessageCircle className="h-5 w-5 text-blue-600" />
+              <span className="font-medium">Real-time Messaging</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Chat instantly with bounty creators and hunters. Ask questions, share updates, coordinate meetups.
+            </p>
+          </div>
+        </div>
+        <div className="p-4 border rounded-lg bg-muted/30">
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs">D</div>
+              <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-lg flex-1">
+                <p className="text-sm">Hey! I can walk your dogs this afternoon. What time works?</p>
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end">
+              <div className="bg-green-100 dark:bg-green-900/30 p-2 rounded-lg">
+                <p className="text-sm">Perfect! How about 3 PM?</p>
+              </div>
+              <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">Y</div>
+            </div>
+          </div>
+        </div>
+        <div className="text-center text-sm text-muted-foreground">
+          Messages are delivered instantly with WebSocket technology
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 6,
+    title: "Friends & Social Features 👥",
+    description: "Build your network and reputation",
     content: (
       <div className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div className="p-3 border rounded-lg text-center">
-            <MessageCircle className="h-6 w-6 mx-auto text-blue-600 mb-2" />
-            <p className="text-sm font-medium">Real-time Chat</p>
-            <p className="text-xs text-muted-foreground">Instant messaging</p>
+            <Users className="h-6 w-6 mx-auto text-blue-600 mb-2" />
+            <p className="text-sm font-medium">Add Friends</p>
+            <p className="text-xs text-muted-foreground">Connect with people</p>
           </div>
           <div className="p-3 border rounded-lg text-center">
             <Star className="h-6 w-6 mx-auto text-yellow-600 mb-2" />
@@ -191,59 +240,23 @@ const tutorialSteps = [
         <div className="p-4 border rounded-lg">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-bold">
-              J
+              S
             </div>
             <div>
-              <p className="font-medium text-sm">John Designer</p>
+              <p className="font-medium text-sm">Sarah M.</p>
               <div className="flex items-center gap-1">
                 <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                <span className="text-xs text-muted-foreground">4.9 (127 reviews)</span>
+                <span className="text-xs text-muted-foreground">4.9 (45 reviews)</span>
               </div>
             </div>
           </div>
           <p className="text-xs text-muted-foreground">
-            "Great experience! Fast communication and high-quality work."
+            "Excellent dog walker! My pups loved her and she sent photo updates."
           </p>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: 6,
-    title: "Gamification & Fun",
-    description: "Level up and earn points while working",
-    content: (
-      <div className="space-y-4">
-        <div className="flex items-center justify-center mb-4">
-          <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-full">
-            <Gamepad2 className="h-8 w-8 text-purple-600" />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-center">
-            <div className="text-2xl font-bold text-orange-600">Level 5</div>
-            <p className="text-xs text-muted-foreground">Your current level</p>
-          </div>
-          <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
-            <div className="text-2xl font-bold text-green-600">250 pts</div>
-            <p className="text-xs text-muted-foreground">Points earned</p>
-          </div>
-        </div>
-        <div className="p-3 border rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <Gamepad2 className="h-4 w-4 text-purple-600" />
-            <span className="font-medium text-sm">Mini-Games</span>
-          </div>
-          <p className="text-xs text-muted-foreground mb-2">
-            Play Flappy Bird to earn extra points between bounties!
-          </p>
-          <Button size="sm" variant="outline" className="w-full">
-            🐦 Play Now
-          </Button>
         </div>
         <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
           <p className="text-sm text-center">
-            Earn points for completing tasks, posting bounties, and playing games!
+            Higher ratings = more bounty opportunities and better pay!
           </p>
         </div>
       </div>
@@ -251,14 +264,148 @@ const tutorialSteps = [
   },
   {
     id: 7,
-    title: "Add to Home Screen! 📱",
-    description: "Turn Pocket Bounty into a native app on your phone",
+    title: "Account & Wallet Management 💳",
+    description: "Manage your money and account settings",
+    content: (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+            <div className="text-2xl font-bold text-green-600">$285.50</div>
+            <p className="text-xs text-muted-foreground">Wallet Balance</p>
+          </div>
+          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-center">
+            <div className="text-2xl font-bold text-blue-600">$1,250</div>
+            <p className="text-xs text-muted-foreground">Total Earned</p>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 p-3 border rounded-lg">
+            <CreditCard className="h-5 w-5 text-blue-600" />
+            <div>
+              <p className="font-medium text-sm">Payment Methods</p>
+              <p className="text-xs text-muted-foreground">Add bank account or debit card</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 border rounded-lg">
+            <Zap className="h-5 w-5 text-orange-600" />
+            <div>
+              <p className="font-medium text-sm">Instant Withdrawals</p>
+              <p className="text-xs text-muted-foreground">Cash out anytime, funds in minutes</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 p-3 border rounded-lg">
+            <Shield className="h-5 w-5 text-green-600" />
+            <div>
+              <p className="font-medium text-sm">Secure & Protected</p>
+              <p className="text-xs text-muted-foreground">Bank-level security with Stripe</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 8,
+    title: "Points & Gamification 🎮",
+    description: "Level up and earn points while working",
+    content: (
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-center">
+            <div className="text-2xl font-bold text-orange-600">Level 5</div>
+            <p className="text-xs text-muted-foreground">Your current level</p>
+          </div>
+          <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center">
+            <div className="text-2xl font-bold text-green-600">450 pts</div>
+            <p className="text-xs text-muted-foreground">Points earned</p>
+          </div>
+        </div>
+        <div className="space-y-3">
+          <div className="p-3 border rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <TrendingUp className="h-4 w-4 text-purple-600" />
+              <span className="font-medium text-sm">Boost Your Posts</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Use points to boost your bounties for more visibility and faster applications
+            </p>
+          </div>
+          <div className="p-3 border rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <Gamepad2 className="h-4 w-4 text-blue-600" />
+              <span className="font-medium text-sm">Mini-Games</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Play Flappy Bird between bounties to earn extra points!
+            </p>
+          </div>
+        </div>
+        <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+          <h4 className="font-semibold text-sm mb-1">How to Earn Points:</h4>
+          <ul className="text-xs space-y-1">
+            <li>• Complete bounties successfully</li>
+            <li>• Receive 5-star reviews</li>
+            <li>• Play mini-games</li>
+            <li>• Daily login bonuses</li>
+          </ul>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 9,
+    title: "Creator Dashboard 📊",
+    description: "Advanced tools for frequent bounty creators",
+    content: (
+      <div className="space-y-4">
+        <div className="p-4 border rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
+          <div className="flex items-center gap-2 mb-2">
+            <Award className="h-5 w-5 text-indigo-600" />
+            <span className="font-medium">Creator Level Features</span>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Post 5+ bounties to unlock advanced creator tools and analytics
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-3 border rounded-lg text-center">
+            <Eye className="h-6 w-6 mx-auto text-blue-600 mb-2" />
+            <p className="text-sm font-medium">Analytics</p>
+            <p className="text-xs text-muted-foreground">Track performance</p>
+          </div>
+          <div className="p-3 border rounded-lg text-center">
+            <Briefcase className="h-6 w-6 mx-auto text-green-600 mb-2" />
+            <p className="text-sm font-medium">Bulk Management</p>
+            <p className="text-xs text-muted-foreground">Handle multiple bounties</p>
+          </div>
+        </div>
+        <div className="space-y-2 text-sm">
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-green-600" />
+            <span>Priority application notifications</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-green-600" />
+            <span>Advanced filtering and search</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle className="h-4 w-4 text-green-600" />
+            <span>Detailed earnings reports</span>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 10,
+    title: "Mobile App Experience 📱",
+    description: "Add Pocket Bounty to your home screen",
     content: (
       <div className="space-y-4">
         <div className="text-center">
           <div className="text-6xl mb-4">📱</div>
           <p className="text-muted-foreground mb-4">
-            Add Pocket Bounty to your home screen for instant access to weird bounties!
+            Install Pocket Bounty as a native app for the best experience
           </p>
         </div>
         <div className="space-y-3">
@@ -267,7 +414,7 @@ const tutorialSteps = [
             <ol className="text-sm space-y-1 text-muted-foreground">
               <li>1. Tap the Share button (⬆️) in Safari</li>
               <li>2. Scroll down and tap "Add to Home Screen"</li>
-              <li>3. Tap "Add" and boom! 🎉</li>
+              <li>3. Tap "Add" and you're set! 🎉</li>
             </ol>
           </div>
           <div className="p-4 border rounded-lg bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20">
@@ -275,29 +422,29 @@ const tutorialSteps = [
             <ol className="text-sm space-y-1 text-muted-foreground">
               <li>1. Tap the menu (⋮) in Chrome</li>
               <li>2. Select "Add to Home Screen"</li>
-              <li>3. Confirm and you're set! ⚡</li>
+              <li>3. Confirm and enjoy! ⚡</li>
             </ol>
           </div>
         </div>
         <div className="bg-pocket-gold/10 border border-pocket-gold/20 p-3 rounded-lg">
           <p className="text-sm text-center font-medium">
-            💡 With the app on your home screen, you'll never miss a weird bounty again!
+            💡 Get push notifications for new bounties and messages!
           </p>
         </div>
       </div>
     )
   },
   {
-    id: 8,
-    title: "Ready to Get Started?",
-    description: "Join thousands of users earning money on Pocket Bounty",
+    id: 11,
+    title: "Ready to Start Earning? 🚀",
+    description: "Join thousands of users making money on Pocket Bounty",
     content: (
       <div className="space-y-4">
         <div className="text-center">
           <CheckCircle className="h-16 w-16 mx-auto text-green-600 mb-4" />
           <h3 className="font-bold text-lg mb-2">You're All Set!</h3>
           <p className="text-muted-foreground mb-4">
-            You now understand how Pocket Bounty works. Ready to start earning?
+            You now understand all of Pocket Bounty's features. Ready to start earning?
           </p>
         </div>
         <div className="grid grid-cols-3 gap-3 text-center">
@@ -317,21 +464,27 @@ const tutorialSteps = [
         <div className="space-y-3 pt-4">
           <Button 
             className="w-full bg-green-600 hover:bg-green-700 text-white mb-2"
-            onClick={() => navigateToLogin()}
+            onClick={() => {
+              onClose();
+              // Navigate to demo mode
+            }}
             data-testid="button-tutorial-demo"
           >
-            Try Demo Mode
+            🎮 Try Demo Mode First
           </Button>
           <Button 
             variant="outline"
             className="w-full"
-            onClick={() => navigateToLogin()}
+            onClick={() => {
+              onClose();
+              // Keep on auth page for real signup
+            }}
             data-testid="button-tutorial-signup"
           >
-            Sign Up for Real Account
+            💰 Create Real Account & Start Earning
           </Button>
           <p className="text-xs text-center text-muted-foreground">
-            Demo mode: Explore with sample data • Real mode: Start earning immediately
+            Demo: Explore safely with sample data • Real: Start earning immediately
           </p>
         </div>
       </div>
@@ -359,6 +512,11 @@ export default function Tutorial({ onClose }: TutorialProps) {
 
   const handleSkip = () => {
     setCurrentStep(tutorialSteps.length - 1);
+  };
+
+  const handleTryDemo = () => {
+    setDemoMode(true);
+    onClose();
   };
 
   return (
@@ -416,13 +574,21 @@ export default function Tutorial({ onClose }: TutorialProps) {
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               ) : (
-                <Button 
-                  onClick={onClose}
-                  className="bg-pocket-gold hover:bg-pocket-gold/90 text-black"
-                  data-testid="button-tutorial-finish"
-                >
-                  Get Started!
-                </Button>
+                <div className="flex gap-2">
+                  <Button 
+                    className="bg-green-600 hover:bg-green-700"
+                    onClick={handleTryDemo}
+                    data-testid="button-tutorial-demo-final"
+                  >
+                    Try Demo
+                  </Button>
+                  <Button 
+                    onClick={onClose}
+                    data-testid="button-tutorial-close-final"
+                  >
+                    Get Started!
+                  </Button>
+                </div>
               )}
             </div>
           </div>

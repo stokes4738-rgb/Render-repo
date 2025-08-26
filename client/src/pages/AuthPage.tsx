@@ -9,6 +9,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { Capacitor } from "@capacitor/core";
 import { Input } from "@/components/ui/input";
+import Tutorial from "@/components/Tutorial";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
@@ -41,6 +42,7 @@ export default function AuthPage() {
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const updateField = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -332,7 +334,7 @@ export default function AuthPage() {
                 </Button>
               </form>
 
-              <div className="mt-4 sm:mt-6 text-center">
+              <div className="mt-4 sm:mt-6 text-center space-y-3">
                 <p className="text-blue-200 text-sm">
                   {isLogin ? "Don't have an account? " : "Already have an account? "}
                   <button
@@ -343,6 +345,19 @@ export default function AuthPage() {
                     {isLogin ? "Create one here" : "Sign in here"}
                   </button>
                 </p>
+                
+                <div className="border-t border-white/20 pt-3">
+                  <button
+                    onClick={() => setShowTutorial(true)}
+                    className="text-pocket-gold hover:text-white transition-colors text-sm font-medium flex items-center justify-center gap-2 mx-auto"
+                    data-testid="button-show-tutorial"
+                  >
+                    📚 How Pocket Bounty Works - Complete Guide
+                  </button>
+                  <p className="text-blue-200/70 text-xs mt-1">
+                    Learn all features before signing up
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -386,6 +401,11 @@ export default function AuthPage() {
           </div>
         </div>
       </div>
+      
+      {/* Tutorial Modal */}
+      {showTutorial && (
+        <Tutorial onClose={() => setShowTutorial(false)} />
+      )}
     </div>
   );
 }

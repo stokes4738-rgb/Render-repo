@@ -528,18 +528,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Parse reward amount (in dollars)
       const rewardAmount = parseFloat(bounty.reward);
 
-      // Transfer money (balance) from creator to hunter
-      // Deduct from creator's balance
-      const creator = await storage.getUser(userId);
-      const creatorBalance = parseFloat(creator.balance || '0');
-      
-      if (creatorBalance < rewardAmount) {
-        return res.status(400).json({ message: "Insufficient balance to pay bounty reward" });
-      }
-
-      // Update balances - deduct from creator, add to hunter
-      await storage.updateUserBalance(userId, (-rewardAmount).toString()); // Deduct from creator
+      // Money is already in escrow from when bounty was posted
+      // Just transfer to the hunter (no deduction from creator needed)
       await storage.updateUserBalance(completedBy, rewardAmount.toString()); // Add to hunter
+      
+      // No need to deduct from creator - money was already taken when bounty was posted
 
       // Update bounty status
       await storage.updateBountyStatus(id, "completed", completedBy);
@@ -554,14 +547,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description: `Received payment for completing "${bounty.title}"`
       });
 
-      // Create transaction for the creator (payment out)
+      // Create transaction for the creator (escrow release)
       await storage.createTransaction({
         userId,
-        type: 'bounty_payment',
-        amount: (-rewardAmount).toString(),
+        type: 'escrow_release',
+        amount: rewardAmount.toString(),
         status: 'completed',
         bountyId: id,
-        description: `Paid out reward for "${bounty.title}"`
+        description: `Released escrow payment for "${bounty.title}"`
       });
 
       // Create activities

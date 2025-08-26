@@ -1645,17 +1645,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Catch-all handler for client-side routing - MUST be last route
-  app.get('*', (req, res, next) => {
-    // Don't interfere with API routes or WebSocket
-    if (req.path.startsWith('/api/') || req.path.startsWith('/ws')) {
-      return next();
-    }
-    
-    // For all other routes, let the client-side router handle it
-    // This will be handled by Vite in dev mode and static serving in prod
-    next();
-  });
 
   const httpServer = createServer(app);
 

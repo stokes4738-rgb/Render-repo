@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { DemoProvider } from "@/contexts/DemoContext";
 import DemoIndicator from "@/components/DemoIndicator";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
-import PWAInputFix from "@/components/PWAInputFix";
+// import PWAInputFix from "@/components/PWAInputFix";
 
 // Lazy load pages for better performance
 const Landing = lazy(() => import("@/pages/Landing"));
@@ -94,7 +94,7 @@ function App() {
                   <PWAInstallPrompt />
                 </div>
               </div>
-              <PWAInputFix />
+              {/* <PWAInputFix /> Disabled - causing input issues */}
               <Router />
               
             </div>

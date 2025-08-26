@@ -164,9 +164,9 @@ export default function AuthPage() {
                         placeholder="John"
                         data-testid="input-first-name"
                       />
-                      {!isLogin && errors.firstName && (
+                      {!isLogin && (errors as any).firstName && (
                         <p className="text-red-300 text-sm mt-1">
-                          {errors.firstName.message}
+                          {(errors as any).firstName.message}
                         </p>
                       )}
                     </div>
@@ -183,9 +183,9 @@ export default function AuthPage() {
                         placeholder="Doe"
                         data-testid="input-last-name"
                       />
-                      {!isLogin && errors.lastName && (
+                      {!isLogin && (errors as any).lastName && (
                         <p className="text-red-300 text-sm mt-1">
-                          {errors.lastName.message}
+                          {(errors as any).lastName.message}
                         </p>
                       )}
                     </div>
@@ -224,9 +224,9 @@ export default function AuthPage() {
                       placeholder="john@example.com"
                       data-testid="input-email"
                     />
-                    {!isLogin && errors.email && (
+                    {!isLogin && (errors as any).email && (
                       <p className="text-red-300 text-sm mt-1">
-                        {errors.email.message}
+                        {(errors as any).email.message}
                       </p>
                     )}
                   </div>
@@ -279,14 +279,6 @@ export default function AuthPage() {
             </CardContent>
           </Card>
 
-          {/* Migration Notice - Only show on larger screens */}
-          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-yellow-500/20 border border-yellow-500/50 rounded-lg lg:block">
-            <h3 className="text-yellow-200 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">🔄 Account Migration</h3>
-            <p className="text-yellow-100 text-xs sm:text-sm">
-              Welcome to Pocket Bounty! Create your account to get started. 
-              Your account data (points, balance, earnings) will be automatically transferred.
-            </p>
-          </div>
         </div>
       </div>
 

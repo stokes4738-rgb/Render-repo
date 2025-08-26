@@ -52,14 +52,26 @@ function Router() {
             <Route path="/login" component={AuthPage} />
             <Route path="/signup" component={AuthPage} />
             <Route path="/create-account" component={AuthPage} />
+            <Route path="/register" component={AuthPage} />
+            <Route path="/ref/:code" component={AuthPage} />
+            <Route path="/referral/:code" component={AuthPage} />
+            <Route path="/invite/:code" component={AuthPage} />
             <Route path="/" component={AuthPage} />
           </>
         ) : (
           <>
             <Route path="/" component={Home} />
+            <Route path="/home" component={Home} />
+            <Route path="/dashboard" component={Home} />
+            <Route path="/bounties" component={Home} />
             <Route path="/profile" component={Profile} />
             <Route path="/account" component={Account} />
             <Route path="/creator-inbox" component={CreatorInbox} />
+            <Route path="/messages" component={CreatorInbox} />
+            <Route path="/inbox" component={CreatorInbox} />
+            <Route path="/ref/:code" component={Home} />
+            <Route path="/referral/:code" component={Home} />
+            <Route path="/invite/:code" component={Home} />
           </>
         )}
         <Route component={NotFound} />

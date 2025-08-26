@@ -71,6 +71,13 @@ export interface IStorage {
   getBountyApplication(id: string): Promise<BountyApplication | undefined>;
   getUserBountiesWithApplications(userId: string): Promise<any[]>;
   
+  // Session and analytics operations
+  getSessionMetrics(since: Date): Promise<{ 
+    avgSessionMinutes: number; 
+    singlePageSessions: number; 
+    totalSessions: number; 
+  }>;
+  
   // Transaction operations
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getUserTransactions(userId: string): Promise<Transaction[]>;
@@ -221,7 +228,7 @@ export class DatabaseStorage implements IStorage {
           lifetimeEarned: "0.00",
         })
         .returning();
-      console.log(`[AUTH] Created new user ${userData.id} with default values`);
+      // User created successfully
       return Array.isArray(result) ? result[0] : result;
     }
   }
@@ -249,7 +256,7 @@ export class DatabaseStorage implements IStorage {
 
   // Bounty operations
   async createBounty(bounty: InsertBounty): Promise<Bounty> {
-    const [newBounty] = await db.insert(bounties).values(bounty).returning();
+    const [newBounty] = await db.insert(bounties).values([bounty]).returning();
     return newBounty;
   }
 
@@ -950,6 +957,49 @@ export class DatabaseStorage implements IStorage {
       );
   }
 
+  async getSessionMetrics(since: Date): Promise<{ 
+    avgSessionMinutes: number; 
+    singlePageSessions: number; 
+    totalSessions: number; 
+  }> {
+    // Calculate session metrics based on user activity
+    const recentActivities = await db.select()
+      .from(activities)
+      .where(sql`${activities.createdAt} > ${since.toISOString()}`);
+    
+    const userSessions = new Map<string, Date[]>();
+    recentActivities.forEach(activity => {
+      const userId = activity.userId;
+      if (!userSessions.has(userId)) {
+        userSessions.set(userId, []);
+      }
+      const createdAt = activity.createdAt || new Date();
+      userSessions.get(userId)!.push(createdAt);
+    });
+    
+    let totalMinutes = 0;
+    let sessionCount = 0;
+    let singlePageCount = 0;
+    
+    userSessions.forEach((dates) => {
+      if (dates.length === 1) {
+        singlePageCount++;
+        totalMinutes += 5; // Assume 5 min for single activity
+      } else if (dates.length > 1) {
+        dates.sort((a, b) => a.getTime() - b.getTime());
+        const sessionLength = (dates[dates.length - 1].getTime() - dates[0].getTime()) / 60000;
+        totalMinutes += Math.min(sessionLength, 120); // Cap at 2 hours
+      }
+      sessionCount++;
+    });
+    
+    return {
+      avgSessionMinutes: sessionCount > 0 ? totalMinutes / sessionCount : 0,
+      singlePageSessions: singlePageCount,
+      totalSessions: sessionCount
+    };
+  }
+
   // Data recovery method - can restore user data from backups if needed
   async recoverUserData(userId: string): Promise<void> {
     try {
@@ -975,12 +1025,12 @@ export class DatabaseStorage implements IStorage {
           })
           .where(eq(users.id, userId));
         
-        console.log(`[RECOVERY] Restored data for user ${userId} from backup`);
+        // Data restored successfully from backup
       } else {
-        console.log(`[RECOVERY] No backup found for user ${userId}`);
+        // No backup found for user
       }
     } catch (error) {
-      console.error(`[RECOVERY] Failed to recover data for user ${userId}:`, error);
+      // Failed to recover data from backup
     }
   }
 }

@@ -7,10 +7,12 @@ import { useTheme } from "@/components/ThemeProvider";
 import { useToast } from "@/hooks/use-toast";
 import Tutorial from "@/components/Tutorial";
 import { PlayCircle, HelpCircle } from "lucide-react";
+import { useAuth } from "@/hooks/useAuthJWT";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
+  const { user } = useAuth();
   const [showTutorial, setShowTutorial] = useState(false);
   
   // Local state for notification preferences
@@ -85,10 +87,11 @@ export default function Settings() {
   };
 
   const handleGetHelp = () => {
-    toast({
-      title: "Need Help? 🤔",
-      description: "Try the tutorial or contact support for assistance!",
-    });
+    const supportEmail = "support@pocketbounty.app";
+    const subject = encodeURIComponent("Help Request - Pocket Bounty");
+    const body = encodeURIComponent(`Hi Support Team,\n\nI need help with:\n\nUsername: ${user?.username || 'Not logged in'}\nEmail: ${user?.email || 'N/A'}\n\nThank you!`);
+    
+    window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
   };
 
   return (

@@ -69,7 +69,7 @@ async function processExpiredBounties() {
       });
     }
   } catch (error) {
-    console.error("Error processing expired bounties:", error);
+    logger.error("Error processing expired bounties:", error);
   }
 }
 
@@ -224,20 +224,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Retrieve payment intent to verify payment
       const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-      console.log(`Payment intent status: ${paymentIntent.status}, amount: ${paymentIntent.amount}`);
+      logger.info(`Payment intent status: ${paymentIntent.status}, amount: ${paymentIntent.amount}`);
       
       if (paymentIntent.status !== 'succeeded') {
-        console.error(`Payment not completed. Status: ${paymentIntent.status}`);
+        logger.error(`Payment not completed. Status: ${paymentIntent.status}`);
         return res.status(400).json({ message: "Payment not completed" });
       }
 
       if (paymentIntent.metadata.userId !== userId) {
-        console.error(`Payment belongs to different user. Expected: ${userId}, Found: ${paymentIntent.metadata.userId}`);
+        logger.error(`Payment belongs to different user. Expected: ${userId}, Found: ${paymentIntent.metadata.userId}`);
         return res.status(403).json({ message: "Payment belongs to different user" });
       }
 
       if (paymentIntent.metadata.type !== 'point_purchase') {
-        console.error(`Invalid payment type: ${paymentIntent.metadata.type}`);
+        logger.error(`Invalid payment type: ${paymentIntent.metadata.type}`);
         return res.status(400).json({ message: "Invalid payment type" });
       }
 
@@ -245,11 +245,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const packageLabel = paymentIntent.description;
       const purchaseAmount = (paymentIntent.amount / 100).toFixed(2);
 
-      console.log(`Awarding ${pointsToAward} points to user ${userId} for $${purchaseAmount}`);
+      logger.info(`Awarding ${pointsToAward} points to user ${userId} for $${purchaseAmount}`);
 
       // Award points to user
       await storage.updateUserPoints(userId, pointsToAward);
-      console.log(`Points awarded successfully`);
+      logger.info(`Points awarded successfully`);
 
       // Create transaction record
       const transaction = await storage.createTransaction({
@@ -259,7 +259,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description: `Purchased ${packageLabel}`,
         status: "completed",
       });
-      console.log(`Transaction created:`, transaction.id);
+      logger.info(`Transaction created: ${transaction.id}`);
 
       // Create activity
       await storage.createActivity({
@@ -272,7 +272,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           package: paymentIntent.metadata.packageId
         },
       });
-      console.log(`Activity created`);
+      logger.info(`Activity created`);
 
       // Create platform revenue record
       await storage.createPlatformRevenue({
@@ -280,7 +280,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         source: "point_purchase",
         description: `Point purchase: ${packageLabel}`,
       });
-      console.log(`Platform revenue recorded`);
+      logger.info(`Platform revenue recorded`);
 
       res.json({ 
         success: true, 
@@ -288,7 +288,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: `Successfully purchased ${pointsToAward} points for $${purchaseAmount}!`
       });
     } catch (error: any) {
-      console.error("Error confirming purchase:", error);
+      logger.error("Error confirming purchase:", error);
       res.status(500).json({ message: "Error confirming purchase: " + error.message });
     }
   });
@@ -315,7 +315,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         res.json(bounties);
       }
     } catch (error) {
-      console.error("Error fetching bounties:", error);
+      logger.error("Error fetching bounties:", error);
       res.status(500).json({ message: "Failed to fetch bounties" });
     }
   });
@@ -373,7 +373,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         remainingPoints: user.points - config.points
       });
     } catch (error: any) {
-      console.error("Error boosting bounty:", error);
+      logger.error("Error boosting bounty:", error);
       res.status(500).json({ message: error.message || "Failed to boost bounty" });
     }
   });
@@ -416,7 +416,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         totalCost: bountyReward.toFixed(2)
       });
     } catch (error: any) {
-      console.error("Error creating bounty:", error);
+      logger.error("Error creating bounty:", error);
       
       // Handle validation errors
       if (error.name === 'ZodError' || error.issues) {
@@ -451,7 +451,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.status(201).json(application);
     } catch (error) {
-      console.error("Error applying to bounty:", error);
+      logger.error("Error applying to bounty:", error);
       res.status(500).json({ message: "Failed to apply to bounty" });
     }
   });
@@ -586,7 +586,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const transactions = await storage.getUserTransactions(userId);
       res.json(transactions);
     } catch (error) {
-      console.error("Error fetching transactions:", error);
+      logger.error("Error fetching transactions:", error);
       res.status(500).json({ message: "Failed to fetch transactions" });
     }
   });
@@ -606,7 +606,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Error updating points:", error);
+      logger.error("Error updating points:", error);
       res.status(500).json({ message: "Failed to update points" });
     }
   });
@@ -618,7 +618,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const threads = await storage.getUserThreads(userId);
       res.json(threads);
     } catch (error) {
-      console.error("Error fetching threads:", error);
+      logger.error("Error fetching threads:", error);
       res.status(500).json({ message: "Failed to fetch threads" });
     }
   });
@@ -629,7 +629,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const messages = await storage.getThreadMessages(threadId);
       res.json(messages);
     } catch (error) {
-      console.error("Error fetching messages:", error);
+      logger.error("Error fetching messages:", error);
       res.status(500).json({ message: "Failed to fetch messages" });
     }
   });
@@ -641,7 +641,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const message = await storage.createMessage(messageData);
       res.status(201).json(message);
     } catch (error) {
-      console.error("Error creating message:", error);
+      logger.error("Error creating message:", error);
       res.status(500).json({ message: "Failed to create message" });
     }
   });
@@ -681,7 +681,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         threadId: thread.id 
       });
     } catch (error: any) {
-      console.error("Error sending feedback:", error);
+      logger.error("Error sending feedback:", error);
       res.status(500).json({ message: "Failed to send feedback" });
     }
   });
@@ -698,7 +698,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const threads = await storage.getUserThreads(creatorId);
       res.json(threads);
     } catch (error) {
-      console.error("Error fetching creator feedback threads:", error);
+      logger.error("Error fetching creator feedback threads:", error);
       res.status(500).json({ message: "Failed to fetch feedback threads" });
     }
   });
@@ -716,7 +716,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const users = await storage.searchUsers(searchTerm, userId);
       res.json(users);
     } catch (error) {
-      console.error("Error searching users:", error);
+      logger.error("Error searching users:", error);
       res.status(500).json({ message: "Failed to search users" });
     }
   });
@@ -728,7 +728,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const friends = await storage.getUserFriends(userId);
       res.json(friends);
     } catch (error) {
-      console.error("Error fetching friends:", error);
+      logger.error("Error fetching friends:", error);
       res.status(500).json({ message: "Failed to fetch friends" });
     }
   });
@@ -739,7 +739,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const requests = await storage.getFriendRequests(userId);
       res.json(requests);
     } catch (error) {
-      console.error("Error fetching friend requests:", error);
+      logger.error("Error fetching friend requests:", error);
       res.status(500).json({ message: "Failed to fetch friend requests" });
     }
   });
@@ -756,7 +756,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.status(201).json(friendship);
     } catch (error) {
-      console.error("Error creating friend request:", error);
+      logger.error("Error creating friend request:", error);
       res.status(500).json({ message: "Failed to create friend request" });
     }
   });
@@ -769,7 +769,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updateFriendshipStatus(id, status);
       res.json({ success: true });
     } catch (error) {
-      console.error("Error updating friendship:", error);
+      logger.error("Error updating friendship:", error);
       res.status(500).json({ message: "Failed to update friendship" });
     }
   });
@@ -782,7 +782,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const review = await storage.createReview(reviewData);
       res.status(201).json(review);
     } catch (error) {
-      console.error("Error creating review:", error);
+      logger.error("Error creating review:", error);
       res.status(500).json({ message: "Failed to create review" });
     }
   });
@@ -793,7 +793,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const reviews = await storage.getUserReviews(userId);
       res.json(reviews);
     } catch (error) {
-      console.error("Error fetching reviews:", error);
+      logger.error("Error fetching reviews:", error);
       res.status(500).json({ message: "Failed to fetch reviews" });
     }
   });
@@ -805,7 +805,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const activities = await storage.getUserActivities(userId);
       res.json(activities);
     } catch (error) {
-      console.error("Error fetching activities:", error);
+      logger.error("Error fetching activities:", error);
       res.status(500).json({ message: "Failed to fetch activities" });
     }
   });
@@ -827,7 +827,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Error updating profile:", error);
+      logger.error("Error updating profile:", error);
       res.status(500).json({ message: "Failed to update profile" });
     }
   });
@@ -839,7 +839,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const paymentMethods = await storage.getUserPaymentMethods(userId);
       res.json(paymentMethods);
     } catch (error) {
-      console.error("Error fetching payment methods:", error);
+      logger.error("Error fetching payment methods:", error);
       res.status(500).json({ message: "Failed to fetch payment methods" });
     }
   });
@@ -875,7 +875,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ clientSecret: setupIntent.client_secret });
     } catch (error: any) {
-      console.error("Error creating setup intent:", error);
+      logger.error("Error creating setup intent:", error);
       res.status(500).json({ message: "Failed to create setup intent" });
     }
   });
@@ -910,7 +910,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.status(201).json(savedMethod);
     } catch (error: any) {
-      console.error("Error saving payment method:", error);
+      logger.error("Error saving payment method:", error);
       res.status(500).json({ message: "Failed to save payment method" });
     }
   });
@@ -923,7 +923,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.updatePaymentMethodDefault(userId, paymentMethodId);
       res.json({ success: true });
     } catch (error) {
-      console.error("Error setting default payment method:", error);
+      logger.error("Error setting default payment method:", error);
       res.status(500).json({ message: "Failed to set default payment method" });
     }
   });
@@ -953,7 +953,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.json({ success: true });
     } catch (error: any) {
-      console.error("Error deleting payment method:", error);
+      logger.error("Error deleting payment method:", error);
       res.status(500).json({ message: "Failed to delete payment method" });
     }
   });
@@ -1030,7 +1030,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         amountCredited: feeInfo.grossAmount
       });
     } catch (error: any) {
-      console.error("Error processing deposit:", error);
+      logger.error("Error processing deposit:", error);
       
       // Handle Stripe-specific errors with better messages
       if (error.type === 'StripeCardError') {
@@ -1063,7 +1063,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const payments = await storage.getUserPayments(userId);
       res.json(payments);
     } catch (error) {
-      console.error("Error fetching payment history:", error);
+      logger.error("Error fetching payment history:", error);
       res.status(500).json({ message: "Failed to fetch payment history" });
     }
   });
@@ -1143,7 +1143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         fee: feeAmount.toFixed(2)
       });
     } catch (error: any) {
-      console.error("Error processing withdrawal:", error);
+      logger.error("Error processing withdrawal:", error);
       
       // Handle Stripe-specific errors
       if (error.type?.startsWith('Stripe')) {
@@ -1205,7 +1205,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: "Test funds added successfully"
       });
     } catch (error) {
-      console.error("Error processing test deposit:", error);
+      logger.error("Error processing test deposit:", error);
       res.status(500).json({ message: "Failed to process test deposit" });
     }
   });
@@ -1439,13 +1439,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? ((retainedUsers / usersFromLastWeek.length) * 100).toFixed(1)
         : '0';
 
+      // Calculate real session metrics
+      const sessionData = await storage.getSessionMetrics(thirtyDaysAgo);
+      const avgSessionLength = sessionData.avgSessionMinutes 
+        ? sessionData.avgSessionMinutes.toFixed(1)
+        : '0';
+      
+      // Calculate bounce rate (users who left after one page)
+      const singlePageSessions = sessionData.singlePageSessions || 0;
+      const totalSessions = sessionData.totalSessions || 1;
+      const bounceRate = totalSessions > 0 
+        ? ((singlePageSessions / totalSessions) * 100).toFixed(1)
+        : '0';
+
       const engagement = {
         dailyActiveUsers,
         weeklyActiveUsers,
         monthlyActiveUsers,
         retentionRate,
-        avgSessionLength: '12.5', // Placeholder - would need session tracking
-        bounceRate: '35' // Placeholder - would need analytics tracking
+        avgSessionLength,
+        bounceRate
       };
 
       res.json({ 
@@ -1509,7 +1522,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         activity: recentActivity
       });
     } catch (error) {
-      console.error("Error fetching creator stats:", error);
+      logger.error("Error fetching creator stats:", error);
       res.status(500).json({ message: "Failed to fetch creator stats" });
     }
   });
@@ -1642,7 +1655,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           res.status(400).json({ message: "Invalid detail type" });
       }
     } catch (error) {
-      console.error(`Error fetching creator details for ${req.params.type}:`, error);
+      logger.error(`Error fetching creator details for ${req.params.type}:`, error);
       res.status(500).json({ message: "Failed to fetch details" });
     }
   });
@@ -1715,7 +1728,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         originalReward: bounty.reward
       });
     } catch (error) {
-      console.error("Error completing bounty:", error);
+      logger.error("Error completing bounty:", error);
       res.status(500).json({ message: "Failed to complete bounty" });
     }
   });
@@ -1726,7 +1739,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
   
   wss.on('connection', (ws: WebSocket, req) => {
-    console.log('WebSocket client connected');
+    logger.info('WebSocket client connected');
     
     ws.on('message', (data) => {
       try {
@@ -1739,12 +1752,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           }
         });
       } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
+        logger.error('Error parsing WebSocket message:', error);
       }
     });
     
     ws.on('close', () => {
-      console.log('WebSocket client disconnected');
+      logger.info('WebSocket client disconnected');
     });
   });
 

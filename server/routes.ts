@@ -1441,6 +1441,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Routing number must be 9 digits" });
       }
       
+      // Get the user from storage
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
       if (stripe) {
         // For payouts, we need to create a Custom Connect account first if user doesn't have one
         let connectAccountId = user.stripeConnectAccountId;

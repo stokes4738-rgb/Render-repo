@@ -93,7 +93,7 @@ export default function Settings() {
         <div className="space-y-2 mt-2">
           <p>Need help? Reach out to us:</p>
           <div className="bg-muted p-3 rounded text-sm">
-            <p><strong>Email:</strong> support@pocketbounty.app</p>
+            <p><strong>Email:</strong> support@pocketbounty.life</p>
             <p><strong>Response time:</strong> Within 24 hours</p>
           </div>
           <p className="text-xs">Include your username: {user?.username || 'Not logged in'}</p>

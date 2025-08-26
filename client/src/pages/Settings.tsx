@@ -87,11 +87,20 @@ export default function Settings() {
   };
 
   const handleGetHelp = () => {
-    const supportEmail = "support@pocketbounty.app";
-    const subject = encodeURIComponent("Help Request - Pocket Bounty");
-    const body = encodeURIComponent(`Hi Support Team,\n\nI need help with:\n\nUsername: ${user?.username || 'Not logged in'}\nEmail: ${user?.email || 'N/A'}\n\nThank you!`);
-    
-    window.location.href = `mailto:${supportEmail}?subject=${subject}&body=${body}`;
+    toast({
+      title: "Contact Support",
+      description: (
+        <div className="space-y-2 mt-2">
+          <p>Need help? Reach out to us:</p>
+          <div className="bg-muted p-3 rounded text-sm">
+            <p><strong>Email:</strong> support@pocketbounty.app</p>
+            <p><strong>Response time:</strong> Within 24 hours</p>
+          </div>
+          <p className="text-xs">Include your username: {user?.username || 'Not logged in'}</p>
+        </div>
+      ) as any,
+      duration: 10000,
+    });
   };
 
   return (

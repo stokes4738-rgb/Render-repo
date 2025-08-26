@@ -289,6 +289,26 @@ export default function Post() {
                   </FormItem>
                 )}
               />
+
+              {/* Platform Fee Warning */}
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">⚠️</span>
+                  <h3 className="font-semibold text-yellow-800 dark:text-yellow-200">Platform Fee Notice</h3>
+                </div>
+                <div className="text-sm text-yellow-700 dark:text-yellow-300 space-y-1">
+                  <p><strong>Pocket Bounty charges a platform fee:</strong></p>
+                  <ul className="list-disc list-inside space-y-1 ml-2">
+                    <li><strong>5%</strong> for bounties under $250</li>
+                    <li><strong>3.5%</strong> for bounties $250 and over</li>
+                  </ul>
+                  <p className="mt-2">
+                    <strong>Your bounty fee: {parseFloat(form.watch("reward") || "5") >= 250 ? "3.5%" : "5%"}</strong> 
+                    (${((parseFloat(form.watch("reward") || "5")) * (parseFloat(form.watch("reward") || "5") >= 250 ? 0.035 : 0.05)).toFixed(2)})
+                  </p>
+                  <p className="text-xs mt-1">Fee is deducted only if bounty goes unclaimed after 3 days and auto-refunds.</p>
+                </div>
+              </div>
               
               <div className="space-y-2">
                 <Button 
@@ -300,7 +320,7 @@ export default function Post() {
                   {postMutation.isPending ? "Posting..." : "Post Bounty"}
                 </Button>
                 <div className="text-xs text-muted-foreground text-center">
-                  💰 Full amount held in escrow. Auto-refunds in 3 days minus {parseFloat(form.watch("reward") || "5") >= 250 ? "3.5%" : "5%"} fee if unclaimed.
+                  💰 Full amount held in escrow until completion
                 </div>
                 {(user?.points || 0) < 5 && (
                   <div className="text-xs text-destructive text-center">

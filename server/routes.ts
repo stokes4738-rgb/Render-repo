@@ -502,6 +502,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Complete bounty and pay the bounty hunter
+  app.patch('/api/bounties/:id/complete', isAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { completedBy } = req.body;
+      const userId = req.user.id;
+
+      // Get the bounty
+      const bounty = await storage.getBounty(id);
+      if (!bounty) {
+        return res.status(404).json({ message: "Bounty not found" });
+      }
+
+      // Verify the user owns this bounty
+      if (bounty.authorId !== userId) {
+        return res.status(403).json({ message: "Not authorized to complete this bounty" });
+      }
+
+      // Verify the bounty is active
+      if (bounty.status !== 'active') {
+        return res.status(400).json({ message: "Bounty is not active" });
+      }
+
+      // Parse reward amount
+      const rewardAmount = parseFloat(bounty.reward);
+
+      // Transfer points from creator to hunter
+      await storage.updateUserPoints(completedBy, rewardAmount);
+      await storage.updateUserBalance(completedBy, rewardAmount);
+
+      // Update bounty status
+      await storage.updateBountyStatus(id, "completed", completedBy);
+
+      // Create transaction records
+      await storage.createTransaction({
+        userId: completedBy,
+        type: 'bounty_reward',
+        amount: rewardAmount.toString(),
+        status: 'completed',
+        metadata: { bountyId: id, bountyTitle: bounty.title }
+      });
+
+      // Create activities
+      await storage.createActivity({
+        userId: completedBy,
+        type: 'bounty_completed',
+        description: `Completed bounty "${bounty.title}" and earned ${rewardAmount} points`,
+        metadata: { bountyId: id, reward: rewardAmount }
+      });
+
+      await storage.createActivity({
+        userId,
+        type: 'bounty_marked_complete',
+        description: `Marked bounty "${bounty.title}" as complete`,
+        metadata: { bountyId: id, completedBy }
+      });
+
+      res.json({ success: true, message: "Bounty completed and payment sent!" });
+    } catch (error) {
+      logger.error("Error completing bounty:", error);
+      res.status(500).json({ message: "Failed to complete bounty" });
+    }
+  });
+
   // Transaction routes
   app.get('/api/user/transactions', isAuthenticated, async (req: any, res) => {
     try {

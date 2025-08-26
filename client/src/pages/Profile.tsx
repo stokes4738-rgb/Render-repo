@@ -78,6 +78,35 @@ export default function Profile() {
     },
   });
 
+  // Complete bounty mutation
+  const completeBountyMutation = useMutation({
+    mutationFn: async ({ bountyId, applicantId }: { bountyId: string, applicantId: string }) => {
+      const response = await apiRequest("PATCH", `/api/bounties/${bountyId}/complete`, {
+        completedBy: applicantId
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to complete bounty");
+      }
+      return await response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Bounty Completed! 🎉",
+        description: "Payment has been sent to the bounty hunter. Great work!",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to complete bounty",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -253,6 +282,24 @@ export default function Profile() {
                                       >
                                         <XCircle className="w-4 h-4 mr-1" />
                                         Reject
+                                      </Button>
+                                    </div>
+                                  )}
+                                  
+                                  {application.status === 'accepted' && bounty.status !== 'completed' && (
+                                    <div className="flex gap-2 ml-4">
+                                      <Button
+                                        size="sm"
+                                        onClick={() => completeBountyMutation.mutate({ 
+                                          bountyId: bounty.id, 
+                                          applicantId: application.applicantId 
+                                        })}
+                                        disabled={completeBountyMutation.isPending}
+                                        className="bg-purple-600 hover:bg-purple-700"
+                                        data-testid={`complete-bounty-${bounty.id}`}
+                                      >
+                                        <Trophy className="w-4 h-4 mr-1" />
+                                        Mark Complete & Pay
                                       </Button>
                                     </div>
                                   )}

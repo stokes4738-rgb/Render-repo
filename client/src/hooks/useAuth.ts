@@ -10,8 +10,8 @@ export function useAuth() {
     retry: false,
     enabled: !isDemoMode, // Only fetch real user data when not in demo mode
     refetchInterval: false, // Disable automatic polling
-    staleTime: 300000, // Consider data fresh for 5 minutes
-    refetchOnWindowFocus: true, // Only refetch when user focuses the window
+    staleTime: 60000, // Consider data fresh for 1 minute
+    refetchOnWindowFocus: false, // Disable refetch on focus to avoid auth issues
   });
 
   // Return demo user data when in demo mode, otherwise real user data

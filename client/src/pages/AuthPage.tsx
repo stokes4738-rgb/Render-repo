@@ -60,21 +60,23 @@ export default function AuthPage() {
       }
       return await response.json();
     },
-    onSuccess: () => {
+    onSuccess: async (user) => {
       toast({
         title: "Welcome back!",
         description: "You've successfully logged in to Pocket Bounty.",
       });
-      // Invalidate and refetch user data
-      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       
-      // Handle navigation for both web and mobile
-      if (Capacitor.isNativePlatform()) {
-        // For mobile apps, use window.location to avoid routing issues
-        window.location.href = "/";
-      } else {
-        setLocation("/");
-      }
+      // Set user data in cache immediately
+      queryClient.setQueryData(["/api/user"], user);
+      
+      // Wait a bit before navigation to ensure state is updated
+      setTimeout(() => {
+        if (Capacitor.isNativePlatform()) {
+          window.location.href = "/";
+        } else {
+          setLocation("/");
+        }
+      }, 100);
     },
     onError: (error: Error) => {
       toast({
@@ -94,21 +96,23 @@ export default function AuthPage() {
       }
       return await response.json();
     },
-    onSuccess: () => {
+    onSuccess: async (user) => {
       toast({
         title: "Welcome to Pocket Bounty!",
         description: "Your account has been created successfully. You got 50 welcome bonus points!",
       });
-      // Invalidate and refetch user data
-      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
       
-      // Handle navigation for both web and mobile
-      if (Capacitor.isNativePlatform()) {
-        // For mobile apps, use window.location to avoid routing issues
-        window.location.href = "/";
-      } else {
-        setLocation("/");
-      }
+      // Set user data in cache immediately
+      queryClient.setQueryData(["/api/user"], user);
+      
+      // Wait a bit before navigation to ensure state is updated
+      setTimeout(() => {
+        if (Capacitor.isNativePlatform()) {
+          window.location.href = "/";
+        } else {
+          setLocation("/");
+        }
+      }, 100);
     },
     onError: (error: Error) => {
       toast({

@@ -52,7 +52,24 @@ workflows:
           ls -la dist/
           ls -la dist/public/
           echo "Converting capacitor config to JSON for sync..."
-          node -e "const config = require('./capacitor.config.cjs'); console.log(JSON.stringify(config, null, 2))" > capacitor.config.json
+          node -e "const config = require('./capacitor.config.js'); console.log(JSON.stringify(config, null, 2))" > capacitor.config.json
+          echo "Creating config.xml for Cordova compatibility..."
+          cat > config.xml << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<widget id="com.pocketbounty.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Pocket Bounty</name>
+    <description>Social bounty platform for task completion and rewards</description>
+    <author email="support@pocketbounty.com" href="https://pocketbounty.com">Pocket Bounty Team</author>
+    <content src="index.html"/>
+    <access origin="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <platform name="ios">
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
+    </platform>
+</widget>
+EOF
           echo "Running Capacitor sync..."
           npx @capacitor/cli sync ios --verbose
           echo "Checking what was synced to iOS..."

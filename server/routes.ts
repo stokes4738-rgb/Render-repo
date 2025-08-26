@@ -1459,17 +1459,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
             stripeConnectStatus: 'connected'
           });
           
-          res.redirect('/settings?connected=true');
+          res.redirect('/account?tab=withdraw&connected=true');
         } else {
           // Account still needs more information
-          res.redirect('/settings?connected=false&message=Please complete all required information');
+          res.redirect('/account?tab=withdraw&connected=false&message=Please complete all required information');
         }
       } else {
-        res.redirect('/settings?connected=false');
+        res.redirect('/account?tab=withdraw&connected=false');
       }
     } catch (error: any) {
       logger.error("Error handling Stripe Connect return:", error);
-      res.redirect('/settings?connected=false&error=true');
+      res.redirect('/account?tab=withdraw&connected=false&error=true');
     }
   });
 

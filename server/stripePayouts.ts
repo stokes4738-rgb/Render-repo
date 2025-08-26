@@ -125,10 +125,13 @@ export async function createStripeConnectAccount(userId: string, email: string) 
     });
 
     // Create account link for onboarding
+    // Force HTTPS for production (your live app at pocketbounty.life)
+    const baseUrl = 'https://pocketbounty.life';
+    
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: `${process.env.APP_URL || 'http://localhost:5000'}/settings/payments`,
-      return_url: `${process.env.APP_URL || 'http://localhost:5000'}/settings/payments?connected=true`,
+      refresh_url: `${baseUrl}/account?tab=withdraw`,
+      return_url: `${baseUrl}/api/payments/connect-return`,
       type: 'account_onboarding',
     });
 

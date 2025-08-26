@@ -26,10 +26,8 @@ if (process.env.STRIPE_SECRET_KEY) {
 // Process expired bounties (auto-refund after 3 days with 5% fee)
 async function processExpiredBounties() {
   try {
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    
-    const expiredBounties = await storage.getExpiredBounties(threeDaysAgo);
+    // Get bounties that have passed their duration deadline
+    const expiredBounties = await storage.getBountiesExpiredByDuration();
     
     for (const bounty of expiredBounties) {
       const bountyReward = parseFloat(bounty.reward.toString());
@@ -41,7 +39,7 @@ async function processExpiredBounties() {
       // Mark bounty as expired
       await storage.updateBountyStatus(bounty.id, 'expired');
       
-      // Refund user (minus 5% fee)
+      // Refund user (minus platform fee)
       await storage.updateUserBalance(bounty.authorId, `+${refundAmount.toFixed(2)}`);
       
       // Create refund transaction
@@ -610,6 +608,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       logger.error("Error completing bounty:", error);
       res.status(500).json({ message: "Failed to complete bounty" });
+    }
+  });
+
+  // Delete/Remove bounty route
+  app.delete('/api/bounties/:id', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { id } = req.params;
+      
+      // Delete the bounty and get the bounty data for refund
+      const deletedBounty = await storage.deleteBounty(id, userId);
+      
+      if (!deletedBounty) {
+        return res.status(404).json({ message: 'Bounty not found, already removed, or not owned by you' });
+      }
+
+      // Refund the full amount (no fee for manual removal)
+      const refundAmount = parseFloat(deletedBounty.reward.toString());
+      await storage.updateUserBalance(userId, refundAmount.toString());
+
+      // Create refund transaction
+      await storage.createTransaction({
+        userId,
+        type: "refund",
+        amount: refundAmount.toString(),
+        description: `Full refund for removed bounty: ${deletedBounty.title}`,
+        status: "completed",
+      });
+
+      // Create activity
+      await storage.createActivity({
+        userId,
+        type: "bounty_removed",
+        description: `Removed bounty "${deletedBounty.title}" and received full refund of $${refundAmount.toFixed(2)}`,
+        metadata: { bountyId: id, refundAmount: refundAmount.toFixed(2) },
+      });
+      
+      res.json({ 
+        success: true, 
+        message: "Bounty removed successfully and full amount refunded!",
+        refundAmount: refundAmount.toFixed(2)
+      });
+    } catch (error) {
+      logger.error('Error removing bounty:', error);
+      res.status(500).json({ message: 'Failed to remove bounty' });
     }
   });
 

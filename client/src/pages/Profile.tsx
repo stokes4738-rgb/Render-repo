@@ -107,6 +107,33 @@ export default function Profile() {
     }
   });
 
+  // Remove bounty mutation
+  const removeBountyMutation = useMutation({
+    mutationFn: async ({ bountyId }: { bountyId: string }) => {
+      const response = await apiRequest("DELETE", `/api/bounties/${bountyId}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to remove bounty");
+      }
+      return await response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Bounty Removed 🗑️",
+        description: "Your bounty has been removed and the full amount has been refunded to your balance.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to remove bounty",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  });
+
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -219,7 +246,7 @@ export default function Profile() {
                     <Card key={bounty.id} className="border border-border">
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start mb-4">
-                          <div>
+                          <div className="flex-1">
                             <h3 className="font-semibold text-lg">{bounty.title}</h3>
                             <p className="text-sm text-muted-foreground mt-1">{bounty.description}</p>
                             <div className="flex items-center gap-4 mt-2">
@@ -232,6 +259,18 @@ export default function Profile() {
                               </span>
                             </div>
                           </div>
+                          {bounty.status === 'active' && (
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => removeBountyMutation.mutate({ bountyId: bounty.id })}
+                              disabled={removeBountyMutation.isPending}
+                              data-testid={`remove-bounty-${bounty.id}`}
+                            >
+                              <X className="w-4 h-4 mr-1" />
+                              Remove Post
+                            </Button>
+                          )}
                         </div>
 
                         {/* Applications */}

@@ -321,6 +321,39 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(bounties.createdAt));
   }
 
+  async getBountiesExpiredByDuration(): Promise<Bounty[]> {
+    return db
+      .select()
+      .from(bounties)
+      .where(
+        and(
+          eq(bounties.status, "active"),
+          sql`${bounties.createdAt} + INTERVAL ${bounties.duration} DAY < NOW()`
+        )
+      )
+      .orderBy(desc(bounties.createdAt));
+  }
+
+  async deleteBounty(id: string, userId: string): Promise<Bounty | null> {
+    // First get the bounty to verify ownership and get reward amount
+    const [bounty] = await db.select().from(bounties).where(
+      and(
+        eq(bounties.id, id),
+        eq(bounties.authorId, userId),
+        eq(bounties.status, "active")
+      )
+    );
+    
+    if (!bounty) {
+      return null;
+    }
+    
+    // Delete the bounty
+    await db.delete(bounties).where(eq(bounties.id, id));
+    
+    return bounty;
+  }
+
   // Application operations
   async createBountyApplication(bountyId: string, userId: string, message?: string): Promise<BountyApplication> {
     const [application] = await db

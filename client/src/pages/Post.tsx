@@ -306,7 +306,7 @@ export default function Post() {
                     <strong>Your bounty fee: {parseFloat(form.watch("reward") || "5") >= 250 ? "3.5%" : "5%"}</strong> 
                     (${((parseFloat(form.watch("reward") || "5")) * (parseFloat(form.watch("reward") || "5") >= 250 ? 0.035 : 0.05)).toFixed(2)})
                   </p>
-                  <p className="text-xs mt-1">Fee is deducted only if bounty goes unclaimed after 3 days and auto-refunds.</p>
+                  <p className="text-xs mt-1">Fee is deducted only if bounty goes unclaimed after the selected duration and auto-refunds.</p>
                 </div>
               </div>
               

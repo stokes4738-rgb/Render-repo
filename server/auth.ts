@@ -7,6 +7,7 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { validateMinimumAge, initiateBackgroundCheck, requiresParentalConsent, validateParentalConsent, calculateAge } from "./middleware/ageVerification";
 import { sendParentalConsentVerification, createMinorAccountNotice } from "./utils/parentalConsent";
+import { getClientIp, emergencyIPBan, flagSuspiciousIP } from "./middleware/ipBanning";
 import type { User } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import createMemoryStore from "memorystore";
@@ -204,20 +205,50 @@ export function setupAuth(app: Express) {
           }
         }
 
-        // Initiate background check for new users to protect minors
+        // CRITICAL SAFETY CHECK: Background screening for all new users
         if (dateOfBirth) {
-          console.log(`Initiating background check for user ${user.id} (${username})`);
+          const clientIp = getClientIp(req);
+          console.log(`🔍 SAFETY SCREENING: Initiating comprehensive background check for user ${user.id} (${username}) from IP ${clientIp}`);
+          
           try {
             const backgroundCheck = await initiateBackgroundCheck(user.id, {
               email,
               firstName,
               lastName,
               dateOfBirth
-            });
+            }, clientIp);
+            
             console.log(`Background check initiated: ${backgroundCheck.referenceId}`);
+            console.log(`Risk level: ${backgroundCheck.riskLevel}`);
+            
+            // IMMEDIATE ACTION for high-risk users
+            if (backgroundCheck.status === 'FAILED' || backgroundCheck.riskLevel === 'HIGH') {
+              console.log(`🚨 HIGH RISK USER DETECTED - TAKING IMMEDIATE ACTION 🚨`);
+              
+              // Emergency IP ban for sex offenders or high-risk individuals
+              await emergencyIPBan(
+                user.id, 
+                clientIp, 
+                `Failed background check: ${backgroundCheck.alerts.join(', ')}`
+              );
+              
+              // Prevent login and return error
+              return res.status(403).json({
+                message: "Account creation blocked due to safety concerns. If you believe this is an error, please contact support.",
+                code: "SAFETY_SCREENING_FAILED"
+              });
+            }
+            
+            // Flag suspicious but not immediately dangerous
+            if (backgroundCheck.requiresManualReview) {
+              flagSuspiciousIP(clientIp, 'User requires manual review');
+              console.log(`⚠️ User ${user.id} flagged for manual review`);
+            }
+            
           } catch (error) {
-            console.error(`Background check initiation failed for user ${user.id}:`, error);
-            // Don't fail registration, but log the issue
+            console.error(`CRITICAL: Background check failed for user ${user.id}:`, error);
+            // Flag IP as suspicious due to check failure
+            flagSuspiciousIP(getClientIp(req), 'Background check system error');
           }
         }
       }

@@ -9,6 +9,7 @@ import { sendSupportEmail } from "./utils/email";
 import { TwoFactorService } from "./utils/twoFactor";
 import { require2FA } from "./middleware/twoFactor";
 import { requireAgeVerification } from "./middleware/ageVerification";
+import { checkIPBan } from "./middleware/ipBanning";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -76,6 +77,9 @@ async function processExpiredBounties() {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Apply IP ban checking to all routes
+  app.use(checkIPBan);
+  
   // Support email endpoint
   app.post("/api/support", async (req, res) => {
     try {
@@ -111,6 +115,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
   // Auth middleware
   setupAuthJWT(app);
+
+  // Admin safety monitoring endpoints (protected)
+  app.get('/api/admin/banned-ips', verifyToken, async (req: any, res) => {
+    try {
+      // Check if user has admin privileges (implement admin check as needed)
+      const userId = req.user.id;
+      
+      const { getBannedIPs, getSuspiciousIPs } = await import('./middleware/ipBanning');
+      
+      res.json({
+        bannedIPs: getBannedIPs(),
+        suspiciousIPs: getSuspiciousIPs(),
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      logger.error("Error fetching banned IPs:", error);
+      res.status(500).json({ message: "Failed to fetch security data" });
+    }
+  });
 
   // Auth routes are now handled in setupAuth() in auth.ts
 

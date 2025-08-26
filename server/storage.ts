@@ -50,6 +50,7 @@ export interface IStorage {
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: Partial<User>): Promise<User>;
   upsertUser(user: UpsertUser): Promise<User>;
+  updateUser(userId: string, data: Partial<User>): Promise<void>;
   migrateUserToPasswordAuth(userId: string, data: { username: string, password: string, firstName: string, lastName: string }): Promise<User>;
   updateUserPoints(userId: string, points: number): Promise<void>;
   updateUserBalance(userId: string, amount: string): Promise<void>;
@@ -192,6 +193,16 @@ export class DatabaseStorage implements IStorage {
       .returning();
     
     return Array.isArray(result) ? result[0] : result;
+  }
+
+  async updateUser(userId: string, data: Partial<User>): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(users.id, userId));
   }
 
   async migrateUserToPasswordAuth(userId: string, data: { username: string, password: string, firstName: string, lastName: string }): Promise<User> {

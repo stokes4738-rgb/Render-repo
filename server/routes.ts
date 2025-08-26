@@ -1312,7 +1312,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description += ` (Instant transfer fee: $${feeAmount.toFixed(2)})`;
       }
 
-      // Process the payout (simulated for now - real Stripe Connect would require user onboarding)
+      // Process the payout (real or simulated based on user's Stripe Connect status)
       let payoutResult;
       let transferId;
       
@@ -1323,8 +1323,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
           amount: finalAmount,
           userId,
           email: user.email,
+          stripeConnectAccountId: user.stripeConnectAccountId,
           method: method === 'debit_card' ? 'debit_card' : 'bank_transfer'
         });
+        
+        // If user needs to connect their account first
+        if (!payoutResult.success && payoutResult.status === 'requires_account') {
+          return res.status(400).json({ 
+            message: "Please connect your bank account first to receive payouts",
+            requiresAccount: true
+          });
+        }
+        
         transferId = payoutResult.payoutId;
       } else {
         // Fallback to simulated payout
@@ -1397,9 +1407,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const user = await storage.getUser(userId);
       
+      // Check if user already has a connected account
+      if (user.stripeConnectAccountId && user.stripeConnectStatus === 'connected') {
+        return res.json({
+          success: true,
+          alreadyConnected: true,
+          message: "Your bank account is already connected"
+        });
+      }
+      
       if (stripe) {
         const { createStripeConnectAccount } = await import('./stripePayouts');
         const result = await createStripeConnectAccount(userId, user.email);
+        
+        // Save the Stripe Connect account ID to the user's record
+        await storage.updateUser(userId, {
+          stripeConnectAccountId: result.accountId,
+          stripeConnectStatus: 'pending'
+        });
         
         res.json({
           success: true,
@@ -1415,6 +1440,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       logger.error("Error connecting bank account:", error);
       res.status(500).json({ message: error.message || "Failed to connect bank account" });
+    }
+  });
+  
+  // Stripe Connect return URL - handles when users complete onboarding
+  app.get('/api/payments/connect-return', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      if (stripe && user.stripeConnectAccountId) {
+        // Check the account status
+        const account = await stripe.accounts.retrieve(user.stripeConnectAccountId);
+        
+        if (account.charges_enabled && account.payouts_enabled) {
+          // Account is fully onboarded
+          await storage.updateUser(userId, {
+            stripeConnectStatus: 'connected'
+          });
+          
+          res.redirect('/settings?connected=true');
+        } else {
+          // Account still needs more information
+          res.redirect('/settings?connected=false&message=Please complete all required information');
+        }
+      } else {
+        res.redirect('/settings?connected=false');
+      }
+    } catch (error: any) {
+      logger.error("Error handling Stripe Connect return:", error);
+      res.redirect('/settings?connected=false&error=true');
     }
   });
 

@@ -46,6 +46,8 @@ export const users: any = pgTable("users", {
   lastSeen: timestamp("last_seen").defaultNow(),
   stripeCustomerId: varchar("stripe_customer_id"),
   stripeSubscriptionId: varchar("stripe_subscription_id"),
+  stripeConnectAccountId: varchar("stripe_connect_account_id"),
+  stripeConnectStatus: varchar("stripe_connect_status"), // 'pending', 'connected', 'disabled'
   referralCode: varchar("referral_code").unique(),
   referredBy: varchar("referred_by").references((): any => users.id),
   referralCount: integer("referral_count").default(0),

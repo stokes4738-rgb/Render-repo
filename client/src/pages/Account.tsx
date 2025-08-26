@@ -362,6 +362,44 @@ export default function Account() {
     withdrawalMutation.mutate({ amount: payoutAmount, method: payoutMethod });
   };
 
+  const connectBankMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", "/api/payments/connect-bank");
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.alreadyConnected) {
+        toast({
+          title: "Already Connected",
+          description: "Your bank account is already connected!",
+        });
+      } else if (data.onboardingUrl) {
+        // Redirect to Stripe Connect onboarding
+        window.location.href = data.onboardingUrl;
+      } else {
+        toast({
+          title: "Connection Started",
+          description: data.message || "Please complete the bank account connection process.",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Connection Failed",
+        description: error.message || "Failed to start bank account connection",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleConnectBank = () => {
+    if (isDemoMode) {
+      setShowDemoLock(true);
+      return;
+    }
+    connectBankMutation.mutate();
+  };
+
   const withdrawalMutation = useMutation({
     mutationFn: async (data: { amount: string; method: string }) => {
       return apiRequest("POST", "/api/payments/withdraw", data);
@@ -649,6 +687,44 @@ export default function Account() {
               <CardTitle className="text-lg">Cash Out</CardTitle>
             </CardHeader>
             <CardContent>
+              {/* Bank Connection Status */}
+              <div className={`mb-4 p-3 rounded-lg border ${
+                (user as any)?.stripeConnectStatus === 'connected' 
+                  ? 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800'
+                  : 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800'
+              }`}>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className={`text-sm font-semibold ${
+                      (user as any)?.stripeConnectStatus === 'connected'
+                        ? 'text-green-900 dark:text-green-100'
+                        : 'text-blue-900 dark:text-blue-100'
+                    }`}>
+                      Bank Account Connection
+                    </h4>
+                    <p className={`text-xs mt-1 ${
+                      (user as any)?.stripeConnectStatus === 'connected'
+                        ? 'text-green-700 dark:text-green-300'
+                        : 'text-blue-700 dark:text-blue-300'
+                    }`}>
+                      {(user as any)?.stripeConnectStatus === 'connected'
+                        ? '✓ Your bank account is connected and ready for payouts'
+                        : 'Connect your bank account to receive instant payouts'}
+                    </p>
+                  </div>
+                  {(user as any)?.stripeConnectStatus !== 'connected' && (
+                    <Button
+                      onClick={handleConnectBank}
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                      disabled={connectBankMutation.isPending}
+                    >
+                      {connectBankMutation.isPending ? "Connecting..." : "Connect Bank"}
+                    </Button>
+                  )}
+                </div>
+              </div>
+              
               <form onSubmit={handleWithdrawal} className="space-y-3">
                 <div>
                   <Label className="text-xs text-muted-foreground mb-1.5">

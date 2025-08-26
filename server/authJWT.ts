@@ -181,6 +181,8 @@ export function setupAuthJWT(app: Express) {
       reviewCount: user.reviewCount,
       profileImageUrl: user.profileImageUrl,
       bio: user.bio,
+      stripeConnectAccountId: user.stripeConnectAccountId,
+      stripeConnectStatus: user.stripeConnectStatus,
     });
   });
 }

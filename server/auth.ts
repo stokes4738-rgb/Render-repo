@@ -53,15 +53,17 @@ export function setupAuth(app: Express) {
 
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "pocket-bounty-secret-key",
-    resave: true, // Changed to true to ensure session saves
-    saveUninitialized: true, // Changed to true to save uninitialized sessions
-    rolling: true, // Reset expiry on activity
+    name: "pocket.sid",
+    resave: true,
+    saveUninitialized: true,
+    rolling: true,
     store: sessionStore,
     cookie: {
       httpOnly: true,
-      secure: false, // Changed to false for development
+      secure: false,
       sameSite: "lax",
       maxAge: sessionTtl,
+      path: "/",
     },
   };
 
@@ -251,7 +253,7 @@ export function setupAuth(app: Express) {
 }
 
 export function isAuthenticated(req: any, res: any, next: any) {
-  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID, 'session:', req.session);
+  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID, 'passport:', req.session?.passport);
   
   if (req.isAuthenticated() && req.user) {
     return next();

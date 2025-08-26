@@ -18,6 +18,7 @@ import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import DemoLockOverlay from "@/components/DemoLockOverlay";
+import TwoFactorVerification from "@/components/TwoFactorVerification";
 import { navigateToLogin } from "@/lib/navigation";
 import { CreditCard, Plus, Trash2, Star, DollarSign, History, Shield, Lock, Wallet, ArrowUpRight, ArrowDownLeft } from "lucide-react";
 import type { Transaction } from "@shared/schema";
@@ -152,11 +153,13 @@ function AddPaymentMethodForm({ onSuccess }: { onSuccess: () => void }) {
 function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
   const [amount, setAmount] = useState("");
   const [selectedMethod, setSelectedMethod] = useState("");
+  const [showTwoFA, setShowTwoFA] = useState(false);
+  const [pendingDeposit, setPendingDeposit] = useState<{amount: string, paymentMethodId: string} | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const depositMutation = useMutation({
-    mutationFn: async (data: { amount: string; paymentMethodId: string }) => {
+    mutationFn: async (data: { amount: string; paymentMethodId: string; twoFactorCode?: string }) => {
       return apiRequest("POST", "/api/payments/deposit", data);
     },
     onSuccess: () => {
@@ -168,6 +171,8 @@ function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
       queryClient.invalidateQueries({ queryKey: ["/api/user/transactions"] });
       setAmount("");
       setSelectedMethod("");
+      setShowTwoFA(false);
+      setPendingDeposit(null);
     },
     onError: (error: any) => {
       if (isUnauthorizedError(error)) {
@@ -182,14 +187,22 @@ function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
         return;
       }
       
-      let errorMessage = "Failed to process deposit";
+      // Check if 2FA is required
+      let errorData;
       try {
-        const errorData = JSON.parse(error.message.split(': ').slice(1).join(': '));
-        errorMessage = errorData.message || errorMessage;
+        errorData = JSON.parse(error.message.split(': ').slice(1).join(': '));
       } catch {
-        errorMessage = error.message || errorMessage;
+        errorData = { message: error.message };
       }
       
+      if (errorData.requires2FA) {
+        // Store the deposit data and show 2FA modal
+        setPendingDeposit({ amount, paymentMethodId: selectedMethod });
+        setShowTwoFA(true);
+        return;
+      }
+      
+      const errorMessage = errorData.message || "Failed to process deposit";
       toast({
         title: "Payment Failed",
         description: errorMessage,
@@ -197,6 +210,20 @@ function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
       });
     },
   });
+
+  const handle2FAVerification = async (code: string) => {
+    if (!pendingDeposit) return;
+    
+    await depositMutation.mutateAsync({
+      ...pendingDeposit,
+      twoFactorCode: code
+    });
+  };
+
+  const handle2FACancel = () => {
+    setShowTwoFA(false);
+    setPendingDeposit(null);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -221,6 +248,18 @@ function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
 
     depositMutation.mutate({ amount, paymentMethodId: selectedMethod });
   };
+
+  if (showTwoFA) {
+    return (
+      <TwoFactorVerification
+        onVerify={handle2FAVerification}
+        onCancel={handle2FACancel}
+        isVerifying={depositMutation.isPending}
+        title="Security Verification Required"
+        description={`Enter your 2FA code to complete the deposit of $${pendingDeposit?.amount || amount}.`}
+      />
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

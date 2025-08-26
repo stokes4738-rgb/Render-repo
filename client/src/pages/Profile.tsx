@@ -153,7 +153,7 @@ export default function Profile() {
           </Card>
 
           {/* Stats Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <Card>
               <CardContent className="p-4 text-center">
                 <div className="text-2xl font-bold text-pocket-gold">
@@ -178,6 +178,15 @@ export default function Profile() {
                   {user.points || 0}
                 </div>
                 <div className="text-xs text-muted-foreground">Points</div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-orange-600">
+                  {user.level || 1}
+                </div>
+                <div className="text-xs text-muted-foreground">Level</div>
               </CardContent>
             </Card>
             

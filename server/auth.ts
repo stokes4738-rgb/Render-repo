@@ -231,7 +231,9 @@ export function setupAuth(app: Express) {
 }
 
 export function isAuthenticated(req: any, res: any, next: any) {
-  if (req.isAuthenticated()) {
+  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID);
+  
+  if (req.isAuthenticated() && req.user) {
     return next();
   }
   res.status(401).json({ message: "Unauthorized" });

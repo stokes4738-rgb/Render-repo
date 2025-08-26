@@ -7,6 +7,7 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import type { User } from "@shared/schema";
 import connectPg from "connect-pg-simple";
+import createMemoryStore from "memorystore";
 
 declare global {
   namespace Express {
@@ -42,12 +43,12 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
 export function setupAuth(app: Express) {
   // Session setup
   const sessionTtl = 7 * 24 * 60 * 60 * 1000; // 1 week
-  const PostgresSessionStore = connectPg(session);
-  const sessionStore = new PostgresSessionStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: true, // Changed to true to ensure table exists
+  
+  // Use memory store for now since database is disabled
+  const MemoryStore = createMemoryStore(session);
+  const sessionStore = new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
     ttl: sessionTtl,
-    tableName: "sessions",
   });
 
   const sessionSettings: session.SessionOptions = {
@@ -91,15 +92,23 @@ export function setupAuth(app: Express) {
   );
 
   passport.serializeUser((user, done) => {
+    console.log('Serializing user:', (user as User).id);
     done(null, (user as User).id);
   });
 
   passport.deserializeUser(async (id: string, done) => {
     try {
+      console.log('Deserializing user ID:', id);
       const user = await storage.getUser(id);
+      if (!user) {
+        console.error('User not found for ID:', id);
+        return done(null, false);
+      }
+      console.log('User deserialized:', user.username);
       done(null, user);
     } catch (error) {
-      done(error);
+      console.error('Deserialize error:', error);
+      done(error, null);
     }
   });
 
@@ -184,11 +193,14 @@ export function setupAuth(app: Express) {
           return res.status(500).json({ message: "Login failed" });
         }
         
+        console.log('Login successful, user:', user.id, 'sessionID:', req.sessionID);
         // Force save session before responding
         req.session.save((saveErr: any) => {
           if (saveErr) {
             console.error('Session save error:', saveErr);
+            return res.status(500).json({ message: "Session save failed" });
           }
+          console.log('Session saved successfully for user:', user.id);
           
           res.json({
             id: user.id,
@@ -239,7 +251,7 @@ export function setupAuth(app: Express) {
 }
 
 export function isAuthenticated(req: any, res: any, next: any) {
-  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID);
+  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID, 'session:', req.session);
   
   if (req.isAuthenticated() && req.user) {
     return next();

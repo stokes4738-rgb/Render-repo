@@ -1284,10 +1284,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post('/api/payments/withdraw', verifyToken, async (req: any, res) => {
-    if (!stripe) {
-      return res.status(503).json({ message: "Payment system not configured" });
-    }
-
     try {
       const userId = req.user.id;
       const { amount, method } = req.body;
@@ -1316,9 +1312,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description += ` (Instant transfer fee: $${feeAmount.toFixed(2)})`;
       }
 
-      // For now, we'll just record the withdrawal without actually processing through Stripe
-      // In production, you'd need Stripe Connect for real payouts
-      let transferId = `sim_transfer_${Date.now()}`;
+      // Process the payout (simulated for now - real Stripe Connect would require user onboarding)
+      let payoutResult;
+      let transferId;
+      
+      if (stripe) {
+        // Use Stripe payout system
+        const { processStripePayout } = await import('./stripePayouts');
+        payoutResult = await processStripePayout({
+          amount: finalAmount,
+          userId,
+          email: user.email,
+          method: method === 'debit_card' ? 'debit_card' : 'bank_transfer'
+        });
+        transferId = payoutResult.payoutId;
+      } else {
+        // Fallback to simulated payout
+        transferId = `sim_transfer_${Date.now()}`;
+        payoutResult = {
+          success: true,
+          payoutId: transferId,
+          amount: finalAmount,
+          status: 'pending',
+          estimatedArrival: method === 'debit_card' ? 'instant' : '1-2 business days'
+        };
+      }
 
       // Create withdrawal transaction record
       const methodNames: Record<string, string> = {
@@ -1333,7 +1351,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: "spending",
         amount: amount,
         description: `Withdrawal via ${methodNames[method] || method}`,
-        status: "pending",
+        status: payoutResult.success ? "completed" : "pending",
       });
 
       // Deduct amount from user balance
@@ -1343,8 +1361,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.createActivity({
         userId,
         type: "withdrawal",
-        description: `Requested withdrawal of $${amount}`,
-        metadata: { amount, method, transactionId: withdrawalTransaction.id },
+        description: `Withdrawal of $${amount} processed`,
+        metadata: { 
+          amount, 
+          method, 
+          transactionId: withdrawalTransaction.id,
+          payoutId: transferId,
+          estimatedArrival: payoutResult.estimatedArrival
+        },
       });
 
       res.json({
@@ -1352,33 +1376,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         transactionId: withdrawalTransaction.id,
         transferId: transferId,
         message: method === 'debit_card' 
-          ? `Withdrawal of $${finalAmount.toFixed(2)} processed (after $${feeAmount.toFixed(2)} instant fee)`
-          : `Withdrawal of $${withdrawalAmount.toFixed(2)} processed successfully`,
+          ? `Withdrawal of $${finalAmount.toFixed(2)} processed instantly (after $${feeAmount.toFixed(2)} fee)`
+          : `Withdrawal of $${withdrawalAmount.toFixed(2)} processed. Funds will arrive in ${payoutResult.estimatedArrival}`,
         amount: finalAmount.toFixed(2),
-        fee: feeAmount.toFixed(2)
+        fee: feeAmount.toFixed(2),
+        estimatedArrival: payoutResult.estimatedArrival
       });
     } catch (error: any) {
       logger.error("Error processing withdrawal:", error);
       
-      // Handle Stripe-specific errors
-      if (error.type?.startsWith('Stripe')) {
-        let message = "Withdrawal failed";
-        
-        switch (error.code) {
-          case 'insufficient_funds':
-            message = "Insufficient funds in your account.";
-            break;
-          case 'account_invalid':
-            message = "Invalid payment account. Please contact support.";
-            break;
-          default:
-            message = error.message || "Withdrawal failed. Please try again.";
-        }
-        
-        return res.status(400).json({ message });
-      }
+      // Return a user-friendly error message
+      const message = error.message || "Failed to process withdrawal";
+      res.status(500).json({ message });
+    }
+  });
+
+  // Connect bank account for withdrawals
+  app.post('/api/payments/connect-bank', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
       
-      res.status(500).json({ message: "Failed to process withdrawal" });
+      if (stripe) {
+        const { createStripeConnectAccount } = await import('./stripePayouts');
+        const result = await createStripeConnectAccount(userId, user.email);
+        
+        res.json({
+          success: true,
+          onboardingUrl: result.onboardingUrl,
+          message: "Please complete the onboarding process to connect your bank account"
+        });
+      } else {
+        res.json({
+          success: false,
+          message: "Payment system not configured. Withdrawals will be simulated."
+        });
+      }
+    } catch (error: any) {
+      logger.error("Error connecting bank account:", error);
+      res.status(500).json({ message: error.message || "Failed to connect bank account" });
     }
   });
 

@@ -48,6 +48,13 @@ export const users: any = pgTable("users", {
   stripeSubscriptionId: varchar("stripe_subscription_id"),
   stripeConnectAccountId: varchar("stripe_connect_account_id"),
   stripeConnectStatus: varchar("stripe_connect_status"), // 'pending', 'connected', 'disabled'
+  // Direct payout methods (stored securely)
+  bankAccountLast4: varchar("bank_account_last4", { length: 4 }),
+  bankRoutingNumber: varchar("bank_routing_number", { length: 20 }),
+  bankAccountToken: varchar("bank_account_token"), // Stripe tokenized bank account
+  debitCardLast4: varchar("debit_card_last4", { length: 4 }),
+  debitCardToken: varchar("debit_card_token"), // Stripe tokenized debit card  
+  preferredPayoutMethod: varchar("preferred_payout_method", { length: 20 }), // 'bank' or 'card'
   referralCode: varchar("referral_code").unique(),
   referredBy: varchar("referred_by").references((): any => users.id),
   referralCount: integer("referral_count").default(0),

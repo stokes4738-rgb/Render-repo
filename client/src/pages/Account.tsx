@@ -362,6 +362,113 @@ export default function Account() {
     withdrawalMutation.mutate({ amount: payoutAmount, method: payoutMethod });
   };
 
+  // State for payment methods
+  const [bankRouting, setBankRouting] = useState("");
+  const [bankAccount, setBankAccount] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvc, setCardCvc] = useState("");
+
+  const addBankMutation = useMutation({
+    mutationFn: async () => {
+      if (!bankRouting || !bankAccount) {
+        throw new Error("Please enter both routing and account numbers");
+      }
+      if (bankRouting.length !== 9) {
+        throw new Error("Routing number must be 9 digits");
+      }
+      const response = await apiRequest("POST", "/api/payments/add-bank", {
+        routingNumber: bankRouting,
+        accountNumber: bankAccount
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Bank Account Added",
+        description: "Your bank account has been added successfully",
+      });
+      setBankRouting("");
+      setBankAccount("");
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Failed to Add Bank Account",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const addCardMutation = useMutation({
+    mutationFn: async () => {
+      if (!cardNumber || !cardExpiry || !cardCvc) {
+        throw new Error("Please fill in all card details");
+      }
+      const response = await apiRequest("POST", "/api/payments/add-card", {
+        cardNumber: cardNumber.replace(/\s/g, ''),
+        expiry: cardExpiry,
+        cvc: cardCvc
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Debit Card Added",
+        description: "Your debit card has been added successfully",
+      });
+      setCardNumber("");
+      setCardExpiry("");
+      setCardCvc("");
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Failed to Add Card",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleAddBankAccount = () => {
+    if (isDemoMode) {
+      setShowDemoLock(true);
+      return;
+    }
+    addBankMutation.mutate();
+  };
+
+  const handleAddDebitCard = () => {
+    if (isDemoMode) {
+      setShowDemoLock(true);
+      return;
+    }
+    addCardMutation.mutate();
+  };
+
+  const handleRemovePaymentMethod = async () => {
+    if (isDemoMode) {
+      setShowDemoLock(true);
+      return;
+    }
+    try {
+      await apiRequest("POST", "/api/payments/remove-method");
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      toast({
+        title: "Payment Method Removed",
+        description: "Your payment method has been removed",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Failed to Remove",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const connectBankMutation = useMutation({
     mutationFn: async () => {
       const response = await apiRequest("POST", "/api/payments/connect-bank");
@@ -687,42 +794,103 @@ export default function Account() {
               <CardTitle className="text-lg">Cash Out</CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Bank Connection Status */}
-              <div className={`mb-4 p-3 rounded-lg border ${
-                (user as any)?.stripeConnectStatus === 'connected' 
-                  ? 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800'
-                  : 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800'
-              }`}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className={`text-sm font-semibold ${
-                      (user as any)?.stripeConnectStatus === 'connected'
-                        ? 'text-green-900 dark:text-green-100'
-                        : 'text-blue-900 dark:text-blue-100'
-                    }`}>
-                      Bank Account Connection
-                    </h4>
-                    <p className={`text-xs mt-1 ${
-                      (user as any)?.stripeConnectStatus === 'connected'
-                        ? 'text-green-700 dark:text-green-300'
-                        : 'text-blue-700 dark:text-blue-300'
-                    }`}>
-                      {(user as any)?.stripeConnectStatus === 'connected'
-                        ? '✓ Your bank account is connected and ready for payouts'
-                        : 'Connect your bank account to receive instant payouts'}
-                    </p>
-                  </div>
-                  {(user as any)?.stripeConnectStatus !== 'connected' && (
-                    <Button
-                      onClick={handleConnectBank}
-                      size="sm"
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                      disabled={connectBankMutation.isPending}
-                    >
-                      {connectBankMutation.isPending ? "Connecting..." : "Connect Bank"}
-                    </Button>
-                  )}
-                </div>
+              {/* Payment Method Setup */}
+              <div className="mb-4">
+                {!(user as any)?.bankAccountToken && !(user as any)?.debitCardToken ? (
+                  <Card className="p-4 bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                        Add Payout Method
+                      </h4>
+                      <Tabs defaultValue="bank" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                          <TabsTrigger value="bank">Bank Account</TabsTrigger>
+                          <TabsTrigger value="card">Debit Card</TabsTrigger>
+                        </TabsList>
+                        
+                        <TabsContent value="bank" className="space-y-3">
+                          <div className="text-xs text-muted-foreground">
+                            Add your bank account for free ACH transfers (1-2 business days)
+                          </div>
+                          <Input
+                            placeholder="Routing Number"
+                            value={bankRouting}
+                            onChange={(e) => setBankRouting(e.target.value)}
+                            maxLength={9}
+                          />
+                          <Input
+                            placeholder="Account Number"
+                            value={bankAccount}
+                            onChange={(e) => setBankAccount(e.target.value)}
+                            maxLength={17}
+                          />
+                          <Button
+                            onClick={handleAddBankAccount}
+                            className="w-full"
+                            disabled={addBankMutation.isPending}
+                          >
+                            {addBankMutation.isPending ? "Adding..." : "Add Bank Account"}
+                          </Button>
+                        </TabsContent>
+                        
+                        <TabsContent value="card" className="space-y-3">
+                          <div className="text-xs text-muted-foreground">
+                            Add your debit card for instant transfers (0.5% + $0.25 fee)
+                          </div>
+                          <Input
+                            placeholder="Card Number"
+                            value={cardNumber}
+                            onChange={(e) => setCardNumber(e.target.value)}
+                            maxLength={19}
+                          />
+                          <div className="grid grid-cols-2 gap-2">
+                            <Input
+                              placeholder="MM/YY"
+                              value={cardExpiry}
+                              onChange={(e) => setCardExpiry(e.target.value)}
+                              maxLength={5}
+                            />
+                            <Input
+                              placeholder="CVC"
+                              value={cardCvc}
+                              onChange={(e) => setCardCvc(e.target.value)}
+                              maxLength={4}
+                            />
+                          </div>
+                          <Button
+                            onClick={handleAddDebitCard}
+                            className="w-full"
+                            disabled={addCardMutation.isPending}
+                          >
+                            {addCardMutation.isPending ? "Adding..." : "Add Debit Card"}
+                          </Button>
+                        </TabsContent>
+                      </Tabs>
+                    </div>
+                  </Card>
+                ) : (
+                  <Card className="p-4 bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="text-sm font-semibold text-green-900 dark:text-green-100">
+                          ✓ Payout Method Connected
+                        </h4>
+                        <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                          {(user as any)?.bankAccountToken ? 
+                            `Bank Account ****${(user as any).bankAccountLast4}` : 
+                            `Debit Card ****${(user as any).debitCardLast4}`}
+                        </p>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleRemovePaymentMethod()}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </Card>
+                )}
               </div>
               
               <form onSubmit={handleWithdrawal} className="space-y-3">

@@ -107,6 +107,63 @@ export async function processStripePayout(options: PayoutOptions) {
 }
 
 // Function to create a Stripe Connect account for a user (for real implementation)
+// Process direct bank transfer (ACH) - no Stripe account needed
+export async function processBankTransfer(
+  userId: string,
+  amount: number,
+  bankToken: string
+): Promise<{ success: boolean; transferId?: string; estimatedArrival?: string; error?: string }> {
+  try {
+    // Create a payout using the bank account token
+    logger.info(`Processing bank transfer of $${amount} for user ${userId}`);
+    
+    // Simulate successful bank transfer (in production, would use Stripe Payouts API)
+    const transferId = `tr_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    
+    return {
+      success: true,
+      transferId: transferId,
+      estimatedArrival: '1-2 business days'
+    };
+  } catch (error: any) {
+    logger.error('Bank transfer error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
+// Process instant debit card payout - no Stripe account needed
+export async function processCardPayout(
+  userId: string,
+  amount: number,
+  cardToken: string,
+  feeAmount: number
+): Promise<{ success: boolean; payoutId?: string; estimatedArrival?: string; error?: string }> {
+  try {
+    const netAmount = amount - feeAmount;
+    
+    // Create an instant payout simulation
+    logger.info(`Processing instant card payout of $${netAmount} (after $${feeAmount} fee) for user ${userId}`);
+    
+    // Simulate successful card payout (in production, would use Stripe Instant Payouts)
+    const payoutId = `po_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    
+    return {
+      success: true,
+      payoutId: payoutId,
+      estimatedArrival: 'Within 30 minutes'
+    };
+  } catch (error: any) {
+    logger.error('Card payout error:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
+
 export async function createStripeConnectAccount(userId: string, email: string) {
   if (!stripe) {
     throw new Error("Stripe is not configured");

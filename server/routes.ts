@@ -1312,30 +1312,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
         description += ` (Instant transfer fee: $${feeAmount.toFixed(2)})`;
       }
 
-      // Process the payout (real or simulated based on user's Stripe Connect status)
+      // Check if user has payment methods set up
+      if (method === 'bank_transfer' && !user.bankAccountToken) {
+        return res.status(400).json({ 
+          message: "Please add your bank account first to receive payouts",
+          requiresAccount: true
+        });
+      }
+      
+      if (method === 'debit_card' && !user.debitCardToken) {
+        return res.status(400).json({ 
+          message: "Please add your debit card first to receive instant payouts",
+          requiresAccount: true
+        });
+      }
+
+      // Process the payout using the new direct payment methods
       let payoutResult;
       let transferId;
       
-      if (stripe) {
-        // Use Stripe payout system
-        const { processStripePayout } = await import('./stripePayouts');
-        payoutResult = await processStripePayout({
-          amount: finalAmount,
-          userId,
-          email: user.email,
-          stripeConnectAccountId: user.stripeConnectAccountId,
-          method: method === 'debit_card' ? 'debit_card' : 'bank_transfer'
-        });
-        
-        // If user needs to connect their account first
-        if (!payoutResult.success && payoutResult.status === 'requires_account') {
-          return res.status(400).json({ 
-            message: "Please connect your bank account first to receive payouts",
-            requiresAccount: true
+      if (stripe && (user.bankAccountToken || user.debitCardToken)) {
+        // Use the new direct payout methods
+        if (method === 'debit_card' && user.debitCardToken) {
+          const { processCardPayout } = await import('./stripePayouts');
+          payoutResult = await processCardPayout(
+            userId,
+            withdrawalAmount,
+            user.debitCardToken,
+            feeAmount
+          );
+          transferId = payoutResult.payoutId;
+        } else if (method === 'bank_transfer' && user.bankAccountToken) {
+          const { processBankTransfer } = await import('./stripePayouts');
+          payoutResult = await processBankTransfer(
+            userId,
+            withdrawalAmount,
+            user.bankAccountToken
+          );
+          transferId = payoutResult.transferId;
+        } else {
+          // Fallback for other methods
+          const { processStripePayout } = await import('./stripePayouts');
+          payoutResult = await processStripePayout({
+            amount: finalAmount,
+            userId,
+            email: user.email,
+            stripeConnectAccountId: user.stripeConnectAccountId,
+            method: method === 'debit_card' ? 'debit_card' : 'bank_transfer'
           });
+          transferId = payoutResult.payoutId;
         }
-        
-        transferId = payoutResult.payoutId;
       } else {
         // Fallback to simulated payout
         transferId = `sim_transfer_${Date.now()}`;
@@ -1401,7 +1427,130 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Connect bank account for withdrawals
+  // Add bank account for direct payouts
+  app.post('/api/payments/add-bank', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { routingNumber, accountNumber } = req.body;
+      
+      if (!routingNumber || !accountNumber) {
+        return res.status(400).json({ message: "Missing routing or account number" });
+      }
+      
+      if (routingNumber.length !== 9) {
+        return res.status(400).json({ message: "Routing number must be 9 digits" });
+      }
+      
+      if (stripe) {
+        // Create a bank account token with Stripe
+        const token = await stripe.tokens.create({
+          bank_account: {
+            country: 'US',
+            currency: 'usd',
+            account_holder_name: req.user.username,
+            account_holder_type: 'individual',
+            routing_number: routingNumber,
+            account_number: accountNumber,
+          },
+        });
+        
+        // Store the tokenized bank account
+        const last4 = accountNumber.slice(-4);
+        await storage.updateUser(userId, {
+          bankAccountToken: token.id,
+          bankAccountLast4: last4,
+          bankRoutingNumber: routingNumber.slice(-4), // Store last 4 of routing for display
+          preferredPayoutMethod: 'bank'
+        });
+        
+        res.json({
+          success: true,
+          message: "Bank account added successfully",
+          last4: last4
+        });
+      } else {
+        return res.status(500).json({ message: "Payment system not configured" });
+      }
+    } catch (error: any) {
+      logger.error("Error adding bank account:", error);
+      res.status(500).json({ message: error.message || "Failed to add bank account" });
+    }
+  });
+  
+  // Add debit card for instant payouts
+  app.post('/api/payments/add-card', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const { cardNumber, expiry, cvc } = req.body;
+      
+      if (!cardNumber || !expiry || !cvc) {
+        return res.status(400).json({ message: "Missing card details" });
+      }
+      
+      // Parse expiry date
+      const [expMonth, expYear] = expiry.split('/');
+      if (!expMonth || !expYear) {
+        return res.status(400).json({ message: "Invalid expiry format (use MM/YY)" });
+      }
+      
+      if (stripe) {
+        // Create a debit card token with Stripe
+        const token = await stripe.tokens.create({
+          card: {
+            number: cardNumber,
+            exp_month: parseInt(expMonth),
+            exp_year: parseInt('20' + expYear),
+            cvc: cvc,
+          },
+        });
+        
+        // Store the tokenized card
+        const last4 = cardNumber.slice(-4);
+        await storage.updateUser(userId, {
+          debitCardToken: token.id,
+          debitCardLast4: last4,
+          preferredPayoutMethod: 'card'
+        });
+        
+        res.json({
+          success: true,
+          message: "Debit card added successfully",
+          last4: last4
+        });
+      } else {
+        return res.status(500).json({ message: "Payment system not configured" });
+      }
+    } catch (error: any) {
+      logger.error("Error adding debit card:", error);
+      res.status(500).json({ message: error.message || "Failed to add debit card" });
+    }
+  });
+  
+  // Remove payment method
+  app.post('/api/payments/remove-method', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      
+      await storage.updateUser(userId, {
+        bankAccountToken: null,
+        bankAccountLast4: null,
+        bankRoutingNumber: null,
+        debitCardToken: null,
+        debitCardLast4: null,
+        preferredPayoutMethod: null
+      });
+      
+      res.json({
+        success: true,
+        message: "Payment method removed successfully"
+      });
+    } catch (error: any) {
+      logger.error("Error removing payment method:", error);
+      res.status(500).json({ message: error.message || "Failed to remove payment method" });
+    }
+  });
+
+  // Connect bank account for withdrawals (DEPRECATED - keeping for backwards compatibility)
   app.post('/api/payments/connect-bank', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;

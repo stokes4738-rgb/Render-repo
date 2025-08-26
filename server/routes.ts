@@ -1574,7 +1574,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         case 'points': {
           const transactions = await storage.getAllTransactions();
           const pointPurchases = transactions
-            .filter(t => t.type === 'deposit' && t.status === 'completed')
+            .filter(t => t.type === 'point_purchase')
             .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
             .slice(0, 100);
           
@@ -1583,8 +1583,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return {
               id: p.id,
               amount: p.amount,
-              points: parseInt(p.amount) * 1000, // Assuming 1000 points per dollar
-              userName: user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || 'Unknown' : 'Unknown',
+              points: parseFloat(p.amount) * 100, // Points from boost purchases
+              userName: user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || user.email : 'Unknown',
               userEmail: user?.email || '',
               createdAt: p.createdAt
             };
@@ -1619,7 +1619,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         case 'spending': {
           const transactions = await storage.getAllTransactions();
           const spendingData = transactions
-            .filter(t => ['withdrawal', 'deposit', 'earning', 'refund', 'purchase'].includes(t.type))
+            .filter(t => ['spending', 'point_purchase'].includes(t.type))
             .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
             .slice(0, 100);
           

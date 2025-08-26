@@ -74,6 +74,38 @@ async function processExpiredBounties() {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Support email endpoint
+  app.post("/api/support", async (req, res) => {
+    try {
+      const { subject, message, email, username } = req.body;
+      
+      if (!subject || !message || !email) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      // Log the support request
+      logger.info(`Support request from ${username || 'Unknown'} (${email}): ${subject}`);
+      
+      // Store support request details
+      const supportRequest = {
+        userId: req.user?.id || null,
+        email,
+        subject,
+        message,
+        username: username || 'Anonymous',
+        createdAt: new Date(),
+      };
+
+      // In production, you would send actual email here
+      // For now, just log and confirm
+      logger.info('Support request details:', supportRequest);
+
+      res.json({ success: true, message: "Support request received" });
+    } catch (error) {
+      logger.error("Failed to process support request:", error);
+      res.status(500).json({ error: "Failed to send support request" });
+    }
+  });
   // Auth middleware
   setupAuthJWT(app);
 

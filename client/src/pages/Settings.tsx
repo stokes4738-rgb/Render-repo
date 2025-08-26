@@ -8,12 +8,14 @@ import { useToast } from "@/hooks/use-toast";
 import Tutorial from "@/components/Tutorial";
 import { PlayCircle, HelpCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuthJWT";
+import SupportForm from "@/components/SupportForm";
 
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
   const { user } = useAuth();
   const [showTutorial, setShowTutorial] = useState(false);
+  const [showSupportForm, setShowSupportForm] = useState(false);
   
   // Local state for notification preferences
   const [notifications, setNotifications] = useState({
@@ -87,20 +89,7 @@ export default function Settings() {
   };
 
   const handleGetHelp = () => {
-    toast({
-      title: "Contact Support",
-      description: (
-        <div className="space-y-2 mt-2">
-          <p>Need help? Reach out to us:</p>
-          <div className="bg-muted p-3 rounded text-sm">
-            <p><strong>Email:</strong> pocketbounty@zohomail.com</p>
-            <p><strong>Response time:</strong> Within 24 hours</p>
-          </div>
-          <p className="text-xs">Include your username: {user?.username || 'Not logged in'}</p>
-        </div>
-      ) as any,
-      duration: 10000,
-    });
+    setShowSupportForm(true);
   };
 
   return (
@@ -298,6 +287,11 @@ export default function Settings() {
           </div>
         </div>
       )}
+      
+      <SupportForm 
+        isOpen={showSupportForm} 
+        onClose={() => setShowSupportForm(false)} 
+      />
     </div>
   );
 }

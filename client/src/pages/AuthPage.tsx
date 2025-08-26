@@ -139,17 +139,23 @@ export default function AuthPage() {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('Form submitted with data:', formData);
     
     if (!validateForm()) {
+      console.log('Form validation failed');
       return;
     }
     
     if (isLogin) {
+      console.log('Attempting login...');
       loginMutation.mutate({
         username: formData.username,
         password: formData.password
       });
     } else {
+      console.log('Attempting registration...');
       registerMutation.mutate({
         username: formData.username,
         password: formData.password,
@@ -198,7 +204,17 @@ export default function AuthPage() {
               </p>
             </CardHeader>
             <CardContent className="pt-0">
-              <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
+              <form 
+                onSubmit={onSubmit} 
+                className="space-y-3 sm:space-y-4"
+                onKeyDown={(e) => {
+                  // Prevent Enter key from submitting unless on submit button
+                  if (e.key === 'Enter' && (e.target as HTMLElement).type !== 'submit') {
+                    e.preventDefault();
+                    console.log('Enter key prevented to avoid page refresh');
+                  }
+                }}
+              >
                 {!isLogin && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>

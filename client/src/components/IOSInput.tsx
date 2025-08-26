@@ -56,29 +56,35 @@ export default function IOSInput({
 
     setupInput();
 
-    // Handle all touch and click events
+    // Handle touch and click events more carefully
     const handleInteraction = (e: Event) => {
-      e.preventDefault();
+      // Only prevent default for touchstart to avoid form submission
+      if (e.type === 'touchstart') {
+        e.preventDefault();
+      }
       e.stopPropagation();
       
       // Remove readonly and focus immediately
       input.removeAttribute('readonly');
       input.focus();
       
-      // Multiple focus attempts
+      // Single focus attempt to avoid conflicts
       setTimeout(() => input.focus(), 0);
-      setTimeout(() => input.focus(), 50);
-      setTimeout(() => input.focus(), 100);
     };
 
-    // Add event listeners
-    ['touchstart', 'touchend', 'mousedown', 'click', 'focus'].forEach(event => {
-      input.addEventListener(event, handleInteraction, { passive: false, capture: true });
-    });
+    // Add event listeners with better control
+    input.addEventListener('touchstart', handleInteraction, { passive: false });
+    input.addEventListener('focus', handleInteraction, { passive: true });
+    input.addEventListener('click', (e) => {
+      e.stopPropagation();
+      input.focus();
+    }, { passive: true });
 
     // Handle input changes
     const handleInput = (e: Event) => {
+      e.stopPropagation();
       const target = e.target as HTMLInputElement;
+      console.log(`Input ${id} changed:`, target.value);
       setLocalValue(target.value);
       onChange(target.value);
     };
@@ -87,9 +93,8 @@ export default function IOSInput({
     input.addEventListener('change', handleInput);
 
     return () => {
-      ['touchstart', 'touchend', 'mousedown', 'click', 'focus'].forEach(event => {
-        input.removeEventListener(event, handleInteraction);
-      });
+      input.removeEventListener('touchstart', handleInteraction);
+      input.removeEventListener('focus', handleInteraction);
       input.removeEventListener('input', handleInput);
       input.removeEventListener('change', handleInput);
     };

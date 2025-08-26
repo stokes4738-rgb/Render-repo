@@ -351,7 +351,13 @@ export default function Friends() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.location.href = `/messages?userId=${friendship.friend.id}`}
+                    onClick={() => {
+                      // Navigate to messages section and set up a thread with this friend
+                      const event = new CustomEvent('navigate-to-messages', { 
+                        detail: { userId: friendship.friend.id } 
+                      });
+                      window.dispatchEvent(event);
+                    }}
                     data-testid={`button-message-${friendship.id}`}
                   >
                     Message

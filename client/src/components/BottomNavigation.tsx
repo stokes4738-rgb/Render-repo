@@ -8,6 +8,7 @@ interface BottomNavigationProps {
 export function BottomNavigation({ activeSection, onSectionChange }: BottomNavigationProps) {
   const navItems = [
     { id: "board", icon: "📋", label: "Board" },
+    { id: "friends", icon: "👥", label: "Friends" },
     { id: "account", icon: "💳", label: "Account" },
     { id: "post", icon: "➕", label: "Post" },
     { id: "messages", icon: "💬", label: "Messages" },

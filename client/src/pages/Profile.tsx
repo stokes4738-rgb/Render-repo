@@ -234,13 +234,20 @@ export default function Profile() {
               
               {/* User Stats */}
               <div className="flex items-center gap-4 mt-3">
+                {user.username === 'Dallas1221' && (
+                  <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white flex items-center gap-1 animate-pulse">
+                    👑 CREATOR
+                  </Badge>
+                )}
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <Trophy className="h-3 w-3" />
                   Level {user.level || 1}
+                  {user.level >= 999 && " 🔥"}
                 </Badge>
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <Star className="h-3 w-3" />
                   {user.rating || "0.0"} ({user.reviewCount || 0} reviews)
+                  {parseFloat(user.rating || "0") === 5.0 && " ⭐"}
                 </Badge>
                 <Badge variant="secondary" className="flex items-center gap-1">
                   <Clock className="h-3 w-3" />

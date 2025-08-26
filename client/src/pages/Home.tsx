@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import Bank from "./Bank";
 import Board from "./Board";
@@ -18,6 +18,18 @@ import PointsStore from "./PointsStore";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("board");
+
+  useEffect(() => {
+    const handleNavigateToMessages = (event: any) => {
+      setActiveSection("messages");
+      // Could also pass userId to Messages component if needed
+    };
+
+    window.addEventListener('navigate-to-messages', handleNavigateToMessages);
+    return () => {
+      window.removeEventListener('navigate-to-messages', handleNavigateToMessages);
+    };
+  }, []);
 
   const renderSection = () => {
     switch (activeSection) {

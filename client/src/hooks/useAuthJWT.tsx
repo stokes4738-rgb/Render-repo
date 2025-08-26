@@ -46,7 +46,7 @@ window.fetch = function(...args) {
     const [url, config = {}] = args;
     const headers = config.headers || {};
     if (typeof url === 'string' && url.includes('/api/')) {
-      headers['Authorization'] = `Bearer ${token}`;
+      (headers as any)['Authorization'] = `Bearer ${token}`;
     }
     args[1] = { ...config, headers };
   }

@@ -167,7 +167,7 @@ export default function AuthPage() {
       loginMutation.mutate({
         username: formData.username,
         password: formData.password
-      });
+      } as any);
     } else {
       console.log('Attempting registration...');
       registerMutation.mutate({
@@ -180,7 +180,7 @@ export default function AuthPage() {
         parentalConsent: formData.parentalConsent,
         parentEmail: formData.parentEmail,
         parentName: formData.parentName
-      });
+      } as any);
     }
   };
 
@@ -191,7 +191,11 @@ export default function AuthPage() {
       password: '',
       email: '',
       firstName: '',
-      lastName: ''
+      lastName: '',
+      dateOfBirth: '',
+      parentalConsent: false,
+      parentEmail: '',
+      parentName: ''
     });
     setErrors({});
   };

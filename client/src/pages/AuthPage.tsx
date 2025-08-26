@@ -210,6 +210,10 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     data-testid="input-username"
+                    style={{ fontSize: '16px', WebkitAppearance: 'none' }}
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
                   />
                   {errors.username && (
                     <p className="text-red-300 text-sm mt-1">

@@ -459,11 +459,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/user/bounties', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const bounties = await storage.getUserBounties(userId);
+      const bounties = await storage.getUserBountiesWithApplications(userId);
       res.json(bounties);
     } catch (error) {
-      console.error("Error fetching user bounties:", error);
+      logger.error("Error fetching user bounties:", error);
       res.status(500).json({ message: "Failed to fetch user bounties" });
+    }
+  });
+
+  // Accept/reject application
+  app.patch('/api/applications/:id', isAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      const userId = req.user.id;
+
+      // Verify the application belongs to a bounty owned by this user
+      const application = await storage.getBountyApplication(id);
+      if (!application) {
+        return res.status(404).json({ message: "Application not found" });
+      }
+
+      const bounty = await storage.getBounty(application.bountyId);
+      if (!bounty || bounty.authorId !== userId) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
+
+      await storage.updateApplicationStatus(id, status);
+      
+      // Create activity for the applicant
+      await storage.createActivity({
+        userId: application.userId,
+        type: status === 'accepted' ? 'application_accepted' : 'application_rejected',
+        description: `Your application for "${bounty.title}" was ${status}`,
+        metadata: { bountyId: bounty.id, applicationId: id }
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      logger.error("Error updating application:", error);
+      res.status(500).json({ message: "Failed to update application" });
     }
   });
 

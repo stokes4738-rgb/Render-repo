@@ -1,17 +1,19 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { User, Star, Trophy, Clock, Edit2, Save, X, Camera } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User, Star, Trophy, Clock, Edit2, Save, X, Camera, CheckCircle, XCircle, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import { navigateToLogin } from "@/lib/navigation";
+import { formatCurrency, formatDate } from "@/lib/utils";
 
 export default function Profile() {
   const { user } = useAuth();
@@ -106,11 +108,57 @@ export default function Profile() {
     );
   }
 
+  // Fetch user's posted bounties and their applications
+  const { data: myBounties = [] } = useQuery({
+    queryKey: ["/api/user/bounties"],
+    retry: false,
+  });
+
+  const acceptApplicationMutation = useMutation({
+    mutationFn: async ({ applicationId }: { applicationId: string }) => {
+      return apiRequest("PATCH", `/api/applications/${applicationId}`, { status: "accepted" });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Application Accepted!",
+        description: "The applicant has been notified.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to accept application.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const rejectApplicationMutation = useMutation({
+    mutationFn: async ({ applicationId }: { applicationId: string }) => {
+      return apiRequest("PATCH", `/api/applications/${applicationId}`, { status: "rejected" });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Application Rejected",
+        description: "The applicant has been notified.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to reject application.",
+        variant: "destructive",
+      });
+    },
+  });
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">My Profile</h1>
+        <h1 className="text-2xl font-bold">My Account</h1>
         {!isEditing ? (
           <Button 
             onClick={() => setIsEditing(true)}
@@ -392,6 +440,124 @@ export default function Profile() {
           </CardContent>
         </Card>
       </div>
+        </TabsContent>
+
+        <TabsContent value="bounties" className="space-y-6">
+          {/* My Bounties Section */}
+          <Card className="theme-transition">
+            <CardHeader>
+              <CardTitle>My Posted Bounties</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {myBounties.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <Trophy className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p>You haven't posted any bounties yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {myBounties.map((bounty: any) => (
+                    <Card key={bounty.id} className="border border-border">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold text-lg">{bounty.title}</h3>
+                            <p className="text-sm text-muted-foreground mt-1">{bounty.description}</p>
+                            <div className="flex items-center gap-4 mt-2">
+                              <Badge variant="outline">{formatCurrency(parseFloat(bounty.reward))}</Badge>
+                              <Badge variant={bounty.status === 'active' ? 'default' : 'secondary'}>
+                                {bounty.status}
+                              </Badge>
+                              <span className="text-xs text-muted-foreground">
+                                Posted {formatDate(new Date(bounty.createdAt))}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Applications */}
+                        {bounty.applications && bounty.applications.length > 0 && (
+                          <div className="border-t border-border pt-4">
+                            <h4 className="font-medium mb-3 flex items-center gap-2">
+                              <MessageSquare className="w-4 h-4" />
+                              Applications ({bounty.applications.length})
+                            </h4>
+                            <div className="space-y-3">
+                              {bounty.applications.map((application: any) => (
+                                <div
+                                  key={application.id}
+                                  className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/30"
+                                >
+                                  <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                      <span className="font-medium">{application.applicantUsername}</span>
+                                      <Badge
+                                        variant={
+                                          application.status === 'accepted' 
+                                            ? 'default' 
+                                            : application.status === 'rejected' 
+                                            ? 'destructive' 
+                                            : 'secondary'
+                                        }
+                                      >
+                                        {application.status}
+                                      </Badge>
+                                    </div>
+                                    {application.message && (
+                                      <p className="text-sm text-muted-foreground">{application.message}</p>
+                                    )}
+                                    <span className="text-xs text-muted-foreground">
+                                      Applied {formatDate(new Date(application.createdAt))}
+                                    </span>
+                                  </div>
+                                  
+                                  {application.status === 'pending' && (
+                                    <div className="flex gap-2 ml-4">
+                                      <Button
+                                        size="sm"
+                                        onClick={() => acceptApplicationMutation.mutate({ applicationId: application.id })}
+                                        disabled={acceptApplicationMutation.isPending}
+                                        className="bg-green-600 hover:bg-green-700"
+                                        data-testid={`accept-application-${application.id}`}
+                                      >
+                                        <CheckCircle className="w-4 h-4 mr-1" />
+                                        Accept
+                                      </Button>
+                                      <Button
+                                        size="sm"
+                                        variant="destructive"
+                                        onClick={() => rejectApplicationMutation.mutate({ applicationId: application.id })}
+                                        disabled={rejectApplicationMutation.isPending}
+                                        data-testid={`reject-application-${application.id}`}
+                                      >
+                                        <XCircle className="w-4 h-4 mr-1" />
+                                        Reject
+                                      </Button>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {bounty.applications && bounty.applications.length === 0 && (
+                          <div className="border-t border-border pt-4">
+                            <p className="text-sm text-muted-foreground text-center py-4">
+                              No applications yet. Share your bounty to get more visibility!
+                            </p>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+      </Tabs>
     </div>
   );
 }

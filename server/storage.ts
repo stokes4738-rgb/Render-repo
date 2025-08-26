@@ -68,6 +68,8 @@ export interface IStorage {
   createBountyApplication(bountyId: string, userId: string, message?: string): Promise<BountyApplication>;
   getBountyApplications(bountyId: string): Promise<BountyApplication[]>;
   updateApplicationStatus(id: string, status: string): Promise<void>;
+  getBountyApplication(id: string): Promise<BountyApplication | undefined>;
+  getUserBountiesWithApplications(userId: string): Promise<any[]>;
   
   // Transaction operations
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
@@ -334,6 +336,50 @@ export class DatabaseStorage implements IStorage {
       .update(bountyApplications)
       .set({ status })
       .where(eq(bountyApplications.id, id));
+  }
+
+  async getBountyApplication(id: string): Promise<BountyApplication | undefined> {
+    const [application] = await db
+      .select()
+      .from(bountyApplications)
+      .where(eq(bountyApplications.id, id));
+    return application;
+  }
+
+  async getUserBountiesWithApplications(userId: string): Promise<any[]> {
+    // Get bounties created by the user
+    const userBounties = await db
+      .select()
+      .from(bounties)
+      .where(eq(bounties.authorId, userId))
+      .orderBy(desc(bounties.createdAt));
+
+    // For each bounty, get its applications with user details
+    const bountiesWithApplications = await Promise.all(
+      userBounties.map(async (bounty) => {
+        const applications = await db
+          .select({
+            id: bountyApplications.id,
+            message: bountyApplications.message,
+            status: bountyApplications.status,
+            createdAt: bountyApplications.createdAt,
+            applicantId: bountyApplications.userId,
+            applicantUsername: users.username,
+            applicantEmail: users.email,
+          })
+          .from(bountyApplications)
+          .leftJoin(users, eq(bountyApplications.userId, users.id))
+          .where(eq(bountyApplications.bountyId, bounty.id))
+          .orderBy(desc(bountyApplications.createdAt));
+
+        return {
+          ...bounty,
+          applications
+        };
+      })
+    );
+
+    return bountiesWithApplications;
   }
 
   // Transaction operations

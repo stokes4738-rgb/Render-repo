@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Important pages
+Allow: /auth
+Allow: /login
+Allow: /signup
+
+# Sitemap location
+Sitemap: https://pocketbounty.life/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1

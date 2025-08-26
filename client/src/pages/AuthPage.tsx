@@ -1,15 +1,14 @@
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { Capacitor } from "@capacitor/core";
 import { Input } from "@/components/ui/input";
 import Tutorial from "@/components/Tutorial";
+import { useAuth } from "@/hooks/useAuthJWT";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
@@ -30,6 +29,7 @@ type RegisterForm = z.infer<typeof registerSchema>;
 export default function AuthPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { loginMutation, registerMutation, isAuthenticated } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   
   // Direct state management instead of react-hook-form to avoid iOS issues
@@ -51,77 +51,21 @@ export default function AuthPage() {
     }
   };
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginForm) => {
-      const response = await apiRequest("POST", "/api/login", data);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Login failed");
-      }
-      return await response.json();
-    },
-    onSuccess: async (user) => {
-      toast({
-        title: "Welcome back!",
-        description: "You've successfully logged in to Pocket Bounty.",
-      });
-      
-      // Set user data in cache immediately
-      queryClient.setQueryData(["/api/user"], user);
-      
-      // Wait a bit before navigation to ensure state is updated
-      setTimeout(() => {
-        if (Capacitor.isNativePlatform()) {
-          window.location.href = "/";
-        } else {
-          setLocation("/");
-        }
-      }, 100);
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Login Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      setLocation("/");
+    }
+  }, [isAuthenticated, setLocation]);
 
-  const registerMutation = useMutation({
-    mutationFn: async (data: RegisterForm) => {
-      const response = await apiRequest("POST", "/api/register", data);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Registration failed");
-      }
-      return await response.json();
-    },
-    onSuccess: async (user) => {
-      toast({
-        title: "Welcome to Pocket Bounty!",
-        description: "Your account has been created successfully. You got 50 welcome bonus points!",
-      });
-      
-      // Set user data in cache immediately
-      queryClient.setQueryData(["/api/user"], user);
-      
-      // Wait a bit before navigation to ensure state is updated
+  // Login/register success handlers are now in the auth hook
+  useEffect(() => {
+    if (loginMutation.isSuccess || registerMutation.isSuccess) {
       setTimeout(() => {
-        if (Capacitor.isNativePlatform()) {
-          window.location.href = "/";
-        } else {
-          setLocation("/");
-        }
+        setLocation("/");
       }, 100);
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Registration Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
+    }
+  }, [loginMutation.isSuccess, registerMutation.isSuccess, setLocation]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};

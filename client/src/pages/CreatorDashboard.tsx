@@ -25,7 +25,11 @@ import {
   Trophy,
   UserCheck,
   RefreshCw,
-  Download
+  Download,
+  Shield,
+  Ban,
+  AlertTriangle,
+  Eye
 } from "lucide-react";
 
 interface CreatorStats {
@@ -137,6 +141,19 @@ interface CreatorStats {
   }>;
 }
 
+interface SecurityData {
+  bannedIPs: string[];
+  suspiciousIPs: Array<{
+    ip: string;
+    data: {
+      attempts: number;
+      lastAttempt: string;
+      reason: string;
+    };
+  }>;
+  timestamp: string;
+}
+
 export default function CreatorDashboard() {
   const { toast } = useToast();
   const [modalOpen, setModalOpen] = useState(false);
@@ -152,6 +169,13 @@ export default function CreatorDashboard() {
   const { data: stats, isLoading, error } = useQuery<CreatorStats>({
     queryKey: ["/api/creator/stats"],
     retry: false,
+  });
+
+  // Security data query
+  const { data: securityData, isLoading: securityLoading } = useQuery<SecurityData>({
+    queryKey: ["/api/admin/banned-ips"],
+    retry: false,
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
   // Handle errors
@@ -860,6 +884,123 @@ export default function CreatorDashboard() {
           </CardContent>
         </Card>
       )}
+
+      {/* Security Monitoring Section */}
+      <Card className="theme-transition border-red-200 dark:border-red-800">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-red-600">
+            <Shield className="h-5 w-5" />
+            Security Monitoring
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Real-time monitoring of banned IPs and suspicious activity
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {securityLoading ? (
+            <div className="text-center py-4">
+              <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full mx-auto mb-2"></div>
+              <p className="text-sm text-muted-foreground">Loading security data...</p>
+            </div>
+          ) : !securityData ? (
+            <div className="text-center py-4">
+              <AlertTriangle className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Security data unavailable</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Banned IPs */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Ban className="h-4 w-4 text-red-500" />
+                  <h4 className="font-medium text-red-600">Banned IP Addresses</h4>
+                  <Badge variant="destructive" className="text-xs">
+                    {securityData.bannedIPs?.length || 0}
+                  </Badge>
+                </div>
+                <div className="max-h-40 overflow-y-auto space-y-2">
+                  {!securityData.bannedIPs?.length ? (
+                    <div className="text-center py-4 text-green-600">
+                      <Shield className="h-6 w-6 mx-auto mb-1" />
+                      <p className="text-xs">No banned IPs</p>
+                      <p className="text-xs">Platform is secure!</p>
+                    </div>
+                  ) : (
+                    securityData.bannedIPs.slice(0, 5).map((ip, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-red-50 dark:bg-red-950/20 rounded border border-red-200 dark:border-red-800">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="destructive" className="text-xs">BANNED</Badge>
+                          <span className="font-mono text-xs">{ip}</span>
+                        </div>
+                        <Eye className="h-3 w-3 text-gray-400" />
+                      </div>
+                    ))
+                  )}
+                  {(securityData.bannedIPs?.length || 0) > 5 && (
+                    <p className="text-xs text-center text-muted-foreground">
+                      +{(securityData.bannedIPs?.length || 0) - 5} more banned IPs
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Suspicious IPs */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                  <h4 className="font-medium text-yellow-600">Suspicious Activity</h4>
+                  <Badge variant="secondary" className="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                    {securityData.suspiciousIPs?.length || 0}
+                  </Badge>
+                </div>
+                <div className="max-h-40 overflow-y-auto space-y-2">
+                  {!securityData.suspiciousIPs?.length ? (
+                    <div className="text-center py-4 text-green-600">
+                      <Shield className="h-6 w-6 mx-auto mb-1" />
+                      <p className="text-xs">No suspicious activity</p>
+                      <p className="text-xs">All systems normal</p>
+                    </div>
+                  ) : (
+                    securityData.suspiciousIPs.slice(0, 5).map((item, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-yellow-50 dark:bg-yellow-950/20 rounded border border-yellow-200 dark:border-yellow-800">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="secondary" className="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                            WATCH
+                          </Badge>
+                          <span className="font-mono text-xs">{item.ip}</span>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-xs text-yellow-600">{item.data.attempts} incidents</p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(item.data.lastAttempt).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                  {(securityData.suspiciousIPs?.length || 0) > 5 && (
+                    <p className="text-xs text-center text-muted-foreground">
+                      +{(securityData.suspiciousIPs?.length || 0) - 5} more suspicious IPs
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {securityData && (
+            <div className="pt-3 border-t">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Last updated: {new Date(securityData.timestamp).toLocaleTimeString()}</span>
+                <span className="flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  Auto-refresh every 30s
+                </span>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Recent Activity Feed */}
       <Card className="theme-transition">

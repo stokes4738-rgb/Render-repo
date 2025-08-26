@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useLocation } from "wouter";
 import { Capacitor } from "@capacitor/core";
-import IOSInput from "@/components/IOSInput";
+import { Input } from "@/components/ui/input";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
@@ -221,11 +221,11 @@ export default function AuthPage() {
                       <Label htmlFor="firstName" className="text-white">
                         First Name
                       </Label>
-                      <IOSInput
+                      <Input
                         id="firstName"
                         type="text"
                         value={formData.firstName}
-                        onChange={(value) => setFormData(prev => ({ ...prev, firstName: value }))}
+                        onChange={(e) => updateField('firstName', e.target.value)}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="John"
                       />
@@ -240,11 +240,11 @@ export default function AuthPage() {
                       <Label htmlFor="lastName" className="text-white">
                         Last Name
                       </Label>
-                      <IOSInput
+                      <Input
                         id="lastName"
                         type="text"
                         value={formData.lastName}
-                        onChange={(value) => setFormData(prev => ({ ...prev, lastName: value }))}
+                        onChange={(e) => updateField('lastName', e.target.value)}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="Doe"
                       />
@@ -261,11 +261,11 @@ export default function AuthPage() {
                   <Label htmlFor="username" className="text-white">
                     Username
                   </Label>
-                  <IOSInput
+                  <Input
                     id="username"
                     type="text"
                     value={formData.username}
-                    onChange={(value) => setFormData(prev => ({ ...prev, username: value }))}
+                    onChange={(e) => updateField('username', e.target.value)}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     autoComplete="username"
@@ -282,11 +282,11 @@ export default function AuthPage() {
                     <Label htmlFor="email" className="text-white">
                       Email
                     </Label>
-                    <IOSInput
+                    <Input
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(value) => setFormData(prev => ({ ...prev, email: value }))}
+                      onChange={(e) => updateField('email', e.target.value)}
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       placeholder="john@example.com"
                       autoComplete="email"
@@ -303,11 +303,11 @@ export default function AuthPage() {
                   <Label htmlFor="password" className="text-white">
                     Password
                   </Label>
-                  <IOSInput
+                  <Input
                     id="password"
                     type="password"
                     value={formData.password}
-                    onChange={(value) => setFormData(prev => ({ ...prev, password: value }))}
+                    onChange={(e) => updateField('password', e.target.value)}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your password" : "Choose a secure password"}
                     autoComplete={isLogin ? "current-password" : "new-password"}

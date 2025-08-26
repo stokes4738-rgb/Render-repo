@@ -31,6 +31,9 @@ const registerSchema = z.object({
   }, {
     message: "You must be at least 16 years old to use this platform"
   }),
+  parentalConsent: z.boolean().optional(),
+  parentEmail: z.string().email("Valid parent email required").optional(),
+  parentName: z.string().min(1, "Parent name required").optional(),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -49,16 +52,35 @@ export default function AuthPage() {
     email: '',
     firstName: '',
     lastName: '',
-    dateOfBirth: ''
+    dateOfBirth: '',
+    parentalConsent: false,
+    parentEmail: '',
+    parentName: ''
   });
+  
+  const [userAge, setUserAge] = useState<number | null>(null);
   
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [showTutorial, setShowTutorial] = useState(false);
 
-  const updateField = (field: string, value: string) => {
+  const updateField = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+    
+    // Calculate age when date of birth changes
+    if (field === 'dateOfBirth' && typeof value === 'string') {
+      if (value) {
+        const birthDate = new Date(value);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+        setUserAge(actualAge);
+      } else {
+        setUserAge(null);
+      }
     }
   };
 
@@ -110,6 +132,17 @@ export default function AuthPage() {
         const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
         if (actualAge < 16) {
           newErrors.dateOfBirth = "You must be at least 16 years old to use this platform";
+        } else if (actualAge >= 16 && actualAge < 18) {
+          // Users 16-17 need parental consent
+          if (!formData.parentalConsent) {
+            newErrors.parentalConsent = "Parental consent required for users under 18";
+          }
+          if (!formData.parentEmail) {
+            newErrors.parentEmail = "Parent email required for users under 18";
+          }
+          if (!formData.parentName) {
+            newErrors.parentName = "Parent name required for users under 18";
+          }
         }
       }
     }
@@ -143,7 +176,10 @@ export default function AuthPage() {
         email: formData.email,
         firstName: formData.firstName,
         lastName: formData.lastName,
-        dateOfBirth: formData.dateOfBirth
+        dateOfBirth: formData.dateOfBirth,
+        parentalConsent: formData.parentalConsent,
+        parentEmail: formData.parentEmail,
+        parentName: formData.parentName
       });
     }
   };
@@ -283,7 +319,7 @@ export default function AuthPage() {
                       id="dateOfBirth"
                       type="date"
                       value={formData.dateOfBirth}
-                      onChange={(e) => setFormData(prev => ({ ...prev, dateOfBirth: e.target.value }))}
+                      onChange={(e) => updateField('dateOfBirth', e.target.value)}
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]} // Max age 13 years
                     />
@@ -295,6 +331,90 @@ export default function AuthPage() {
                     <p className="text-blue-200 text-xs mt-1">
                       Must be at least 16 years old to create an account
                     </p>
+                    {userAge !== null && userAge >= 16 && userAge < 18 && (
+                      <p className="text-yellow-200 text-xs mt-1 font-medium">
+                        ⚠️ Users 16-17 require parental approval to use this platform
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Parental Consent Section for 16-17 year olds */}
+                {!isLogin && userAge !== null && userAge >= 16 && userAge < 18 && (
+                  <div className="bg-yellow-50/10 border border-yellow-300/30 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <span className="text-yellow-900 text-xs font-bold">!</span>
+                      </div>
+                      <h3 className="text-yellow-200 font-semibold text-sm">Parental Approval Required</h3>
+                    </div>
+                    
+                    <p className="text-yellow-200 text-xs mb-3">
+                      Since you're under 18, we need a parent or guardian's permission and contact information.
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-3">
+                      <div>
+                        <Label htmlFor="parentName" className="text-yellow-100">
+                          Parent/Guardian Full Name <span className="text-red-300">*</span>
+                        </Label>
+                        <Input
+                          id="parentName"
+                          type="text"
+                          value={formData.parentName}
+                          onChange={(e) => updateField('parentName', e.target.value)}
+                          className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
+                          placeholder="Parent or Guardian Full Name"
+                        />
+                        {errors.parentName && (
+                          <p className="text-red-300 text-sm mt-1">
+                            {errors.parentName}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <Label htmlFor="parentEmail" className="text-yellow-100">
+                          Parent/Guardian Email <span className="text-red-300">*</span>
+                        </Label>
+                        <Input
+                          id="parentEmail"
+                          type="email"
+                          value={formData.parentEmail}
+                          onChange={(e) => updateField('parentEmail', e.target.value)}
+                          className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
+                          placeholder="parent@example.com"
+                        />
+                        {errors.parentEmail && (
+                          <p className="text-red-300 text-sm mt-1">
+                            {errors.parentEmail}
+                          </p>
+                        )}
+                        <p className="text-yellow-200 text-xs mt-1">
+                          We'll send a verification email to confirm parental consent
+                        </p>
+                      </div>
+
+                      <div className="flex items-start space-x-2 mt-3">
+                        <input
+                          type="checkbox"
+                          id="parentalConsent"
+                          checked={formData.parentalConsent}
+                          onChange={(e) => updateField('parentalConsent', e.target.checked)}
+                          className="mt-1 w-4 h-4 text-yellow-500 bg-white/20 border-white/30 rounded focus:ring-yellow-500"
+                        />
+                        <div>
+                          <Label htmlFor="parentalConsent" className="text-yellow-100 text-sm cursor-pointer">
+                            I confirm that my parent/guardian has given permission for me to create an account on this platform <span className="text-red-300">*</span>
+                          </Label>
+                          {errors.parentalConsent && (
+                            <p className="text-red-300 text-sm mt-1">
+                              {errors.parentalConsent}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
 

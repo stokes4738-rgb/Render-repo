@@ -92,3 +92,15 @@ export function ChildSafetyNotice() {
     />
   );
 }
+
+// Parental consent pending notice for minors
+export function ParentalConsentPendingAlert() {
+  return (
+    <SafetyAlert
+      level="warning"
+      title="Parental Consent Required"
+      message="Your account is pending parental approval. We've sent a verification email to your parent/guardian. You'll have limited access until consent is confirmed."
+      actionRequired={true}
+    />
+  );
+}

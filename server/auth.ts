@@ -5,7 +5,8 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
-import { validateMinimumAge, initiateBackgroundCheck } from "./middleware/ageVerification";
+import { validateMinimumAge, initiateBackgroundCheck, requiresParentalConsent, validateParentalConsent, calculateAge } from "./middleware/ageVerification";
+import { sendParentalConsentVerification, createMinorAccountNotice } from "./utils/parentalConsent";
 import type { User } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import createMemoryStore from "memorystore";
@@ -114,7 +115,7 @@ export function setupAuth(app: Express) {
   // Auth routes
   app.post("/api/register", async (req, res, next) => {
     try {
-      const { username, email, password, firstName, lastName, dateOfBirth } = req.body;
+      const { username, email, password, firstName, lastName, dateOfBirth, parentalConsent, parentEmail, parentName } = req.body;
       
       // Age verification - CRITICAL for child safety
       if (dateOfBirth && !validateMinimumAge(dateOfBirth)) {
@@ -122,6 +123,23 @@ export function setupAuth(app: Express) {
           message: "You must be at least 16 years old to create an account on this platform.",
           code: "AGE_VERIFICATION_FAILED"
         });
+      }
+
+      // Parental consent validation for 16-17 year olds
+      if (dateOfBirth && requiresParentalConsent(dateOfBirth)) {
+        const consentValidation = validateParentalConsent({
+          parentalConsent,
+          parentName,
+          parentEmail
+        });
+        
+        if (!consentValidation.valid) {
+          return res.status(400).json({
+            message: "Parental consent information is required for users under 18.",
+            errors: consentValidation.errors,
+            code: "PARENTAL_CONSENT_REQUIRED"
+          });
+        }
       }
       
       // Check if username already exists
@@ -164,6 +182,28 @@ export function setupAuth(app: Express) {
           lifetimeEarned: "0.00",
         });
 
+        // Handle parental consent for minors (16-17 years old)
+        if (dateOfBirth && requiresParentalConsent(dateOfBirth)) {
+          const userAge = calculateAge(dateOfBirth);
+          console.log(`Minor registration detected: ${username} (age ${userAge}) - sending parental consent verification`);
+          
+          try {
+            await sendParentalConsentVerification({
+              minorName: `${firstName} ${lastName}`,
+              minorEmail: email,
+              minorAge: userAge,
+              parentName,
+              parentEmail,
+              username,
+              dateOfBirth
+            });
+            
+            console.log(`Parental consent email sent for minor ${username} to ${parentEmail}`);
+          } catch (error) {
+            console.error(`Failed to send parental consent email for ${username}:`, error);
+          }
+        }
+
         // Initiate background check for new users to protect minors
         if (dateOfBirth) {
           console.log(`Initiating background check for user ${user.id} (${username})`);
@@ -185,7 +225,8 @@ export function setupAuth(app: Express) {
       // Auto-login after registration
       req.login(user, (err) => {
         if (err) return next(err);
-        res.status(201).json({
+        
+        const responseData: any = {
           id: user.id,
           username: user.username,
           email: user.email,
@@ -195,7 +236,20 @@ export function setupAuth(app: Express) {
           points: user.points,
           balance: user.balance,
           lifetimeEarned: user.lifetimeEarned,
-        });
+        };
+
+        // Add parental consent status for minors
+        if (dateOfBirth && requiresParentalConsent(dateOfBirth)) {
+          const userAge = calculateAge(dateOfBirth);
+          responseData.requiresParentalConsent = true;
+          responseData.age = userAge;
+          responseData.parentalConsentStatus = 'pending';
+          responseData.message = `Account created successfully! Since you're ${userAge} years old, a verification email has been sent to your parent/guardian at ${parentEmail}. Your account will have limited access until parental consent is confirmed.`;
+        } else {
+          responseData.message = 'Account created successfully! Welcome to Pocket Bounty.';
+        }
+        
+        res.status(201).json(responseData);
       });
     } catch (error) {
       console.error("Registration error:", error);

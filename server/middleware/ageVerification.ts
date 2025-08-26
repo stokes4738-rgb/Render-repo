@@ -66,3 +66,31 @@ export const validateMinimumAge = (dateOfBirth: string): boolean => {
   const age = calculateAge(dateOfBirth);
   return age >= 16;
 };
+
+// Check if user needs parental consent (16-17 years old)
+export const requiresParentalConsent = (dateOfBirth: string): boolean => {
+  const age = calculateAge(dateOfBirth);
+  return age >= 16 && age < 18;
+};
+
+// Validate parental consent data
+export const validateParentalConsent = (userData: any): { valid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+  
+  if (!userData.parentalConsent) {
+    errors.push('Parental consent is required for users under 18');
+  }
+  
+  if (!userData.parentName || userData.parentName.trim().length < 2) {
+    errors.push('Parent/guardian full name is required');
+  }
+  
+  if (!userData.parentEmail || !userData.parentEmail.includes('@')) {
+    errors.push('Valid parent/guardian email is required');
+  }
+  
+  return {
+    valid: errors.length === 0,
+    errors
+  };
+};

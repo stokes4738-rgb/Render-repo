@@ -12,7 +12,7 @@ import { useAuth } from "@/hooks/useAuthJWT";
 
 const loginSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
 const registerSchema = z.object({
@@ -107,8 +107,8 @@ export default function AuthPage() {
       newErrors.username = "Username must be at least 3 characters";
     }
     
-    if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    if (formData.password.length < 1) {
+      newErrors.password = "Password is required";
     }
     
     if (!isLogin) {

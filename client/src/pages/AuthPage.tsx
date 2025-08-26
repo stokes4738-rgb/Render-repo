@@ -31,14 +31,7 @@ type RegisterForm = z.infer<typeof registerSchema>;
 export default function AuthPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  
-  // Check if this is a signup page or has ref parameter
-  const currentPath = window.location.pathname;
-  const urlParams = new URLSearchParams(window.location.search);
-  const hasRefCode = urlParams.has('ref') || urlParams.has('referral') || urlParams.has('invite');
-  const isSignupPath = currentPath.includes('signup') || currentPath.includes('register') || currentPath.includes('create-account');
-  
-  const [isLogin, setIsLogin] = useState(!isSignupPath && !hasRefCode);
+  const [isLogin, setIsLogin] = useState(true);
 
   const {
     register: registerField,
@@ -210,10 +203,6 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     data-testid="input-username"
-                    style={{ fontSize: '16px', WebkitAppearance: 'none' }}
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    spellCheck="false"
                   />
                   {errors.username && (
                     <p className="text-red-300 text-sm mt-1">

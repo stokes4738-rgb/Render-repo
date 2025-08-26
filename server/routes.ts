@@ -1645,7 +1645,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-
   const httpServer = createServer(app);
 
   // WebSocket server for real-time messaging

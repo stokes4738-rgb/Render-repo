@@ -48,26 +48,33 @@ function Router() {
       <Switch>
         {!isAuthenticated ? (
           <>
-            <Route path="/profile" component={AuthPage} />
-            <Route path="/account" component={AuthPage} />
-            <Route path="/creator-inbox" component={AuthPage} />
-            <Route path="/messages" component={AuthPage} />
-            <Route path="/inbox" component={AuthPage} />
-            <Route path="/home" component={AuthPage} />
-            <Route path="/dashboard" component={AuthPage} />
-            <Route path="/bounties" component={AuthPage} />
-            <Route component={AuthPage} />
+            <Route path="/auth" component={AuthPage} />
+            <Route path="/login" component={AuthPage} />
+            <Route path="/signup" component={AuthPage} />
+            <Route path="/create-account" component={AuthPage} />
+            <Route path="/register" component={AuthPage} />
+            <Route path="/ref/:code" component={AuthPage} />
+            <Route path="/referral/:code" component={AuthPage} />
+            <Route path="/invite/:code" component={AuthPage} />
+            <Route path="/" component={AuthPage} />
           </>
         ) : (
           <>
+            <Route path="/" component={Home} />
+            <Route path="/home" component={Home} />
+            <Route path="/dashboard" component={Home} />
+            <Route path="/bounties" component={Home} />
             <Route path="/profile" component={Profile} />
             <Route path="/account" component={Account} />
             <Route path="/creator-inbox" component={CreatorInbox} />
             <Route path="/messages" component={CreatorInbox} />
             <Route path="/inbox" component={CreatorInbox} />
-            <Route component={Home} />
+            <Route path="/ref/:code" component={Home} />
+            <Route path="/referral/:code" component={Home} />
+            <Route path="/invite/:code" component={Home} />
           </>
         )}
+        <Route component={NotFound} />
       </Switch>
     </Suspense>
   );

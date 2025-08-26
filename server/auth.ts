@@ -5,6 +5,7 @@ import session from "express-session";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
+import { validateMinimumAge, initiateBackgroundCheck } from "./middleware/ageVerification";
 import type { User } from "@shared/schema";
 import connectPg from "connect-pg-simple";
 import createMemoryStore from "memorystore";
@@ -113,7 +114,15 @@ export function setupAuth(app: Express) {
   // Auth routes
   app.post("/api/register", async (req, res, next) => {
     try {
-      const { username, email, password, firstName, lastName } = req.body;
+      const { username, email, password, firstName, lastName, dateOfBirth } = req.body;
+      
+      // Age verification - CRITICAL for child safety
+      if (dateOfBirth && !validateMinimumAge(dateOfBirth)) {
+        return res.status(400).json({ 
+          message: "You must be at least 16 years old to create an account on this platform.",
+          code: "AGE_VERIFICATION_FAILED"
+        });
+      }
       
       // Check if username already exists
       const existingUserByUsername = await storage.getUserByUsername(username);
@@ -142,7 +151,7 @@ export function setupAuth(app: Express) {
         });
         console.log(`User migrated successfully:`, { id: user.id, username: user.username, points: user.points, balance: user.balance });
       } else {
-        // Create new user
+        // Create new user with age verification
         user = await storage.createUser({
           username,
           email,
@@ -154,6 +163,23 @@ export function setupAuth(app: Express) {
           balance: "0.00",
           lifetimeEarned: "0.00",
         });
+
+        // Initiate background check for new users to protect minors
+        if (dateOfBirth) {
+          console.log(`Initiating background check for user ${user.id} (${username})`);
+          try {
+            const backgroundCheck = await initiateBackgroundCheck(user.id, {
+              email,
+              firstName,
+              lastName,
+              dateOfBirth
+            });
+            console.log(`Background check initiated: ${backgroundCheck.referenceId}`);
+          } catch (error) {
+            console.error(`Background check initiation failed for user ${user.id}:`, error);
+            // Don't fail registration, but log the issue
+          }
+        }
       }
 
       // Auto-login after registration

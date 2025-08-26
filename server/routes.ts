@@ -8,6 +8,7 @@ import { logger } from "./utils/logger";
 import { sendSupportEmail } from "./utils/email";
 import { TwoFactorService } from "./utils/twoFactor";
 import { require2FA } from "./middleware/twoFactor";
+import { requireAgeVerification } from "./middleware/ageVerification";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -412,7 +413,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties', verifyToken, async (req: any, res) => {
+  app.post('/api/bounties', verifyToken, requireAgeVerification, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const bountyData = insertBountySchema.parse({ ...req.body, authorId: userId });
@@ -467,7 +468,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties/:id/apply', verifyToken, async (req: any, res) => {
+  app.post('/api/bounties/:id/apply', verifyToken, requireAgeVerification, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { id } = req.params;
@@ -537,7 +538,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Complete bounty and pay the bounty hunter
-  app.patch('/api/bounties/:id/complete', verifyToken, async (req: any, res) => {
+  app.patch('/api/bounties/:id/complete', verifyToken, requireAgeVerification, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { completedBy } = req.body;
@@ -614,7 +615,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete/Remove bounty route
-  app.delete('/api/bounties/:id', verifyToken, async (req: any, res) => {
+  app.delete('/api/bounties/:id', verifyToken, requireAgeVerification, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { id } = req.params;

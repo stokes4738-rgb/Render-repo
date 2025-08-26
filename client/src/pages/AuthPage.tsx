@@ -21,6 +21,16 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  dateOfBirth: z.string().min(1, "Date of birth is required").refine((date) => {
+    const birthDate = new Date(date);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+    return actualAge >= 16;
+  }, {
+    message: "You must be at least 16 years old to use this platform"
+  }),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -38,7 +48,8 @@ export default function AuthPage() {
     password: '',
     email: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    dateOfBirth: ''
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -88,6 +99,19 @@ export default function AuthPage() {
       if (!formData.lastName) {
         newErrors.lastName = "Last name is required";
       }
+      if (!formData.dateOfBirth) {
+        newErrors.dateOfBirth = "Date of birth is required";
+      } else {
+        // Age validation
+        const birthDate = new Date(formData.dateOfBirth);
+        const today = new Date();
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+        if (actualAge < 16) {
+          newErrors.dateOfBirth = "You must be at least 16 years old to use this platform";
+        }
+      }
     }
     
     setErrors(newErrors);
@@ -118,7 +142,8 @@ export default function AuthPage() {
         password: formData.password,
         email: formData.email,
         firstName: formData.firstName,
-        lastName: formData.lastName
+        lastName: formData.lastName,
+        dateOfBirth: formData.dateOfBirth
       });
     }
   };
@@ -246,6 +271,30 @@ export default function AuthPage() {
                         {errors.email}
                       </p>
                     )}
+                  </div>
+                )}
+
+                {!isLogin && (
+                  <div>
+                    <Label htmlFor="dateOfBirth" className="text-white">
+                      Date of Birth <span className="text-red-300">*</span>
+                    </Label>
+                    <Input
+                      id="dateOfBirth"
+                      type="date"
+                      value={formData.dateOfBirth}
+                      onChange={(e) => setFormData(prev => ({ ...prev, dateOfBirth: e.target.value }))}
+                      className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
+                      max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]} // Max age 13 years
+                    />
+                    {errors.dateOfBirth && (
+                      <p className="text-red-300 text-sm mt-1">
+                        {errors.dateOfBirth}
+                      </p>
+                    )}
+                    <p className="text-blue-200 text-xs mt-1">
+                      Must be at least 16 years old to create an account
+                    </p>
                   </div>
                 )}
 

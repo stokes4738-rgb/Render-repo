@@ -152,6 +152,10 @@ export interface IStorage {
   updateBackupCodes(userId: string, backupCodesHash: string): Promise<void>;
   log2FAActivity(data: InsertTwoFactorLog): Promise<void>;
   get2FALogs(userId: string, limit?: number): Promise<TwoFactorLog[]>;
+
+  // Age & Background Verification operations (simplified for now)
+  checkUserAge(userId: string): Promise<boolean>; // Simple age check
+  flagUserForSafety(userId: string, reason?: string): Promise<void>; // Safety flag
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1134,6 +1138,24 @@ export class DatabaseStorage implements IStorage {
       .where(eq(twoFactorLogs.userId, userId))
       .orderBy(desc(twoFactorLogs.createdAt))
       .limit(limit);
+  }
+
+  // Age verification methods (simplified for current schema)
+  async checkUserAge(userId: string): Promise<boolean> {
+    // For now, assume all users are age verified (will implement proper age verification when schema is updated)
+    // In production, this would check the user's dateOfBirth field
+    return true;
+  }
+
+  async flagUserForSafety(userId: string, reason?: string): Promise<void> {
+    console.log(`SAFETY FLAG: User ${userId} flagged for safety review. Reason: ${reason || 'Unspecified'}`);
+    
+    // Create an activity record for audit trail
+    await this.createActivity({
+      userId,
+      type: 'safety_flag',
+      description: `User flagged for safety review: ${reason || 'Unspecified'}`,
+    });
   }
 }
 

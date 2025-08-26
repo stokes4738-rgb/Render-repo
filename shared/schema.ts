@@ -255,6 +255,17 @@ export const registerSchema = insertUserSchema.extend({
   email: z.string().email("Invalid email address"),
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
+  dateOfBirth: z.string().optional().refine((date) => {
+    if (!date) return true; // Make optional for now
+    const birthDate = new Date(date);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+    return actualAge >= 16;
+  }, {
+    message: "You must be at least 16 years old to use this platform"
+  }),
 });
 
 export const insertBountySchema = createInsertSchema(bounties).omit({
@@ -351,6 +362,34 @@ export const insertTwoFactorLogSchema = createInsertSchema(twoFactorLogs).omit({
   createdAt: true,
 });
 
+// Verification requests table for age/ID/background checks
+export const verificationRequests = pgTable("verification_requests", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  type: varchar("type", { length: 50 }).notNull(), // age_verification, background_check, id_verification
+  status: varchar("status", { length: 50 }).default("pending"), // pending, approved, rejected, in_review
+  documentType: varchar("document_type", { length: 50 }), // drivers_license, passport, state_id
+  documentNumber: varchar("document_number"), // encrypted
+  submittedData: jsonb("submitted_data"), // encrypted sensitive data
+  adminNotes: text("admin_notes"),
+  reviewedBy: varchar("reviewed_by").references(() => users.id), // admin who reviewed
+  reviewedAt: timestamp("reviewed_at"),
+  expiresAt: timestamp("expires_at"), // for background checks
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+  index("idx_verification_user_id").on(table.userId),
+  index("idx_verification_type").on(table.type),
+  index("idx_verification_status").on(table.status),
+  index("idx_verification_created_at").on(table.createdAt),
+]);
+
+export const insertVerificationRequestSchema = createInsertSchema(verificationRequests).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
@@ -381,3 +420,5 @@ export type PlatformRevenue = typeof platformRevenue.$inferSelect;
 export type InsertPlatformRevenue = z.infer<typeof insertPlatformRevenueSchema>;
 export type TwoFactorLog = typeof twoFactorLogs.$inferSelect;
 export type InsertTwoFactorLog = z.infer<typeof insertTwoFactorLogSchema>;
+export type VerificationRequest = typeof verificationRequests.$inferSelect;
+export type InsertVerificationRequest = z.infer<typeof insertVerificationRequestSchema>;

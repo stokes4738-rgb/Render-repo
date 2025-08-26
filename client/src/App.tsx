@@ -56,7 +56,7 @@ function Router() {
             <Route path="/ref/:code" component={AuthPage} />
             <Route path="/referral/:code" component={AuthPage} />
             <Route path="/invite/:code" component={AuthPage} />
-            <Route path="/" component={AuthPage} />
+            <Route path="/:rest*" component={AuthPage} />
           </>
         ) : (
           <>

@@ -15,6 +15,9 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import DemoLockOverlay from "@/components/DemoLockOverlay";
 import BoostDialog from "@/components/BoostDialog";
 import { navigateToLogin } from "@/lib/navigation";
+import { PageTransition, StaggerContainer, StaggerItem } from "@/components/EnhancedAnimations";
+import { InteractiveCard } from "@/components/InteractiveElements";
+import { CardSkeleton } from "@/components/LoadingStates";
 import type { Bounty } from "@shared/schema";
 
 export default function Board() {

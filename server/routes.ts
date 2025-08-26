@@ -4,6 +4,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./auth";
 import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema } from "@shared/schema";
+import { logger } from "./utils/logger";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -13,12 +14,12 @@ if (process.env.STRIPE_SECRET_KEY) {
     stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: "2025-07-30.basil",
     });
-    console.log("Stripe initialized successfully");
+    logger.info("Stripe initialized successfully");
   } catch (error) {
-    console.warn("Stripe initialization error:", error);
+    logger.error("Stripe initialization error:", error);
   }
 } else {
-  console.log("Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)");
+  logger.info("Stripe not initialized - running in test mode (no STRIPE_SECRET_KEY)");
 }
 
 // Process expired bounties (auto-refund after 3 days with 5% fee)

@@ -134,7 +134,7 @@ export default function Board() {
       {/* Bounties List */}
       <div className="space-y-3">
         {(bounties as Bounty[]).length === 0 ? (
-          <Card className="theme-transition">
+          <Card className="theme-transition bg-gradient-to-br from-primary/5 to-accent/5">
             <CardContent className="p-8 text-center">
               <div className="text-4xl mb-4">🚀</div>
               <h3 className="text-lg font-semibold mb-3">Ready to get things done?</h3>
@@ -145,7 +145,7 @@ export default function Board() {
                     : `No bounties in this price range yet. Perfect opportunity to be first!`
                   }
                 </p>
-                <div className="bg-muted/30 rounded-lg p-4 text-left">
+                <div className="bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-lg p-4 text-left border border-purple-500/20">
                   <h4 className="font-medium text-sm mb-2">💡 Bounty ideas that actually exist:</h4>
                   <ul className="text-xs text-muted-foreground space-y-1">
                     <li>• "Rate my outfit for a first date 👗 - $8"</li>
@@ -161,7 +161,7 @@ export default function Board() {
           </Card>
         ) : (
           (bounties as Bounty[]).map((bounty: Bounty) => (
-            <Card key={bounty.id} className="theme-transition" data-testid={`bounty-${bounty.id}`}>
+            <Card key={bounty.id} className="theme-transition hover:shadow-lg hover:shadow-primary/10 border-l-4 border-l-transparent hover:border-l-primary transition-all duration-300" data-testid={`bounty-${bounty.id}`}>
               <CardContent className="p-3.5">
                 <div className="flex justify-between items-start gap-3">
                   <div className="flex-1">

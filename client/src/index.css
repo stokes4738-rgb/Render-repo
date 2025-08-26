@@ -4,11 +4,14 @@
 @tailwind utilities;
 
 :root {
-  /* Pocket Bounty Color Palette */
-  --pocket-red: hsl(8, 89%, 40%);
-  --pocket-red-dark: hsl(8, 89%, 30%);
-  --pocket-gold: hsl(33, 100%, 64%);
-  --pocket-gold-light: hsl(45, 100%, 71%);
+  /* Pocket Bounty Color Palette - More Vibrant */
+  --pocket-red: hsl(8, 89%, 45%);
+  --pocket-red-dark: hsl(8, 89%, 35%);
+  --pocket-gold: hsl(38, 100%, 58%);
+  --pocket-gold-light: hsl(45, 100%, 68%);
+  --pocket-purple: hsl(270, 70%, 55%);
+  --pocket-blue: hsl(210, 100%, 56%);
+  --pocket-green: hsl(142, 70%, 45%);
   
   /* Dark Theme */
   --dark-bg: hsl(240, 5%, 6%);
@@ -26,62 +29,62 @@
   --light-ink: hsl(240, 9%, 7%);
   --light-muted: hsl(0, 0%, 40%);
   
-  /* Green Points System */
-  --points-bg: hsl(83, 61%, 12%);
-  --points-border: hsl(83, 32%, 22%);
-  --points-text: hsl(83, 73%, 80%);
+  /* Green Points System - More Vibrant */
+  --points-bg: hsl(142, 55%, 15%);
+  --points-border: hsl(142, 45%, 35%);
+  --points-text: hsl(142, 70%, 75%);
   
-  /* Purple Boost System */
-  --boost-bg: hsl(285, 45%, 12%);
-  --boost-border: hsl(285, 32%, 30%);
-  --boost-text: hsl(285, 88%, 84%);
+  /* Purple Boost System - More Vibrant */
+  --boost-bg: hsl(270, 50%, 15%);
+  --boost-border: hsl(270, 45%, 40%);
+  --boost-text: hsl(270, 90%, 80%);
   
   /* Safe area for mobile */
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   
-  /* Shadcn/ui variables */
-  --background: hsl(240, 5%, 6%);
+  /* Shadcn/ui variables - More Colorful Dark Theme */
+  --background: hsl(240, 10%, 8%);
   --foreground: hsl(0, 0%, 95%);
-  --card: hsl(240, 4%, 12%);
+  --card: hsl(240, 8%, 13%);
   --card-foreground: hsl(0, 0%, 95%);
-  --popover: hsl(240, 4%, 12%);
+  --popover: hsl(240, 8%, 13%);
   --popover-foreground: hsl(0, 0%, 95%);
-  --primary: hsl(8, 89%, 40%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(240, 4%, 17%);
+  --primary: hsl(38, 100%, 58%);
+  --primary-foreground: hsl(240, 10%, 8%);
+  --secondary: hsl(270, 50%, 25%);
   --secondary-foreground: hsl(0, 0%, 95%);
-  --muted: hsl(240, 4%, 17%);
-  --muted-foreground: hsl(0, 0%, 67%);
-  --accent: hsl(240, 4%, 17%);
+  --muted: hsl(240, 6%, 20%);
+  --muted-foreground: hsl(240, 5%, 65%);
+  --accent: hsl(210, 60%, 25%);
   --accent-foreground: hsl(0, 0%, 95%);
-  --destructive: hsl(0, 84%, 60%);
+  --destructive: hsl(0, 84%, 55%);
   --destructive-foreground: hsl(0, 0%, 100%);
-  --border: hsl(240, 4%, 17%);
-  --input: hsl(240, 4%, 17%);
-  --ring: hsl(8, 89%, 40%);
+  --border: hsl(240, 6%, 20%);
+  --input: hsl(240, 6%, 18%);
+  --ring: hsl(38, 100%, 58%);
   --radius: 0.75rem;
 }
 
 .light {
-  --background: hsl(240, 9%, 96%);
-  --foreground: hsl(240, 9%, 7%);
+  --background: hsl(210, 40%, 98%);
+  --foreground: hsl(240, 10%, 10%);
   --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(240, 9%, 7%);
+  --card-foreground: hsl(240, 10%, 10%);
   --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(240, 9%, 7%);
-  --primary: hsl(8, 89%, 40%);
+  --popover-foreground: hsl(240, 10%, 10%);
+  --primary: hsl(8, 89%, 48%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(240, 5%, 96%);
-  --secondary-foreground: hsl(240, 9%, 7%);
-  --muted: hsl(240, 5%, 96%);
-  --muted-foreground: hsl(0, 0%, 40%);
-  --accent: hsl(240, 5%, 96%);
-  --accent-foreground: hsl(240, 9%, 7%);
-  --destructive: hsl(0, 84%, 60%);
+  --secondary: hsl(270, 60%, 92%);
+  --secondary-foreground: hsl(270, 60%, 25%);
+  --muted: hsl(210, 30%, 94%);
+  --muted-foreground: hsl(240, 6%, 40%);
+  --accent: hsl(210, 80%, 92%);
+  --accent-foreground: hsl(210, 80%, 20%);
+  --destructive: hsl(0, 84%, 55%);
   --destructive-foreground: hsl(0, 0%, 100%);
-  --border: hsl(0, 0%, 80%);
-  --input: hsl(240, 5%, 96%);
-  --ring: hsl(8, 89%, 40%);
+  --border: hsl(210, 20%, 85%);
+  --input: hsl(210, 20%, 96%);
+  --ring: hsl(8, 89%, 48%);
 }
 
 @layer base {

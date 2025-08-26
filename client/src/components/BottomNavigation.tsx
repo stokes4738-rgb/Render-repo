@@ -17,7 +17,7 @@ export function BottomNavigation({ activeSection, onSectionChange }: BottomNavig
 
   return (
     <footer 
-      className="fixed left-0 right-0 bottom-0 h-16 bg-card border-t border-border flex justify-around items-center theme-transition z-10"
+      className="fixed left-0 right-0 bottom-0 h-16 bg-card/95 backdrop-blur-md border-t border-border flex justify-around items-center theme-transition z-10 shadow-lg"
       style={{ paddingBottom: "var(--safe-area-bottom)" }}
     >
       {navItems.map((item) => {
@@ -28,8 +28,8 @@ export function BottomNavigation({ activeSection, onSectionChange }: BottomNavig
             variant="ghost"
             className={`flex-1 border-none bg-transparent text-xs flex flex-col items-center gap-0.5 pt-1.5 h-auto ${
               isActive 
-                ? "text-pocket-red font-bold" 
-                : "text-muted-foreground"
+                ? "text-primary font-bold" 
+                : "text-muted-foreground hover:text-foreground transition-colors"
             }`}
             onClick={() => onSectionChange(item.id)}
             data-testid={`button-nav-${item.id}`}

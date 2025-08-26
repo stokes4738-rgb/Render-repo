@@ -45,7 +45,7 @@ export function setupAuth(app: Express) {
   const PostgresSessionStore = connectPg(session);
   const sessionStore = new PostgresSessionStore({
     conString: process.env.DATABASE_URL,
-    createTableIfMissing: false,
+    createTableIfMissing: true, // Changed to true to ensure table exists
     ttl: sessionTtl,
     tableName: "sessions",
   });

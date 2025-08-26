@@ -8,7 +8,7 @@ import { Search, UserPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuthJWT";
 import type { Friendship, User } from "@shared/schema";
 
 export default function Friends() {

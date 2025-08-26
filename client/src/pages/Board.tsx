@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Heart, Lock, Rocket } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuthJWT";
 import { useBounties } from "@/hooks/useBounties";
 import { useDemo } from "@/contexts/DemoContext";
 import { isUnauthorizedError } from "@/lib/authUtils";

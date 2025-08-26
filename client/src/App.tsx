@@ -5,7 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, AuthProvider } from "@/hooks/useAuthJWT";
 import { DemoProvider } from "@/contexts/DemoContext";
 import DemoIndicator from "@/components/DemoIndicator";
 import PWAInstallPrompt from "@/components/PWAInstallPrompt";
@@ -83,24 +83,26 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <DemoProvider>
-        <ThemeProvider>
-          <TooltipProvider>
-            <div className="relative">
-              <Toaster />
-              <DemoIndicator />
-              <div className="fixed top-4 left-4 right-4 z-50 pointer-events-none">
-                <div className="pointer-events-auto">
-                  <PWAInstallPrompt />
+      <AuthProvider>
+        <DemoProvider>
+          <ThemeProvider>
+            <TooltipProvider>
+              <div className="relative">
+                <Toaster />
+                <DemoIndicator />
+                <div className="fixed top-4 left-4 right-4 z-50 pointer-events-none">
+                  <div className="pointer-events-auto">
+                    <PWAInstallPrompt />
+                  </div>
                 </div>
+                {/* <PWAInputFix /> Disabled - causing input issues */}
+                <Router />
+                
               </div>
-              {/* <PWAInputFix /> Disabled - causing input issues */}
-              <Router />
-              
-            </div>
-          </TooltipProvider>
-        </ThemeProvider>
-      </DemoProvider>
+            </TooltipProvider>
+          </ThemeProvider>
+        </DemoProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

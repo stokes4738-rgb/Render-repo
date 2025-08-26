@@ -72,13 +72,6 @@ export function setupAuth(app: Express) {
   app.use(passport.initialize());
   app.use(passport.session());
   
-  // Debug middleware to log session state
-  app.use((req: any, res: any, next: any) => {
-    if (req.path.startsWith('/api')) {
-      console.log('Request:', req.method, req.path, 'Session ID:', req.sessionID, 'User:', req.user?.id);
-    }
-    next();
-  });
 
   // Passport Local Strategy
   passport.use(
@@ -102,22 +95,17 @@ export function setupAuth(app: Express) {
   );
 
   passport.serializeUser((user, done) => {
-    console.log('Serializing user:', (user as User).id);
     done(null, (user as User).id);
   });
 
   passport.deserializeUser(async (id: string, done) => {
     try {
-      console.log('Deserializing user ID:', id);
       const user = await storage.getUser(id);
       if (!user) {
-        console.error('User not found for ID:', id);
         return done(null, false);
       }
-      console.log('User deserialized:', user.username);
       done(null, user);
     } catch (error) {
-      console.error('Deserialize error:', error);
       done(error, null);
     }
   });
@@ -203,14 +191,11 @@ export function setupAuth(app: Express) {
           return res.status(500).json({ message: "Login failed" });
         }
         
-        console.log('Login successful, user:', user.id, 'sessionID:', req.sessionID);
         // Force save session before responding
         req.session.save((saveErr: any) => {
           if (saveErr) {
-            console.error('Session save error:', saveErr);
             return res.status(500).json({ message: "Session save failed" });
           }
-          console.log('Session saved successfully for user:', user.id);
           
           res.json({
             id: user.id,
@@ -261,8 +246,6 @@ export function setupAuth(app: Express) {
 }
 
 export function isAuthenticated(req: any, res: any, next: any) {
-  console.log('Auth check - isAuthenticated:', req.isAuthenticated(), 'user:', !!req.user, 'sessionID:', req.sessionID, 'passport:', req.session?.passport);
-  
   if (req.isAuthenticated() && req.user) {
     return next();
   }

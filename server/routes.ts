@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./auth";
+import { setupAuthJWT, verifyToken } from "./authJWT";
 import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema } from "@shared/schema";
 import { logger } from "./utils/logger";
 import Stripe from "stripe";
@@ -75,12 +75,12 @@ async function processExpiredBounties() {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  setupAuth(app);
+  setupAuthJWT(app);
 
   // Auth routes are now handled in setupAuth() in auth.ts
 
   // Referral routes
-  app.get("/api/referral/code", isAuthenticated, async (req: any, res) => {
+  app.get("/api/referral/code", verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const user = await storage.getUser(userId);
@@ -103,7 +103,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/referral/stats", isAuthenticated, async (req: any, res) => {
+  app.get("/api/referral/stats", verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const user = await storage.getUser(userId);
@@ -133,7 +133,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/referral/signup", isAuthenticated, async (req: any, res) => {
+  app.post("/api/referral/signup", verifyToken, async (req: any, res) => {
     try {
       const { referralCode } = req.body;
       if (!referralCode) {
@@ -165,7 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(packages);
   });
 
-  app.post("/api/points/purchase", isAuthenticated, async (req: any, res) => {
+  app.post("/api/points/purchase", verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(500).json({ message: "Payment system not available" });
     }
@@ -213,7 +213,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/points/confirm-purchase", isAuthenticated, async (req: any, res) => {
+  app.post("/api/points/confirm-purchase", verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(500).json({ message: "Payment system not available" });
     }
@@ -320,7 +320,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties/boost/:id', isAuthenticated, async (req: any, res) => {
+  app.post('/api/bounties/boost/:id', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const bountyId = req.params.id;
@@ -378,7 +378,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties', isAuthenticated, async (req: any, res) => {
+  app.post('/api/bounties', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const bountyData = insertBountySchema.parse({ ...req.body, authorId: userId });
@@ -433,7 +433,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties/:id/apply', isAuthenticated, async (req: any, res) => {
+  app.post('/api/bounties/:id/apply', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { id } = req.params;
@@ -456,7 +456,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/user/bounties', isAuthenticated, async (req: any, res) => {
+  app.get('/api/user/bounties', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const bounties = await storage.getUserBountiesWithApplications(userId);
@@ -468,7 +468,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Accept/reject application
-  app.patch('/api/applications/:id', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/applications/:id', verifyToken, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -503,7 +503,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Complete bounty and pay the bounty hunter
-  app.patch('/api/bounties/:id/complete', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/bounties/:id/complete', verifyToken, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { completedBy } = req.body;
@@ -587,7 +587,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Transaction routes
-  app.get('/api/user/transactions', isAuthenticated, async (req: any, res) => {
+  app.get('/api/user/transactions', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const transactions = await storage.getUserTransactions(userId);
@@ -598,7 +598,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/user/points', isAuthenticated, async (req: any, res) => {
+  app.post('/api/user/points', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { points, reason } = req.body;
@@ -619,7 +619,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Messaging routes
-  app.get('/api/messages/threads', isAuthenticated, async (req: any, res) => {
+  app.get('/api/messages/threads', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const threads = await storage.getUserThreads(userId);
@@ -630,7 +630,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/messages/threads/:threadId', isAuthenticated, async (req: any, res) => {
+  app.get('/api/messages/threads/:threadId', verifyToken, async (req: any, res) => {
     try {
       const { threadId } = req.params;
       const messages = await storage.getThreadMessages(threadId);
@@ -641,7 +641,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/messages', isAuthenticated, async (req: any, res) => {
+  app.post('/api/messages', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const messageData = insertMessageSchema.parse({ ...req.body, senderId: userId });
@@ -654,7 +654,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Feedback system for users to contact creator
-  app.post('/api/feedback', isAuthenticated, async (req: any, res) => {
+  app.post('/api/feedback', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { message, type } = req.body;
@@ -694,7 +694,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Creator inbox - get all feedback threads
-  app.get('/api/creator/feedback-threads', isAuthenticated, async (req: any, res) => {
+  app.get('/api/creator/feedback-threads', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const creatorId = "46848986"; // Dallas Abbott's user ID
@@ -711,7 +711,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User search route
-  app.get('/api/users/search', isAuthenticated, async (req: any, res) => {
+  app.get('/api/users/search', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const searchTerm = req.query.searchTerm as string || '';
@@ -729,7 +729,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Friend routes
-  app.get('/api/friends', isAuthenticated, async (req: any, res) => {
+  app.get('/api/friends', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const friends = await storage.getUserFriends(userId);
@@ -740,7 +740,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/friends/requests', isAuthenticated, async (req: any, res) => {
+  app.get('/api/friends/requests', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const requests = await storage.getFriendRequests(userId);
@@ -751,7 +751,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/friends/request', isAuthenticated, async (req: any, res) => {
+  app.post('/api/friends/request', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { addresseeId } = req.body;
@@ -768,7 +768,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch('/api/friends/:id', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/friends/:id', verifyToken, async (req: any, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -782,7 +782,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Review routes
-  app.post('/api/reviews', isAuthenticated, async (req: any, res) => {
+  app.post('/api/reviews', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const reviewData = insertReviewSchema.parse({ ...req.body, reviewerId: userId });
@@ -794,7 +794,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/user/reviews', isAuthenticated, async (req: any, res) => {
+  app.get('/api/user/reviews', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const reviews = await storage.getUserReviews(userId);
@@ -806,7 +806,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Activity routes
-  app.get('/api/user/activities', isAuthenticated, async (req: any, res) => {
+  app.get('/api/user/activities', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const activities = await storage.getUserActivities(userId);
@@ -818,7 +818,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Profile update route
-  app.patch('/api/user/profile', isAuthenticated, async (req: any, res) => {
+  app.patch('/api/user/profile', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { firstName, lastName, handle, bio, skills, experience } = req.body;
@@ -840,7 +840,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Payment routes
-  app.get('/api/payments/methods', isAuthenticated, async (req: any, res) => {
+  app.get('/api/payments/methods', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const paymentMethods = await storage.getUserPaymentMethods(userId);
@@ -851,7 +851,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/setup-intent', isAuthenticated, async (req: any, res) => {
+  app.post('/api/payments/setup-intent', verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }
@@ -887,7 +887,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/save-method', isAuthenticated, async (req: any, res) => {
+  app.post('/api/payments/save-method', verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }
@@ -922,7 +922,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/set-default', isAuthenticated, async (req: any, res) => {
+  app.post('/api/payments/set-default', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { paymentMethodId } = req.body;
@@ -935,7 +935,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/payments/methods/:id', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/payments/methods/:id', verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }
@@ -965,7 +965,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/deposit', isAuthenticated, async (req: any, res) => {
+  app.post('/api/payments/deposit', verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }
@@ -1064,7 +1064,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/payments/history', isAuthenticated, async (req: any, res) => {
+  app.get('/api/payments/history', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const payments = await storage.getUserPayments(userId);
@@ -1075,7 +1075,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/payments/withdraw', isAuthenticated, async (req: any, res) => {
+  app.post('/api/payments/withdraw', verifyToken, async (req: any, res) => {
     if (!stripe) {
       return res.status(503).json({ message: "Payment system not configured" });
     }
@@ -1177,7 +1177,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Test deposit endpoint (for development without Stripe)
-  app.post('/api/test/deposit', isAuthenticated, async (req: any, res) => {
+  app.post('/api/test/deposit', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { amount } = req.body;
@@ -1220,7 +1220,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Creator dashboard endpoints (creator only)
-  app.get('/api/creator/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/creator/stats', verifyToken, async (req: any, res) => {
     try {
       // Disable caching for real-time analytics
       res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
@@ -1524,7 +1524,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get detailed creator data for modals
-  app.get('/api/creator/details/:type', isAuthenticated, async (req: any, res) => {
+  app.get('/api/creator/details/:type', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { type } = req.params;
@@ -1657,7 +1657,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Bounty completion with platform fee
-  app.post('/api/bounties/:id/complete', isAuthenticated, async (req: any, res) => {
+  app.post('/api/bounties/:id/complete', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const { id } = req.params;

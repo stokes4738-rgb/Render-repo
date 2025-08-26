@@ -328,7 +328,7 @@ export class DatabaseStorage implements IStorage {
       .where(
         and(
           eq(bounties.status, "active"),
-          sql`${bounties.createdAt} + INTERVAL ${bounties.duration} DAY < NOW()`
+          sql`${bounties.createdAt} + INTERVAL '1 day' * ${bounties.duration} < NOW()`
         )
       )
       .orderBy(desc(bounties.createdAt));

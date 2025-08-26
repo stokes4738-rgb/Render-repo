@@ -3,5 +3,11 @@
     <string name="app_name">Pocket Bounty</string>
     <string name="title_activity_main">Pocket Bounty</string>
     <string name="package_name">com.pocketbounty.app</string>
-    <string name="custom_url_scheme">com.pocketbounty.app</string>
+    <string name="custom_url_scheme">pocketbounty</string>
+    
+    <!-- App descriptions for permissions -->
+    <string name="camera_permission_description">Pocket Bounty needs camera access to take photos for bounty submissions and profile pictures</string>
+    <string name="storage_permission_description">Pocket Bounty needs storage access to save and share bounty images</string>
+    <string name="location_permission_description">Pocket Bounty may use location to show nearby bounties and improve your experience</string>
+    <string name="notification_permission_description">Pocket Bounty sends notifications for bounty updates, messages, and important announcements</string>
 </resources>

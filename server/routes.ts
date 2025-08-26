@@ -1333,21 +1333,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (stripe && (user.bankAccountToken || user.debitCardToken)) {
         // Use the new direct payout methods
-        if (method === 'debit_card' && user.debitCardToken) {
+        if (method === 'debit_card' && user.debitCardToken && user.stripeConnectAccountId) {
           const { processCardPayout } = await import('./stripePayouts');
           payoutResult = await processCardPayout(
             userId,
             withdrawalAmount,
-            user.debitCardToken,
+            user.stripeConnectAccountId,
             feeAmount
           );
           transferId = payoutResult.payoutId;
-        } else if (method === 'bank_transfer' && user.bankAccountToken) {
+        } else if (method === 'bank_transfer' && user.bankAccountToken && user.stripeConnectAccountId) {
           const { processBankTransfer } = await import('./stripePayouts');
           payoutResult = await processBankTransfer(
             userId,
             withdrawalAmount,
-            user.bankAccountToken
+            user.stripeConnectAccountId
           );
           transferId = payoutResult.transferId;
         } else {
@@ -1442,25 +1442,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       if (stripe) {
-        // Create a bank account token with Stripe
-        const token = await stripe.tokens.create({
-          bank_account: {
+        // For payouts, we need to create a Custom Connect account first if user doesn't have one
+        let connectAccountId = user.stripeConnectAccountId;
+        
+        if (!connectAccountId) {
+          // Create a Custom Connect account for this user
+          const account = await stripe.accounts.create({
+            type: 'custom',
+            country: 'US',
+            email: user.email,
+            capabilities: {
+              transfers: { requested: true },
+            },
+            business_type: 'individual',
+            individual: {
+              first_name: user.firstName || 'Unknown',
+              last_name: user.lastName || 'User',
+              email: user.email,
+            },
+            tos_acceptance: {
+              date: Math.floor(Date.now() / 1000),
+              ip: req.ip || '127.0.0.1',
+            },
+          });
+          
+          connectAccountId = account.id;
+          await storage.updateUser(userId, {
+            stripeConnectAccountId: connectAccountId
+          });
+        }
+        
+        // Add the bank account as an external account to the Connect account
+        const bankAccount = await stripe.accounts.createExternalAccount(connectAccountId, {
+          external_account: {
+            object: 'bank_account',
             country: 'US',
             currency: 'usd',
-            account_holder_name: req.user.username,
+            account_holder_name: user.username,
             account_holder_type: 'individual',
             routing_number: routingNumber,
             account_number: accountNumber,
           },
+          default_for_currency: true,
         });
         
-        // Store the tokenized bank account
+        // Store the bank account details
         const last4 = accountNumber.slice(-4);
         await storage.updateUser(userId, {
-          bankAccountToken: token.id,
+          bankAccountToken: bankAccount.id,
           bankAccountLast4: last4,
           bankRoutingNumber: routingNumber.slice(-4), // Store last 4 of routing for display
-          preferredPayoutMethod: 'bank'
+          preferredPayoutMethod: 'bank',
+          stripeConnectStatus: 'connected'
         });
         
         res.json({

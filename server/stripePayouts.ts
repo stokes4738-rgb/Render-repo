@@ -107,22 +107,50 @@ export async function processStripePayout(options: PayoutOptions) {
 }
 
 // Function to create a Stripe Connect account for a user (for real implementation)
-// Process direct bank transfer (ACH) - no Stripe account needed
+// Process direct bank transfer (ACH) - using transfers to connected account
 export async function processBankTransfer(
   userId: string,
   amount: number,
-  bankToken: string
+  connectAccountId: string
 ): Promise<{ success: boolean; transferId?: string; estimatedArrival?: string; error?: string }> {
+  if (!stripe) {
+    throw new Error("Stripe is not configured");
+  }
+  
   try {
-    // Create a payout using the bank account token
-    logger.info(`Processing bank transfer of $${amount} for user ${userId}`);
+    // Create a real transfer to the connected account
+    logger.info(`Processing real bank transfer of $${amount} for user ${userId}`);
     
-    // Simulate successful bank transfer (in production, would use Stripe Payouts API)
-    const transferId = `tr_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    // Transfer funds to the connected account
+    const transfer = await stripe.transfers.create({
+      amount: Math.round(amount * 100), // Convert to cents
+      currency: 'usd',
+      destination: connectAccountId,
+      description: `Transfer to user ${userId}`,
+      metadata: {
+        userId: userId,
+        type: 'bank_transfer'
+      }
+    });
+    
+    // Trigger payout from connected account to their bank
+    const payout = await stripe.payouts.create({
+      amount: Math.round(amount * 100),
+      currency: 'usd',
+      description: `Payout for user ${userId}`,
+      metadata: {
+        userId: userId,
+        transferId: transfer.id
+      }
+    }, {
+      stripeAccount: connectAccountId // Payout on behalf of connected account
+    });
+    
+    logger.info(`Stripe transfer ${transfer.id} and payout ${payout.id} created for $${amount}`);
     
     return {
       success: true,
-      transferId: transferId,
+      transferId: payout.id,
       estimatedArrival: '1-2 business days'
     };
   } catch (error: any) {
@@ -134,25 +162,56 @@ export async function processBankTransfer(
   }
 }
 
-// Process instant debit card payout - no Stripe account needed
+// Process instant debit card payout - using connected account
 export async function processCardPayout(
   userId: string,
   amount: number,
-  cardToken: string,
+  connectAccountId: string,
   feeAmount: number
 ): Promise<{ success: boolean; payoutId?: string; estimatedArrival?: string; error?: string }> {
+  if (!stripe) {
+    throw new Error("Stripe is not configured");
+  }
+  
   try {
     const netAmount = amount - feeAmount;
     
-    // Create an instant payout simulation
-    logger.info(`Processing instant card payout of $${netAmount} (after $${feeAmount} fee) for user ${userId}`);
+    // Create a real instant payout using connected account
+    logger.info(`Processing real instant card payout of $${netAmount} (after $${feeAmount} fee) for user ${userId}`);
     
-    // Simulate successful card payout (in production, would use Stripe Instant Payouts)
-    const payoutId = `po_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    // Transfer funds to the connected account
+    const transfer = await stripe.transfers.create({
+      amount: Math.round(netAmount * 100), // Convert to cents (after fee)
+      currency: 'usd',
+      destination: connectAccountId,
+      description: `Instant transfer to user ${userId}`,
+      metadata: {
+        userId: userId,
+        type: 'instant_payout',
+        grossAmount: amount.toString(),
+        fee: feeAmount.toString()
+      }
+    });
+    
+    // Trigger instant payout from connected account
+    const payout = await stripe.payouts.create({
+      amount: Math.round(netAmount * 100),
+      currency: 'usd',
+      method: 'instant', // Instant payout
+      description: `Instant payout for user ${userId}`,
+      metadata: {
+        userId: userId,
+        transferId: transfer.id
+      }
+    }, {
+      stripeAccount: connectAccountId // Payout on behalf of connected account
+    });
+    
+    logger.info(`Stripe instant transfer ${transfer.id} and payout ${payout.id} created for $${netAmount}`);
     
     return {
       success: true,
-      payoutId: payoutId,
+      payoutId: payout.id,
       estimatedArrival: 'Within 30 minutes'
     };
   } catch (error: any) {

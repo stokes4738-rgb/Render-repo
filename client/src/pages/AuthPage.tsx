@@ -203,6 +203,18 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     data-testid="input-username"
+                    autoComplete="username"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
+                    onTouchStart={(e) => {
+                      e.currentTarget.focus();
+                      e.currentTarget.click();
+                    }}
+                    onFocus={(e) => {
+                      setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                    }}
                   />
                   {errors.username && (
                     <p className="text-red-300 text-sm mt-1">
@@ -223,6 +235,18 @@ export default function AuthPage() {
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       placeholder="john@example.com"
                       data-testid="input-email"
+                      autoComplete="email"
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
+                      style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
+                      onTouchStart={(e) => {
+                        e.currentTarget.focus();
+                        e.currentTarget.click();
+                      }}
+                      onFocus={(e) => {
+                        setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                      }}
                     />
                     {!isLogin && (errors as any).email && (
                       <p className="text-red-300 text-sm mt-1">
@@ -243,6 +267,18 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your password" : "Choose a secure password"}
                     data-testid="input-password"
+                    autoComplete={isLogin ? "current-password" : "new-password"}
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck="false"
+                    style={{ fontSize: '16px', WebkitUserSelect: 'text', userSelect: 'text' }}
+                    onTouchStart={(e) => {
+                      e.currentTarget.focus();
+                      e.currentTarget.click();
+                    }}
+                    onFocus={(e) => {
+                      setTimeout(() => e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300);
+                    }}
                   />
                   {errors.password && (
                     <p className="text-red-300 text-sm mt-1">

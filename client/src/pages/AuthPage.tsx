@@ -214,13 +214,6 @@ export default function AuthPage() {
               <form 
                 onSubmit={onSubmit} 
                 className="space-y-3 sm:space-y-4"
-                onKeyDown={(e) => {
-                  // Prevent Enter key from submitting unless on submit button
-                  if (e.key === 'Enter' && (e.target as HTMLElement).type !== 'submit') {
-                    e.preventDefault();
-                    console.log('Enter key prevented to avoid page refresh');
-                  }
-                }}
               >
                 {!isLogin && (
                   <div className="grid grid-cols-2 gap-4">
@@ -232,7 +225,7 @@ export default function AuthPage() {
                         id="firstName"
                         type="text"
                         value={formData.firstName}
-                        onChange={(e) => updateField('firstName', e.target.value)}
+                        onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="John"
                       />
@@ -251,7 +244,7 @@ export default function AuthPage() {
                         id="lastName"
                         type="text"
                         value={formData.lastName}
-                        onChange={(e) => updateField('lastName', e.target.value)}
+                        onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="Doe"
                       />
@@ -272,7 +265,7 @@ export default function AuthPage() {
                     id="username"
                     type="text"
                     value={formData.username}
-                    onChange={(e) => updateField('username', e.target.value)}
+                    onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     autoComplete="username"
@@ -293,7 +286,7 @@ export default function AuthPage() {
                       id="email"
                       type="email"
                       value={formData.email}
-                      onChange={(e) => updateField('email', e.target.value)}
+                      onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       placeholder="john@example.com"
                       autoComplete="email"
@@ -314,7 +307,7 @@ export default function AuthPage() {
                     id="password"
                     type="password"
                     value={formData.password}
-                    onChange={(e) => updateField('password', e.target.value)}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your password" : "Choose a secure password"}
                     autoComplete={isLogin ? "current-password" : "new-password"}

@@ -34,7 +34,7 @@ interface TutorialProps {
   onClose: () => void;
 }
 
-const tutorialSteps = [
+const getTutorialSteps = (onClose: () => void, setDemoMode: (enabled: boolean) => void) => [
   {
     id: 1,
     title: "Welcome to Pocket Bounty! 🪙",
@@ -420,7 +420,11 @@ const tutorialSteps = [
         <div className="space-y-3 pt-4">
           <Button 
             className="w-full bg-green-600 hover:bg-green-700 text-white mb-2"
-            onClick={handleTryDemo}
+            onClick={() => {
+              setDemoMode(true);
+              onClose();
+              window.location.href = '/';
+            }}
             data-testid="button-tutorial-demo"
           >
             🎮 Try Demo Mode First
@@ -445,6 +449,7 @@ const tutorialSteps = [
 export default function Tutorial({ onClose }: TutorialProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const { setDemoMode } = useDemo();
+  const tutorialSteps = getTutorialSteps(onClose, setDemoMode);
   const currentStepData = tutorialSteps[currentStep];
   const progress = ((currentStep + 1) / tutorialSteps.length) * 100;
 
@@ -464,10 +469,6 @@ export default function Tutorial({ onClose }: TutorialProps) {
     setCurrentStep(tutorialSteps.length - 1);
   };
 
-  const handleTryDemo = () => {
-    setDemoMode(true);
-    onClose();
-  };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
@@ -527,7 +528,11 @@ export default function Tutorial({ onClose }: TutorialProps) {
                 <div className="flex gap-2">
                   <Button 
                     className="bg-green-600 hover:bg-green-700"
-                    onClick={handleTryDemo}
+                    onClick={() => {
+                      setDemoMode(true);
+                      onClose();
+                      window.location.href = '/';
+                    }}
                     data-testid="button-tutorial-demo-final"
                   >
                     Try Demo

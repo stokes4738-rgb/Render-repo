@@ -92,8 +92,8 @@ export default function Profile() {
     },
     onSuccess: () => {
       toast({
-        title: "Bounty Completed! 🎉",
-        description: "Payment has been sent to the bounty hunter. Great work!",
+        title: "Bounty Completed! 💰",
+        description: "Payment has been sent to the bounty hunter from your wallet balance.",
       });
       queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user"] });

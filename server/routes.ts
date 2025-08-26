@@ -525,12 +525,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Bounty is not active" });
       }
 
-      // Parse reward amount
+      // Parse reward amount (in dollars)
       const rewardAmount = parseFloat(bounty.reward);
 
-      // Transfer points from creator to hunter
-      await storage.updateUserPoints(completedBy, rewardAmount);
-      await storage.updateUserBalance(completedBy, rewardAmount);
+      // Transfer money (balance) from creator to hunter
+      // Deduct from creator's balance
+      const creator = await storage.getUser(userId);
+      const creatorBalance = parseFloat(creator.balance || '0');
+      
+      if (creatorBalance < rewardAmount) {
+        return res.status(400).json({ message: "Insufficient balance to pay bounty reward" });
+      }
+
+      // Update balances - deduct from creator, add to hunter
+      await storage.updateUserBalance(userId, (-rewardAmount).toString()); // Deduct from creator
+      await storage.updateUserBalance(completedBy, rewardAmount.toString()); // Add to hunter
 
       // Update bounty status
       await storage.updateBountyStatus(id, "completed", completedBy);
@@ -541,14 +550,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         type: 'bounty_reward',
         amount: rewardAmount.toString(),
         status: 'completed',
-        metadata: { bountyId: id, bountyTitle: bounty.title }
+        bountyId: id,
+        description: `Received payment for completing "${bounty.title}"`
+      });
+
+      // Create transaction for the creator (payment out)
+      await storage.createTransaction({
+        userId,
+        type: 'bounty_payment',
+        amount: (-rewardAmount).toString(),
+        status: 'completed',
+        bountyId: id,
+        description: `Paid out reward for "${bounty.title}"`
       });
 
       // Create activities
       await storage.createActivity({
         userId: completedBy,
         type: 'bounty_completed',
-        description: `Completed bounty "${bounty.title}" and earned ${rewardAmount} points`,
+        description: `Completed bounty "${bounty.title}" and earned $${rewardAmount}`,
         metadata: { bountyId: id, reward: rewardAmount }
       });
 

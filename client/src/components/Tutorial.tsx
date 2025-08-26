@@ -354,50 +354,6 @@ const tutorialSteps = [
   },
   {
     id: 9,
-    title: "Creator Dashboard 📊",
-    description: "Advanced tools for frequent bounty creators",
-    content: (
-      <div className="space-y-4">
-        <div className="p-4 border rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
-          <div className="flex items-center gap-2 mb-2">
-            <Award className="h-5 w-5 text-indigo-600" />
-            <span className="font-medium">Creator Level Features</span>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Post 5+ bounties to unlock advanced creator tools and analytics
-          </p>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="p-3 border rounded-lg text-center">
-            <Eye className="h-6 w-6 mx-auto text-blue-600 mb-2" />
-            <p className="text-sm font-medium">Analytics</p>
-            <p className="text-xs text-muted-foreground">Track performance</p>
-          </div>
-          <div className="p-3 border rounded-lg text-center">
-            <Briefcase className="h-6 w-6 mx-auto text-green-600 mb-2" />
-            <p className="text-sm font-medium">Bulk Management</p>
-            <p className="text-xs text-muted-foreground">Handle multiple bounties</p>
-          </div>
-        </div>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <span>Priority application notifications</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <span>Advanced filtering and search</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600" />
-            <span>Detailed earnings reports</span>
-          </div>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: 10,
     title: "Mobile App Experience 📱",
     description: "Add Pocket Bounty to your home screen",
     content: (
@@ -435,7 +391,7 @@ const tutorialSteps = [
     )
   },
   {
-    id: 11,
+    id: 10,
     title: "Ready to Start Earning? 🚀",
     description: "Join thousands of users making money on Pocket Bounty",
     content: (
@@ -464,10 +420,7 @@ const tutorialSteps = [
         <div className="space-y-3 pt-4">
           <Button 
             className="w-full bg-green-600 hover:bg-green-700 text-white mb-2"
-            onClick={() => {
-              onClose();
-              // Navigate to demo mode
-            }}
+            onClick={handleTryDemo}
             data-testid="button-tutorial-demo"
           >
             🎮 Try Demo Mode First
@@ -475,10 +428,7 @@ const tutorialSteps = [
           <Button 
             variant="outline"
             className="w-full"
-            onClick={() => {
-              onClose();
-              // Keep on auth page for real signup
-            }}
+            onClick={onClose}
             data-testid="button-tutorial-signup"
           >
             💰 Create Real Account & Start Earning

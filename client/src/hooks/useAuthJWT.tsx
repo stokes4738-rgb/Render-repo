@@ -56,6 +56,8 @@ window.fetch = function(...args) {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const [token, setToken] = useState<string | null>(getStoredToken());
+  
+  console.log("AuthProvider - Initial token from localStorage:", token);
 
   const {
     data: user,
@@ -66,7 +68,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     queryKey: ["/api/user"],
     queryFn: async () => {
       const currentToken = getStoredToken();
-      if (!currentToken) return null;
+      console.log("Fetching user with token:", currentToken);
+      if (!currentToken) {
+        console.log("No token found, returning null");
+        return null;
+      }
       
       const res = await fetch("/api/user", {
         headers: {
@@ -74,8 +80,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       });
       
+      console.log("User fetch response status:", res.status);
+      
       if (!res.ok) {
         if (res.status === 401) {
+          console.log("Token invalid, clearing...");
           clearStoredToken();
           setToken(null);
           return null;
@@ -83,9 +92,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error("Failed to fetch user");
       }
       
-      return res.json();
+      const userData = await res.json();
+      console.log("User data received:", userData);
+      return userData;
     },
     enabled: !!token,
+    retry: false,
   });
 
   const loginMutation = useMutation({
@@ -205,5 +217,14 @@ export function useAuth() {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+  
+  // Debug logging
+  console.log("Auth context state:", {
+    isAuthenticated: context.isAuthenticated,
+    user: context.user,
+    token: context.token,
+    isLoading: context.isLoading
+  });
+  
   return context;
 }

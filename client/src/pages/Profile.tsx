@@ -36,6 +36,48 @@ export default function Profile() {
     retry: false,
   });
 
+  // Accept application mutation
+  const acceptApplicationMutation = useMutation({
+    mutationFn: async ({ applicationId }: { applicationId: string }) => {
+      return apiRequest("PATCH", `/api/applications/${applicationId}`, { status: "accepted" });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Application Accepted",
+        description: "The applicant has been notified and can now start working on your bounty.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to accept application.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Reject application mutation
+  const rejectApplicationMutation = useMutation({
+    mutationFn: async ({ applicationId }: { applicationId: string }) => {
+      return apiRequest("PATCH", `/api/applications/${applicationId}`, { status: "rejected" });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Application Rejected",
+        description: "The applicant has been notified.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/bounties"] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to reject application.",
+        variant: "destructive",
+      });
+    },
+  });
+
   if (!user) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -194,6 +236,8 @@ export default function Profile() {
                                     <div className="flex gap-2 ml-4">
                                       <Button
                                         size="sm"
+                                        onClick={() => acceptApplicationMutation.mutate({ applicationId: application.id })}
+                                        disabled={acceptApplicationMutation.isPending}
                                         className="bg-green-600 hover:bg-green-700"
                                         data-testid={`accept-application-${application.id}`}
                                       >
@@ -203,6 +247,8 @@ export default function Profile() {
                                       <Button
                                         size="sm"
                                         variant="destructive"
+                                        onClick={() => rejectApplicationMutation.mutate({ applicationId: application.id })}
+                                        disabled={rejectApplicationMutation.isPending}
                                         data-testid={`reject-application-${application.id}`}
                                       >
                                         <XCircle className="w-4 h-4 mr-1" />

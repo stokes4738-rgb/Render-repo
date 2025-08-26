@@ -1453,6 +1453,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
             email: user.email,
             capabilities: {
               transfers: { requested: true },
+              card_payments: { requested: true },
+              us_bank_account_ach_payments: { requested: true },
             },
             business_type: 'individual',
             individual: {
@@ -1463,6 +1465,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
             tos_acceptance: {
               date: Math.floor(Date.now() / 1000),
               ip: req.ip || '127.0.0.1',
+              user_agent: req.headers['user-agent'] || 'Unknown',
+            },
+            external_account: {
+              object: 'bank_account',
+              country: 'US',
+              currency: 'usd',
+              account_holder_name: user.username,
+              account_holder_type: 'individual',
+              routing_number: routingNumber,
+              account_number: accountNumber,
             },
           });
           
@@ -1470,26 +1482,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.updateUser(userId, {
             stripeConnectAccountId: connectAccountId
           });
+        } else {
+          // Add the bank account as an external account to existing Connect account
+          const bankAccount = await stripe.accounts.createExternalAccount(connectAccountId, {
+            external_account: {
+              object: 'bank_account',
+              country: 'US',
+              currency: 'usd',
+              account_holder_name: user.username,
+              account_holder_type: 'individual',
+              routing_number: routingNumber,
+              account_number: accountNumber,
+            },
+            default_for_currency: true,
+          });
         }
-        
-        // Add the bank account as an external account to the Connect account
-        const bankAccount = await stripe.accounts.createExternalAccount(connectAccountId, {
-          external_account: {
-            object: 'bank_account',
-            country: 'US',
-            currency: 'usd',
-            account_holder_name: user.username,
-            account_holder_type: 'individual',
-            routing_number: routingNumber,
-            account_number: accountNumber,
-          },
-          default_for_currency: true,
-        });
         
         // Store the bank account details
         const last4 = accountNumber.slice(-4);
+        const bankAccountId = connectAccountId ? connectAccountId : ''; // Use connect account ID as the reference
         await storage.updateUser(userId, {
-          bankAccountToken: bankAccount.id,
+          bankAccountToken: bankAccountId,
           bankAccountLast4: last4,
           bankRoutingNumber: routingNumber.slice(-4), // Store last 4 of routing for display
           preferredPayoutMethod: 'bank',

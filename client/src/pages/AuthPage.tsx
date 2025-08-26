@@ -158,12 +158,17 @@ export default function AuthPage() {
     console.log('Form submitted with data:', formData);
     
     if (!validateForm()) {
-      console.log('Form validation failed');
+      console.log('Form validation failed:', errors);
+      toast({
+        title: "Validation Error",
+        description: "Please check the form for errors",
+        variant: "destructive",
+      });
       return;
     }
     
     if (isLogin) {
-      console.log('Attempting login...');
+      console.log('Attempting login with username:', formData.username);
       loginMutation.mutate({
         username: formData.username,
         password: formData.password

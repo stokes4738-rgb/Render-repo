@@ -104,8 +104,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return res.json();
     },
     onSuccess: (data) => {
-      setStoredToken(data.token);
-      setToken(data.token);
+      console.log("Login successful, received data:", data);
+      if (data.token) {
+        setStoredToken(data.token);
+        setToken(data.token);
+        console.log("Token stored in localStorage");
+      } else {
+        console.error("No token received in login response!");
+      }
       queryClient.setQueryData(["/api/user"], data.user);
       toast({
         title: "Welcome back!",

@@ -126,30 +126,30 @@ export default function AuthPage() {
   const isPending = loginMutation.isPending || registerMutation.isPending;
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-4 sm:p-6 lg:p-8">
         <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-2">
+          <div className="text-center mb-6 lg:mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
               Pocket Bounty
             </h1>
-            <p className="text-blue-200">
+            <p className="text-blue-200 text-sm sm:text-base">
               Where weird meets wallet-friendly
             </p>
           </div>
 
           <Card className="bg-white/10 backdrop-blur-md border-white/20">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-white">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-xl sm:text-2xl text-white">
                 {isLogin ? "Welcome Back!" : "Join the Chaos!"}
               </CardTitle>
-              <p className="text-blue-200">
+              <p className="text-blue-200 text-sm">
                 {isLogin ? "Sign in to your account" : "Create your account and start earning"}
               </p>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <CardContent className="pt-0">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 sm:space-y-4">
                 {!isLogin && (
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -264,7 +264,7 @@ export default function AuthPage() {
                 </Button>
               </form>
 
-              <div className="mt-6 text-center">
+              <div className="mt-4 sm:mt-6 text-center">
                 <p className="text-blue-200 text-sm">
                   {isLogin ? "Don't have an account? " : "Already have an account? "}
                   <button
@@ -279,10 +279,10 @@ export default function AuthPage() {
             </CardContent>
           </Card>
 
-          {/* Migration Notice */}
-          <div className="mt-6 p-4 bg-yellow-500/20 border border-yellow-500/50 rounded-lg">
-            <h3 className="text-yellow-200 font-semibold mb-2">🔄 Account Migration</h3>
-            <p className="text-yellow-100 text-sm">
+          {/* Migration Notice - Only show on larger screens */}
+          <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-yellow-500/20 border border-yellow-500/50 rounded-lg lg:block">
+            <h3 className="text-yellow-200 font-semibold mb-1 sm:mb-2 text-sm sm:text-base">🔄 Account Migration</h3>
+            <p className="text-yellow-100 text-xs sm:text-sm">
               Welcome to Pocket Bounty! Create your account to get started. 
               Your account data (points, balance, earnings) will be automatically transferred.
             </p>
@@ -290,8 +290,8 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* Right Side - Hero Section */}
-      <div className="flex-1 bg-gradient-to-br from-indigo-900 to-purple-900 flex items-center justify-center p-8">
+      {/* Right Side - Hero Section - Hidden on mobile */}
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-indigo-900 to-purple-900 items-center justify-center p-8">
         <div className="text-center text-white max-w-lg">
           <div className="text-6xl mb-6">🤪</div>
           <h2 className="text-3xl font-bold mb-4">

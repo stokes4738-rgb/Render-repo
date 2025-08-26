@@ -53,7 +53,7 @@ export async function sendSupportEmail(
   message: string
 ): Promise<boolean> {
   const supportEmail = 'pocketbounty@zohomail.com';
-  const fromEmail = 'noreply@pocketbounty.life'; // You'll need to verify this sender in SendGrid
+  const fromEmail = 'pocketbounty@zohomail.com'; // Using the same email for both from and to
   
   const emailSubject = `[Support Request] ${subject}`;
   

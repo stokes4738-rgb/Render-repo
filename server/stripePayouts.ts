@@ -125,8 +125,24 @@ export async function createStripeConnectAccount(userId: string, email: string) 
     });
 
     // Create account link for onboarding
-    // Force HTTPS for production (your live app at pocketbounty.life)
-    const baseUrl = 'https://pocketbounty.life';
+    // Detect the correct HTTPS URL based on environment
+    let baseUrl: string;
+    
+    if (process.env.REPL_SLUG && process.env.REPL_OWNER) {
+      // Replit development environment - use the HTTPS Replit URL
+      baseUrl = `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`;
+    } else if (process.env.REPLIT_DEV_DOMAIN) {
+      // Alternative Replit domain format
+      baseUrl = `https://${process.env.REPLIT_DEV_DOMAIN}`;
+    } else if (process.env.APP_URL && process.env.APP_URL.startsWith('https')) {
+      // Custom domain if set
+      baseUrl = process.env.APP_URL;
+    } else {
+      // Fallback to pocketbounty.life for production
+      baseUrl = 'https://pocketbounty.life';
+    }
+    
+    console.log('Using base URL for Stripe Connect:', baseUrl);
     
     const accountLink = await stripe.accountLinks.create({
       account: account.id,

@@ -71,6 +71,14 @@ export function setupAuth(app: Express) {
   app.use(session(sessionSettings));
   app.use(passport.initialize());
   app.use(passport.session());
+  
+  // Debug middleware to log session state
+  app.use((req: any, res: any, next: any) => {
+    if (req.path.startsWith('/api')) {
+      console.log('Request:', req.method, req.path, 'Session ID:', req.sessionID, 'User:', req.user?.id);
+    }
+    next();
+  });
 
   // Passport Local Strategy
   passport.use(

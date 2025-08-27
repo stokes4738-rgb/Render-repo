@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import { apiRateLimiter } from "./middleware/rateLimiter";
 import compression from "compression";
 import helmet from "helmet";
+// @ts-ignore
 import corsSetup from "./cors-setup.js";
 
 const app = express();

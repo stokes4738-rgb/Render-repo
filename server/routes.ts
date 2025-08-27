@@ -1452,56 +1452,63 @@ export async function registerRoutes(app: Express): Promise<Server> {
         let connectAccountId = user.stripeConnectAccountId;
         
         if (!connectAccountId) {
-          // Create a Custom Connect account for this user
+          // Create an Express Connect account for this user (simpler onboarding)
           const account = await stripe.accounts.create({
-            type: 'custom',
+            type: 'express',
             country: 'US',
             email: user.email,
             capabilities: {
               transfers: { requested: true },
               card_payments: { requested: true },
-              us_bank_account_ach_payments: { requested: true },
             },
             business_type: 'individual',
-            individual: {
-              first_name: user.firstName || 'Unknown',
-              last_name: user.lastName || 'User',
-              email: user.email,
-            },
-            tos_acceptance: {
-              date: Math.floor(Date.now() / 1000),
-              ip: req.ip || '127.0.0.1',
-              user_agent: req.headers['user-agent'] || 'Unknown',
-            },
-            external_account: {
-              object: 'bank_account',
-              country: 'US',
-              currency: 'usd',
-              account_holder_name: user.username,
-              account_holder_type: 'individual',
-              routing_number: routingNumber,
-              account_number: accountNumber,
-            },
+            metadata: {
+              userId: userId,
+              bankAccountAdded: 'pending'
+            }
           });
           
           connectAccountId = account.id;
           await storage.updateUser(userId, {
             stripeConnectAccountId: connectAccountId
           });
+          
+          // Add the bank account as an external account
+          try {
+            await stripe.accounts.createExternalAccount(connectAccountId, {
+              external_account: {
+                object: 'bank_account',
+                country: 'US',
+                currency: 'usd',
+                account_holder_name: user.username || `${user.firstName} ${user.lastName}`,
+                account_holder_type: 'individual',
+                routing_number: routingNumber,
+                account_number: accountNumber,
+              },
+              default_for_currency: true,
+            });
+          } catch (err) {
+            // Bank account might need verification through onboarding
+            logger.warn("Could not add bank account directly, user may need to complete onboarding:", err);
+          }
         } else {
           // Add the bank account as an external account to existing Connect account
-          const bankAccount = await stripe.accounts.createExternalAccount(connectAccountId, {
-            external_account: {
-              object: 'bank_account',
-              country: 'US',
-              currency: 'usd',
-              account_holder_name: user.username,
-              account_holder_type: 'individual',
-              routing_number: routingNumber,
-              account_number: accountNumber,
-            },
-            default_for_currency: true,
-          });
+          try {
+            await stripe.accounts.createExternalAccount(connectAccountId, {
+              external_account: {
+                object: 'bank_account',
+                country: 'US',
+                currency: 'usd',
+                account_holder_name: user.username || `${user.firstName} ${user.lastName}`,
+                account_holder_type: 'individual',
+                routing_number: routingNumber,
+                account_number: accountNumber,
+              },
+              default_for_currency: true,
+            });
+          } catch (err) {
+            logger.warn("Could not add bank account to existing account:", err);
+          }
         }
         
         // Store the bank account details

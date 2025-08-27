@@ -4,17 +4,12 @@ import { setupVite, serveStatic, log } from "./vite";
 import { apiRateLimiter } from "./middleware/rateLimiter";
 import compression from "compression";
 import helmet from "helmet";
+import corsSetup from "./cors-setup.js";
 
 const app = express();
 
-// CORS configuration for session cookies
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,UPDATE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization');
-  next();
-});
+// Use proper CORS configuration
+app.use(corsSetup);
 
 // Security and performance middleware
 app.use(helmet({
@@ -26,6 +21,11 @@ app.use(compression());
 // Request parsing with size limits
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false, limit: "10mb" }));
+
+// Health check route (before rate limiting)
+app.get("/health", (req, res) => {
+  res.json({ ok: true, time: Date.now() });
+});
 
 // Apply rate limiting to API routes
 app.use("/api", apiRateLimiter);

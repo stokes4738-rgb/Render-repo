@@ -4,3 +4,39 @@ dist
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.development
+
+# Build artifacts
+build
+*.log
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+Thumbs.db
+
+# Temporary files
+tmp
+temp
+.cache
+
+# Database
+*.sqlite
+*.sqlite3
+
+# Testing
+coverage
+.nyc_output
+
+# Deployment
+deploy/*.env
+deploy/backup

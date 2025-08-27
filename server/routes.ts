@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
@@ -77,6 +77,68 @@ async function processExpiredBounties() {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Stripe webhook route MUST be before body parsing middleware
+  // This uses raw body for signature verification
+  app.post("/webhooks/stripe", express.raw({ type: "application/json" }), async (req, res) => {
+    if (!stripe) {
+      return res.status(503).send("Stripe not configured");
+    }
+
+    const sig = req.headers["stripe-signature"] as string;
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    if (!endpointSecret) {
+      logger.warn("Stripe webhook called but STRIPE_WEBHOOK_SECRET not configured");
+      return res.status(500).send("Webhook Error: Missing webhook secret");
+    }
+
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    } catch (err: any) {
+      logger.error("Webhook signature verification failed:", err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case "payment_intent.succeeded":
+        const paymentIntent = event.data.object;
+        logger.info(`PaymentIntent ${paymentIntent.id} was successful!`);
+        // TODO: Handle successful payment
+        break;
+      
+      case "payment_intent.payment_failed":
+        const failedPayment = event.data.object;
+        logger.warn(`Payment ${failedPayment.id} failed`);
+        // TODO: Handle failed payment
+        break;
+
+      case "account.updated":
+        // Handle Connect account updates
+        const account = event.data.object;
+        logger.info(`Stripe Connect account ${account.id} was updated`);
+        // TODO: Update user's Connect status if needed
+        break;
+
+      case "account.application.authorized":
+        // Handle when a user authorizes your app
+        logger.info("New Stripe Connect authorization");
+        break;
+
+      case "account.application.deauthorized":
+        // Handle when a user deauthorizes your app
+        logger.info("Stripe Connect deauthorization");
+        break;
+
+      default:
+        logger.info(`Unhandled webhook event type: ${event.type}`);
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    res.sendStatus(200);
+  });
+
   // Apply IP ban checking to all routes
   app.use(checkIPBan);
   

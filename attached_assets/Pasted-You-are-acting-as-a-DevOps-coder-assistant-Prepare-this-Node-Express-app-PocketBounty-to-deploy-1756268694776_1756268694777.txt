@@ -1,0 +1,149 @@
+You are acting as a DevOps/coder assistant. Prepare this Node/Express app (“PocketBounty”) to deploy on Render while I keep developing on Replit. Do the following changes directly in this repo:
+
+1) Package scripts
+- Ensure package.json has:
+{
+  "scripts": {
+    "start": "node server.js",
+    "build": "",
+    "postinstall": "npm run build || echo no-build"
+  },
+  "engines": { "node": ">=18" }
+}
+- If the entry is not server.js, fix the start path accordingly.
+
+2) Env template
+- Create .env.example (no secrets) with these keys:
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=postgres://USER:PASS@HOST:5432/DBNAME
+STRIPE_SECRET_KEY=sk_live_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+SESSION_SECRET=change_me
+CORS_ORIGIN=https://pocketbounty.life
+
+3) CORS + Health route
+- Add safe CORS allowing web + iOS wrapper:
+// cors-setup.js
+import cors from "cors";
+const allowed = [
+  "https://pocketbounty.life",
+  "https://www.pocketbounty.life",
+  "capacitor://localhost",
+  "app://.",
+  "http://localhost",
+  "http://localhost:3000"
+];
+export default cors({
+  origin: (origin, cb) => (!origin || allowed.includes(origin)) ? cb(null, true) : cb(new Error("Not allowed by CORS")),
+  credentials: true
+});
+
+- In the main server file, app.use this CORS before routes, and add:
+app.get("/health", (req, res) => res.json({ ok: true, time: Date.now() }));
+
+4) Stripe webhook correctness
+- Ensure the Stripe webhook route uses raw body and is mounted before any JSON parser:
+import express from "express";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// raw only for this route
+app.post("/webhooks/stripe", express.raw({ type: "application/json" }), (req, res) => {
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    console.error("Webhook signature verification failed:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  // TODO: handle event.type cases
+  res.sendStatus(200);
+});
+
+// After webhook route, then use JSON parser for the rest
+app.use(express.json());
+
+5) Database abstraction (prep for Postgres)
+- Add a tiny DB module db.js using pg and DATABASE_URL env:
+// db.js
+import pkg from "pg";
+const { Pool } = pkg;
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } });
+export const q = (text, params) => pool.query(text, params);
+
+- Create schema.sql with starter tables:
+create extension if not exists "uuid-ossp";
+
+create table if not exists users (
+  id uuid primary key default uuid_generate_v4(),
+  username text unique not null,
+  email text unique not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists bounties (
+  id uuid primary key default uuid_generate_v4(),
+  owner_id uuid references users(id) on delete cascade,
+  title text not null,
+  description text,
+  price_cents int not null,
+  status text check (status in ('open','claimed','complete','canceled')) default 'open',
+  created_at timestamptz default now()
+);
+
+- Add a bootstrap script scripts/init-db.js that runs schema.sql against DATABASE_URL.
+
+6) Render config (IaC)
+- Create render.yaml at repo root:
+services:
+  - type: web
+    name: pocketbounty-web
+    env: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_URL
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: https://pocketbounty.life
+
+7) (Optional) Dockerfile
+- If needed by Render, add:
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+ENV NODE_ENV=production
+EXPOSE 3000
+CMD ["npm","start"]
+
+8) GitHub & CI
+- Initialize git if needed, create a .gitignore that ignores node_modules, .env, and any build artifacts.
+- Prepare for GitHub push (I will connect the repo on Render). If useful, add .github/workflows/lint.yml running npm ci && npm run -s build || true.
+
+9) App sanity checks
+- Verify npm start works cleanly and logs the port from process.env.PORT || 3000.
+- Confirm CORS and /health route function locally.
+- Print a short README section “Deploying to Render” with steps:
+1) Push to GitHub
+2) On Render: “New +” → “Web Service” → connect repo
+3) Set env vars from .env.example (real secrets)
+4) (Optional) Create a Render Postgres or use Neon/Supabase; paste DATABASE_URL
+5) Deploy; then update Stripe webhook URL to https://pocketbounty.life/webhooks/stripe
+
+Make these changes now. When finished, list exactly which files you created/modified and any TODOs I must complete on the Render dashboard (env vars to set, webhook URL to update, and connecting my custom domain).

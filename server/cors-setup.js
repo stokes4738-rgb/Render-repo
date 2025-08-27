@@ -26,6 +26,11 @@ export default cors({
       return callback(null, true);
     }
     
+    // Allow Replit domains for development and sharing
+    if (origin.includes('.replit.dev') || origin.includes('.repl.co') || origin.includes('replit.app')) {
+      return callback(null, true);
+    }
+    
     // Reject other origins
     return callback(new Error("Not allowed by CORS"));
   },

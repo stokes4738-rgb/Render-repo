@@ -1,0 +1,49 @@
+# Caddy Configuration for Pocket Bounty
+# Place this file at /etc/caddy/Caddyfile
+
+pocketbounty.life {
+    # Enable automatic HTTPS with Let's Encrypt
+    tls {
+        protocols tls1.2 tls1.3
+    }
+
+    # Security headers
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.stripe.com wss://pocketbounty.life; frame-src https://js.stripe.com https://hooks.stripe.com"
+    }
+
+    # Handle WebSocket connections
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    
+    reverse_proxy @websockets localhost:5000
+
+    # Proxy all other requests to Node.js app
+    reverse_proxy localhost:5000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # Enable compression
+    encode gzip
+
+    # Logging
+    log {
+        output file /var/log/caddy/pocketbounty.log
+        format json
+    }
+}
+
+# Redirect www to non-www
+www.pocketbounty.life {
+    redir https://pocketbounty.life{uri} permanent
+}

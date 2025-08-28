@@ -988,7 +988,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const creatorId = "46848986"; // Dallas Abbott's user ID
       
       // Only allow creator to access this endpoint
-      // Creator tab is only visible to app creator (46848986) so no additional checks needed
+      if (userId !== "46848986" && req.user.username !== "deanawm") {
+        return res.status(403).json({ message: "Access denied" });
+      }
 
       const threads = await storage.getUserThreads(creatorId);
       res.json(threads);
@@ -1814,7 +1816,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = await storage.getUser(userId);
       
       // Allow access to the app creator (you) or admin users
-      // Creator tab is only visible to app creator (46848986) so no additional checks needed
+      if (userId !== "46848986" && req.user.username !== "deanawm") {
+        return res.status(403).json({ message: "Access denied" });
+      }
 
       // Get comprehensive app statistics
       const [
@@ -2056,7 +2060,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const { type } = req.params;
       
-      // Creator tab is only visible to app creator (46848986) so no additional checks needed
+      // Check creator access
+      if (userId !== "46848986" && req.user.username !== "deanawm") {
+        return res.status(403).json({ message: "Access denied" });
+      }
       const user = await storage.getUser(userId);
       
       switch (type) {

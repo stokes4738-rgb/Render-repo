@@ -43,37 +43,52 @@ app.get("/api/db-test", async (req, res) => {
       });
     }
     
-    // Check URL format
-    const urlParts = dbUrl.split('@');
-    const hostPart = urlParts[1] || '';
-    const hasSslMode = dbUrl.includes('sslmode=');
+    // Parse URL to check components
+    const urlParts = dbUrl.match(/postgresql:\/\/([^:]+):([^@]+)@([^\/]+)\/(.+)/);
+    if (!urlParts) {
+      return res.status(500).json({
+        error: "Invalid DATABASE_URL format",
+        dbUrl: dbUrl.substring(0, 50) + "...",
+        expectedFormat: "postgresql://user:pass@host/database"
+      });
+    }
     
-    // Test database connection with dynamic import
-    const { db } = await import("./db");
-    const { sql } = await import("drizzle-orm");
-    const result = await db.execute(sql`SELECT 1 as test`);
+    const [, user, , host, database] = urlParts;
+    
+    // Simple direct connection test with pg
+    const { Client } = await import("pg");
+    const client = new Client({
+      connectionString: dbUrl,
+      ssl: { rejectUnauthorized: false },
+      connectionTimeoutMillis: 10000 // 10 second timeout
+    });
+    
+    await client.connect();
+    const result = await client.query('SELECT NOW()');
+    await client.end();
     
     res.json({ 
       success: true,
-      dbUrlSet: true,
-      dbUrlPrefix: dbUrl.substring(0, 30) + "...",
-      hasSslMode,
-      hostIndicator: hostPart.substring(0, 20) + "...",
-      testQuery: result
+      dbUser: user,
+      dbHost: host,
+      dbName: database,
+      serverTime: result.rows[0].now,
+      message: "Database connection successful!"
     });
   } catch (error: any) {
     const dbUrl = process.env.DATABASE_URL || '';
-    const urlParts = dbUrl.split('@');
-    const hostPart = urlParts[1] || '';
     
     res.status(500).json({ 
       error: "Database connection failed",
       message: error.message,
-      dbUrlSet: !!process.env.DATABASE_URL,
-      dbUrlPrefix: dbUrl ? dbUrl.substring(0, 30) + "..." : null,
-      hasSslMode: dbUrl.includes('sslmode='),
-      hostIndicator: hostPart ? hostPart.substring(0, 20) + "..." : null,
-      hint: "Make sure DATABASE_URL is a Neon database URL with ?sslmode=require at the end"
+      code: error.code,
+      dbUrlFormat: dbUrl ? dbUrl.replace(/:([^@]+)@/, ':****@').substring(0, 80) + "..." : null,
+      possibleIssues: [
+        "1. Check if External Database URL is correct",
+        "2. Database might be suspended (free tier)",
+        "3. Network/firewall blocking connection",
+        "4. Database credentials might be wrong"
+      ]
     });
   }
 });

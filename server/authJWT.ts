@@ -33,14 +33,14 @@ async function comparePasswords(supplied: string, stored: string): Promise<boole
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
-function generateToken(user: User): string {
+function generateToken(user: any): string {
   return jwt.sign(
     { 
       id: user.id,
       username: user.username,
       email: user.email
     },
-    JWT_SECRET,
+    JWT_SECRET!,
     { expiresIn: "7d" }
   );
 }
@@ -53,7 +53,54 @@ export function verifyToken(req: any, res: any, next: any) {
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const decoded = jwt.verify(token, JWT_SECRET!) as any;
+    
+    // Handle hardcoded demo users
+    if (decoded.id === "demo123") {
+      req.user = {
+        id: "demo123",
+        username: "demo",
+        email: "demo@pocketbounty.app",
+        firstName: "Demo",
+        lastName: "User",
+        handle: null,
+        points: 1000,
+        balance: "10.00",
+        lifetimeEarned: "5.00",
+        level: 1,
+        rating: "5.00",
+        reviewCount: 0,
+        profileImageUrl: null,
+        bio: null,
+        stripeConnectAccountId: null,
+        stripeConnectStatus: null,
+      };
+      return next();
+    }
+    
+    if (decoded.id === "46848986") {
+      req.user = {
+        id: "46848986",
+        username: "Dallas1221",
+        email: "stokes4738@gmail.com",
+        firstName: "dallas ",
+        lastName: "abbott",
+        handle: "Dallas1221",
+        points: 309691,
+        balance: "0.00",
+        lifetimeEarned: "1.00",
+        level: 999,
+        rating: "5.00",
+        reviewCount: 100,
+        profileImageUrl: null,
+        bio: "🏆 Creator • App Founder • Level 999 Legend",
+        stripeConnectAccountId: null,
+        stripeConnectStatus: null,
+      };
+      return next();
+    }
+    
+    // For regular users, check database
     storage.getUser(decoded.id).then(user => {
       if (user) {
         req.user = user;
@@ -61,6 +108,9 @@ export function verifyToken(req: any, res: any, next: any) {
       } else {
         res.status(401).json({ message: "User not found" });
       }
+    }).catch(error => {
+      console.error("Database error in verifyToken:", error);
+      res.status(500).json({ message: "Database error" });
     });
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });
@@ -154,12 +204,17 @@ export function setupAuthJWT(app: Express) {
           id: "46848986",
           username: "Dallas1221",
           email: "stokes4738@gmail.com",
-          firstName: "dallas",
+          firstName: "dallas ",
           lastName: "abbott",
           handle: "Dallas1221",
           points: 309691,
           balance: "0.00",
-          lifetimeEarned: "1.00"
+          lifetimeEarned: "1.00",
+          level: 999,
+          rating: "5.00",
+          reviewCount: 100,
+          profileImageUrl: null,
+          bio: "🏆 Creator • App Founder • Level 999 Legend"
         };
         const token = generateToken(dallasUser);
         return res.json({ token, user: dallasUser });
@@ -202,7 +257,7 @@ export function setupAuthJWT(app: Express) {
           lifetimeEarned: user.lifetimeEarned,
         }
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error - Full details:", error);
       console.error("Error stack:", error.stack);
       res.status(500).json({ 
@@ -229,24 +284,24 @@ export function setupAuthJWT(app: Express) {
 
   // Get user endpoint
   app.get("/api/user", verifyToken, (req, res) => {
-    const user = req.user!;
+    const user: any = req.user!;
     res.json({
       id: user.id,
       username: user.username,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      handle: user.handle,
+      handle: user.handle || null,
       points: user.points || 0,
       balance: user.balance || "0.00",
       lifetimeEarned: user.lifetimeEarned || "0.00",
-      level: user.level,
-      rating: user.rating,
-      reviewCount: user.reviewCount,
-      profileImageUrl: user.profileImageUrl,
-      bio: user.bio,
-      stripeConnectAccountId: user.stripeConnectAccountId,
-      stripeConnectStatus: user.stripeConnectStatus,
+      level: user.level || 1,
+      rating: user.rating || "0.00",
+      reviewCount: user.reviewCount || 0,
+      profileImageUrl: user.profileImageUrl || null,
+      bio: user.bio || null,
+      stripeConnectAccountId: user.stripeConnectAccountId || null,
+      stripeConnectStatus: user.stripeConnectStatus || null,
     });
   });
 }

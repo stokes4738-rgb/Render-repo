@@ -3,8 +3,13 @@ import { logger } from './logger';
 
 // Initialize SendGrid
 if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  logger.info('SendGrid email service initialized');
+  // Validate that the API key starts with 'SG.'
+  if (!process.env.SENDGRID_API_KEY.startsWith('SG.')) {
+    logger.warn('SendGrid API key does not start with "SG." - email sending disabled');
+  } else {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    logger.info('SendGrid email service initialized');
+  }
 } else {
   logger.warn('SendGrid API key not found - email sending disabled');
 }
@@ -18,8 +23,8 @@ interface EmailOptions {
 }
 
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
-  if (!process.env.SENDGRID_API_KEY) {
-    logger.warn('Email not sent - SendGrid not configured');
+  if (!process.env.SENDGRID_API_KEY || !process.env.SENDGRID_API_KEY.startsWith('SG.')) {
+    logger.warn('Email not sent - SendGrid not configured or invalid API key');
     return false;
   }
 

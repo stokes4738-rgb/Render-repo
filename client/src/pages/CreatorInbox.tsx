@@ -20,13 +20,13 @@ export default function CreatorInbox() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  // Check if user is the creator (Dallas Abbott)
-  if (!user || user.id !== "46848986") {
+  // Allow any logged-in user to access Creator Inbox
+  if (!user) {
     return (
       <div className="text-center text-muted-foreground mt-8">
         <MessageCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-        <h3 className="text-lg font-medium mb-2">Creator Access Only</h3>
-        <p>This inbox is only accessible to the app creator.</p>
+        <h3 className="text-lg font-medium mb-2">Login Required</h3>
+        <p>Please login to access the Creator Inbox.</p>
       </div>
     );
   }

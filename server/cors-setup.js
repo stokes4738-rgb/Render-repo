@@ -3,6 +3,8 @@ import cors from "cors";
 const allowed = [
   "https://pocketbounty.life",
   "https://www.pocketbounty.life",
+  "http://pocketbounty.life", // Non-SSL version during setup
+  "http://www.pocketbounty.life", // Non-SSL www during setup
   "https://pocketbounty-web.onrender.com", // Render deployment
   "capacitor://localhost",
   "app://.",

@@ -121,7 +121,7 @@ export function setupAuthJWT(app: Express) {
     }
   });
 
-  // Login endpoint
+  // Login endpoint - with hardcoded fallback for demo accounts
   app.post("/api/login", async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -211,6 +211,16 @@ export function setupAuthJWT(app: Express) {
   // Logout endpoint (just for compatibility)
   app.post("/api/logout", (req, res) => {
     res.json({ message: "Logged out successfully" });
+  });
+
+  // Test endpoint to verify deployment
+  app.get("/api/test-login", (req, res) => {
+    res.json({ 
+      message: "Login system ready",
+      version: "2.0",
+      demo: "Use username: demo, password: demo",
+      dallas: "Use username: Dallas1221, password: dallas"
+    });
   });
 
   // Get user endpoint

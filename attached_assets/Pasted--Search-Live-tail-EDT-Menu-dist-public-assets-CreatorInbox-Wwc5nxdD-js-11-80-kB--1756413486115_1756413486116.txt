@@ -1,0 +1,154 @@
+
+Search
+
+Live tail
+EDT
+
+Menu
+
+../dist/public/assets/CreatorInbox-Wwc5nxdD.js     11.80 kB │ gzip:  4.18 kB
+../dist/public/assets/AuthPage-CNIM1wkr.js         12.88 kB │ gzip:  3.75 kB
+../dist/public/assets/Profile-4ZAFE6YD.js          17.30 kB │ gzip:  5.00 kB
+../dist/public/assets/Account-CxH1Aa-C.js          78.92 kB │ gzip: 24.79 kB
+../dist/public/assets/Tutorial-2OvHJ8sw.js         83.09 kB │ gzip: 20.27 kB
+../dist/public/assets/Home-Nh6SM0ED.js            164.24 kB │ gzip: 41.52 kB
+../dist/public/assets/index-vuIY8822.js           292.27 kB │ gzip: 95.59 kB
+✓ built in 5.88s
+  dist/index.js  154.6kb
+⚡ Done in 15ms
+==> Uploading build...
+==> Uploaded in 8.5s. Compression took 111.4s
+==> Build successful 🎉
+==> Deploying...
+==> Running 'npm start'
+> rest-express@1.0.0 start
+> NODE_ENV=production node dist/index.js
+7:29:27 PM [express] serving on port 3000
+==> Your service is live 🎉
+==> 
+==> ///////////////////////////////////////////////////////////
+==> 
+==> Available at your primary URL https://pocketbounty-web.onrender.com
+==> 
+==> ///////////////////////////////////////////////////////////
+==> Detected service running on port 3000
+==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+8:37:40 PM [express] GET /api/user 200 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+[ERROR] 2025-08-28T20:37:41.265Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+    at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+    at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+    at async file:///opt/render/project/src/dist/index.js:2380:7 {
+  severity: undefined,
+  code: undefined,
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: undefined,
+  line: undefined,
+  routine: undefined,
+  sourceError: TypeError: fetch failed
+      at node:internal/deps/undici/undici:13510:13
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+      at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+      at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+      at async file:///opt/render/project/src/dist/index.js:2380:7 {
+    [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+        at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+      errno: -111,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '10.230.167.149',
+      port: 443
+    }
+  }
+}
+[ERROR] 2025-08-28T20:37:41.271Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+    at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+    at async file:///opt/render/project/src/dist/index.js:2381:7 {
+  severity: undefined,
+  code: undefined,
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: undefined,
+  line: undefined,
+  routine: undefined,
+  sourceError: TypeError: fetch failed
+      at node:internal/deps/undici/undici:13510:13
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+      at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+      at async file:///opt/render/project/src/dist/index.js:2381:7 {
+    [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+        at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+      errno: -111,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '10.230.167.149',
+      port: 443
+    }
+  }
+}
+8:37:41 PM [express] GET /api/bounties 500 in 51ms :: {"message":"Failed to fetch bounties"}
+[ERROR] 2025-08-28T20:37:46.112Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+    at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+    at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+    at async file:///opt/render/project/src/dist/index.js:3470:20 {
+  severity: undefined,
+  code: undefined,
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: undefined,
+  line: undefined,
+  routine: undefined,
+  sourceError: TypeError: fetch failed
+      at node:internal/deps/undici/undici:13510:13
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+      at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+      at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+      at async file:///opt/render/project/src/dist/index.js:3470:20 {
+    [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+        at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+      errno: -111,
+      code: 'ECONNREFUSED',
+      syscall: 'connect',
+      address: '10.230.167.149',
+      port: 443
+    }
+  }
+}
+8:37:46 PM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+8:37:46 PM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…

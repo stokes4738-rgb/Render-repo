@@ -5,7 +5,11 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import type { User } from "@shared/schema";
 
-const JWT_SECRET = process.env.JWT_SECRET || "pocket-bounty-jwt-secret-2025";
+// Enforce JWT secret from environment
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  throw new Error('JWT_SECRET environment variable must be set with at least 32 characters');
+}
 const scryptAsync = promisify(scrypt);
 
 declare global {

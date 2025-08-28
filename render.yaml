@@ -43,7 +43,7 @@ services:
         sync: false # Optional
       - key: DOTS_API_URL
         sync: false # Optional
-    healthCheckPath: /health
+    healthCheckPath: /healthz
     domains:
       - pocketbounty.life
 

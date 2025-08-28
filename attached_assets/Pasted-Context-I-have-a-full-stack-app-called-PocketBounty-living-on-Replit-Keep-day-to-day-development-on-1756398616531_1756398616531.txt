@@ -1,0 +1,147 @@
+Context
+I have a full-stack app called PocketBounty living on Replit. Keep day-to-day development on Replit, but migrate deployment/hosting to Render. You already have full access to the repo and all code in this Replit project—use it.
+
+What I want from you
+1) Do the Render migration end-to-end and explain every step (commands, file paths, diffs, and rationale).
+2) Perform a rapid architecture & quality audit of the codebase and give me the best, concrete suggestions to harden and improve it (security, performance, DX, reliability, costs). Show minimal diffs or exact steps to implement the top items.
+3) Leave me with a short Runbook so I can edit on Replit → push to GitHub → Render auto-deploys reliably.
+
+Deliverables (do and explain each):
+A) Audit & Prep
+- Detect the framework(s) and entry points (e.g., server.js / app.js), list the current start/build scripts.
+- Generate a .env.example enumerating every required env var (no secrets).
+- Identify any Replit DB / SQLite and propose a plan for PostgreSQL on Render (include migration steps).
+- Best suggestions (prioritized list with quick wins first):
+  * Security: input validation, auth/session hardening, HTTPS redirects, CORS, rate limiting, Helmet, secret handling.
+  * Performance: caching strategy (HTTP, in-memory, Redis optional), static asset settings, ETags, compression.
+  * Reliability: health checks, graceful shutdown, timeouts/retries, DB connection pooling.
+  * Observability: structured logging, request IDs, error tracking (Sentry/console), basic metrics.
+  * Developer Experience: consistent Node version, linting/formatting, TypeScript option, tests (unit + API smoke), sample GitHub Actions CI.
+  * Cost: choose cheapest Render plans that fit; disable PR previews; document auto-sleep/limits and keep the app functional.
+
+B) Repo & Export
+- Initialize Git (if needed), add proper .gitignore, push to a new GitHub repo.
+- Confirm the start/build/migrate scripts in package.json are correct.
+
+C) Choose Deployment Style (explain choice)
+- Option A: Render native build (preferred if possible) — add a render.yaml blueprint.
+- Option B: Docker — add Dockerfile + .dockerignore if native won’t cut it.
+
+D) Database Migration → Render Postgres
+- If Prisma/Sequelize/Knex is missing, pick one (state why), wire it to process.env.DATABASE_URL.
+- Add migrations and a one-time deploy command (e.g., npx prisma migrate deploy).
+
+E) Stripe & Webhooks
+- Move Stripe secrets to Render env vars; add a plan to re-register webhooks against the new Render URL; store STRIPE_WEBHOOK_SECRET.
+
+F) Env Vars
+- List every required env var, create them in Render Env UI. Keep .env for Replit/local only (never commit secrets).
+
+G) Auto-deploy from GitHub
+- Connect Render to the repo and auto-deploy on main.
+
+H) Custom Domain
+- Bind pocketbounty.life (and www if needed). Output exact DNS records Render shows and verify HTTPS.
+
+I) Health Checks, Logs & Cost Controls
+- Add /healthz and configure Render’s health check path.
+- Show where to tail logs, how to rollback, and configure free/cheapest tiers.
+
+J) Post-Migration Tests
+- Prove front-end loads, API routes work, DB R/W works, Stripe webhook receives events (test mode).
+
+K) Files I expect you to add/update (show diffs):
+- .env.example
+- render.yaml OR Dockerfile + .dockerignore
+- DB client config (prisma/schema.prisma, Sequelize/Knex config) using process.env.DATABASE_URL
+- /healthz route
+- package.json scripts: build, start, migrate, optionally lint, test, postinstall
+- Optional minimal GitHub Actions CI (install → lint → build → test)
+
+Success Criteria
+- Edit on Replit → push to GitHub → Render auto-deploys.
+- pocketbounty.life points to the Render app via HTTPS.
+- DB is Render Postgres; Stripe works with the new webhook.
+- You deliver a concise Runbook + an Audit Summary with the best improvements, each with copy-pasteable steps/diffs.
+
+Starter templates to use/adapt (update to match the actual codebase):
+1) render.yaml (native build):
+---------------------------------
+services:
+  - type: web
+    name: pocketbounty-web
+    env: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pocketbounty-db
+          property: connectionString
+
+databases:
+  - name: pocketbounty-db
+    plan: free
+---------------------------------
+
+2) Dockerfile (if needed):
+---------------------------------
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+ENV NODE_ENV=production
+ENV PORT=10000
+EXPOSE 10000
+# RUN npm run build   # if you have a client build
+CMD ["npm", "start"]
+---------------------------------
+
+3) .dockerignore:
+---------------------------------
+node_modules
+.git
+.env
+dist
+build
+---------------------------------
+
+4) Minimal health route (in server.js):
+---------------------------------
+app.get('/healthz', (req, res) => res.status(200).send('ok'));
+---------------------------------
+
+5) package.json scripts (example):
+---------------------------------
+{
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo \"no build step\"",
+    "migrate": "echo \"replace with your migration command\"",
+    "lint": "eslint .",
+    "test": "node -e \"console.log('add tests')\""
+  },
+  "engines": { "node": ">=20" }
+}
+---------------------------------
+
+6) .env.example (fill keys for this app):
+---------------------------------
+PORT=10000
+DATABASE_URL=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+SESSION_SECRET=
+JWT_SECRET=
+ORIGIN=https://pocketbounty.life
+---------------------------------
+
+Finally: After you implement everything, return:
+- A Runbook (dev on Replit → push → deploy, rollbacks, adding env vars, rotating keys).
+- An Audit Summary with the best suggestions and crisp steps/diffs to apply them.

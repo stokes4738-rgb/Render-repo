@@ -23,9 +23,13 @@ app.use(compression());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 
-// Health check route (before rate limiting)
+// Health check routes (before rate limiting)
 app.get("/health", (req, res) => {
   res.json({ ok: true, time: Date.now() });
+});
+
+app.get("/healthz", (req, res) => {
+  res.status(200).send("ok");
 });
 
 // Apply rate limiting to API routes
@@ -92,5 +96,28 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+  });
+
+  // Graceful shutdown handling
+  process.on('SIGTERM', () => {
+    log('SIGTERM received, closing server gracefully...');
+    server.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
+    
+    // Force close after 10 seconds
+    setTimeout(() => {
+      log('Force closing server');
+      process.exit(1);
+    }, 10000);
+  });
+
+  process.on('SIGINT', () => {
+    log('SIGINT received, closing server gracefully...');
+    server.close(() => {
+      log('Server closed');
+      process.exit(0);
+    });
   });
 })();

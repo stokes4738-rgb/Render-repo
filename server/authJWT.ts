@@ -126,39 +126,56 @@ export function setupAuthJWT(app: Express) {
     try {
       const { username, password } = req.body;
       
-      // Demo mode fallback for when database is not accessible
-      if ((username === "demo" && password === "demo") || 
-          (username === "Dallas1221" && password === "dallas")) {
-        
-        const demoUser = {
-          id: username === "demo" ? "demo-user-123" : "dallas-user-456",
-          username,
-          email: username === "demo" ? "demo@example.com" : "dallas@example.com",
-          firstName: username === "demo" ? "Demo" : "Dallas",
-          lastName: username === "demo" ? "User" : "User",
-          handle: username === "demo" ? "@demo" : "@dallas",
-          points: 1000,
-          balance: "25.50",
-          lifetimeEarned: "150.00",
-          level: 5,
-          rating: 4.8,
-          reviewCount: 12,
-        };
-
-        const token = generateToken(demoUser);
-        
-        return res.json({
-          token,
-          user: demoUser
-        });
+      console.log(`Login attempt for username: ${username}`);
+      
+      // Try database first
+      let user;
+      try {
+        user = await storage.getUserByUsername(username);
+        console.log(`User found in DB: ${user ? 'Yes' : 'No'}`);
+      } catch (dbError) {
+        console.error("Database error:", dbError);
+        // If database fails, use hardcoded demo accounts
+        if (username === "demo" && password === "demo") {
+          const demoUser = {
+            id: "demo123",
+            username: "demo",
+            email: "demo@pocketbounty.app",
+            firstName: "Demo",
+            lastName: "User",
+            handle: null,
+            points: 1000,
+            balance: "10.00",
+            lifetimeEarned: "5.00"
+          };
+          const token = generateToken(demoUser);
+          return res.json({ token, user: demoUser });
+        }
+        if (username === "Dallas1221" && password === "dallas") {
+          const dallasUser = {
+            id: "46848986",
+            username: "Dallas1221",
+            email: "stokes4738@gmail.com",
+            firstName: "dallas",
+            lastName: "abbott",
+            handle: "Dallas1221",
+            points: 309691,
+            balance: "0.00",
+            lifetimeEarned: "1.00"
+          };
+          const token = generateToken(dallasUser);
+          return res.json({ token, user: dallasUser });
+        }
+        throw dbError;
       }
       
-      const user = await storage.getUserByUsername(username);
       if (!user || !user.password) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
       
       const isValid = await comparePasswords(password, user.password);
+      console.log(`Password valid: ${isValid}`);
+      
       if (!isValid) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
@@ -180,37 +197,12 @@ export function setupAuthJWT(app: Express) {
         }
       });
     } catch (error) {
-      console.error("Login error:", error);
-      
-      // Final fallback for demo mode if database completely fails
-      const { username, password } = req.body;
-      if ((username === "demo" && password === "demo") || 
-          (username === "Dallas1221" && password === "dallas")) {
-        
-        const demoUser = {
-          id: username === "demo" ? "demo-user-123" : "dallas-user-456",
-          username,
-          email: username === "demo" ? "demo@example.com" : "dallas@example.com",
-          firstName: username === "demo" ? "Demo" : "Dallas",
-          lastName: username === "demo" ? "User" : "User",
-          handle: username === "demo" ? "@demo" : "@dallas",
-          points: 1000,
-          balance: "25.50",
-          lifetimeEarned: "150.00",
-          level: 5,
-          rating: 4.8,
-          reviewCount: 12,
-        };
-
-        const token = generateToken(demoUser);
-        
-        return res.json({
-          token,
-          user: demoUser
-        });
-      }
-      
-      res.status(500).json({ message: "Login failed" });
+      console.error("Login error - Full details:", error);
+      console.error("Error stack:", error.stack);
+      res.status(500).json({ 
+        message: "Login failed",
+        error: process.env.NODE_ENV === "development" ? error.message : undefined 
+      });
     }
   });
 

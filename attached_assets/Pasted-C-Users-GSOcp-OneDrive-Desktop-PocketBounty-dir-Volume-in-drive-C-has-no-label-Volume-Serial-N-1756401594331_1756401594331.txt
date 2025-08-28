@@ -1,0 +1,42 @@
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 2A23-4460
+
+ Directory of C:\Users\GSOcp\OneDrive\Desktop\PocketBounty
+
+08/28/2025  01:17 PM    <DIR>          .
+08/28/2025  12:57 PM    <DIR>          ..
+08/28/2025  12:57 PM    <DIR>          .config
+08/28/2025  12:57 PM               677 .env.example
+08/28/2025  12:57 PM               368 .gitignore
+08/28/2025  12:57 PM    <DIR>          .local
+08/28/2025  12:57 PM               965 .replit
+08/28/2025  12:57 PM             5,514 AppStore-Submission-Guide.md
+08/28/2025  12:57 PM    <DIR>          attached_assets
+08/28/2025  12:57 PM             3,154 build-ios-instructions.md
+08/28/2025  12:57 PM               654 capacitor.config.ts
+08/28/2025  12:57 PM    <DIR>          client
+08/28/2025  12:57 PM             6,088 codemagic.yaml
+08/28/2025  12:57 PM               459 components.json
+08/28/2025  12:57 PM    <DIR>          dist
+08/28/2025  12:57 PM               706 docker-compose.yml
+08/28/2025  12:57 PM             1,412 Dockerfile
+08/28/2025  12:57 PM               325 drizzle.config.ts
+08/28/2025  12:57 PM               379 ecosystem.config.js
+08/28/2025  12:57 PM    <DIR>          ios
+08/28/2025  12:57 PM           395,123 package-lock.json
+08/28/2025  12:57 PM             4,259 package.json
+08/28/2025  12:57 PM                80 postcss.config.js
+08/28/2025  12:57 PM    <DIR>          public
+08/28/2025  01:17 PM             1,298 render.yaml.txt
+08/28/2025  12:57 PM             4,938 replit.md
+08/28/2025  12:57 PM             6,209 self-host-setup.md
+08/28/2025  12:57 PM    <DIR>          server
+08/28/2025  12:57 PM    <DIR>          shared
+08/28/2025  12:57 PM             4,053 tailwind.config.ts
+08/28/2025  12:57 PM               657 tsconfig.json
+08/28/2025  12:57 PM               971 vite.config.ts
+              21 File(s)        438,289 bytes
+              11 Dir(s)  177,658,306,560 bytes free
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>

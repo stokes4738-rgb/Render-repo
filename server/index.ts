@@ -43,6 +43,11 @@ app.get("/api/db-test", async (req, res) => {
       });
     }
     
+    // Check URL format
+    const urlParts = dbUrl.split('@');
+    const hostPart = urlParts[1] || '';
+    const hasSslMode = dbUrl.includes('sslmode=');
+    
     // Test database connection with dynamic import
     const { db } = await import("./db");
     const { sql } = await import("drizzle-orm");
@@ -51,15 +56,24 @@ app.get("/api/db-test", async (req, res) => {
     res.json({ 
       success: true,
       dbUrlSet: true,
-      dbUrlPrefix: dbUrl.substring(0, 20) + "...",
+      dbUrlPrefix: dbUrl.substring(0, 30) + "...",
+      hasSslMode,
+      hostIndicator: hostPart.substring(0, 20) + "...",
       testQuery: result
     });
   } catch (error: any) {
+    const dbUrl = process.env.DATABASE_URL || '';
+    const urlParts = dbUrl.split('@');
+    const hostPart = urlParts[1] || '';
+    
     res.status(500).json({ 
       error: "Database connection failed",
       message: error.message,
       dbUrlSet: !!process.env.DATABASE_URL,
-      dbUrlPrefix: process.env.DATABASE_URL ? process.env.DATABASE_URL.substring(0, 20) + "..." : null
+      dbUrlPrefix: dbUrl ? dbUrl.substring(0, 30) + "..." : null,
+      hasSslMode: dbUrl.includes('sslmode='),
+      hostIndicator: hostPart ? hostPart.substring(0, 20) + "..." : null,
+      hint: "Make sure DATABASE_URL is a Neon database URL with ?sslmode=require at the end"
     });
   }
 });

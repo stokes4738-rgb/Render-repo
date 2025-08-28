@@ -1877,73 +1877,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? ((newUsersLast30 - newUsersPrevious30) / newUsersPrevious30 * 100).toFixed(1)
         : newUsersLast30 > 0 ? '100' : '0';
 
-      // Game Analytics
-      const gameTransactions = allTransactions.filter(t => 
-        t.type === 'earning' && 
-        t.description && 
-        (t.description.includes('game') || 
-         t.description.includes('Snake') ||
-         t.description.includes('Tetris') ||
-         t.description.includes('Space Invaders') ||
-         t.description.includes('2048') ||
-         t.description.includes('Flappy') ||
-         t.description.includes('Simon Says') ||
-         t.description.includes('Memory Match') ||
-         t.description.includes('Whack-a-Mole') ||
-         t.description.includes('Connect Four') ||
-         t.description.includes('Asteroids') ||
-         t.description.includes('Pac-Man') ||
-         t.description.includes('Racing') ||
-         t.description.includes('Breakout'))
-      );
-
-      const gameStats = {
-        totalGamesPlayed: gameTransactions.length,
-        totalPointsEarned: gameTransactions.reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0),
-        mostPopularGames: (() => {
-          const gameCount: Record<string, { plays: number; points: number }> = {};
-          gameTransactions.forEach(t => {
-            const desc = t.description || '';
-            let gameName = 'Unknown';
-            
-            if (desc.includes('Snake')) gameName = 'Snake';
-            else if (desc.includes('Tetris')) gameName = 'Tetris';
-            else if (desc.includes('Space Invaders')) gameName = 'Space Invaders';
-            else if (desc.includes('2048')) gameName = '2048';
-            else if (desc.includes('Flappy')) gameName = 'Flappy Bird';
-            else if (desc.includes('Simon Says')) gameName = 'Simon Says';
-            else if (desc.includes('Memory Match')) gameName = 'Memory Match';
-            else if (desc.includes('Whack-a-Mole')) gameName = 'Whack-a-Mole';
-            else if (desc.includes('Connect Four')) gameName = 'Connect Four';
-            else if (desc.includes('Asteroids')) gameName = 'Asteroids';
-            else if (desc.includes('Pac-Man')) gameName = 'Pac-Man';
-            else if (desc.includes('Racing')) gameName = 'Racing';
-            else if (desc.includes('Breakout')) gameName = 'Breakout';
-            
-            if (!gameCount[gameName]) {
-              gameCount[gameName] = { plays: 0, points: 0 };
-            }
-            gameCount[gameName].plays++;
-            gameCount[gameName].points += parseFloat(t.amount || '0');
-          });
-          
-          return Object.entries(gameCount)
-            .map(([name, data]) => ({
-              name,
-              plays: data.plays,
-              pointsEarned: data.points
-            }))
-            .sort((a, b) => b.plays - a.plays);
-        })(),
-        recentGameActivity: gameTransactions
-          .slice(-10)
-          .map(t => ({
-            game: t.description?.split(' - ')[0] || 'Unknown',
-            points: parseFloat(t.amount || '0'),
-            userId: t.userId,
-            timestamp: t.createdAt
-          }))
-      };
 
       // Top Performers
       const userEarnings: Record<string, { earned: number; spent: number; actions: number; name: string }> = {};
@@ -2089,7 +2022,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
             spending: spendingTransactions.filter(t => t.createdAt && new Date(t.createdAt) > thirtyDaysAgo).reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0).toFixed(2)
           }
         },
-        gameStats,
         topPerformers,
         engagement,
         activity: recentActivity

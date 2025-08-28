@@ -31,7 +31,6 @@ export function DrawerMenu({ isOpen, onClose, activeSection, onSectionChange }: 
       { id: "inbox", label: "📬 Creator Inbox" },
     ] : []),
     { id: "settings", label: "⚙️ Settings" },
-    { id: "arcade", label: "🎮 Arcade" },
   ];
 
   return (

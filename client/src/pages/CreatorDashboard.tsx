@@ -21,7 +21,6 @@ import {
   CreditCard,
   Wallet,
   ShoppingCart,
-  Gamepad2,
   Trophy,
   UserCheck,
   RefreshCw,
@@ -91,21 +90,6 @@ interface CreatorStats {
       pointPurchases: string;
       spending: string;
     };
-  };
-  gameStats?: {
-    totalGamesPlayed: number;
-    totalPointsEarned: number;
-    mostPopularGames: Array<{
-      name: string;
-      plays: number;
-      pointsEarned: number;
-    }>;
-    recentGameActivity: Array<{
-      game: string;
-      points: number;
-      userId: string;
-      timestamp: string;
-    }>;
   };
   topPerformers?: {
     topEarners: Array<{
@@ -319,12 +303,6 @@ export default function CreatorDashboard() {
                 <p className="text-2xl font-bold text-blue-600">${parseFloat(stats.spending.pointPurchases.total).toFixed(0)}</p>
                 <p className="text-xs text-muted-foreground">Points Sales</p>
               </div>
-              {stats.gameStats && (
-                <div>
-                  <p className="text-2xl font-bold text-purple-600">{stats.gameStats.totalGamesPlayed}</p>
-                  <p className="text-xs text-muted-foreground">Games Played</p>
-                </div>
-              )}
               {stats.engagement && (
                 <div>
                   <p className="text-2xl font-bold">{stats.engagement.dailyActiveUsers}</p>
@@ -710,57 +688,6 @@ export default function CreatorDashboard() {
         </Card>
       </div>
 
-      {/* Game Analytics */}
-      {stats.gameStats && (
-        <Card className="theme-transition">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Gamepad2 className="h-5 w-5" />
-              Arcade Game Analytics
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Total Games Played</p>
-                <p className="text-2xl font-bold">{stats.gameStats.totalGamesPlayed.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">Across all arcade games</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Points Earned from Games</p>
-                <p className="text-2xl font-bold text-purple-600">{stats.gameStats.totalPointsEarned.toLocaleString()} ⭐</p>
-                <p className="text-xs text-muted-foreground">Total points awarded</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Most Popular Game</p>
-                <p className="text-2xl font-bold">{stats.gameStats.mostPopularGames[0]?.name || 'N/A'}</p>
-                <p className="text-xs text-muted-foreground">{stats.gameStats.mostPopularGames[0]?.plays || 0} plays</p>
-              </div>
-            </div>
-            {stats.gameStats.mostPopularGames.length > 0 && (
-              <div className="pt-4 border-t">
-                <h4 className="text-sm font-semibold mb-3">Top 5 Games</h4>
-                <div className="space-y-2">
-                  {stats.gameStats.mostPopularGames.slice(0, 5).map((game, index) => (
-                    <div key={game.name} className="flex items-center justify-between p-2 rounded-lg hover:bg-accent/50">
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center">
-                          {index + 1}
-                        </Badge>
-                        <span className="font-medium">{game.name}</span>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm font-bold">{game.plays} plays</p>
-                        <p className="text-xs text-muted-foreground">{game.pointsEarned} pts earned</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      )}
 
       {/* Top Performers */}
       {stats.topPerformers && (

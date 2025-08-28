@@ -13,7 +13,7 @@ import SupportForm from "@/components/SupportForm";
 export default function Settings() {
   const { theme, toggleTheme } = useTheme();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, logoutMutation } = useAuth();
   const [showTutorial, setShowTutorial] = useState(false);
   const [showSupportForm, setShowSupportForm] = useState(false);
   
@@ -33,7 +33,7 @@ export default function Settings() {
   });
 
   const handleLogout = () => {
-    window.location.href = "/api/logout";
+    logoutMutation.mutate();
   };
 
   const handleEditProfile = () => {

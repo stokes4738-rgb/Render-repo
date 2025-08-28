@@ -32,6 +32,38 @@ app.get("/healthz", (req, res) => {
   res.status(200).send("ok");
 });
 
+// Database connection test endpoint
+app.get("/api/db-test", async (req, res) => {
+  try {
+    const dbUrl = process.env.DATABASE_URL;
+    if (!dbUrl) {
+      return res.status(500).json({ 
+        error: "DATABASE_URL not set",
+        hasEnvVar: false 
+      });
+    }
+    
+    // Test database connection with dynamic import
+    const { db } = await import("./db");
+    const { sql } = await import("drizzle-orm");
+    const result = await db.execute(sql`SELECT 1 as test`);
+    
+    res.json({ 
+      success: true,
+      dbUrlSet: true,
+      dbUrlPrefix: dbUrl.substring(0, 20) + "...",
+      testQuery: result
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      error: "Database connection failed",
+      message: error.message,
+      dbUrlSet: !!process.env.DATABASE_URL,
+      dbUrlPrefix: process.env.DATABASE_URL ? process.env.DATABASE_URL.substring(0, 20) + "..." : null
+    });
+  }
+});
+
 // Apply rate limiting to API routes
 app.use("/api", apiRateLimiter);
 

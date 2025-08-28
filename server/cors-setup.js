@@ -3,6 +3,7 @@ import cors from "cors";
 const allowed = [
   "https://pocketbounty.life",
   "https://www.pocketbounty.life",
+  "https://pocketbounty-web.onrender.com", // Render deployment
   "capacitor://localhost",
   "app://.",
   "http://localhost",
@@ -32,6 +33,11 @@ export default cors({
         origin.includes('replit.app') ||
         origin.includes('.replit.com') ||
         origin.includes('repl.it')) {
+      return callback(null, true);
+    }
+    
+    // Allow Render domains
+    if (origin.includes('.onrender.com')) {
       return callback(null, true);
     }
     

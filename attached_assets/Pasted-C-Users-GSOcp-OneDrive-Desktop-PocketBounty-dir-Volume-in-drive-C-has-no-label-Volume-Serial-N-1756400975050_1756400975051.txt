@@ -1,0 +1,229 @@
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>dir
+ Volume in drive C has no label.
+ Volume Serial Number is 2A23-4460
+
+ Directory of C:\Users\GSOcp\OneDrive\Desktop\PocketBounty
+
+08/28/2025  12:57 PM    <DIR>          .
+08/28/2025  12:57 PM    <DIR>          ..
+08/28/2025  12:57 PM    <DIR>          .config
+08/28/2025  12:57 PM               677 .env.example
+08/28/2025  12:57 PM    <DIR>          .git
+08/28/2025  12:57 PM               368 .gitignore
+08/28/2025  12:57 PM    <DIR>          .local
+08/28/2025  12:57 PM               965 .replit
+08/28/2025  12:57 PM             5,514 AppStore-Submission-Guide.md
+08/28/2025  12:57 PM    <DIR>          attached_assets
+08/28/2025  12:57 PM             3,154 build-ios-instructions.md
+08/28/2025  12:57 PM               654 capacitor.config.ts
+08/28/2025  12:57 PM    <DIR>          client
+08/28/2025  12:57 PM             6,088 codemagic.yaml
+08/28/2025  12:57 PM               459 components.json
+08/28/2025  12:57 PM    <DIR>          dist
+08/28/2025  12:57 PM               706 docker-compose.yml
+08/28/2025  12:57 PM             1,412 Dockerfile
+08/28/2025  12:57 PM               325 drizzle.config.ts
+08/28/2025  12:57 PM               379 ecosystem.config.js
+08/28/2025  12:57 PM    <DIR>          ios
+08/28/2025  12:57 PM           395,123 package-lock.json
+08/28/2025  12:57 PM             4,259 package.json
+08/28/2025  12:57 PM                80 postcss.config.js
+08/28/2025  12:57 PM    <DIR>          public
+08/28/2025  12:57 PM             4,938 replit.md
+08/28/2025  12:57 PM             6,209 self-host-setup.md
+08/28/2025  12:57 PM    <DIR>          server
+08/28/2025  12:57 PM    <DIR>          shared
+08/28/2025  12:57 PM             4,053 tailwind.config.ts
+08/28/2025  12:57 PM               657 tsconfig.json
+08/28/2025  12:57 PM               971 vite.config.ts
+              20 File(s)        436,991 bytes
+              12 Dir(s)  177,734,320,128 bytes free
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>git init
+Reinitialized existing Git repository in C:/Users/GSOcp/OneDrive/Desktop/PocketBounty/.git/
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>git commit -m "Initial commit - PocketBounty app"
+fatal: could not parse HEAD
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>git add .
+warning: in the working copy of '.env.example', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.replit', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'AppStore-Submission-Guide.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Dockerfile', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'attached_assets/Pasted--DOCTYPE-html-html-lang-en-head-meta-charset-utf-8-meta-name-viewport-content-widt-1756066531531_1756066531532.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'attached_assets/Pasted-import-express-type-Request-Response-NextFunction-from-express-import-registerRoutes-f-1756155118443_1756155118444.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'attached_assets/Pasted-workflows-ios-unsigned-build-name-iOS-Unsigned-Build-for-esign-max-build-duration-6-1756156650654_1756156650655.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'build-ios-instructions.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'capacitor.config.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/icon.svg', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/pwa-fixes.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/robots.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/service-worker.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/sitemap.xml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/public/sw.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/App.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/AdvancedSearch.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/BoostDialog.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/BottomNavigation.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/CreatorStatsModal.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/DemoIndicator.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/DemoLockOverlay.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/DrawerMenu.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/EnhancedAnimations.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ErrorBoundary.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/FeedbackButton.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/Header.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/IOSInput.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/InteractiveElements.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/Layout.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/LoadingStates.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/MobileOptimizations.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/NotificationSystem.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/PWAInput.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/PWAInputFix.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/PWAInstallPrompt.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/SafetyAlert.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/SupportForm.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ThemeProvider.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/Tutorial.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/TwoFactorSetup.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/TwoFactorVerification.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/accordion.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/alert-dialog.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/alert.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/aspect-ratio.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/avatar.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/badge.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/breadcrumb.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/button.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/calendar.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/card.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/carousel.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/chart.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/checkbox.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/collapsible.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/command.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/context-menu.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/dialog.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/drawer.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/dropdown-menu.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/form.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/hover-card.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/input-otp.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/input.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/label.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/menubar.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/navigation-menu.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/pagination.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/popover.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/progress.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/radio-group.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/resizable.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/scroll-area.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/select.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/separator.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/sheet.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/sidebar.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/skeleton.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/slider.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/switch.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/table.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/tabs.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/textarea.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/toast.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/toaster.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/toggle-group.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/toggle.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/components/ui/tooltip.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/contexts/DemoContext.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/use-mobile.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/use-toast.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/useAuth.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/useAuthJWT.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/useBounties.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/usePaymentMethods.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/useTransactions.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/hooks/useWebSocket.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/index.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/authUtils.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/navigation.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/pointsUtils.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/pwaUtils.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/queryClient.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/lib/utils.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/main.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Account.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Activity.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/AdminDashboard.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/AuthPage.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Bank.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Board.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/CreatorDashboard.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/CreatorInbox.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Friends.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Home.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Landing.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Messages.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/PointsStore.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Post.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Profile.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Referrals.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/Settings.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/pages/not-found.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/utils/bundleOptimization.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'client/src/utils/performance.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'codemagic.yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'components.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docker-compose.yml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'drizzle.config.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ecosystem.config.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App.xcodeproj/project.pbxproj', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/AppDelegate.swift', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Assets.xcassets/AppIcon.appiconset/Contents.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Assets.xcassets/Contents.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Assets.xcassets/Splash.imageset/Contents.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Base.lproj/LaunchScreen.storyboard', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Base.lproj/Main.storyboard', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/Info.plist', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/App/PrivacyInfo.xcprivacy', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ios/App/Podfile', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'postcss.config.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'public/manifest.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'replit.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'self-host-setup.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/auth.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/authJWT.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/db.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/index.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/ageVerification.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/ipBanning.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/rateLimiter.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/security.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/twoFactor.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/middleware/validation.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/routes.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/storage.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/utils/cache.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/utils/email.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/utils/logger.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/utils/parentalConsent.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/utils/twoFactor.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'server/vite.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'shared/schema.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tailwind.config.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tsconfig.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vite.config.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.config/.semgrep/semgrep_rules.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of '.local/state/replit/agent/design_reference/befd44b0-6f87-408f-82fa-1b51f9720d5e/b34b3bb1-db47-4e1a-9922-336bfccd1e01.html', LF will be replaced by CRLF the next time Git touches it
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>git commit -m "Initial commit - PocketBounty app"
+fatal: could not parse HEAD
+
+C:\Users\GSOcp\OneDrive\Desktop\PocketBounty>

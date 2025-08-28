@@ -10,6 +10,7 @@ import { TwoFactorService } from "./utils/twoFactor";
 import { require2FA } from "./middleware/twoFactor";
 import { requireAgeVerification } from "./middleware/ageVerification";
 import { checkIPBan } from "./middleware/ipBanning";
+import { contentFilterMiddleware } from "./middleware/contentFilter";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -498,7 +499,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/bounties', verifyToken, requireAgeVerification, async (req: any, res) => {
+  app.post('/api/bounties', verifyToken, requireAgeVerification, contentFilterMiddleware, async (req: any, res) => {
     try {
       const userId = req.user.id;
       const bountyData = insertBountySchema.parse({ ...req.body, authorId: userId });

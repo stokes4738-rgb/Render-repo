@@ -47,6 +47,13 @@ export default cors({
       return callback(null, true);
     }
     
+    // Temporary fix for production - allow all origins
+    // TODO: Remove this once we confirm the domain setup
+    if (process.env.NODE_ENV === 'production') {
+      console.log(`CORS: Allowing origin in production (temporary): ${origin}`);
+      return callback(null, true);
+    }
+    
     // Log rejected origin for debugging
     console.error(`CORS: Rejecting origin: ${origin}`);
     

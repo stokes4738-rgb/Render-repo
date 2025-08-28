@@ -26,10 +26,8 @@ export function DrawerMenu({ isOpen, onClose, activeSection, onSectionChange }: 
     { id: "activity", label: "🔔 Activity" },
     { id: "referrals", label: "🎯 Share & Earn" },
     { id: "points", label: "⭐ Buy Points" },
-    ...(user ? [
-      { id: "admin", label: "👑 Creator Analytics" },
-      { id: "inbox", label: "📬 Creator Inbox" },
-    ] : []),
+    { id: "admin", label: "👑 Creator Analytics" },
+    { id: "inbox", label: "📬 Creator Inbox" },
     { id: "settings", label: "⚙️ Settings" },
   ];
 

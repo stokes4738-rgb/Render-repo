@@ -62,6 +62,12 @@ export const users: any = pgTable("users", {
   twoFactorEnabled: boolean("two_factor_enabled").default(false),
   twoFactorSecret: varchar("two_factor_secret"), // encrypted OTP secret
   backupCodesHash: text("backup_codes_hash"), // encrypted backup codes
+  // User location for finding local bounties
+  userLatitude: decimal("user_latitude", { precision: 10, scale: 7 }),
+  userLongitude: decimal("user_longitude", { precision: 10, scale: 7 }),
+  userCity: varchar("user_city", { length: 100 }),
+  userState: varchar("user_state", { length: 100 }),
+  userCountry: varchar("user_country", { length: 100 }).default("USA"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 }, (table) => [
@@ -88,6 +94,16 @@ export const bounties = pgTable("bounties", {
   boostLevel: integer("boost_level").default(0), // 0 = no boost, 1-3 = boost levels
   boostExpiresAt: timestamp("boost_expires_at"),
   boostPurchasedAt: timestamp("boost_purchased_at"),
+  // Location fields for remote/local filtering
+  isRemote: boolean("is_remote").default(true), // true = can be done from anywhere, false = requires physical presence
+  locationRequired: boolean("location_required").default(false), // true if location is needed
+  latitude: decimal("latitude", { precision: 10, scale: 7 }), // for local bounties
+  longitude: decimal("longitude", { precision: 10, scale: 7 }), // for local bounties
+  locationAddress: varchar("location_address", { length: 255 }), // human readable address
+  locationRadius: integer("location_radius").default(10), // radius in miles for local bounties
+  city: varchar("city", { length: 100 }), // city name for easier searching
+  state: varchar("state", { length: 100 }), // state/province
+  country: varchar("country", { length: 100 }).default("USA"), // country
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 }, (table) => [
@@ -98,6 +114,9 @@ export const bounties = pgTable("bounties", {
   index("idx_bounties_category").on(table.category),
   index("idx_bounties_boost_level").on(table.boostLevel),
   index("idx_bounties_boost_expires").on(table.boostExpiresAt),
+  index("idx_bounties_is_remote").on(table.isRemote),
+  index("idx_bounties_city").on(table.city),
+  index("idx_bounties_state").on(table.state),
 ]);
 
 export const bountyApplications = pgTable("bounty_applications", {
@@ -300,6 +319,15 @@ export const insertBountySchema = createInsertSchema(bounties).omit({
     if (num > 30) throw new Error("Maximum duration is 30 days");
     return num;
   }),
+  isRemote: z.boolean().optional().default(true),
+  locationRequired: z.boolean().optional().default(false),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
+  locationAddress: z.string().optional(),
+  locationRadius: z.number().min(1).max(100).optional().default(10),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().optional().default("USA"),
 });
 
 export const insertMessageSchema = createInsertSchema(messages).omit({

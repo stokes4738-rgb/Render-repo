@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
+import { MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuthJWT";
 import { isUnauthorizedError } from "@/lib/authUtils";
@@ -23,6 +25,11 @@ const postBountySchema = z.object({
   reward: z.string().refine((val) => parseFloat(val) >= 5, "Minimum reward is $5"),
   tags: z.string().optional(),
   duration: z.string().min(1, "Please select a duration"),
+  isRemote: z.boolean().default(true),
+  locationAddress: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  locationRadius: z.number().optional(),
 });
 
 type PostBountyForm = z.infer<typeof postBountySchema>;
@@ -31,6 +38,7 @@ export default function Post() {
   const { toast } = useToast();
   const { user, isLoading } = useAuth();
   const queryClient = useQueryClient();
+  const [showLocationFields, setShowLocationFields] = useState(false);
 
   // Show login prompt if not authenticated
   if (!isLoading && !user) {
@@ -67,6 +75,11 @@ export default function Post() {
       reward: "5",
       tags: "",
       duration: "7",
+      isRemote: true,
+      locationAddress: "",
+      city: "",
+      state: "",
+      locationRadius: 10,
     },
   });
 
@@ -289,6 +302,129 @@ export default function Post() {
                   </FormItem>
                 )}
               />
+              
+              {/* Location Type Toggle */}
+              <FormField
+                control={form.control}
+                name="isRemote"
+                render={({ field }) => (
+                  <FormItem className="flex items-center justify-between rounded-lg border p-3">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">
+                        <MapPin className="inline w-4 h-4 mr-2" />
+                        Remote Work
+                      </FormLabel>
+                      <div className="text-xs text-muted-foreground">
+                        Can this be done from anywhere?
+                      </div>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={(checked) => {
+                          field.onChange(checked);
+                          setShowLocationFields(!checked);
+                        }}
+                        data-testid="switch-remote-work"
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              {/* Location Fields (shown when not remote) */}
+              {showLocationFields && (
+                <div className="space-y-3 p-3 border rounded-lg bg-muted/50">
+                  <FormField
+                    control={form.control}
+                    name="locationAddress"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs text-muted-foreground">
+                          Location Address
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="123 Main St, or general area" 
+                            {...field}
+                            data-testid="input-location-address"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <FormField
+                      control={form.control}
+                      name="city"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs text-muted-foreground">
+                            City
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Dallas" 
+                              {...field}
+                              data-testid="input-city"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="state"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-xs text-muted-foreground">
+                            State
+                          </FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="TX" 
+                              {...field}
+                              data-testid="input-state"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  <FormField
+                    control={form.control}
+                    name="locationRadius"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs text-muted-foreground">
+                          Radius (miles)
+                        </FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number"
+                            min="1"
+                            max="100"
+                            placeholder="10" 
+                            {...field}
+                            onChange={(e) => field.onChange(parseInt(e.target.value) || 10)}
+                            data-testid="input-location-radius"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                        <div className="text-xs text-muted-foreground">
+                          How far from the location can workers be?
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
 
               {/* Platform Fee Warning */}
               <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 space-y-2">

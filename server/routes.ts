@@ -421,18 +421,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await processExpiredBounties();
       await storage.updateExpiredBoosts();
       
-      const { category, search } = req.query;
+      const { category, search, isRemote, userLat, userLon, maxDistance } = req.query;
+      
+      // Parse location parameters
+      const filters: any = {
+        category: category as string,
+        search: search as string,
+      };
+      
+      // Add location filtering
+      if (isRemote !== undefined) {
+        filters.isRemote = isRemote === 'true';
+      }
+      
+      if (userLat && userLon) {
+        filters.userLat = parseFloat(userLat as string);
+        filters.userLon = parseFloat(userLon as string);
+      }
+      
+      if (maxDistance) {
+        filters.maxDistance = parseInt(maxDistance as string);
+      }
       
       // If no filters, use the boost-aware method
-      if (!category && !search) {
+      if (!category && !search && !isRemote && !userLat) {
         const bounties = await storage.getActiveBounties();
         res.json(bounties);
       } else {
-        // Use regular filtered search
-        const bounties = await storage.getBounties({
-          category: category as string,
-          search: search as string,
-        });
+        // Use regular filtered search with location
+        const bounties = await storage.getBounties(filters);
         res.json(bounties);
       }
     } catch (error) {

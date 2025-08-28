@@ -286,7 +286,14 @@ export class DatabaseStorage implements IStorage {
     return newBounty;
   }
 
-  async getBounties(filters?: { category?: string; search?: string }): Promise<Bounty[]> {
+  async getBounties(filters?: { 
+    category?: string; 
+    search?: string;
+    isRemote?: boolean;
+    userLat?: number;
+    userLon?: number;
+    maxDistance?: number;
+  }): Promise<Bounty[]> {
     let conditions = [eq(bounties.status, "active")];
     
     if (filters?.category) {
@@ -299,6 +306,28 @@ export class DatabaseStorage implements IStorage {
           sql`${bounties.title} ILIKE ${'%' + filters.search + '%'}`,
           sql`${bounties.description} ILIKE ${'%' + filters.search + '%'}`
         )!
+      );
+    }
+    
+    // Filter by remote/local
+    if (filters?.isRemote !== undefined) {
+      conditions.push(eq(bounties.isRemote, filters.isRemote));
+    }
+    
+    // For local bounties, filter by distance if user location provided
+    if (filters?.userLat && filters?.userLon && !filters?.isRemote) {
+      const maxDist = filters.maxDistance || 50; // default 50 miles
+      // Using Haversine formula for distance calculation
+      conditions.push(
+        sql`
+          (3959 * acos(
+            cos(radians(${filters.userLat})) * 
+            cos(radians(${bounties.latitude}::numeric)) * 
+            cos(radians(${bounties.longitude}::numeric) - radians(${filters.userLon})) + 
+            sin(radians(${filters.userLat})) * 
+            sin(radians(${bounties.latitude}::numeric))
+          )) <= ${maxDist}
+        `
       );
     }
     

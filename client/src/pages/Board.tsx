@@ -4,7 +4,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Lock, Rocket } from "lucide-react";
+import { Heart, Lock, Rocket, MapPin, Globe } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuthJWT";
 import { useBounties } from "@/hooks/useBounties";
@@ -25,12 +28,43 @@ export default function Board() {
   const [favoritedBounties, setFavoritedBounties] = useState<Set<string>>(new Set());
   const [showDemoLock, setShowDemoLock] = useState(false);
   const [boostBountyId, setBoostBountyId] = useState<string | null>(null);
+  const [showOnlyRemote, setShowOnlyRemote] = useState<boolean | null>(null);
+  const [locationFilter, setLocationFilter] = useState({ city: "", state: "", radius: 50 });
   const { toast } = useToast();
   const { user } = useAuth();
   const { isDemoMode } = useDemo();
   const queryClient = useQueryClient();
 
   const { bounties, isLoading } = useBounties();
+  
+  // Filter bounties based on location settings
+  const filteredBounties = bounties.filter((bounty: Bounty) => {
+    // Category filter
+    if (selectedCategory !== "all" && bounty.category !== selectedCategory) {
+      return false;
+    }
+    
+    // Remote/local filter
+    if (showOnlyRemote !== null) {
+      if (showOnlyRemote && !bounty.isRemote) return false;
+      if (!showOnlyRemote && bounty.isRemote) return false;
+    }
+    
+    // Location filter for local bounties
+    if (!bounty.isRemote && locationFilter.city) {
+      if (bounty.city?.toLowerCase() !== locationFilter.city.toLowerCase()) {
+        return false;
+      }
+    }
+    
+    if (!bounty.isRemote && locationFilter.state) {
+      if (bounty.state?.toLowerCase() !== locationFilter.state.toLowerCase()) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
 
   const handleApply = (bountyId: string) => {
     if (isDemoMode) {
@@ -131,9 +165,79 @@ export default function Board() {
         </Select>
       </div>
 
+      {/* Location Filter */}
+      <div className="bg-muted/50 rounded-lg p-3 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-muted-foreground" />
+            <Label className="text-sm font-medium">Work Type Filter</Label>
+          </div>
+          <div className="flex items-center gap-4">
+            <Button
+              size="sm"
+              variant={showOnlyRemote === true ? "default" : "outline"}
+              onClick={() => setShowOnlyRemote(showOnlyRemote === true ? null : true)}
+              className="gap-2"
+            >
+              <Globe className="w-3 h-3" />
+              Remote Only
+            </Button>
+            <Button
+              size="sm"
+              variant={showOnlyRemote === false ? "default" : "outline"}
+              onClick={() => setShowOnlyRemote(showOnlyRemote === false ? null : false)}
+              className="gap-2"
+            >
+              <MapPin className="w-3 h-3" />
+              Local Only
+            </Button>
+          </div>
+        </div>
+        
+        {showOnlyRemote === false && (
+          <div className="grid grid-cols-3 gap-3 pt-2 border-t">
+            <div>
+              <Label htmlFor="city" className="text-xs">City</Label>
+              <Input
+                id="city"
+                placeholder="e.g., Dallas"
+                value={locationFilter.city}
+                onChange={(e) => setLocationFilter({...locationFilter, city: e.target.value})}
+                className="h-8 text-sm"
+                data-testid="input-filter-city"
+              />
+            </div>
+            <div>
+              <Label htmlFor="state" className="text-xs">State</Label>
+              <Input
+                id="state"
+                placeholder="e.g., TX"
+                value={locationFilter.state}
+                onChange={(e) => setLocationFilter({...locationFilter, state: e.target.value})}
+                className="h-8 text-sm"
+                data-testid="input-filter-state"
+              />
+            </div>
+            <div>
+              <Label htmlFor="radius" className="text-xs">Radius (miles)</Label>
+              <Input
+                id="radius"
+                type="number"
+                min="1"
+                max="500"
+                value={locationFilter.radius}
+                onChange={(e) => setLocationFilter({...locationFilter, radius: parseInt(e.target.value) || 50})}
+                className="h-8 text-sm"
+                data-testid="input-filter-radius"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Bounties List */}
       <div className="space-y-3">
-        {(bounties as Bounty[]).length === 0 ? (
+        {filteredBounties.length === 0 ? (
           <Card className="theme-transition bg-gradient-to-br from-primary/5 to-accent/5">
             <CardContent className="p-8 text-center">
               <div className="text-4xl mb-4">🚀</div>
@@ -160,7 +264,7 @@ export default function Board() {
             </CardContent>
           </Card>
         ) : (
-          (bounties as Bounty[]).map((bounty: Bounty) => (
+          filteredBounties.map((bounty: Bounty) => (
             <Card key={bounty.id} className="theme-transition hover:shadow-lg hover:shadow-primary/10 border-l-4 border-l-transparent hover:border-l-primary transition-all duration-300" data-testid={`bounty-${bounty.id}`}>
               <CardContent className="p-3.5">
                 <div className="flex justify-between items-start gap-3">
@@ -172,9 +276,20 @@ export default function Board() {
                       {bounty.description}
                     </p>
                     
-                    {/* Tags */}
+                    {/* Tags and Location */}
                     <div className="flex flex-wrap gap-1.5 mb-2">
                       <Badge variant="secondary">{bounty.category}</Badge>
+                      {bounty.isRemote ? (
+                        <Badge variant="default" className="gap-1">
+                          <Globe className="w-3 h-3" />
+                          Remote
+                        </Badge>
+                      ) : (
+                        <Badge variant="destructive" className="gap-1">
+                          <MapPin className="w-3 h-3" />
+                          {bounty.city && bounty.state ? `${bounty.city}, ${bounty.state}` : "Local"}
+                        </Badge>
+                      )}
                       {bounty.tags?.map((tag: string, index: number) => (
                         <Badge key={index} variant="outline" className="text-xs">
                           {tag}

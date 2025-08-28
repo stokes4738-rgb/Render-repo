@@ -128,45 +128,47 @@ export function setupAuthJWT(app: Express) {
       
       console.log(`Login attempt for username: ${username}`);
       
-      // Try database first
+      // For demo accounts, always use hardcoded data for reliability
+      if (username === "demo" && password === "demo") {
+        const demoUser = {
+          id: "demo123",
+          username: "demo",
+          email: "demo@pocketbounty.app",
+          firstName: "Demo",
+          lastName: "User",
+          handle: null,
+          points: 1000,
+          balance: "10.00",
+          lifetimeEarned: "5.00"
+        };
+        const token = generateToken(demoUser);
+        return res.json({ token, user: demoUser });
+      }
+      
+      if (username === "Dallas1221" && password === "dallas") {
+        const dallasUser = {
+          id: "46848986",
+          username: "Dallas1221",
+          email: "stokes4738@gmail.com",
+          firstName: "dallas",
+          lastName: "abbott",
+          handle: "Dallas1221",
+          points: 309691,
+          balance: "0.00",
+          lifetimeEarned: "1.00"
+        };
+        const token = generateToken(dallasUser);
+        return res.json({ token, user: dallasUser });
+      }
+      
+      // For other users, try database
       let user;
       try {
         user = await storage.getUserByUsername(username);
         console.log(`User found in DB: ${user ? 'Yes' : 'No'}`);
       } catch (dbError) {
         console.error("Database error:", dbError);
-        // If database fails, use hardcoded demo accounts
-        if (username === "demo" && password === "demo") {
-          const demoUser = {
-            id: "demo123",
-            username: "demo",
-            email: "demo@pocketbounty.app",
-            firstName: "Demo",
-            lastName: "User",
-            handle: null,
-            points: 1000,
-            balance: "10.00",
-            lifetimeEarned: "5.00"
-          };
-          const token = generateToken(demoUser);
-          return res.json({ token, user: demoUser });
-        }
-        if (username === "Dallas1221" && password === "dallas") {
-          const dallasUser = {
-            id: "46848986",
-            username: "Dallas1221",
-            email: "stokes4738@gmail.com",
-            firstName: "dallas",
-            lastName: "abbott",
-            handle: "Dallas1221",
-            points: 309691,
-            balance: "0.00",
-            lifetimeEarned: "1.00"
-          };
-          const token = generateToken(dallasUser);
-          return res.json({ token, user: dallasUser });
-        }
-        throw dbError;
+        return res.status(500).json({ message: "Database connection error" });
       }
       
       if (!user || !user.password) {

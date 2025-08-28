@@ -22,14 +22,27 @@ export default cors({
     }
     
     // Allow any localhost port in development
-    if (process.env.NODE_ENV !== 'production' && origin.startsWith('http://localhost')) {
+    if (origin.startsWith('http://localhost') || origin.startsWith('https://localhost')) {
       return callback(null, true);
     }
     
-    // Allow Replit domains for development and sharing
-    if (origin.includes('.replit.dev') || origin.includes('.repl.co') || origin.includes('replit.app')) {
+    // Allow Replit domains for development and sharing - more comprehensive check
+    if (origin.includes('.replit.dev') || 
+        origin.includes('.repl.co') || 
+        origin.includes('replit.app') ||
+        origin.includes('.replit.com') ||
+        origin.includes('repl.it')) {
       return callback(null, true);
     }
+    
+    // In development, be more permissive
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`CORS: Allowing origin in development: ${origin}`);
+      return callback(null, true);
+    }
+    
+    // Log rejected origin for debugging
+    console.error(`CORS: Rejecting origin: ${origin}`);
     
     // Reject other origins
     return callback(new Error("Not allowed by CORS"));

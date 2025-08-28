@@ -40,7 +40,12 @@ import {
   type TwoFactorLog,
   type InsertTwoFactorLog,
 } from "@shared/schema";
-import { db } from "./db";
+// Try to use pooled connection, fall back to HTTP if not available
+import { db as httpDb } from "./db";
+import { db as poolDb } from "./db-pool";
+
+// Use pooled connection for better reliability
+const db = poolDb || httpDb;
 import { eq, desc, and, or, sql } from "drizzle-orm";
 
 export interface IStorage {

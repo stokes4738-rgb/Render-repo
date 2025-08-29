@@ -7,6 +7,7 @@ import helmet from "helmet";
 // @ts-ignore
 import corsSetup from "./cors-setup.js";
 import { config, logStartupInfo, runDiagnostics } from "./config";
+import { storage } from "./storage";
 
 const app = express();
 
@@ -166,8 +167,18 @@ app.use((req, res, next) => {
     port,
     host: process.platform === 'win32' ? 'localhost' : '0.0.0.0',
     reusePort: true,
-  }, () => {
+  }, async () => {
     logStartupInfo();
+    
+    // Ensure support user exists
+    try {
+      const supportUserId = await storage.ensureSupportUser();
+      process.env.SUPPORT_USER_ID = supportUserId;
+      log(`Support user ensured with ID: ${supportUserId}`);
+    } catch (error: any) {
+      log(`Warning: Failed to ensure support user: ${error.message}`);
+    }
+    
     log(`serving on port ${port}`);
   });
 

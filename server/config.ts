@@ -14,6 +14,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().default('5000'),
   APP_BASE_URL: z.string().default('http://localhost:5000'),
+  PUBLIC_BASE_URL: z.string().optional(),
 });
 
 // Parse and validate environment variables
@@ -40,6 +41,29 @@ try {
   throw error;
 }
 
+// Calculate the correct base URL for production
+function getBaseUrl(): string {
+  // Use PUBLIC_BASE_URL if set (for Render production)
+  if (env.PUBLIC_BASE_URL) {
+    return env.PUBLIC_BASE_URL;
+  }
+  
+  // For production, use the production URL
+  if (env.NODE_ENV === 'production') {
+    return 'https://pocketbounty-web.onrender.com';
+  }
+  
+  // For development, use APP_BASE_URL
+  return env.APP_BASE_URL;
+}
+
+// Calculate the actual port
+function getPort(): number {
+  // In production (Render), use PORT from environment (usually 3000)
+  // In development, use our custom port 5000
+  return parseInt(env.PORT);
+}
+
 // Export validated config
 export const config = {
   database: {
@@ -53,9 +77,9 @@ export const config = {
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
   },
   server: {
-    port: parseInt(env.PORT),
+    port: getPort(),
     environment: env.NODE_ENV,
-    baseUrl: env.APP_BASE_URL,
+    baseUrl: getBaseUrl(),
     sessionSecret: env.SESSION_SECRET,
   },
   email: {
@@ -68,7 +92,8 @@ export const config = {
       'http://localhost:5173',
       'https://pocketbounty.life',
       'https://www.pocketbounty.life',
-      env.APP_BASE_URL,
+      'https://pocketbounty-web.onrender.com',
+      getBaseUrl(),
     ].filter(Boolean),
   },
   logging: {

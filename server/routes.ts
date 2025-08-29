@@ -1283,27 +1283,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Message is required" });
       }
       
-      // Create or use an anonymous user for feedback
+      // Use support user for anonymous feedback
       if (!userId) {
-        try {
-          const anonymousUser = await storage.getUserByUsername('anonymous_feedback');
-          if (anonymousUser) {
-            userId = anonymousUser.id;
-          } else {
-            const newUser = await storage.createUser({
-              id: 'anonymous_feedback',
-              username: 'anonymous_feedback',
-              email: 'anonymous@feedback.local',
-              password: 'none',
-              points: 0,
-              balance: "0",
-            });
-            userId = newUser.id;
+        if (process.env.SUPPORT_USER_ID) {
+          userId = process.env.SUPPORT_USER_ID;
+        } else {
+          try {
+            userId = await storage.ensureSupportUser();
+          } catch (err: any) {
+            logger.error('Failed to create support user for anonymous feedback:', err);
+            return res.status(500).json({ error: "Unable to process anonymous feedback" });
           }
-        } catch (err) {
-          // User already exists
-          userId = 'anonymous_feedback';
         }
+      }
+      
+      // Validate user ID before proceeding
+      if (!userId || typeof userId !== 'string' || /^\d+$/.test(userId)) {
+        logger.error(`Invalid user ID for feedback: ${userId}`);
+        return res.status(400).json({ error: "Invalid user context" });
       }
       
       // Save feedback to database
@@ -1320,8 +1317,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         id: feedbackRecord.id,
         message: "Feedback received successfully" 
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.error("Error saving feedback:", error);
+      
+      // Specific error handling for FK constraints
+      if (error.code === '23503' && error.message.includes('foreign key constraint')) {
+        return res.status(400).json({ error: "Invalid user reference" });
+      }
+      
       res.status(500).json({ error: "Failed to save feedback" });
     }
   });
@@ -1331,14 +1334,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.id;
       const { message, type } = req.body;
-      const creatorId = "46848986"; // Dallas Abbott's user ID
+      // Use support user as the feedback recipient
+      const supportUserId = process.env.SUPPORT_USER_ID || await storage.ensureSupportUser();
 
       if (!message || !message.trim()) {
         return res.status(400).json({ message: "Message is required" });
       }
 
-      // If creator is sending feedback to themselves, create a special admin thread
-      if (userId === creatorId) {
+      // If user is the support user, handle specially
+      if (userId === supportUserId) {
         // Create an admin user for creator feedback if it doesn't exist
         try {
           await storage.createUser({
@@ -1379,9 +1383,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const queryTimeout = 15000; // 15 seconds for complex feedback operations
       
       try {
-        // Get or create thread between user and creator
+        // Get or create thread between user and support
         const thread = await Promise.race([
-          storage.getOrCreateThread(userId, creatorId),
+          storage.getOrCreateThread(userId, supportUserId),
           new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Thread query timeout')), queryTimeout)
           )

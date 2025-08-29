@@ -1,0 +1,175 @@
+PROMPT FOR THE DEV/AI
+
+You’re fixing a deployed Node/Express + Drizzle + Postgres app (PocketBounty) that’s running on Render. The deploy succeeds, the app serves on port 3000, and logs show normal GETs. But POST /api/feedback fails with FK errors and returns 408s.
+
+Raw log clues to respect
+
+Service URL: https://pocketbounty-web.onrender.com
+
+Server banner says: Base URL: http://localhost:5000, Port: 3000 (this mismatch should be corrected)
+
+Successful login as test1, JWT issued, standard GETs return 304/[] (fine)
+
+Fatal on feedback (twice):
+
+error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user2_id_users_id_fk"
+detail: 'Key (user2_id)=(46848986) is not present in table "users".'
+at DatabaseStorage.getOrCreateThread (dist/index.js:768)
+at ... (dist/index.js:3289)
+code: '23503'
+
+
+One user object in logs is a UUID (e.g., c03999df-...) while the failing FK shows a numeric 46848986. Likely ID type mismatch or unseeded support/recipient user.
+
+What to do (make these changes explicitly)
+
+Unify user ID types and lookups
+
+Inspect DatabaseStorage.getOrCreateThread (dist line ~768 in source before build).
+
+Ensure both message_threads.user1_id and user2_id reference the internal users.id primary key (not an external numeric handle).
+
+If the app currently stores external IDs (e.g., Stripe/Discord/TikTok/etc.), map them to internal users first:
+
+Implement getOrCreateUserByExternal(externalProvider, externalId, profile) that returns a valid internal users.id (UUID).
+
+Replace any usage where user2_id is assigned a raw number like 46848986. Always resolve to an internal users.id before insert.
+
+Seed a support/recipient user (for feedback)
+
+If /api/feedback implicitly sends to “Support” or a hardcoded user, seed that user at startup and expose its internal UUID via env:
+
+ENV: SUPPORT_USER_USERNAME=support, SUPPORT_USER_ID=<uuid>.
+
+On boot, upsert users row for “support” and set process.env.SUPPORT_USER_ID to the internal UUID actually in the table.
+
+In feedback creation: use that internal UUID, not a numeric/foreign platform ID.
+
+Schema sanity (Drizzle/SQL)
+
+Verify users.id type == message_threads.user1_id and user2_id type (both should match, ideally UUID).
+
+If types differ, write a migration:
+
+Add new UUID columns user1_id_uuid/user2_id_uuid referencing users(id).
+
+Backfill from current values by resolving external → internal mapping.
+
+Drop old int columns and rename new columns to user1_id/user2_id.
+
+Add UNIQUE on normalized participant pair to prevent dup threads:
+
+e.g., store (a,b) with a < b and UNIQUE (a,b).
+
+Consider DEFERRABLE INITIALLY IMMEDIATE FKs only if you use multi-row transactions that insert user+thread together (optional).
+
+Transaction + timeout behavior for feedback
+
+Wrap feedback thread creation + first message insert in a single transaction.
+
+On FK failure, return 400 with a clear JSON (e.g., { error: "Recipient not found" }), not a 408 timeout.
+
+Increase Postgres pool timeouts conservatively if you’re actually timing out; but the root cause here is FK mismatch.
+
+Config correctness
+
+Fix banner and config to reflect Render reality:
+
+PORT=3000 (Render will bind to it), remove/stop printing Base URL: http://localhost:5000 in production or compute it from PUBLIC_BASE_URL=https://pocketbounty-web.onrender.com.
+
+Confirm DATABASE_URL, NODE_ENV=production, STRIPE_MODE=TEST are set as intended.
+
+Code changes to implement (illustrative, adapt to Drizzle models)
+
+// startup/seed.ts
+import { db } from './db';
+import { users } from './schema';
+import { eq } from 'drizzle-orm';
+import { randomUUID } from 'crypto';
+
+export async function ensureSupportUser() {
+  const username = process.env.SUPPORT_USER_USERNAME ?? 'support';
+  let support = await db.select().from(users).where(eq(users.username, username)).limit(1);
+  if (!support.length) {
+    const id = randomUUID();
+    await db.insert(users).values({ id, username, role: 'support' });
+    process.env.SUPPORT_USER_ID = id;
+  } else {
+    process.env.SUPPORT_USER_ID = support[0].id;
+  }
+}
+
+// storage.ts (thread creation)
+async getOrCreateThread(userIdA: string, userIdB: string) {
+  // Ensure both IDs are internal UUIDs:
+  if (!isUuid(userIdA) || !isUuid(userIdB)) {
+    throw new Error('Thread participants must be internal user UUIDs');
+  }
+
+  const [a, b] = [userIdA, userIdB].sort(); // normalize
+  const existing = await db.query.message_threads.findFirst({
+    where: (t, { and, eq }) => and(eq(t.user1Id, a), eq(t.user2Id, b)),
+  });
+  if (existing) return existing;
+
+  // Validate existence to avoid FK error
+  const [ua] = await db.select().from(users).where(eq(users.id, a)).limit(1);
+  const [ub] = await db.select().from(users).where(eq(users.id, b)).limit(1);
+  if (!ua || !ub) throw new Error('One or both users do not exist');
+
+  return await db.insert(message_threads).values({ user1Id: a, user2Id: b }).returning();
+}
+
+// routes/feedback.ts
+router.post('/api/feedback', async (req, res) => {
+  try {
+    const senderId = req.user.id; // internal UUID from auth
+    const recipientId = process.env.SUPPORT_USER_ID; // internal UUID set at boot
+    if (!recipientId) throw new Error('Support user not configured');
+
+    await db.transaction(async (tx) => {
+      const thread = await storage.getOrCreateThread(senderId, recipientId);
+      await tx.insert(messages).values({
+        threadId: thread.id,
+        senderId,
+        body: req.body.message,
+      });
+    });
+
+    res.status(201).json({ ok: true });
+  } catch (err:any) {
+    if (String(err.message).includes('do not exist') || String(err.message).includes('UUID')) {
+      return res.status(400).json({ error: 'Invalid participants' });
+    }
+    return res.status(500).json({ error: 'Feedback failed' });
+  }
+});
+
+
+Verification steps
+
+On boot, log the actual PUBLIC_BASE_URL and PORT.
+
+Log the resolved SUPPORT_USER_ID (UUID) once (debug level).
+
+Create a test user; POST /api/feedback → 201; verify 1 row in message_threads and 1 row in messages, both FKs valid.
+
+Nice-to-have guards
+
+Validate request body for feedback (min length, spam throttle).
+
+Add 429 rate limiter to /api/feedback.
+
+Deliverables
+
+Migrations (if ID types differ).
+
+Seed on startup (ensureSupportUser()).
+
+Fixed getOrCreateThread to enforce internal UUIDs.
+
+Fixed /api/feedback to use support UUID and proper error codes (no fake 408).
+
+Config/banner corrected for Render.
+
+End of prompt. Please implement exactly, then rebuild and re-deploy.

@@ -48,6 +48,7 @@ import {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, or, sql } from "drizzle-orm";
+import { randomUUID } from "crypto";
 
 export interface IStorage {
   // User operations
@@ -141,6 +142,9 @@ export interface IStorage {
   
   // Profile update operations  
   updateUserProfile(userId: string, profileData: { firstName?: string; lastName?: string; handle?: string; bio?: string; skills?: string; experience?: string }): Promise<void>;
+  
+  // Support user operations
+  ensureSupportUser(): Promise<string>;
   
   // Referral operations
   generateReferralCode(userId: string): Promise<string>;
@@ -517,8 +521,62 @@ export class DatabaseStorage implements IStorage {
       .where(eq(transactions.id, id));
   }
 
+  // Support user operations
+  async ensureSupportUser(): Promise<string> {
+    const supportUsername = process.env.SUPPORT_USER_USERNAME || 'support';
+    
+    try {
+      // Check if support user already exists
+      const existingUser = await this.getUserByUsername(supportUsername);
+      if (existingUser) {
+        return existingUser.id;
+      }
+    } catch (error) {
+      // User doesn't exist, create them
+    }
+    
+    // Create support user
+    const supportUser = await this.createUser({
+      id: randomUUID(),
+      username: supportUsername,
+      email: 'support@pocketbounty.life',
+      password: 'N/A_SUPPORT_ACCOUNT',
+      firstName: 'PocketBounty',
+      lastName: 'Support',
+      bio: 'Official PocketBounty support account',
+      points: 0,
+      balance: "0.00",
+    });
+    
+    return supportUser.id;
+  }
+
   // Messaging operations
   async getOrCreateThread(user1Id: string, user2Id: string): Promise<MessageThread> {
+    // Validate that both IDs are strings and not numeric
+    if (!user1Id || !user2Id || typeof user1Id !== 'string' || typeof user2Id !== 'string') {
+      throw new Error('Thread participants must be valid string user IDs');
+    }
+    
+    // Check for numeric IDs which should not be used
+    if (/^\d+$/.test(user1Id) || /^\d+$/.test(user2Id)) {
+      throw new Error(`Invalid user ID format: numeric IDs not allowed (${user1Id}, ${user2Id})`);
+    }
+
+    // Verify both users exist in the database before creating thread
+    const [user1, user2] = await Promise.all([
+      db.select({ id: users.id }).from(users).where(eq(users.id, user1Id)).limit(1),
+      db.select({ id: users.id }).from(users).where(eq(users.id, user2Id)).limit(1)
+    ]);
+
+    if (user1.length === 0) {
+      throw new Error(`User with ID ${user1Id} not found`);
+    }
+    if (user2.length === 0) {
+      throw new Error(`User with ID ${user2Id} not found`);
+    }
+
+    // Check for existing thread
     const [existingThread] = await db
       .select()
       .from(messageThreads)
@@ -533,6 +591,7 @@ export class DatabaseStorage implements IStorage {
       return existingThread;
     }
 
+    // Create new thread with validated user IDs
     const [newThread] = await db
       .insert(messageThreads)
       .values({ user1Id, user2Id })

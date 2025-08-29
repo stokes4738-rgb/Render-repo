@@ -42,6 +42,705 @@ const GAME_CONFIG = {
 // Game type definitions
 type GameType = 'flappy' | 'snake' | '2048' | 'memory' | 'simon';
 
+// Snake Game Component
+function SnakeGame() {
+  const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
+  const [food, setFood] = useState({ x: 5, y: 5 });
+  const [direction, setDirection] = useState({ x: 0, y: 0 });
+  const [gameRunning, setGameRunning] = useState(false);
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const submitScoreMutation = useMutation({
+    mutationFn: async (score: number) => {
+      const points = Math.floor(score * 2); // 2 points per food eaten
+      return apiRequest("POST", "/api/user/points", { 
+        points, 
+        reason: `Snake game - ate ${score} food items` 
+      });
+    },
+    onSuccess: (data: any) => {
+      const pointsEarned = Math.floor(score * 2);
+      if (pointsEarned > 0) {
+        toast({
+          title: "Points Earned! 🐍",
+          description: `You earned ${pointsEarned} points for your snake skills!`,
+        });
+        queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      }
+    },
+  });
+
+  const resetSnake = () => {
+    setSnake([{ x: 10, y: 10 }]);
+    setFood({ x: 5, y: 5 });
+    setDirection({ x: 0, y: 0 });
+    setGameRunning(false);
+    setScore(0);
+    setGameOver(false);
+  };
+
+  const startSnake = () => {
+    resetSnake();
+    setDirection({ x: 1, y: 0 });
+    setGameRunning(true);
+  };
+
+  // Snake game loop
+  useEffect(() => {
+    if (!gameRunning || gameOver) return;
+
+    const gameInterval = setInterval(() => {
+      setSnake(currentSnake => {
+        const newSnake = [...currentSnake];
+        const head = { x: newSnake[0].x + direction.x, y: newSnake[0].y + direction.y };
+
+        // Wall collision
+        if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+          setGameOver(true);
+          setGameRunning(false);
+          if (score > 0) submitScoreMutation.mutate(score);
+          return currentSnake;
+        }
+
+        // Self collision
+        if (newSnake.some(segment => segment.x === head.x && segment.y === head.y)) {
+          setGameOver(true);
+          setGameRunning(false);
+          if (score > 0) submitScoreMutation.mutate(score);
+          return currentSnake;
+        }
+
+        newSnake.unshift(head);
+
+        // Check food collision
+        if (head.x === food.x && head.y === food.y) {
+          setScore(s => s + 1);
+          setFood({
+            x: Math.floor(Math.random() * 20),
+            y: Math.floor(Math.random() * 20),
+          });
+        } else {
+          newSnake.pop();
+        }
+
+        return newSnake;
+      });
+    }, 150);
+
+    return () => clearInterval(gameInterval);
+  }, [gameRunning, gameOver, direction, food, score, submitScoreMutation]);
+
+  // Snake controls
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!gameRunning || gameOver) return;
+      
+      switch (e.key) {
+        case 'ArrowUp':
+          if (direction.y === 0) setDirection({ x: 0, y: -1 });
+          break;
+        case 'ArrowDown':
+          if (direction.y === 0) setDirection({ x: 0, y: 1 });
+          break;
+        case 'ArrowLeft':
+          if (direction.x === 0) setDirection({ x: -1, y: 0 });
+          break;
+        case 'ArrowRight':
+          if (direction.x === 0) setDirection({ x: 1, y: 0 });
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [direction, gameRunning, gameOver]);
+
+  return (
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>🐍 Snake Game</span>
+          <Badge variant="secondary">Score: {score}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-20 gap-0 w-80 h-80 mx-auto border border-border rounded-lg overflow-hidden">
+          {Array.from({ length: 400 }).map((_, index) => {
+            const x = index % 20;
+            const y = Math.floor(index / 20);
+            const isSnake = snake.some(segment => segment.x === x && segment.y === y);
+            const isFood = food.x === x && food.y === y;
+            const isHead = snake[0]?.x === x && snake[0]?.y === y;
+            
+            return (
+              <div
+                key={index}
+                className={`w-4 h-4 ${
+                  isSnake 
+                    ? isHead ? 'bg-green-500' : 'bg-green-400' 
+                    : isFood 
+                    ? 'bg-red-500' 
+                    : 'bg-gray-100 dark:bg-gray-800'
+                }`}
+                data-testid={`snake-cell-${x}-${y}`}
+              />
+            );
+          })}
+        </div>
+
+        <div className="flex gap-2">
+          {!gameRunning && !gameOver && (
+            <Button onClick={startSnake} className="flex-1" data-testid="button-start-snake">
+              <Play className="w-4 h-4 mr-2" />
+              Start Snake
+            </Button>
+          )}
+          
+          {gameOver && (
+            <Button onClick={startSnake} className="flex-1" data-testid="button-restart-snake">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              Play Again
+            </Button>
+          )}
+          
+          {gameRunning && (
+            <Button onClick={() => { setGameRunning(false); setGameOver(true); }} variant="outline" className="flex-1" data-testid="button-pause-snake">
+              <Pause className="w-4 h-4 mr-2" />
+              End Game
+            </Button>
+          )}
+        </div>
+
+        <div className="text-xs text-muted-foreground text-center space-y-1">
+          <p>🎯 Use arrow keys to control the snake</p>
+          <p>🍎 Eat red food to grow and earn points!</p>
+          <p>💰 Earn 2 points per food eaten</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// 2048 Game Component  
+function Game2048() {
+  const [board, setBoard] = useState(() => {
+    const newBoard = Array(4).fill(null).map(() => Array(4).fill(0));
+    addNewTile(newBoard);
+    addNewTile(newBoard);
+    return newBoard;
+  });
+  const [score, setScore] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
+  const [won, setWon] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const submitScoreMutation = useMutation({
+    mutationFn: async (score: number) => {
+      const points = Math.floor(score / 100); // 1 point per 100 score
+      return apiRequest("POST", "/api/user/points", { 
+        points, 
+        reason: `2048 game - scored ${score} points` 
+      });
+    },
+    onSuccess: (data: any) => {
+      const pointsEarned = Math.floor(score / 100);
+      if (pointsEarned > 0) {
+        toast({
+          title: "Points Earned! 🎯",
+          description: `You earned ${pointsEarned} points for your 2048 skills!`,
+        });
+        queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      }
+    },
+  });
+
+  function addNewTile(board: number[][]) {
+    const emptyCells = [];
+    for (let i = 0; i < 4; i++) {
+      for (let j = 0; j < 4; j++) {
+        if (board[i][j] === 0) {
+          emptyCells.push({ row: i, col: j });
+        }
+      }
+    }
+    if (emptyCells.length > 0) {
+      const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+      board[randomCell.row][randomCell.col] = Math.random() < 0.9 ? 2 : 4;
+    }
+  }
+
+  function moveLeft(board: number[][]) {
+    let newBoard = board.map(row => [...row]);
+    let newScore = 0;
+    let moved = false;
+
+    for (let row = 0; row < 4; row++) {
+      let arr = newBoard[row].filter(cell => cell !== 0);
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] === arr[i + 1]) {
+          arr[i] *= 2;
+          newScore += arr[i];
+          if (arr[i] === 2048) setWon(true);
+          arr[i + 1] = 0;
+        }
+      }
+      arr = arr.filter(cell => cell !== 0);
+      while (arr.length < 4) arr.push(0);
+      
+      for (let col = 0; col < 4; col++) {
+        if (newBoard[row][col] !== arr[col]) moved = true;
+        newBoard[row][col] = arr[col];
+      }
+    }
+
+    return { board: newBoard, score: newScore, moved };
+  }
+
+  function rotate90(board: number[][]) {
+    return board[0].map((_, index) => board.map(row => row[index]).reverse());
+  }
+
+  const move = (direction: 'up' | 'down' | 'left' | 'right') => {
+    if (gameOver) return;
+
+    let boardToMove = [...board];
+    let rotations = 0;
+
+    switch (direction) {
+      case 'left': rotations = 0; break;
+      case 'up': rotations = 1; break;
+      case 'right': rotations = 2; break;
+      case 'down': rotations = 3; break;
+    }
+
+    for (let i = 0; i < rotations; i++) {
+      boardToMove = rotate90(boardToMove);
+    }
+
+    const { board: movedBoard, score: moveScore, moved } = moveLeft(boardToMove);
+
+    for (let i = 0; i < (4 - rotations) % 4; i++) {
+      boardToMove = rotate90(movedBoard);
+    }
+
+    if (moved) {
+      addNewTile(boardToMove);
+      setBoard(boardToMove);
+      setScore(prevScore => prevScore + moveScore);
+
+      // Check game over
+      const hasEmptyCell = boardToMove.some(row => row.some(cell => cell === 0));
+      if (!hasEmptyCell) {
+        let canMove = false;
+        for (let i = 0; i < 4 && !canMove; i++) {
+          for (let j = 0; j < 3 && !canMove; j++) {
+            if (boardToMove[i][j] === boardToMove[i][j + 1] || 
+                boardToMove[j][i] === boardToMove[j + 1][i]) {
+              canMove = true;
+            }
+          }
+        }
+        if (!canMove) {
+          setGameOver(true);
+          if (score > 0) submitScoreMutation.mutate(score);
+        }
+      }
+    }
+  };
+
+  // 2048 controls
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (gameOver) return;
+      switch (e.key) {
+        case 'ArrowUp': move('up'); break;
+        case 'ArrowDown': move('down'); break;
+        case 'ArrowLeft': move('left'); break;
+        case 'ArrowRight': move('right'); break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [gameOver, board, score]);
+
+  const reset2048 = () => {
+    const newBoard = Array(4).fill(null).map(() => Array(4).fill(0));
+    addNewTile(newBoard);
+    addNewTile(newBoard);
+    setBoard(newBoard);
+    setScore(0);
+    setGameOver(false);
+    setWon(false);
+  };
+
+  return (
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>🎯 2048 Game</span>
+          <Badge variant="secondary">Score: {score}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-4 gap-2 w-80 h-80 mx-auto p-4 bg-gray-200 dark:bg-gray-700 rounded-lg">
+          {board.flat().map((cell, index) => (
+            <div
+              key={index}
+              className={`w-16 h-16 rounded flex items-center justify-center text-lg font-bold ${
+                cell === 0 
+                  ? 'bg-gray-300 dark:bg-gray-600' 
+                  : cell <= 4 
+                  ? 'bg-orange-100 text-orange-800' 
+                  : cell <= 16
+                  ? 'bg-orange-200 text-orange-900'
+                  : cell <= 64
+                  ? 'bg-red-200 text-red-900'
+                  : cell <= 256
+                  ? 'bg-purple-200 text-purple-900'
+                  : cell <= 1024
+                  ? 'bg-blue-200 text-blue-900'
+                  : 'bg-yellow-200 text-yellow-900'
+              }`}
+              data-testid={`cell-2048-${index}`}
+            >
+              {cell !== 0 && cell}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex gap-2">
+          {gameOver || won ? (
+            <Button onClick={reset2048} className="flex-1" data-testid="button-restart-2048">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              {won ? 'You Won! Play Again' : 'Play Again'}
+            </Button>
+          ) : (
+            <Button onClick={reset2048} variant="outline" className="flex-1" data-testid="button-reset-2048">
+              <RotateCcw className="w-4 h-4 mr-2" />
+              New Game
+            </Button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <Button variant="outline" onClick={() => move('up')} data-testid="button-up-2048">
+            <ArrowUp className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" onClick={() => move('down')} data-testid="button-down-2048">
+            <ArrowDown className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" onClick={() => move('left')} data-testid="button-left-2048">
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" onClick={() => move('right')} data-testid="button-right-2048">
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </div>
+
+        <div className="text-xs text-muted-foreground text-center space-y-1">
+          <p>🎯 Use arrow keys to move tiles</p>
+          <p>🎪 Combine same numbers to reach 2048!</p>
+          <p>💰 Earn 1 point per 100 score</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Memory Game Component
+function MemoryGame() {
+  const [cards, setCards] = useState<Array<{id: number, value: string, flipped: boolean, matched: boolean}>>([]);
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  const [moves, setMoves] = useState(0);
+  const [matches, setMatches] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const cardEmojis = ['🎮', '🎯', '🎪', '🎨', '🎭', '🎸', '🎲', '🎳'];
+
+  const submitScoreMutation = useMutation({
+    mutationFn: async (moves: number) => {
+      const points = Math.max(1, Math.floor(50 - moves)); // More points for fewer moves
+      return apiRequest("POST", "/api/user/points", { 
+        points, 
+        reason: `Memory game - completed in ${moves} moves` 
+      });
+    },
+    onSuccess: (data: any) => {
+      const pointsEarned = Math.max(1, Math.floor(50 - moves));
+      toast({
+        title: "Memory Master! 🧠",
+        description: `You earned ${pointsEarned} points for your memory skills!`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+  });
+
+  const initializeCards = () => {
+    const shuffled = [...cardEmojis, ...cardEmojis]
+      .sort(() => Math.random() - 0.5)
+      .map((value, index) => ({
+        id: index,
+        value,
+        flipped: false,
+        matched: false
+      }));
+    setCards(shuffled);
+    setFlippedCards([]);
+    setMoves(0);
+    setMatches(0);
+    setGameStarted(true);
+  };
+
+  const flipCard = (id: number) => {
+    if (flippedCards.length === 2 || cards.find(c => c.id === id)?.flipped) return;
+
+    setCards(prev => prev.map(card => 
+      card.id === id ? { ...card, flipped: true } : card
+    ));
+    
+    const newFlipped = [...flippedCards, id];
+    setFlippedCards(newFlipped);
+
+    if (newFlipped.length === 2) {
+      setMoves(m => m + 1);
+      
+      setTimeout(() => {
+        const card1 = cards.find(c => c.id === newFlipped[0]);
+        const card2 = cards.find(c => c.id === newFlipped[1]);
+        
+        if (card1?.value === card2?.value) {
+          setCards(prev => prev.map(card => 
+            newFlipped.includes(card.id) ? { ...card, matched: true } : card
+          ));
+          setMatches(m => {
+            const newMatches = m + 1;
+            if (newMatches === 8) {
+              submitScoreMutation.mutate(moves + 1);
+            }
+            return newMatches;
+          });
+        } else {
+          setCards(prev => prev.map(card => 
+            newFlipped.includes(card.id) ? { ...card, flipped: false } : card
+          ));
+        }
+        setFlippedCards([]);
+      }, 1000);
+    }
+  };
+
+  return (
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>🧠 Memory Game</span>
+          <Badge variant="secondary">Moves: {moves}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {!gameStarted ? (
+          <div className="text-center py-8">
+            <Button onClick={initializeCards} className="flex-1" data-testid="button-start-memory">
+              <Brain className="w-4 h-4 mr-2" />
+              Start Memory Game
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-4 gap-2 w-80 h-80 mx-auto">
+            {cards.map(card => (
+              <div
+                key={card.id}
+                onClick={() => flipCard(card.id)}
+                className={`w-18 h-18 rounded-lg flex items-center justify-center text-2xl cursor-pointer transition-all ${
+                  card.flipped || card.matched
+                    ? 'bg-blue-200 dark:bg-blue-800'
+                    : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                }`}
+                data-testid={`memory-card-${card.id}`}
+              >
+                {(card.flipped || card.matched) ? card.value : '❓'}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {matches === 8 && (
+          <div className="text-center">
+            <p className="text-lg font-bold text-green-600">🎉 You Won!</p>
+            <Button onClick={initializeCards} className="mt-2" data-testid="button-play-again-memory">
+              Play Again
+            </Button>
+          </div>
+        )}
+
+        <div className="text-xs text-muted-foreground text-center space-y-1">
+          <p>🎯 Match all pairs of cards</p>
+          <p>🧠 Remember where each card is!</p>
+          <p>💰 Fewer moves = more points</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Simon Says Game Component
+function SimonGame() {
+  const [sequence, setSequence] = useState<number[]>([]);
+  const [userSequence, setUserSequence] = useState<number[]>([]);
+  const [isShowing, setIsShowing] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [activeButton, setActiveButton] = useState<number | null>(null);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const colors = ['bg-red-500', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500'];
+  const sounds = ['C', 'D', 'E', 'F'];
+
+  const submitScoreMutation = useMutation({
+    mutationFn: async (level: number) => {
+      const points = level * 3; // 3 points per level completed
+      return apiRequest("POST", "/api/user/points", { 
+        points, 
+        reason: `Simon Says game - completed level ${level}` 
+      });
+    },
+    onSuccess: (data: any) => {
+      const pointsEarned = sequence.length * 3;
+      toast({
+        title: "Simon Says Success! 🎵",
+        description: `You earned ${pointsEarned} points for completing level ${sequence.length}!`,
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+    },
+  });
+
+  const startSimon = () => {
+    const newSequence = [Math.floor(Math.random() * 4)];
+    setSequence(newSequence);
+    setUserSequence([]);
+    setCurrentStep(0);
+    setGameStarted(true);
+    setGameOver(false);
+    showSequence(newSequence);
+  };
+
+  const showSequence = (seq: number[]) => {
+    setIsShowing(true);
+    seq.forEach((color, index) => {
+      setTimeout(() => {
+        setActiveButton(color);
+        setTimeout(() => setActiveButton(null), 300);
+        if (index === seq.length - 1) {
+          setTimeout(() => setIsShowing(false), 400);
+        }
+      }, (index + 1) * 600);
+    });
+  };
+
+  const handleButtonClick = (buttonIndex: number) => {
+    if (isShowing || gameOver) return;
+
+    const newUserSequence = [...userSequence, buttonIndex];
+    setUserSequence(newUserSequence);
+
+    setActiveButton(buttonIndex);
+    setTimeout(() => setActiveButton(null), 200);
+
+    if (buttonIndex !== sequence[newUserSequence.length - 1]) {
+      setGameOver(true);
+      if (sequence.length > 1) submitScoreMutation.mutate(sequence.length - 1);
+      return;
+    }
+
+    if (newUserSequence.length === sequence.length) {
+      // User completed this level
+      setTimeout(() => {
+        const nextSequence = [...sequence, Math.floor(Math.random() * 4)];
+        setSequence(nextSequence);
+        setUserSequence([]);
+        showSequence(nextSequence);
+      }, 1000);
+    }
+  };
+
+  return (
+    <Card className="max-w-md mx-auto">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span>🎵 Simon Says</span>
+          <Badge variant="secondary">Level: {sequence.length}</Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-2 gap-4 w-80 h-80 mx-auto p-4">
+          {colors.map((color, index) => (
+            <button
+              key={index}
+              onClick={() => handleButtonClick(index)}
+              disabled={isShowing || gameOver}
+              className={`w-32 h-32 rounded-lg transition-all transform ${color} ${
+                activeButton === index ? 'scale-95 brightness-150' : 'hover:scale-105'
+              } ${
+                isShowing || gameOver ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
+              }`}
+              data-testid={`simon-button-${index}`}
+            />
+          ))}
+        </div>
+
+        <div className="text-center">
+          {!gameStarted ? (
+            <Button onClick={startSimon} data-testid="button-start-simon">
+              <Zap className="w-4 h-4 mr-2" />
+              Start Simon Says
+            </Button>
+          ) : gameOver ? (
+            <div className="space-y-2">
+              <p className="text-lg font-bold text-red-600">Game Over!</p>
+              <p>You reached level {sequence.length}</p>
+              <Button onClick={startSimon} data-testid="button-restart-simon">
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Play Again
+              </Button>
+            </div>
+          ) : isShowing ? (
+            <p className="text-lg font-semibold">🎵 Watch the sequence...</p>
+          ) : (
+            <p className="text-lg font-semibold">🎯 Repeat the pattern!</p>
+          )}
+        </div>
+
+        <div className="text-xs text-muted-foreground text-center space-y-1">
+          <p>🎵 Watch the color sequence</p>
+          <p>🎯 Click the colors in the same order!</p>
+          <p>💰 Earn 3 points per level completed</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// Flappy Bird Game Component (extracted)
+function FlappyBirdGame() {
+  return (
+    <div className="text-center py-8">
+      <p className="text-lg">🐦 Flappy Bird game is integrated above!</p>
+      <p className="text-sm text-muted-foreground mt-2">
+        The main Flappy Bird game is shown at the top of this page.
+      </p>
+    </div>
+  );
+}
+
 export default function Games() {
   const [selectedGame, setSelectedGame] = useState<GameType>('flappy');
   const [gameState, setGameState] = useState<GameState>(initialGameState);
@@ -471,25 +1170,11 @@ export default function Games() {
       </Card>
 
       {/* Game Components */}
-      {selectedGame !== 'flappy' && (
-        <Card>
-          <CardContent className="p-8 text-center">
-            <div className="space-y-4">
-              <div className="text-4xl">🚧</div>
-              <h3 className="text-lg font-semibold">Coming Soon!</h3>
-              <p className="text-muted-foreground">
-                This game is under development. Try Flappy Bird for now!
-              </p>
-              <Button 
-                onClick={() => setSelectedGame('flappy')}
-                data-testid="button-play-flappy"
-              >
-                🐦 Play Flappy Bird
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      {selectedGame === 'flappy' && <FlappyBirdGame />}
+      {selectedGame === 'snake' && <SnakeGame />}
+      {selectedGame === '2048' && <Game2048 />}
+      {selectedGame === 'memory' && <MemoryGame />}
+      {selectedGame === 'simon' && <SimonGame />}
     </div>
   );
 }

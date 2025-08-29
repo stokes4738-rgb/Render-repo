@@ -1835,7 +1835,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Calculate user statistics
       const activeUsers = allUsers.filter(u => 
-        new Date(u.lastLogin || u.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+        new Date(u.lastSeen || u.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       ).length;
 
       const totalUserBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || '0'), 0);

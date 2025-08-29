@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon, NeonQueryFunction } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import { config } from "./config";
 
 // Validate database URL
@@ -17,56 +17,58 @@ if (urlParts) {
   console.log(`   Host: ${host}`);
   console.log(`   Database: ${database}`);
   console.log(`   SSL: ${process.env.NODE_ENV === 'production' ? 'enabled' : 'disabled'}`);
+  
+  // Check if this is a Render internal database
+  const isRenderInternal = host.includes('dpg-') && !host.includes('.render.com');
+  if (isRenderInternal) {
+    console.log(`   Type: Render Internal Database`);
+  }
 }
 
-// Create Neon HTTP client with enhanced configuration for production
-let sql: NeonQueryFunction<false, false>;
+// Create connection pool with proper configuration for Render
+const pool = new Pool({
+  connectionString: config.database.url,
+  // Configuration optimized for Render's PostgreSQL
+  max: 5, // Reasonable pool size for Render
+  min: 1, // Keep at least one connection
+  idleTimeoutMillis: 30000, // 30 seconds idle timeout
+  connectionTimeoutMillis: 10000, // 10 seconds connection timeout
+  // SSL configuration
+  ssl: process.env.NODE_ENV === 'production' 
+    ? { rejectUnauthorized: false } 
+    : false,
+  // Additional options for better reliability
+  statement_timeout: 30000, // 30 second statement timeout
+  query_timeout: 30000, // 30 second query timeout
+  application_name: 'pocketbounty'
+});
 
-try {
-  sql = neon(config.database.url, {
-    fetchOptions: {
-      cache: 'no-store',
-      // Add timeout for fetch operations
-      signal: AbortSignal.timeout(30000), // 30 second timeout
-    },
-    // Use WebSocket pooling in production for better reliability
-    webSocketConstructor: process.env.NODE_ENV === 'production' ? undefined : undefined,
-    // Additional options for better reliability
-    fullResults: false,
-    arrayMode: false,
-    poolQueryViaFetch: true,
-  });
-} catch (error: any) {
-  console.error('❌ Failed to initialize database client:', error.message);
-  // Create a dummy client that will fail gracefully
-  sql = (async () => {
-    throw new Error('Database client initialization failed');
-  }) as any;
-}
+// Handle pool errors
+pool.on('error', (err) => {
+  console.error('Unexpected pool error:', err);
+});
 
-// Create Drizzle instance with Neon HTTP adapter
-export const db = drizzle(sql);
+// Create Drizzle instance with pg pool
+export const db = drizzle(pool);
 
 // Enhanced connection test with better error reporting
 export async function testDatabaseConnection(retries = 3): Promise<boolean> {
   console.log(`🔍 Testing database connection (${retries} attempts)...`);
   
   for (let i = 0; i < retries; i++) {
+    let client;
     try {
-      // Add timeout to the query itself
-      const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Query timeout after 10s')), 10000)
-      );
+      // Get a client from the pool
+      client = await pool.connect();
       
-      const queryPromise = sql`SELECT NOW() as time, version() as version, current_database() as db`;
+      // Test query
+      const result = await client.query('SELECT NOW() as time, version() as version, current_database() as db');
       
-      const result = await Promise.race([queryPromise, timeoutPromise]) as any;
-      
-      if (result && result[0]) {
+      if (result && result.rows && result.rows[0]) {
         console.log('✅ Database connection successful');
-        console.log(`   Server time: ${result[0].time}`);
-        console.log(`   Database: ${result[0].db}`);
-        console.log(`   PostgreSQL: ${result[0].version?.split(' ')[1] || 'Unknown'}`);
+        console.log(`   Server time: ${result.rows[0].time}`);
+        console.log(`   Database: ${result.rows[0].db}`);
+        console.log(`   PostgreSQL: ${result.rows[0].version?.split(' ')[1] || 'Unknown'}`);
         return true;
       }
     } catch (error: any) {
@@ -75,19 +77,13 @@ export async function testDatabaseConnection(retries = 3): Promise<boolean> {
       
       // Enhanced error diagnostics
       if (error.message?.includes('ECONNREFUSED')) {
-        const match = error.message.match(/(\d+\.\d+\.\d+\.\d+):(\d+)/);
-        if (match) {
-          console.error(`   🚫 Connection refused to ${match[1]}:${match[2]}`);
-          console.error(`   This appears to be an internal IP address.`);
-          console.error(`   Possible issues:`);
-          console.error(`   1. Database URL might be using internal Render address`);
-          console.error(`   2. External database URL not properly configured`);
-          console.error(`   3. Database service is suspended or down`);
-        }
-      } else if (error.message?.includes('fetch failed')) {
-        console.error(`   Network error - unable to reach database server`);
+        console.error(`   Connection refused - database may be starting up`);
       } else if (error.message?.includes('timeout')) {
         console.error(`   Connection timeout - database server not responding`);
+      } else if (error.message?.includes('authentication')) {
+        console.error(`   Authentication failed - check credentials`);
+      } else if (error.message?.includes('does not exist')) {
+        console.error(`   Database does not exist - may need to create it`);
       }
       
       // Wait before retrying (exponential backoff)
@@ -96,12 +92,16 @@ export async function testDatabaseConnection(retries = 3): Promise<boolean> {
         console.log(`   ⏳ Waiting ${waitTime}ms before retry...`);
         await new Promise(resolve => setTimeout(resolve, waitTime));
       }
+    } finally {
+      // Always release the client back to the pool
+      if (client) {
+        client.release();
+      }
     }
   }
   
   console.error('❌ All database connection attempts failed');
   console.error('💡 Server will continue running, but database operations will fail');
-  console.error('💡 Please check your DATABASE_URL environment variable');
   return false;
 }
 
@@ -109,12 +109,11 @@ export async function testDatabaseConnection(retries = 3): Promise<boolean> {
 const isProduction = process.env.NODE_ENV === 'production';
 console.log(`🚀 Environment: ${isProduction ? 'PRODUCTION' : 'DEVELOPMENT'}`);
 
-// Always test connection on startup
+// Test connection on startup
 testDatabaseConnection(isProduction ? 3 : 1).then(success => {
   if (!success && isProduction) {
     console.error('⚠️  CRITICAL: Database unreachable in production!');
-    console.error('⚠️  Please verify your Neon database configuration');
-    console.error('⚠️  Check if you need to use the External Database URL');
+    console.error('⚠️  Database connection will be retried on demand');
   }
 }).catch(error => {
   console.error('⚠️ Database test error:', error);
@@ -126,14 +125,16 @@ export async function getDatabaseStatus(): Promise<{
   error?: string;
   details?: any;
 }> {
+  let client;
   try {
-    const result = await sql`SELECT NOW() as time, current_database() as database, version() as version`;
+    client = await pool.connect();
+    const result = await client.query('SELECT NOW() as time, current_database() as database, version() as version');
     return {
       connected: true,
       details: {
-        serverTime: result[0].time,
-        database: result[0].database,
-        version: result[0].version,
+        serverTime: result.rows[0].time,
+        database: result.rows[0].database,
+        version: result.rows[0].version,
       }
     };
   } catch (error: any) {
@@ -143,18 +144,27 @@ export async function getDatabaseStatus(): Promise<{
       details: {
         code: error.code,
         hint: error.hint,
-        url: config.database.url ? 'configured' : 'missing',
       }
     };
+  } finally {
+    if (client) {
+      client.release();
+    }
   }
 }
 
 // Export a helper to check if database is available
 export async function isDatabaseAvailable(): Promise<boolean> {
+  let client;
   try {
-    await sql`SELECT 1`;
+    client = await pool.connect();
+    await client.query('SELECT 1');
     return true;
   } catch {
     return false;
+  } finally {
+    if (client) {
+      client.release();
+    }
   }
 }

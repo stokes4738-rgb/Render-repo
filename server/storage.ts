@@ -551,52 +551,95 @@ export class DatabaseStorage implements IStorage {
     return supportUser.id;
   }
 
-  // Messaging operations
-  async getOrCreateThread(user1Id: string, user2Id: string): Promise<MessageThread> {
-    // Validate that both IDs are strings and not numeric
-    if (!user1Id || !user2Id || typeof user1Id !== 'string' || typeof user2Id !== 'string') {
-      throw new Error('Thread participants must be valid string user IDs');
+  // Resolve external ID to internal UUID
+  async resolveUserId(externalId: string | number): Promise<string> {
+    const id = String(externalId);
+    
+    // If it's already a UUID format, validate it exists
+    if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      const [user] = await db.select({ id: users.id }).from(users).where(eq(users.id, id)).limit(1);
+      if (user) {
+        return user.id;
+      }
+      throw new Error(`User with UUID ${id} not found`);
     }
     
-    // Check for numeric IDs which should not be used
-    if (/^\d+$/.test(user1Id) || /^\d+$/.test(user2Id)) {
-      throw new Error(`Invalid user ID format: numeric IDs not allowed (${user1Id}, ${user2Id})`);
+    // Handle special hardcoded numeric IDs by creating/finding corresponding UUID users
+    if (id === "46848986") {
+      // This is Dallas Abbott - check if user exists, create if not
+      const [existingUser] = await db.select({ id: users.id })
+        .from(users)
+        .where(eq(users.email, "stokes4738@gmail.com"))
+        .limit(1);
+      
+      if (existingUser) {
+        return existingUser.id;
+      }
+      
+      // Create the user if they don't exist
+      const [newUser] = await db.insert(users).values({
+        username: "Dallas1221",
+        email: "stokes4738@gmail.com",
+        passwordHash: "$2a$10$dummy.hash.for.external.user.only", // Dummy hash since they use JWT bypass
+        firstName: "dallas",
+        lastName: "abbott",
+        handle: "Dallas1221",
+        points: 309691,
+        balance: "0.00",
+        lifetimeEarned: "1.00",
+        level: 999,
+        rating: "5.00",
+        reviewCount: 100,
+        bio: "🏆 Creator • App Founder • Level 999 Legend",
+      }).returning({ id: users.id });
+      
+      return newUser.id;
     }
-
-    // Verify both users exist in the database before creating thread
-    const [user1, user2] = await Promise.all([
-      db.select({ id: users.id }).from(users).where(eq(users.id, user1Id)).limit(1),
-      db.select({ id: users.id }).from(users).where(eq(users.id, user2Id)).limit(1)
-    ]);
-
-    if (user1.length === 0) {
-      throw new Error(`User with ID ${user1Id} not found`);
+    
+    // For any other numeric ID, reject
+    if (/^\d+$/.test(id)) {
+      throw new Error(`Cannot resolve external numeric ID: ${id}. Must create user mapping first.`);
     }
-    if (user2.length === 0) {
-      throw new Error(`User with ID ${user2Id} not found`);
-    }
+    
+    throw new Error(`Invalid user ID format: ${id}`);
+  }
 
-    // Check for existing thread
-    const [existingThread] = await db
-      .select()
-      .from(messageThreads)
-      .where(
-        or(
-          and(eq(messageThreads.user1Id, user1Id), eq(messageThreads.user2Id, user2Id)),
-          and(eq(messageThreads.user1Id, user2Id), eq(messageThreads.user2Id, user1Id))
-        )
-      );
+  // Messaging operations
+  async getOrCreateThread(user1Id: string, user2Id: string): Promise<MessageThread> {
+    logger.info(`Creating thread between users: ${user1Id} and ${user2Id}`);
+    
+    // Resolve both user IDs to ensure they are valid UUIDs
+    const resolvedUser1Id = await this.resolveUserId(user1Id);
+    const resolvedUser2Id = await this.resolveUserId(user2Id);
+    
+    logger.info(`Resolved user IDs: ${resolvedUser1Id} and ${resolvedUser2Id}`);
 
-    if (existingThread) {
-      return existingThread;
-    }
+    // Use transaction to ensure atomicity
+    return await db.transaction(async (tx) => {
+      // Check for existing thread
+      const [existingThread] = await tx
+        .select()
+        .from(messageThreads)
+        .where(
+          or(
+            and(eq(messageThreads.user1Id, resolvedUser1Id), eq(messageThreads.user2Id, resolvedUser2Id)),
+            and(eq(messageThreads.user1Id, resolvedUser2Id), eq(messageThreads.user2Id, resolvedUser1Id))
+          )
+        );
 
-    // Create new thread with validated user IDs
-    const [newThread] = await db
-      .insert(messageThreads)
-      .values({ user1Id, user2Id })
-      .returning();
-    return newThread;
+      if (existingThread) {
+        return existingThread;
+      }
+
+      // Create new thread with resolved user IDs
+      const [newThread] = await tx
+        .insert(messageThreads)
+        .values({ user1Id: resolvedUser1Id, user2Id: resolvedUser2Id })
+        .returning();
+      
+      logger.info(`Created new thread ${newThread.id} between ${resolvedUser1Id} and ${resolvedUser2Id}`);
+      return newThread;
+    });
   }
 
   async getUserThreads(userId: string): Promise<(MessageThread & { otherUser: User; lastMessage?: Message })[]> {

@@ -1474,6 +1474,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     } catch (error: any) {
       logger.error("Error sending feedback:", error);
+      
+      // Handle foreign key constraint violations specifically
+      if (error.code === '23503' && error.message.includes('foreign key constraint')) {
+        return res.status(400).json({ error: "Invalid user reference" });
+      }
+      
+      // Handle user ID resolution errors
+      if (error.message && error.message.includes('Cannot resolve external numeric ID')) {
+        return res.status(400).json({ error: "Invalid user" });
+      }
+      
       res.status(500).json({ message: "Failed to send feedback" });
     }
   });
@@ -1482,7 +1493,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/creator/feedback-threads', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const creatorId = "46848986"; // Dallas Abbott's user ID
+      // Get the support user UUID instead of hardcoded numeric ID
+      const creatorId = await storage.ensureSupportUser();
       
       // Allow any authenticated user to access creator stats
       // Previously restricted to specific users

@@ -80,25 +80,21 @@ export function verifyToken(req: any, res: any, next: any) {
     }
     
     if (decoded.id === "46848986") {
-      req.user = {
-        id: "46848986",
-        username: "Dallas1221",
-        email: "stokes4738@gmail.com",
-        firstName: "dallas ",
-        lastName: "abbott",
-        handle: "Dallas1221",
-        points: 309691,
-        balance: "0.00",
-        lifetimeEarned: "1.00",
-        level: 999,
-        rating: "5.00",
-        reviewCount: 100,
-        profileImageUrl: null,
-        bio: "🏆 Creator • App Founder • Level 999 Legend",
-        stripeConnectAccountId: null,
-        stripeConnectStatus: null,
-      };
-      return next();
+      // Resolve hardcoded numeric ID to proper UUID
+      try {
+        const resolvedUserId = await storage.resolveUserId("46848986");
+        const user = await storage.getUser(resolvedUserId);
+        if (user) {
+          req.user = user;
+          return next();
+        }
+      } catch (error) {
+        console.error("Failed to resolve hardcoded user ID:", error);
+      }
+      
+      // Fallback - this should not be reached if resolveUserId works correctly
+      res.status(401).json({ message: "User account needs to be migrated" });
+      return;
     }
     
     // For regular users, check database

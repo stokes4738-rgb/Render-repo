@@ -1,0 +1,79 @@
+PROMPT
+
+We’re deploying a Node/Express + Drizzle + Postgres app (PocketBounty) on Render.
+The app builds and starts fine, but logs still show foreign key constraint errors when creating feedback threads:
+
+error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user2_id_users_id_fk"
+detail: Key (user2_id)=(46848986) is not present in table "users".
+code: 23503
+
+
+At other times, POST /api/feedback works (201 created) when the support user exists with a valid UUID.
+So the bug is inconsistent usage of user IDs: sometimes code passes an external numeric (e.g. 46848986) instead of the internal UUID from users.id.
+
+What you need to do
+
+Audit DatabaseStorage.getOrCreateThread (dist/index.js ~768):
+
+Ensure both participants (user1_id, user2_id) are always internal UUIDs from the users table.
+
+If an external ID is passed (numeric, Discord/Stripe/etc.), resolve it first:
+
+async function resolveUserId(externalId: string|number): Promise<string> {
+  // lookup mapping table, or create a user if missing
+  // must return UUID that exists in users.id
+}
+
+
+Never directly insert raw numbers into message_threads.
+
+Support user seeding:
+
+Already works (Support user ensured with ID: 9f1f3ebb-ab6a-...).
+
+Make sure /api/feedback route always uses this UUID, not a numeric fallback.
+
+Error handling:
+
+When a user cannot be resolved → return 400 { "error": "Invalid user" }, not a 408 timeout.
+
+Wrap thread + message insert in a transaction.
+
+Migration sanity:
+
+Confirm message_threads.user1_id + user2_id are same type as users.id (UUID).
+
+If not, run a migration to align types and drop old numeric FKs.
+
+Testing:
+
+Log the actual IDs being passed into getOrCreateThread.
+
+Try /api/feedback again — it should only succeed if both user IDs exist in users.
+
+Deliverables
+
+Patch getOrCreateThread so it enforces UUIDs.
+
+Add resolver function for external IDs.
+
+Ensure support user UUID is always used.
+
+Return 400 instead of 408 on FK error.
+
+Migration if needed to align FK types.
+
+Render push command
+
+Once you’ve made the fixes locally, redeploy with:
+
+git add .
+git commit -m "Fix FK errors: enforce UUIDs in message_threads, support user handling"
+git push render main
+
+
+(or replace main with your actual branch name)
+
+Docs: https://render.com/docs/deploys#git
+
+End of prompt. Please implement these fixes, commit, and push with the above command.

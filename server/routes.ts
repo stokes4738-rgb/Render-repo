@@ -2130,120 +2130,168 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Allow any authenticated user to access creator details
       // Previously restricted to specific users
-      const user = await storage.getUser(userId);
       
       switch (type) {
         case 'users': {
-          const users = await storage.getAllUsers();
-          const sortedUsers = users
-            .sort((a, b) => b.points - a.points)
-            .slice(0, 100) // Top 100 users
-            .map(u => ({
-              id: u.id,
-              firstName: u.firstName,
-              lastName: u.lastName,
-              email: u.email,
-              handle: u.handle,
-              points: u.points,
-              balance: u.balance,
-              lifetimeEarned: u.lifetimeEarned,
-              createdAt: u.createdAt
-            }));
-          res.json({ users: sortedUsers });
+          try {
+            const users = await storage.getAllUsers();
+            const sortedUsers = users
+              .sort((a, b) => b.points - a.points)
+              .slice(0, 100) // Top 100 users
+              .map(u => ({
+                id: u.id,
+                firstName: u.firstName,
+                lastName: u.lastName,
+                email: u.email,
+                handle: u.handle,
+                points: u.points,
+                balance: u.balance,
+                lifetimeEarned: u.lifetimeEarned,
+                createdAt: u.createdAt
+              }));
+            res.json({ users: sortedUsers });
+          } catch (error) {
+            logger.error("Error fetching users for details:", error);
+            res.json({ users: [] });
+          }
           break;
         }
         
         case 'revenue': {
-          const revenue = await storage.getPlatformRevenue();
-          const transactions = revenue
-            .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
-            .slice(0, 100) // Recent 100 transactions
-            .map(async r => {
-              let userName = 'Platform';
-              if (r.bountyId) {
-                const bounty = await storage.getBounty(r.bountyId);
-                if (bounty) {
-                  const user = await storage.getUser(bounty.claimedBy || bounty.authorId);
-                  userName = user ? `${user.firstName} ${user.lastName}`.trim() || user.email : 'Unknown';
+          try {
+            const revenue = await storage.getPlatformRevenue();
+            const transactions = revenue
+              .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+              .slice(0, 50) // Reduced to 50 for better performance
+              .map(async r => {
+                let userName = 'Platform';
+                try {
+                  if (r.bountyId) {
+                    const bounty = await storage.getBounty(r.bountyId);
+                    if (bounty) {
+                      const user = await storage.getUser(bounty.claimedBy || bounty.authorId);
+                      userName = user ? `${user.firstName} ${user.lastName}`.trim() || user.email : 'Unknown';
+                    }
+                  }
+                } catch (userError) {
+                  // Silent fail for user lookup
                 }
-              }
-              return {
-                id: r.id,
-                amount: r.amount,
-                source: r.source,
-                description: r.description,
-                userName,
-                createdAt: r.createdAt
-              };
-            });
-          res.json({ transactions: await Promise.all(transactions) });
+                return {
+                  id: r.id,
+                  amount: r.amount,
+                  source: r.source,
+                  description: r.description,
+                  userName,
+                  createdAt: r.createdAt
+                };
+              });
+            res.json({ transactions: await Promise.all(transactions) });
+          } catch (error) {
+            logger.error("Error fetching revenue details:", error);
+            res.json({ transactions: [] });
+          }
           break;
         }
         
         case 'points': {
-          const transactions = await storage.getAllTransactions();
-          const pointPurchases = transactions
-            .filter(t => t.type === 'point_purchase')
-            .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
-            .slice(0, 100);
-          
-          const purchases = await Promise.all(pointPurchases.map(async p => {
-            const user = await storage.getUser(p.userId);
-            return {
-              id: p.id,
-              amount: p.amount,
-              points: parseFloat(p.amount) * 100, // Points from boost purchases
-              userName: user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || user.email : 'Unknown',
-              userEmail: user?.email || '',
-              createdAt: p.createdAt
-            };
-          }));
-          res.json({ purchases });
+          try {
+            const transactions = await storage.getAllTransactions();
+            const pointPurchases = transactions
+              .filter(t => t.type === 'point_purchase')
+              .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+              .slice(0, 50);
+            
+            const purchases = await Promise.all(pointPurchases.map(async p => {
+              let userName = 'Unknown';
+              let userEmail = '';
+              try {
+                const user = await storage.getUser(p.userId);
+                userName = user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || user.email : 'Unknown';
+                userEmail = user?.email || '';
+              } catch (userError) {
+                // Silent fail for user lookup
+              }
+              return {
+                id: p.id,
+                amount: p.amount,
+                points: parseFloat(p.amount) * 100, // Points from boost purchases
+                userName,
+                userEmail,
+                createdAt: p.createdAt
+              };
+            }));
+            res.json({ purchases });
+          } catch (error) {
+            logger.error("Error fetching points details:", error);
+            res.json({ purchases: [] });
+          }
           break;
         }
         
         case 'bounties': {
-          const bounties = await storage.getAllBounties();
-          const sortedBounties = bounties
-            .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
-            .slice(0, 100);
-          
-          const detailedBounties = await Promise.all(sortedBounties.map(async b => {
-            const author = await storage.getUser(b.authorId);
-            return {
-              id: b.id,
-              title: b.title,
-              description: b.description,
-              reward: b.reward,
-              status: b.status,
-              boostLevel: b.boostLevel || 0,
-              authorName: author ? `${author.firstName} ${author.lastName}`.trim() || author.handle || author.email : 'Unknown',
-              createdAt: b.createdAt
-            };
-          }));
-          res.json({ bounties: detailedBounties });
+          try {
+            const bounties = await storage.getAllBounties();
+            const sortedBounties = bounties
+              .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+              .slice(0, 50);
+            
+            const detailedBounties = await Promise.all(sortedBounties.map(async b => {
+              let authorName = 'Unknown';
+              try {
+                const author = await storage.getUser(b.authorId);
+                authorName = author ? `${author.firstName} ${author.lastName}`.trim() || author.handle || author.email : 'Unknown';
+              } catch (userError) {
+                // Silent fail for user lookup
+              }
+              return {
+                id: b.id,
+                title: b.title,
+                description: b.description,
+                reward: b.reward,
+                status: b.status,
+                boostLevel: b.boostLevel || 0,
+                authorName,
+                createdAt: b.createdAt
+              };
+            }));
+            res.json({ bounties: detailedBounties });
+          } catch (error) {
+            logger.error("Error fetching bounties details:", error);
+            res.json({ bounties: [] });
+          }
           break;
         }
         
         case 'spending': {
-          const transactions = await storage.getAllTransactions();
-          const spendingData = transactions
-            .filter(t => ['spending', 'point_purchase'].includes(t.type))
-            .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
-            .slice(0, 100);
-          
-          const spending = await Promise.all(spendingData.map(async s => {
-            const user = await storage.getUser(s.userId);
-            return {
-              id: s.id,
-              type: s.type,
-              amount: s.amount,
-              description: s.description || s.type,
-              userName: user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || user.email : 'Unknown',
-              createdAt: s.createdAt
-            };
-          }));
-          res.json({ spending });
+          try {
+            const transactions = await storage.getAllTransactions();
+            const spendingData = transactions
+              .filter(t => ['spending', 'point_purchase'].includes(t.type))
+              .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+              .slice(0, 50);
+            
+            const spending = await Promise.all(spendingData.map(async s => {
+              let userName = 'Unknown';
+              try {
+                const user = await storage.getUser(s.userId);
+                userName = user ? `${user.firstName} ${user.lastName}`.trim() || user.handle || user.email : 'Unknown';
+              } catch (userError) {
+                // Silent fail for user lookup
+              }
+              return {
+                id: s.id,
+                type: s.type,
+                amount: s.amount,
+                description: s.description || s.type,
+                userName,
+                createdAt: s.createdAt
+              };
+            }));
+            res.json({ spending });
+          } catch (error) {
+            logger.error("Error fetching spending details:", error);
+            res.json({ spending: [] });
+          }
           break;
         }
         

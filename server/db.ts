@@ -14,7 +14,7 @@ const pool = new Pool({
   // Optimize connection pool settings for serverless Neon
   max: 5, // Reduced pool size for Neon
   idleTimeoutMillis: 60000, // Keep connections alive longer (60 seconds)
-  connectionTimeoutMillis: 20000, // Increased timeout for slow connections (20 seconds)
+  connectionTimeoutMillis: 60000, // Extended timeout for Neon wake-up (60 seconds)
   // SSL configuration for Neon
   ssl: {
     rejectUnauthorized: false
@@ -22,7 +22,7 @@ const pool = new Pool({
 });
 
 // Test the connection on startup with retry logic
-const testConnection = async (retries = 3) => {
+const testConnection = async (retries = 5) => {
   for (let i = 0; i < retries; i++) {
     try {
       const client = await pool.connect();
@@ -34,9 +34,12 @@ const testConnection = async (retries = 3) => {
       if (i === retries - 1) {
         console.error('Failed to establish database connection after', retries, 'attempts');
         console.error('Full error:', err);
+        // Continue startup even if DB connection fails initially
+        console.log('Continuing startup - database may become available later');
       } else {
-        console.log(`Retrying connection in ${(i + 1) * 2} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, (i + 1) * 2000));
+        const waitTime = Math.min((i + 1) * 5, 30); // Progressive backoff, max 30 seconds
+        console.log(`Retrying connection in ${waitTime} seconds...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
       }
     }
   }

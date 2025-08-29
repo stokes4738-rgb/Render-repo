@@ -281,7 +281,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json({ 
         referralCount,
-        referrals: referrals.map(r => ({
+        referrals: (referrals as any[]).map((r: any) => ({
           id: r.id,
           firstName: r.firstName,
           lastName: r.lastName,
@@ -374,7 +374,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ]);
 
       res.json({ 
-        clientSecret: paymentIntent.client_secret,
+        clientSecret: (paymentIntent as any).client_secret,
         package: selectedPackage
       });
     } catch (error: any) {
@@ -401,20 +401,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         )
       ]);
       
-      logger.info(`Payment intent status: ${paymentIntent.status}, amount: ${paymentIntent.amount}`);
+      logger.info(`Payment intent status: ${(paymentIntent as any).status}, amount: ${(paymentIntent as any).amount}`);
       
-      if (paymentIntent.status !== 'succeeded') {
-        logger.error(`Payment not completed. Status: ${paymentIntent.status}`);
+      if ((paymentIntent as any).status !== 'succeeded') {
+        logger.error(`Payment not completed. Status: ${(paymentIntent as any).status}`);
         return res.status(400).json({ message: "Payment not completed" });
       }
 
-      if (paymentIntent.metadata.userId !== userId) {
-        logger.error(`Payment belongs to different user. Expected: ${userId}, Found: ${paymentIntent.metadata.userId}`);
+      if ((paymentIntent as any).metadata.userId !== userId) {
+        logger.error(`Payment belongs to different user. Expected: ${userId}, Found: ${(paymentIntent as any).metadata.userId}`);
         return res.status(403).json({ message: "Payment belongs to different user" });
       }
 
-      if (paymentIntent.metadata.type !== 'point_purchase') {
-        logger.error(`Invalid payment type: ${paymentIntent.metadata.type}`);
+      if ((paymentIntent as any).metadata.type !== 'point_purchase') {
+        logger.error(`Invalid payment type: ${(paymentIntent as any).metadata.type}`);
         return res.status(400).json({ message: "Invalid payment type" });
       }
 
@@ -2276,21 +2276,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        totalUsers = Number(userCount[0]?.count || 0);
+        totalUsers = Number((userCount as any)[0]?.count || 0);
 
         const bountyCount = await Promise.race([
           db.select({ count: sql`count(*)` }).from(bounties),
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        totalBounties = Number(bountyCount[0]?.count || 0);
+        totalBounties = Number((bountyCount as any)[0]?.count || 0);
 
         const transactionCount = await Promise.race([
           db.select({ count: sql`count(*)` }).from(transactions),
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        totalTransactionCount = Number(transactionCount[0]?.count || 0);
+        totalTransactionCount = Number((transactionCount as any)[0]?.count || 0);
 
         // Get real activity data with timeout protection
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -2305,11 +2305,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
               Promise.race([
                 storage.getPlatformRevenue(),
                 new Promise((_, reject) => setTimeout(() => reject(new Error('Revenue timeout')), queryTimeout))
-              ]).catch(() => []),
+              ]).catch(() => [] as any[]),
               Promise.race([
                 storage.getTotalPlatformRevenue(),
                 new Promise((_, reject) => setTimeout(() => reject(new Error('Total revenue timeout')), queryTimeout))
-              ]).catch(() => "0.00")
+              ]).catch(() => "0.00" as string)
             ]);
           } catch (e) {
             logger.error("Revenue data error:", e);
@@ -2322,7 +2322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             recentActivity = await Promise.race([
               storage.getRecentActivity(20),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Activity timeout')), queryTimeout))
-            ]).catch(() => []);
+            ]).catch(() => [] as any[]);
           } catch (e) {
             logger.error("Activity data error:", e);
             recentActivity = [];
@@ -2333,7 +2333,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             allUsers = await Promise.race([
               db.select().from(users).limit(200),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Users timeout')), queryTimeout))
-            ]).catch(() => []);
+            ]).catch(() => [] as any[]);
           } catch (e) {
             logger.error("Users sample error:", e);
             allUsers = [];
@@ -2344,7 +2344,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             allBounties = await Promise.race([
               db.select().from(bounties).limit(200),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Bounties timeout')), queryTimeout))
-            ]).catch(() => []);
+            ]).catch(() => [] as any[]);
           } catch (e) {
             logger.error("Bounties sample error:", e);
             allBounties = [];
@@ -2355,7 +2355,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             allTransactions = await Promise.race([
               db.select().from(transactions).limit(300),
               new Promise((_, reject) => setTimeout(() => reject(new Error('Transactions timeout')), queryTimeout))
-            ]).catch(() => []);
+            ]).catch(() => [] as any[]);
           } catch (e) {
             logger.error("Transactions sample error:", e);
             allTransactions = [];
@@ -2384,14 +2384,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
               new Promise((_, reject) => setTimeout(() => reject(new Error('Monthly active timeout')), queryTimeout))
             ]).catch(() => [{ count: 0 }]);
 
-            global.realActivityCounts = {
-              weekly: Number(weeklyResult[0]?.count || 0),
-              daily: Number(dailyResult[0]?.count || 0),
-              monthly: Number(monthlyResult[0]?.count || 0)
+            (global as any).realActivityCounts = {
+              weekly: Number((weeklyResult as any)[0]?.count || 0),
+              daily: Number((dailyResult as any)[0]?.count || 0),
+              monthly: Number((monthlyResult as any)[0]?.count || 0)
             };
           } catch (e) {
             logger.error("Activity counts error:", e);
-            global.realActivityCounts = { weekly: 0, daily: 0, monthly: 0 };
+            (global as any).realActivityCounts = { weekly: 0, daily: 0, monthly: 0 };
           }
         }
       } catch (dbError) {
@@ -2415,7 +2415,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Use real active user counts from database query
-      const activeUsers = global.realActivityCounts?.weekly || 0;
+      const activeUsers = (global as any).realActivityCounts?.weekly || 0;
 
       const totalUserBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || '0'), 0);
 

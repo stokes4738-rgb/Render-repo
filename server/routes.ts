@@ -1816,89 +1816,155 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Allow any authenticated user to access admin reports
       // Previously restricted to specific users
 
-      // Get basic stats with simpler queries to avoid timeouts
+      // Get comprehensive app statistics (now possible with paid Neon tier)
       const [
         revenue,
         totalRevenue,
+        allUsers,
+        allBounties,
+        allTransactions,
         recentActivity
       ] = await Promise.all([
         storage.getPlatformRevenue(),
         storage.getTotalPlatformRevenue(),
-        storage.getRecentActivity(20)
+        storage.getAllUsers(),
+        storage.getAllBounties(),
+        storage.getAllTransactions(),
+        storage.getRecentActivity(50)
       ]);
 
-      // Get user count and basic metrics with simple count queries
-      const userCount = await db.select({ count: sql`count(*)` }).from(users);
-      const bountyCount = await db.select({ count: sql`count(*)` }).from(bounties);
-      const transactionCount = await db.select({ count: sql`count(*)` }).from(transactions);
+      // Real-time statistics (now possible with paid Neon tier)
+      const activeUsers = allUsers.filter(u => 
+        new Date(u.lastSeen || u.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      ).length;
+
+      const totalUserBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || '0'), 0);
+
+      // Calculate bounty statistics
+      const activeBounties = allBounties.filter(b => b.status === 'active').length;
+      const completedBounties = allBounties.filter(b => b.status === 'completed').length;
+      const totalBountyValue = allBounties.reduce((sum, b) => sum + parseFloat(b.reward || '0'), 0);
+
+      // Calculate transaction statistics
+      const deposits = allTransactions.filter(t => t.type === 'earning');
+      const withdrawals = allTransactions.filter(t => t.type === 'withdrawal');
+      const totalVolume = allTransactions.reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0);
+
+      // Calculate comprehensive spending analytics
+      const pointPurchases = allTransactions.filter(t => t.type === 'point_purchase');
+      const totalPointPurchases = pointPurchases.reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0);
       
-      const totalUsers = Number(userCount[0]?.count || 0);
-      const totalBounties = Number(bountyCount[0]?.count || 0);
-      const totalTransactions = Number(transactionCount[0]?.count || 0);
-
-      // Simplified statistics to avoid connection timeouts
-      const activeUsers = Math.floor(totalUsers * 0.3); // Estimate 30% active
-      const totalUserBalance = 0; // Skip complex calculation for now
-
-      // Basic bounty statistics
-      const activeBounties = Math.floor(totalBounties * 0.7); // Estimate 70% active
-      const completedBounties = Math.floor(totalBounties * 0.3); // Estimate 30% completed
-      const totalBountyValue = totalBounties * 25; // Estimate $25 average
-
-      // Basic transaction statistics
-      const deposits = Math.floor(totalTransactions * 0.6); // Estimate
-      const withdrawals = Math.floor(totalTransactions * 0.2); // Estimate
-      const totalVolume = totalTransactions * 15; // Estimate $15 average
-
-      // Simplified spending analytics
-      const totalPointPurchases = totalTransactions * 5; // Estimate
-      const totalSpending = totalTransactions * 8; // Estimate
-      const totalRefunds = totalTransactions * 1; // Estimate
+      const spendingTransactions = allTransactions.filter(t => t.type === 'spending');
+      const totalSpending = spendingTransactions.reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0);
+      
+      const refundTransactions = allTransactions.filter(t => t.type === 'refund');
+      const totalRefunds = refundTransactions.reduce((sum, t) => sum + parseFloat(t.amount || '0'), 0);
+      
       const totalUserSpent = totalPointPurchases + totalSpending;
       
-      // Simple spending breakdown
-      const spendingByCategory = {
-        bounty_related: totalSpending * 0.6,
-        withdrawals: totalSpending * 0.3,
-        fees: totalSpending * 0.1
-      };
+      // Real spending breakdown
+      const spendingByCategory = spendingTransactions.reduce((acc, t) => {
+        const description = t.description || '';
+        let category = 'other';
+        
+        if (description.toLowerCase().includes('withdrawal')) {
+          category = 'withdrawals';
+        } else if (description.toLowerCase().includes('bounty')) {
+          category = 'bounty_related';
+        } else if (description.toLowerCase().includes('fee')) {
+          category = 'fees';
+        }
+        
+        acc[category] = (acc[category] || 0) + parseFloat(t.amount || '0');
+        return acc;
+      }, {} as Record<string, number>);
 
-      // Simplified growth metrics
-      const newUsersLast30 = Math.floor(totalUsers * 0.1); // Estimate 10% new
-      const newUsersPrevious30 = Math.floor(totalUsers * 0.08); // Estimate 8% previous
+      // Growth metrics (comparing last 30 days vs previous 30 days)
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
+
+      const newUsersLast30 = allUsers.filter(u => new Date(u.createdAt) > thirtyDaysAgo).length;
+      const newUsersPrevious30 = allUsers.filter(u => 
+        new Date(u.createdAt) > sixtyDaysAgo && new Date(u.createdAt) <= thirtyDaysAgo
+      ).length;
 
       const userGrowthRate = newUsersPrevious30 > 0 
         ? ((newUsersLast30 - newUsersPrevious30) / newUsersPrevious30 * 100).toFixed(1)
         : newUsersLast30 > 0 ? '100' : '0';
 
 
-      // Simplified top performers (mock data to avoid complex queries)
+      // Real top performers calculation
+      const userEarnings: Record<string, { earned: number; spent: number; actions: number; name: string }> = {};
+      
+      allUsers.forEach(user => {
+        userEarnings[user.id] = {
+          earned: 0,
+          spent: 0,
+          actions: 0,
+          name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email || user.username || 'Unknown User'
+        };
+      });
+
+      allTransactions.forEach(t => {
+        if (!userEarnings[t.userId]) {
+          userEarnings[t.userId] = { earned: 0, spent: 0, actions: 0, name: 'Unknown User' };
+        }
+        
+        if (t.type === 'earning') {
+          userEarnings[t.userId].earned += parseFloat(t.amount || '0');
+        } else if (t.type === 'spending' || t.type === 'point_purchase') {
+          userEarnings[t.userId].spent += parseFloat(t.amount || '0');
+        }
+        userEarnings[t.userId].actions++;
+      });
+
       const topPerformers = {
-        topEarners: [
-          { id: '1', name: 'John Doe', earned: '150.00' },
-          { id: '2', name: 'Jane Smith', earned: '125.00' },
-          { id: '3', name: 'Mike Johnson', earned: '100.00' }
-        ],
-        topSpenders: [
-          { id: '1', name: 'John Doe', spent: '75.00' },
-          { id: '2', name: 'Jane Smith', spent: '50.00' },
-          { id: '3', name: 'Mike Johnson', spent: '45.00' }
-        ],
-        mostActive: [
-          { id: '1', name: 'John Doe', actions: 25 },
-          { id: '2', name: 'Jane Smith', actions: 20 },
-          { id: '3', name: 'Mike Johnson', actions: 18 }
-        ]
+        topEarners: Object.entries(userEarnings)
+          .map(([id, data]) => ({ id, name: data.name, earned: data.earned.toFixed(2) }))
+          .sort((a, b) => parseFloat(b.earned) - parseFloat(a.earned))
+          .slice(0, 10),
+        topSpenders: Object.entries(userEarnings)
+          .map(([id, data]) => ({ id, name: data.name, spent: data.spent.toFixed(2) }))
+          .sort((a, b) => parseFloat(b.spent) - parseFloat(a.spent))
+          .slice(0, 10),
+        mostActive: Object.entries(userEarnings)
+          .map(([id, data]) => ({ id, name: data.name, actions: data.actions }))
+          .sort((a, b) => b.actions - a.actions)
+          .slice(0, 10)
       };
 
-      // Simplified engagement metrics
-      const dailyActiveUsers = Math.floor(totalUsers * 0.05); // 5% daily
-      const weeklyActiveUsers = Math.floor(totalUsers * 0.20); // 20% weekly
-      const monthlyActiveUsers = Math.floor(totalUsers * 0.60); // 60% monthly
-      const retentionRate = '75.5'; // Fixed rate
+      // Real user engagement metrics
+      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      
+      const dailyActiveUsers = allUsers.filter(u => 
+        new Date(u.lastSeen || u.createdAt) > oneDayAgo
+      ).length;
+      
+      const weeklyActiveUsers = allUsers.filter(u => 
+        new Date(u.lastSeen || u.createdAt) > sevenDaysAgo
+      ).length;
+      
+      const monthlyActiveUsers = allUsers.filter(u => 
+        new Date(u.lastSeen || u.createdAt) > thirtyDaysAgo
+      ).length;
 
-      // Skip complex session metrics for now
-      const sessionData = { avgSessionMinutes: 15, singlePageSessions: 10, totalSessions: 100 };
+      // Calculate retention rate (users who returned after 7 days)
+      const usersFromLastWeek = allUsers.filter(u => {
+        const createdDate = new Date(u.createdAt);
+        return createdDate < sevenDaysAgo && createdDate > new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
+      });
+      
+      const retainedUsers = usersFromLastWeek.filter(u => 
+        new Date(u.lastSeen || u.createdAt) > sevenDaysAgo
+      ).length;
+      
+      const retentionRate = usersFromLastWeek.length > 0 
+        ? ((retainedUsers / usersFromLastWeek.length) * 100).toFixed(1)
+        : '0';
+
+      // Get real session metrics
+      const sessionData = await storage.getSessionMetrics(thirtyDaysAgo);
       const avgSessionLength = sessionData.avgSessionMinutes 
         ? sessionData.avgSessionMinutes.toFixed(1)
         : '0';

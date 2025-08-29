@@ -1,0 +1,55 @@
+2025-08-29T02:23:57.584463006Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T02:23:57.584466506Z       at Connection.emit (node:events:518:28)
+2025-08-29T02:23:57.584469996Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T02:23:57.584473506Z       at Socket.emit (node:events:518:28)
+2025-08-29T02:23:57.584477056Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T02:23:57.584480566Z }
+2025-08-29T02:24:07.584889572Z [ERROR] 2025-08-29T02:24:07.583Z: Bounties query failed: Error: Active bounties query timeout
+2025-08-29T02:24:07.584928043Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2522:52)
+2025-08-29T02:24:07.584934273Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:24:07.584938163Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:24:07.585709339Z 2:24:07 AM [express] GET /api/bounties 304 in 20004ms :: []
+2025-08-29T02:25:03.741380107Z ==> Detected service running on port 3000
+2025-08-29T02:25:04.045383035Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T02:31:20.294419594Z ==> Deploying...
+2025-08-29T02:31:37.361751429Z ==> Running 'npm start'
+2025-08-29T02:31:37.645001818Z 
+2025-08-29T02:31:37.645042331Z > rest-express@1.0.0 start
+2025-08-29T02:31:37.645050531Z > NODE_ENV=production node dist/index.js
+2025-08-29T02:31:37.645053182Z 
+2025-08-29T02:31:39.725662176Z Production mode: skipping connection test, will connect on demand
+2025-08-29T02:31:39.751551481Z 2:31:39 AM [express] serving on port 3000
+2025-08-29T02:31:41.827756916Z ==> Your service is live 🎉
+2025-08-29T02:31:41.855570832Z ==> 
+2025-08-29T02:31:41.880708299Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:31:41.905390526Z ==> 
+2025-08-29T02:31:41.930777292Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T02:31:41.956290109Z ==> 
+2025-08-29T02:31:41.980898696Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:31:44.685973736Z 2:31:44 AM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T02:31:55.231728143Z [ERROR] 2025-08-29T02:31:55.231Z: Expired bounties processing failed: Error: Expired bounties processing timeout
+2025-08-29T02:31:55.231753573Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2489:54)
+2025-08-29T02:31:55.231757793Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:31:55.231761623Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:31:55.231846225Z [ERROR] 2025-08-29T02:31:55.231Z: Expired boosts update failed: Error: Expired boosts update timeout
+2025-08-29T02:31:55.231861966Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2495:54)
+2025-08-29T02:31:55.231882696Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:31:55.231885876Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:31:55.234052273Z [ERROR] 2025-08-29T02:31:55.233Z: Error processing expired bounties: Error: Connection terminated due to connection timeout
+2025-08-29T02:31:55.234069463Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:31:55.234073863Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:31:55.234076803Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:31:55.234079543Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2122:29) {
+2025-08-29T02:31:55.234083023Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T02:31:55.234085723Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T02:31:55.234088554Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T02:31:55.234091044Z       at Connection.emit (node:events:518:28)
+2025-08-29T02:31:55.234093684Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T02:31:55.234096374Z       at Socket.emit (node:events:518:28)
+2025-08-29T02:31:55.234099004Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T02:31:55.234101604Z }
+2025-08-29T02:32:05.235711927Z [ERROR] 2025-08-29T02:32:05.235Z: Bounties query failed: Error: Active bounties query timeout
+2025-08-29T02:32:05.235747438Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2522:52)
+2025-08-29T02:32:05.235754358Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:32:05.235760298Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:32:05.236463983Z 2:32:05 AM [express] GET /api/bounties 304 in 20008ms :: []

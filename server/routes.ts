@@ -206,12 +206,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/referral/code", verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
+      const queryTimeout = 10000;
+      
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("User query failed in referral code:", error);
+        return null;
+      });
       
       let referralCode = user?.referralCode;
       if (!referralCode) {
-        // Generate a new referral code
-        referralCode = await storage.generateReferralCode(userId);
+        // Generate a new referral code with timeout protection
+        referralCode = await Promise.race([
+          storage.generateReferralCode(userId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Referral code generation timeout')), queryTimeout)
+          )
+        ]).catch((error) => {
+          logger.error("Referral code generation failed:", error);
+          return 'TEMP' + Math.random().toString(36).substr(2, 8); // Fallback code
+        });
       }
       
       res.json({ 
@@ -229,8 +247,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/referral/stats", verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
-      const referrals = await storage.getUserReferrals(userId);
+      const queryTimeout = 10000;
+      
+      // Fetch user and referrals with timeout protection
+      const [user, referrals] = await Promise.all([
+        Promise.race([
+          storage.getUser(userId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+          )
+        ]).catch((error) => {
+          logger.error("User query failed in referral stats:", error);
+          return null;
+        }),
+        Promise.race([
+          storage.getUserReferrals(userId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Referrals query timeout')), queryTimeout)
+          )
+        ]).catch((error) => {
+          logger.error("Referrals query failed:", error);
+          return [];
+        })
+      ]);
       
       const referralCount = user?.referralCount || 0;
       const milestones = [
@@ -314,18 +353,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid package selected" });
       }
 
-      // Create Stripe payment intent
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: Math.round(selectedPackage.price * 100), // Convert to cents
-        currency: "usd",
-        metadata: {
-          userId,
-          packageId,
-          points: selectedPackage.points.toString(),
-          type: "point_purchase"
-        },
-        description: `${selectedPackage.label} - ${selectedPackage.points} points`,
-      });
+      // Create Stripe payment intent with timeout protection
+      const queryTimeout = 15000;
+      
+      const paymentIntent = await Promise.race([
+        stripe.paymentIntents.create({
+          amount: Math.round(selectedPackage.price * 100), // Convert to cents
+          currency: "usd",
+          metadata: {
+            userId,
+            packageId,
+            points: selectedPackage.points.toString(),
+            type: "point_purchase"
+          },
+          description: `${selectedPackage.label} - ${selectedPackage.points} points`,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Payment intent creation timeout')), queryTimeout)
+        )
+      ]);
 
       res.json({ 
         clientSecret: paymentIntent.client_secret,
@@ -345,8 +391,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { paymentIntentId } = req.body;
       const userId = req.user.id;
 
-      // Retrieve payment intent to verify payment
-      const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+      const queryTimeout = 15000;
+      
+      // Retrieve payment intent to verify payment with timeout protection
+      const paymentIntent = await Promise.race([
+        stripe.paymentIntents.retrieve(paymentIntentId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Payment intent retrieve timeout')), queryTimeout)
+        )
+      ]);
+      
       logger.info(`Payment intent status: ${paymentIntent.status}, amount: ${paymentIntent.amount}`);
       
       if (paymentIntent.status !== 'succeeded') {
@@ -370,39 +424,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       logger.info(`Awarding ${pointsToAward} points to user ${userId} for $${purchaseAmount}`);
 
-      // Award points to user
-      await storage.updateUserPoints(userId, pointsToAward);
-      logger.info(`Points awarded successfully`);
-
-      // Create transaction record
-      const transaction = await storage.createTransaction({
-        userId,
-        type: "point_purchase",
-        amount: purchaseAmount,
-        description: `Purchased ${packageLabel}`,
-        status: "completed",
-      });
-      logger.info(`Transaction created: ${transaction.id}`);
-
-      // Create activity
-      await storage.createActivity({
-        userId,
-        type: "points_purchased",
-        description: `Purchased ${pointsToAward} points for $${purchaseAmount}`,
-        metadata: { 
-          points: pointsToAward, 
-          amount: purchaseAmount,
-          package: paymentIntent.metadata.packageId
-        },
-      });
-      logger.info(`Activity created`);
-
-      // Create platform revenue record
-      await storage.createPlatformRevenue({
-        amount: purchaseAmount,
-        source: "point_purchase",
-        description: `Point purchase: ${packageLabel}`,
-      });
+      // Execute points and transaction operations with timeout protection
+      await Promise.all([
+        Promise.race([
+          storage.updateUserPoints(userId, pointsToAward),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Points update timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.createTransaction({
+            userId,
+            type: "point_purchase",
+            amount: purchaseAmount,
+            description: `Purchased ${packageLabel}`,
+            status: "completed",
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Transaction creation timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.createActivity({
+            userId,
+            type: "points_purchased",
+            description: `Purchased ${pointsToAward} points for $${purchaseAmount}`,
+            metadata: { 
+              points: pointsToAward, 
+              amount: purchaseAmount,
+              package: paymentIntent.metadata.packageId
+            },
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity creation timeout')), queryTimeout)
+          )
+        ]).catch(error => {
+          logger.error("Activity creation failed (non-critical):", error);
+        }),
+        Promise.race([
+          storage.createPlatformRevenue({
+            amount: purchaseAmount,
+            source: "point_purchase",
+            description: `Point purchase: ${packageLabel}`,
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Platform revenue creation timeout')), queryTimeout)
+          )
+        ]).catch(error => {
+          logger.error("Platform revenue creation failed (non-critical):", error);
+        })
+      ]);
+      
       logger.info(`Platform revenue recorded`);
 
       res.json({ 
@@ -419,9 +491,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Bounty routes
   app.get('/api/bounties', async (req, res) => {
     try {
-      // Check for expired bounties and boosts before returning list
-      await processExpiredBounties();
-      await storage.updateExpiredBoosts();
+      const queryTimeout = 10000;
+      
+      // Check for expired bounties and boosts with timeout protection
+      try {
+        await Promise.all([
+          Promise.race([
+            processExpiredBounties(),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Expired bounties processing timeout')), queryTimeout)
+            )
+          ]).catch(error => logger.error("Expired bounties processing failed:", error)),
+          Promise.race([
+            storage.updateExpiredBoosts(),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Expired boosts update timeout')), queryTimeout)
+            )
+          ]).catch(error => logger.error("Expired boosts update failed:", error))
+        ]);
+      } catch (maintenanceError) {
+        logger.error("Bounty maintenance operations failed (non-critical):", maintenanceError);
+      }
       
       const { category, search, isRemote, userLat, userLon, maxDistance } = req.query;
       
@@ -445,15 +535,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filters.maxDistance = parseInt(maxDistance as string);
       }
       
-      // If no filters, use the boost-aware method
+      // Fetch bounties with timeout protection
+      let bounties;
       if (!category && !search && !isRemote && !userLat) {
-        const bounties = await storage.getActiveBounties();
-        res.json(bounties);
+        bounties = await Promise.race([
+          storage.getActiveBounties(),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Active bounties query timeout')), queryTimeout)
+          )
+        ]).catch((error) => {
+          logger.error("Bounties query failed:", error);
+          return [];
+        });
       } else {
-        // Use regular filtered search with location
-        const bounties = await storage.getBounties(filters);
-        res.json(bounties);
+        bounties = await Promise.race([
+          storage.getBounties(filters),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Filtered bounties query timeout')), queryTimeout)
+          )
+        ]).catch((error) => {
+          logger.error("Filtered bounties query failed:", error);
+          return [];
+        });
       }
+      
+      res.json(bounties);
     } catch (error) {
       logger.error("Error fetching bounties:", error);
       res.status(500).json({ message: "Failed to fetch bounties" });
@@ -526,30 +632,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Full bounty amount is charged upfront (held in escrow)
       const bountyReward = parseFloat(bountyData.reward.toString());
       
+      // Add timeout protection for bounty creation
+      const queryTimeout = 15000; // 15 seconds for bounty operations
+      
       // Check if user has enough balance for the full bounty amount
-      const user = await storage.getUser(userId);
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]);
+      
       if (!user || parseFloat(user.balance) < bountyReward) {
         return res.status(400).json({ 
           message: `Insufficient balance. Need $${bountyReward.toFixed(2)} (held in escrow until completed or auto-refunded after 3 days minus ${bountyReward >= 250 ? '3.5%' : '5%'} fee)` 
         });
       }
       
-      const bounty = await storage.createBounty(bountyData);
+      const bounty = await Promise.race([
+        storage.createBounty(bountyData),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Bounty creation timeout')), queryTimeout)
+        )
+      ]);
       
-      // Deduct full bounty amount from user balance (held in escrow)
-      await storage.updateUserBalance(userId, `-${bountyReward}`);
-      
-      // Deduct points for posting bounty
-      await storage.updateUserPoints(userId, -5);
-      
-      // Create transaction record for escrow hold
-      await storage.createTransaction({
-        userId,
-        type: "escrow_hold",
-        amount: bountyReward.toString(),
-        description: `Posted bounty: ${bountyData.title} (held in escrow, auto-refunds in 3 days minus ${bountyReward >= 250 ? '3.5%' : '5%'} fee if unclaimed)`,
-        status: "completed",
-      });
+      // Execute balance and transaction operations with timeout protection
+      await Promise.all([
+        Promise.race([
+          storage.updateUserBalance(userId, `-${bountyReward}`),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Balance update timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.updateUserPoints(userId, -5),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Points update timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.createTransaction({
+            userId,
+            type: "escrow_hold",
+            amount: bountyReward.toString(),
+            description: `Posted bounty: ${bountyData.title} (held in escrow, auto-refunds in 3 days minus ${bountyReward >= 250 ? '3.5%' : '5%'} fee if unclaimed)`,
+            status: "completed",
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Transaction creation timeout')), queryTimeout)
+          )
+        ])
+      ]);
 
       res.status(201).json({
         ...bounty,
@@ -579,15 +712,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       const { message } = req.body;
       
-      const application = await storage.createBountyApplication(id, userId, message);
+      const queryTimeout = 10000;
       
-      // Create activity
-      await storage.createActivity({
-        userId,
-        type: "bounty_applied",
-        description: "Applied to a bounty",
-        metadata: { bountyId: id },
-      });
+      const application = await Promise.race([
+        storage.createBountyApplication(id, userId, message),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Application creation timeout')), queryTimeout)
+        )
+      ]);
+      
+      // Create activity (optional - don't fail if this times out)
+      try {
+        await Promise.race([
+          storage.createActivity({
+            userId,
+            type: "bounty_applied",
+            description: "Applied to a bounty",
+            metadata: { bountyId: id },
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity creation timeout')), 5000)
+          )
+        ]);
+      } catch (activityError) {
+        logger.error("Activity creation failed (non-critical):", activityError);
+      }
       
       res.status(201).json(application);
     } catch (error) {
@@ -599,7 +748,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/user/bounties', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const bounties = await storage.getUserBountiesWithApplications(userId);
+      const queryTimeout = 10000;
+      
+      const bounties = await Promise.race([
+        storage.getUserBountiesWithApplications(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User bounties query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("User bounties query failed:", error);
+        return [];
+      });
       res.json(bounties);
     } catch (error) {
       logger.error("Error fetching user bounties:", error);
@@ -649,8 +808,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { completedBy } = req.body;
       const userId = req.user.id;
 
+      const queryTimeout = 15000; // 15 seconds for completion operations
+      
       // Get the bounty
-      const bounty = await storage.getBounty(id);
+      const bounty = await Promise.race([
+        storage.getBounty(id),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Bounty query timeout')), queryTimeout)
+        )
+      ]);
+      
       if (!bounty) {
         return res.status(404).json({ message: "Bounty not found" });
       }
@@ -668,14 +835,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Parse reward amount (in dollars)
       const rewardAmount = parseFloat(bounty.reward);
 
-      // Money is already in escrow from when bounty was posted
-      // Just transfer to the hunter (no deduction from creator needed)
-      await storage.updateUserBalance(completedBy, rewardAmount.toString()); // Add to hunter
-      
-      // No need to deduct from creator - money was already taken when bounty was posted
-
-      // Update bounty status
-      await storage.updateBountyStatus(id, "completed", completedBy);
+      // Execute completion operations with timeout protection
+      await Promise.all([
+        Promise.race([
+          storage.updateUserBalance(completedBy, rewardAmount.toString()),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Hunter balance update timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.updateBountyStatus(id, "completed", completedBy),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Bounty status update timeout')), queryTimeout)
+          )
+        ])
+      ]);
 
       // Create transaction records
       await storage.createTransaction({
@@ -781,13 +955,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const { points, reason } = req.body;
       
-      await storage.updateUserPoints(userId, points);
-      await storage.createActivity({
-        userId,
-        type: "points_earned",
-        description: `Earned ${points} points: ${reason}`,
-        metadata: { points, reason },
-      });
+      const queryTimeout = 10000;
+      
+      await Promise.all([
+        Promise.race([
+          storage.updateUserPoints(userId, points),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Points update timeout')), queryTimeout)
+          )
+        ]),
+        Promise.race([
+          storage.createActivity({
+            userId,
+            type: "points_earned",
+            description: `Earned ${points} points: ${reason}`,
+            metadata: { points, reason },
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity creation timeout')), queryTimeout)
+          )
+        ]).catch(error => {
+          logger.error("Activity creation failed (non-critical):", error);
+        })
+      ]);
       
       res.json({ success: true });
     } catch (error) {
@@ -868,7 +1058,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/2fa/status', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
+      const queryTimeout = 10000;
+      
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("2FA status query failed:", error);
+        return null;
+      });
       
       res.json({
         enabled: user?.twoFactorEnabled || false,
@@ -883,7 +1083,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/2fa/setup', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
+      const queryTimeout = 10000;
+      
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]);
       
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
@@ -922,17 +1129,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const encryptedSecret = TwoFactorService.encryptSecret(secret);
       const hashedBackupCodes = TwoFactorService.hashBackupCodes(backupCodes);
       
-      // Enable 2FA in database
-      await storage.enable2FA(userId, encryptedSecret, hashedBackupCodes);
+      // Enable 2FA in database with timeout protection
+      const queryTimeout = 10000;
+      await Promise.race([
+        storage.enable2FA(userId, encryptedSecret, hashedBackupCodes),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('2FA enable timeout')), queryTimeout)
+        )
+      ]);
       
-      // Log activity
-      await storage.log2FAActivity({
-        userId,
-        action: 'setup',
-        success: true,
-        ipAddress: req.ip || 'unknown',
-        userAgent: req.get('User-Agent') || 'unknown',
-      });
+      // Log activity (optional - don't fail if this times out)
+      try {
+        await Promise.race([
+          storage.log2FAActivity({
+            userId,
+            action: 'setup',
+            success: true,
+            ipAddress: req.ip || 'unknown',
+            userAgent: req.get('User-Agent') || 'unknown',
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity log timeout')), 5000)
+          )
+        ]);
+      } catch (logError) {
+        logger.error("2FA activity logging failed (non-critical):", logError);
+      }
       
       res.json({ success: true, message: '2FA enabled successfully' });
     } catch (error) {
@@ -945,17 +1167,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.id;
       
-      // Disable 2FA in database
-      await storage.disable2FA(userId);
+      // Disable 2FA in database with timeout protection
+      const queryTimeout = 10000;
+      await Promise.race([
+        storage.disable2FA(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('2FA disable timeout')), queryTimeout)
+        )
+      ]);
       
-      // Log activity
-      await storage.log2FAActivity({
-        userId,
-        action: 'disable',
-        success: true,
-        ipAddress: req.ip || 'unknown',
-        userAgent: req.get('User-Agent') || 'unknown',
-      });
+      // Log activity (optional - don't fail if this times out)
+      try {
+        await Promise.race([
+          storage.log2FAActivity({
+            userId,
+            action: 'disable',
+            success: true,
+            ipAddress: req.ip || 'unknown',
+            userAgent: req.get('User-Agent') || 'unknown',
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity log timeout')), 5000)
+          )
+        ]);
+      } catch (logError) {
+        logger.error("2FA activity logging failed (non-critical):", logError);
+      }
       
       res.json({ success: true, message: '2FA disabled successfully' });
     } catch (error) {
@@ -967,7 +1204,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/2fa/logs', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const logs = await storage.get2FALogs(userId, 20);
+      const queryTimeout = 10000;
+      
+      const logs = await Promise.race([
+        storage.get2FALogs(userId, 20),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('2FA logs query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("2FA logs query failed:", error);
+        return [];
+      });
       
       res.json(logs);
     } catch (error) {
@@ -1053,7 +1300,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Allow any authenticated user to access creator stats
       // Previously restricted to specific users
 
-      const threads = await storage.getUserThreads(creatorId);
+      const queryTimeout = 10000;
+      
+      const threads = await Promise.race([
+        storage.getUserThreads(creatorId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Creator threads query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("Creator threads query failed:", error);
+        return [];
+      });
       res.json(threads);
     } catch (error) {
       logger.error("Error fetching creator feedback threads:", error);
@@ -1174,14 +1431,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const { firstName, lastName, handle, bio, skills, experience } = req.body;
       
-      await storage.updateUserProfile(userId, {
-        firstName,
-        lastName,
-        handle,
-        bio,
-        skills,
-        experience
-      });
+      // Add timeout protection for profile update
+      const queryTimeout = 10000;
+      await Promise.race([
+        storage.updateUserProfile(userId, {
+          firstName,
+          lastName,
+          handle,
+          bio,
+          skills,
+          experience
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Profile update timeout')), queryTimeout)
+        )
+      ]);
       
       res.json({ success: true });
     } catch (error) {
@@ -1221,7 +1485,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     try {
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
+      const queryTimeout = 15000; // 15 seconds for payment operations
+      
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]);
       
       if (!user?.email) {
         return res.status(400).json({ message: "User email required" });
@@ -1229,19 +1500,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let customer;
       if (user.stripeCustomerId) {
-        customer = await stripe.customers.retrieve(user.stripeCustomerId);
+        customer = await Promise.race([
+          stripe.customers.retrieve(user.stripeCustomerId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Stripe customer retrieve timeout')), queryTimeout)
+          )
+        ]);
       } else {
-        customer = await stripe.customers.create({
-          email: user.email,
-          name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email,
-        });
-        await storage.updateUserStripeInfo(userId, customer.id);
+        customer = await Promise.race([
+          stripe.customers.create({
+            email: user.email,
+            name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email,
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Stripe customer create timeout')), queryTimeout)
+          )
+        ]);
+        
+        // Update user stripe info with timeout protection
+        try {
+          await Promise.race([
+            storage.updateUserStripeInfo(userId, customer.id),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Stripe info update timeout')), 5000)
+            )
+          ]);
+        } catch (updateError) {
+          logger.error("Failed to update stripe info (non-critical):", updateError);
+        }
       }
 
-      const setupIntent = await stripe.setupIntents.create({
-        customer: customer.id,
-        usage: 'off_session',
-      });
+      const setupIntent = await Promise.race([
+        stripe.setupIntents.create({
+          customer: customer.id,
+          usage: 'off_session',
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Setup intent create timeout')), queryTimeout)
+        )
+      ]);
 
       res.json({ clientSecret: setupIntent.client_secret });
     } catch (error: any) {
@@ -1258,25 +1555,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.id;
       const { paymentMethodId } = req.body;
+      const queryTimeout = 15000; // 15 seconds for payment operations
 
       if (!paymentMethodId) {
         return res.status(400).json({ message: "Payment method ID required" });
       }
 
-      // Retrieve payment method from Stripe
-      const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
+      // Retrieve payment method from Stripe with timeout protection
+      const paymentMethod = await Promise.race([
+        stripe.paymentMethods.retrieve(paymentMethodId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Payment method retrieve timeout')), queryTimeout)
+        )
+      ]);
       
-      // Save to our database
-      const savedMethod = await storage.createPaymentMethod({
-        userId,
-        stripePaymentMethodId: paymentMethodId,
-        type: paymentMethod.type,
-        last4: paymentMethod.card?.last4,
-        brand: paymentMethod.card?.brand,
-        expiryMonth: paymentMethod.card?.exp_month,
-        expiryYear: paymentMethod.card?.exp_year,
-        isDefault: false,
-      });
+      // Save to our database with timeout protection
+      const savedMethod = await Promise.race([
+        storage.createPaymentMethod({
+          userId,
+          stripePaymentMethodId: paymentMethodId,
+          type: paymentMethod.type,
+          last4: paymentMethod.card?.last4,
+          brand: paymentMethod.card?.brand,
+          expiryMonth: paymentMethod.card?.exp_month,
+          expiryYear: paymentMethod.card?.exp_year,
+          isDefault: false,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Payment method save timeout')), queryTimeout)
+        )
+      ]);
 
       res.status(201).json(savedMethod);
     } catch (error: any) {
@@ -2338,7 +2646,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       switch (type) {
         case 'users': {
           try {
-            const users = await storage.getAllUsers();
+            const queryTimeout = 15000;
+            
+            const users = await Promise.race([
+              storage.getAllUsers(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Users query timeout')), queryTimeout)
+              )
+            ]).catch((error) => {
+              logger.error("Users query failed:", error);
+              return [];
+            });
+            
             const sortedUsers = users
               .sort((a, b) => b.points - a.points)
               .slice(0, 100) // Top 100 users
@@ -2363,7 +2682,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         
         case 'revenue': {
           try {
-            const revenue = await storage.getPlatformRevenue();
+            const queryTimeout = 15000;
+            
+            const revenue = await Promise.race([
+              storage.getPlatformRevenue(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Revenue query timeout')), queryTimeout)
+              )
+            ]).catch((error) => {
+              logger.error("Revenue query failed:", error);
+              return [];
+            });
+            
             const transactions = revenue
               .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
               .slice(0, 50) // Reduced to 50 for better performance
@@ -2371,9 +2701,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
                 let userName = 'Platform';
                 try {
                   if (r.bountyId) {
-                    const bounty = await storage.getBounty(r.bountyId);
+                    const bounty = await Promise.race([
+                      storage.getBounty(r.bountyId),
+                      new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Bounty query timeout')), 5000)
+                      )
+                    ]).catch(() => null);
+                    
                     if (bounty) {
-                      const user = await storage.getUser(bounty.claimedBy || bounty.authorId);
+                      const user = await Promise.race([
+                        storage.getUser(bounty.claimedBy || bounty.authorId),
+                        new Promise((_, reject) => 
+                          setTimeout(() => reject(new Error('User query timeout')), 5000)
+                        )
+                      ]).catch(() => null);
+                      
                       userName = user ? `${user.firstName} ${user.lastName}`.trim() || user.email : 'Unknown';
                     }
                   }

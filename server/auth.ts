@@ -103,7 +103,18 @@ export function setupAuth(app: Express) {
 
   passport.deserializeUser(async (id: string, done) => {
     try {
-      const user = await storage.getUser(id);
+      const queryTimeout = 10000; // 10 seconds for user deserialization
+      
+      const user = await Promise.race([
+        storage.getUser(id),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User deserialization timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        console.error("User deserialization failed:", error);
+        return null;
+      });
+      
       if (!user) {
         return done(null, false);
       }
@@ -143,14 +154,34 @@ export function setupAuth(app: Express) {
         }
       }
       
+      // Add timeout protection for database operations
+      const queryTimeout = 15000; // 15 seconds for auth operations
+      
       // Check if username already exists
-      const existingUserByUsername = await storage.getUserByUsername(username);
+      const existingUserByUsername = await Promise.race([
+        storage.getUserByUsername(username),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Username check timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        console.error("Username check failed:", error);
+        return null; // Allow registration to continue if check fails
+      });
+      
       if (existingUserByUsername) {
         return res.status(400).json({ message: "Username already exists" });
       }
       
       // Check if email already exists - if so, this might be a migration case
-      const existingUserByEmail = await storage.getUserByEmail(email);
+      const existingUserByEmail = await Promise.race([
+        storage.getUserByEmail(email),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Email check timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        console.error("Email check failed:", error);
+        return null; // Allow registration to continue if check fails
+      });
       if (existingUserByEmail && existingUserByEmail.password) {
         return res.status(400).json({ message: "Email already registered with password. Please login instead." });
       }
@@ -162,26 +193,36 @@ export function setupAuth(app: Express) {
       if (existingUserByEmail && !existingUserByEmail.password) {
         // This is a migration case - update existing user with password and username
         console.log(`Migrating existing user ${existingUserByEmail.id} with email ${email}`);
-        user = await storage.migrateUserToPasswordAuth(existingUserByEmail.id, {
-          username,
-          password: hashedPassword,
-          firstName,
-          lastName,
-        });
+        user = await Promise.race([
+          storage.migrateUserToPasswordAuth(existingUserByEmail.id, {
+            username,
+            password: hashedPassword,
+            firstName,
+            lastName,
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('User migration timeout')), queryTimeout)
+          )
+        ]);
         console.log(`User migrated successfully:`, { id: user.id, username: user.username, points: user.points, balance: user.balance });
       } else {
         // Create new user with age verification
-        user = await storage.createUser({
-          username,
-          email,
-          password: hashedPassword,
-          firstName,
-          lastName,
-          handle: username, // Use username as initial handle
-          points: 50, // Welcome bonus
-          balance: "0.00",
-          lifetimeEarned: "0.00",
-        });
+        user = await Promise.race([
+          storage.createUser({
+            username,
+            email,
+            password: hashedPassword,
+            firstName,
+            lastName,
+            handle: username, // Use username as initial handle
+            points: 50, // Welcome bonus
+            balance: "0.00",
+            lifetimeEarned: "0.00",
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('User creation timeout')), queryTimeout)
+          )
+        ]);
 
         // Handle parental consent for minors (16-17 years old)
         if (dateOfBirth && requiresParentalConsent(dateOfBirth)) {
@@ -289,21 +330,53 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
+    // Add overall timeout for login process
+    const loginTimeout = 20000; // 20 seconds for complete login
+    let isTimedOut = false;
+    
+    const timeoutId = setTimeout(() => {
+      isTimedOut = true;
+      res.status(408).json({ message: "Login timeout - please try again" });
+    }, loginTimeout);
+    
     passport.authenticate("local", (err: any, user: User | false, info: any) => {
+      if (isTimedOut) return; // Prevent double response
+      
       if (err) {
+        clearTimeout(timeoutId);
         return res.status(500).json({ message: "Authentication error" });
       }
       if (!user) {
+        clearTimeout(timeoutId);
         return res.status(401).json({ message: info?.message || "Invalid credentials" });
       }
       
       req.login(user, (loginErr) => {
+        if (isTimedOut) return; // Prevent double response
+        
         if (loginErr) {
+          clearTimeout(timeoutId);
           return res.status(500).json({ message: "Login failed" });
         }
         
-        // Force save session before responding
+        // Force save session before responding with timeout protection
+        const sessionTimeout = 5000; // 5 seconds for session save
+        let sessionTimedOut = false;
+        
+        const sessionTimeoutId = setTimeout(() => {
+          sessionTimedOut = true;
+          if (!isTimedOut) {
+            clearTimeout(timeoutId);
+            res.status(500).json({ message: "Session save timeout" });
+          }
+        }, sessionTimeout);
+        
         req.session.save((saveErr: any) => {
+          if (isTimedOut || sessionTimedOut) return; // Prevent double response
+          
+          clearTimeout(timeoutId);
+          clearTimeout(sessionTimeoutId);
+          
           if (saveErr) {
             return res.status(500).json({ message: "Session save failed" });
           }

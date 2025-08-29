@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { setupAuthJWT, verifyToken } from "./authJWT";
-import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema } from "@shared/schema";
+import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema, users, bounties, transactions } from "@shared/schema";
 import { logger } from "./utils/logger";
 import { sendSupportEmail } from "./utils/email";
 import { TwoFactorService } from "./utils/twoFactor";
@@ -11,6 +11,8 @@ import { require2FA } from "./middleware/twoFactor";
 import { requireAgeVerification } from "./middleware/ageVerification";
 import { checkIPBan } from "./middleware/ipBanning";
 import { contentFilterMiddleware } from "./middleware/contentFilter";
+import { db } from "./db";
+import { sql } from "drizzle-orm";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys

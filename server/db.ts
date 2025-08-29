@@ -8,40 +8,35 @@ if (!process.env.DATABASE_URL) {
 // Parse the database URL to check if it's internal or external
 const isInternalUrl = process.env.DATABASE_URL.includes('dpg-') && !process.env.DATABASE_URL.includes('.render.com');
 
-// Create optimized connection pool for Neon Scale plan
+// Create ultra-minimal connection pool for Neon Scale plan
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // Production-optimized settings for Neon Scale
-  max: process.env.NODE_ENV === 'production' ? 20 : 5, // Scale plan supports 20 connections
-  min: process.env.NODE_ENV === 'production' ? 5 : 1, // Keep some connections warm
-  idleTimeoutMillis: 30000, // 30 seconds
-  connectionTimeoutMillis: 30000, // Faster timeout (30 seconds)
-  // acquireTimeoutMillis: 30000, // Not available in pg Pool
+  // Minimal settings that work reliably with Neon
+  max: 1, // Single connection to avoid conflicts
+  min: 0, // No persistent connections
+  idleTimeoutMillis: 10000, // Quick cleanup
+  connectionTimeoutMillis: 10000, // Fast timeout (10 seconds)
+  // query_timeout not available in pg Pool
   // SSL configuration for Neon
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
-// Test the connection on startup with retry logic
-const testConnection = async (retries = 5) => {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const client = await pool.connect();
-      console.log('Database connection pool established successfully');
-      client.release();
-      return;
-    } catch (err: any) {
-      console.error(`Connection attempt ${i + 1} failed:`, err.message);
-      if (i === retries - 1) {
-        console.error('Failed to establish database connection after', retries, 'attempts');
-        console.error('Full error:', err);
-        // Continue startup even if DB connection fails initially
-        console.log('Continuing startup - database may become available later');
-      } else {
-        const waitTime = Math.min((i + 1) * 5, 30); // Progressive backoff, max 30 seconds
-        console.log(`Retrying connection in ${waitTime} seconds...`);
-        await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
-      }
-    }
+// Simplified connection test for production
+const testConnection = async () => {
+  if (process.env.NODE_ENV === 'production') {
+    // In production, just continue - let the app handle connections on demand
+    console.log('Production mode: skipping connection test, will connect on demand');
+    return;
+  }
+  
+  // Only test in development
+  try {
+    const client = await pool.connect();
+    console.log('Database connection pool established successfully');
+    client.release();
+  } catch (err: any) {
+    console.error('Database connection failed:', err.message);
+    console.log('Continuing startup - database will be tested on first request');
   }
 };
 

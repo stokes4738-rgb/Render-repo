@@ -1,0 +1,106 @@
+2025-08-29T02:01:20.506967843Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:01:20.506970823Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1049:34)
+2025-08-29T02:01:20.506973733Z     at async file:///opt/render/project/src/dist/index.js:4115:27
+2025-08-29T02:01:20.507723796Z 2:01:20 AM [express] GET /api/creator/stats 500 in 90012ms :: {"message":"Failed to fetch creator st…
+2025-08-29T02:01:29.249800701Z Connection attempt 5 failed: timeout exceeded when trying to connect
+2025-08-29T02:01:29.250038445Z Failed to establish database connection after 5 attempts
+2025-08-29T02:01:29.250152747Z Full error: Error: timeout exceeded when trying to connect
+2025-08-29T02:01:29.250161937Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:01:29.250179127Z Continuing startup - database may become available later
+2025-08-29T02:01:29.250205988Z     at async testConnection (file:///opt/render/project/src/dist/index.js:476:26)
+2025-08-29T02:03:17.285579538Z ==> Deploying...
+2025-08-29T02:03:34.282338359Z ==> Running 'npm start'
+2025-08-29T02:03:34.562759275Z 
+2025-08-29T02:03:34.562782666Z > rest-express@1.0.0 start
+2025-08-29T02:03:34.562786806Z > NODE_ENV=production node dist/index.js
+2025-08-29T02:03:34.562788595Z 
+2025-08-29T02:03:36.790403734Z 2:03:36 AM [express] serving on port 3000
+2025-08-29T02:03:38.691664907Z ==> Your service is live 🎉
+2025-08-29T02:03:38.723873202Z ==> 
+2025-08-29T02:03:38.935344014Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:03:38.970544699Z ==> 
+2025-08-29T02:03:38.998485375Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T02:03:39.03561737Z ==> 
+2025-08-29T02:03:39.064317237Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:04:36.757978516Z Connection attempt 1 failed: Connection terminated due to connection timeout
+2025-08-29T02:04:36.758016267Z Retrying connection in 5 seconds...
+2025-08-29T02:05:41.766061833Z Connection attempt 2 failed: Connection terminated due to connection timeout
+2025-08-29T02:05:41.766083913Z Retrying connection in 10 seconds...
+2025-08-29T02:06:51.774164132Z Connection attempt 3 failed: Connection terminated due to connection timeout
+2025-08-29T02:06:51.774165812Z Retrying connection in 15 seconds...
+2025-08-29T02:08:06.782043657Z Connection attempt 4 failed: Connection terminated due to connection timeout
+2025-08-29T02:08:06.782064927Z Retrying connection in 20 seconds...
+2025-08-29T02:08:43.395670593Z ==> Detected service running on port 3000
+2025-08-29T02:08:43.485822378Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T02:09:26.789161161Z Connection attempt 5 failed: Connection terminated due to connection timeout
+2025-08-29T02:09:26.789690891Z Failed to establish database connection after 5 attempts
+2025-08-29T02:09:26.791681841Z Full error: Error: Connection terminated due to connection timeout
+2025-08-29T02:09:26.791695382Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:09:26.791701002Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:09:26.791705342Z     at async testConnection (file:///opt/render/project/src/dist/index.js:476:26) {
+2025-08-29T02:09:26.791713322Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T02:09:26.791718142Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T02:09:26.791722472Z Continuing startup - database may become available later
+2025-08-29T02:09:26.791723362Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T02:09:26.791727482Z       at Connection.emit (node:events:518:28)
+2025-08-29T02:09:26.791730513Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T02:09:26.791733693Z       at Socket.emit (node:events:518:28)
+2025-08-29T02:09:26.791736883Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T02:09:26.791739663Z }
+2025-08-29T02:14:22.272886671Z ==> Deploying...
+2025-08-29T02:14:39.567452891Z ==> Running 'npm start'
+2025-08-29T02:14:39.799752209Z 
+2025-08-29T02:14:39.799781309Z > rest-express@1.0.0 start
+2025-08-29T02:14:39.79978911Z > NODE_ENV=production node dist/index.js
+2025-08-29T02:14:39.79979204Z 
+2025-08-29T02:14:41.995847526Z 2:14:41 AM [express] serving on port 3000
+2025-08-29T02:14:44.061537077Z ==> Your service is live 🎉
+2025-08-29T02:14:44.090001324Z ==> 
+2025-08-29T02:14:44.115346201Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:14:44.274205949Z ==> 
+2025-08-29T02:14:44.315984023Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T02:14:44.34686285Z ==> 
+2025-08-29T02:14:44.376703146Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:14:48.91866307Z 2:14:48 AM [express] GET /api/user 304 in 5ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T02:14:59.483240414Z [ERROR] 2025-08-29T02:14:59.481Z: Expired bounties processing failed: Error: Expired bounties processing timeout
+2025-08-29T02:14:59.483263745Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2495:54)
+2025-08-29T02:14:59.483266895Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:14:59.483269095Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:14:59.48346515Z [ERROR] 2025-08-29T02:14:59.483Z: Expired boosts update failed: Error: Expired boosts update timeout
+2025-08-29T02:14:59.483478831Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2501:54)
+2025-08-29T02:14:59.483483171Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:14:59.483485551Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:15:09.488624077Z [ERROR] 2025-08-29T02:15:09.484Z: Bounties query failed: Error: Active bounties query timeout
+2025-08-29T02:15:09.488653907Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2528:52)
+2025-08-29T02:15:09.488659637Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:15:09.488662167Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:15:09.488678058Z 2:15:09 AM [express] GET /api/bounties 304 in 20007ms :: []
+2025-08-29T02:15:26.190018117Z [ERROR] 2025-08-29T02:15:26.189Z: Payment methods query failed: Error: Query timeout
+2025-08-29T02:15:26.190047547Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:3277:50)
+2025-08-29T02:15:26.190053407Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:15:26.190057048Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:15:26.190722294Z 2:15:26 AM [express] GET /api/payments/methods 304 in 10004ms :: []
+2025-08-29T02:15:41.971814101Z Retrying connection in 5 seconds...
+2025-08-29T02:15:41.971819391Z Connection attempt 1 failed: Connection terminated due to connection timeout
+2025-08-29T02:15:49.485586033Z [ERROR] 2025-08-29T02:15:49.484Z: Error processing expired bounties: Error: timeout exceeded when trying to connect
+2025-08-29T02:15:49.485623364Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:15:49.485628744Z     at runNextTicks (node:internal/process/task_queues:65:5)
+2025-08-29T02:15:49.485632755Z     at listOnTimeout (node:internal/timers:549:9)
+2025-08-29T02:15:49.485636665Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:15:49.485641995Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:15:49.485646775Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2128:29)
+2025-08-29T02:16:16.182827586Z [ERROR] 2025-08-29T02:16:16.182Z: Error fetching payment history: Error: timeout exceeded when trying to connect
+2025-08-29T02:16:16.182853676Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:16:16.182857197Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:16:16.182860357Z     at async file:///opt/render/project/src/dist/index.js:3529:25
+2025-08-29T02:16:16.183636276Z 2:16:16 AM [express] GET /api/payments/history 500 in 60006ms :: {"message":"Failed to fetch payment…
+2025-08-29T02:16:16.357492013Z [ERROR] 2025-08-29T02:16:16.357Z: Error fetching transactions: Error: timeout exceeded when trying to connect
+2025-08-29T02:16:16.357518963Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:16:16.357521323Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:16:16.357523213Z     at async file:///opt/render/project/src/dist/index.js:2848:29
+2025-08-29T02:16:16.358293823Z 2:16:16 AM [express] GET /api/user/transactions 500 in 60002ms :: {"message":"Failed to fetch transa…
+2025-08-29T02:16:23.620073261Z [ERROR] 2025-08-29T02:16:23.619Z: Error creating setup intent: Error: User query timeout
+2025-08-29T02:16:23.620108351Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:3299:50)
+2025-08-29T02:16:23.620115142Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T02:16:23.620120842Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T02:16:23.620804349Z 2:16:23 AM [express] POST /api/payments/setup-intent 500 in 15003ms :: {"message":"Failed to create …

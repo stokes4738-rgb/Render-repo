@@ -50,6 +50,45 @@ import { db } from "./db";
 import { eq, desc, and, or, sql } from "drizzle-orm";
 import { randomUUID } from "crypto";
 
+// Helper function to retry database operations
+async function retryDbOperation<T>(
+  operation: () => Promise<T>,
+  operationName: string,
+  maxRetries = 3
+): Promise<T> {
+  let lastError: any;
+  
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error: any) {
+      lastError = error;
+      
+      // Log the error
+      console.error(`Database operation "${operationName}" failed (attempt ${i + 1}/${maxRetries}):`, error.message);
+      
+      // Check if this is a connection error that should be retried
+      const isConnectionError = 
+        error.message?.includes('ECONNREFUSED') ||
+        error.message?.includes('fetch failed') ||
+        error.message?.includes('connect timeout') ||
+        error.message?.includes('ETIMEDOUT');
+      
+      // Don't retry if it's not a connection error or if we've exhausted retries
+      if (!isConnectionError || i === maxRetries - 1) {
+        throw error;
+      }
+      
+      // Wait before retrying (exponential backoff)
+      const waitTime = Math.min(1000 * Math.pow(2, i), 5000);
+      console.log(`Waiting ${waitTime}ms before retrying "${operationName}"...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+  
+  throw lastError;
+}
+
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;
@@ -185,18 +224,36 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   // User operations
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user;
+    return retryDbOperation(
+      async () => {
+        const [user] = await db.select().from(users).where(eq(users.id, id));
+        return user;
+      },
+      `getUser(${id})`,
+      3
+    );
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user;
+    return retryDbOperation(
+      async () => {
+        const [user] = await db.select().from(users).where(eq(users.username, username));
+        return user;
+      },
+      `getUserByUsername(${username})`,
+      3
+    );
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user;
+    return retryDbOperation(
+      async () => {
+        const [user] = await db.select().from(users).where(eq(users.email, email));
+        return user;
+      },
+      `getUserByEmail(${email})`,
+      3
+    );
   }
 
   async createUser(userData: Partial<User>): Promise<User> {
@@ -317,48 +374,54 @@ export class DatabaseStorage implements IStorage {
     userLon?: number;
     maxDistance?: number;
   }): Promise<Bounty[]> {
-    let conditions = [eq(bounties.status, "active")];
-    
-    if (filters?.category) {
-      conditions.push(eq(bounties.category, filters.category));
-    }
-    
-    if (filters?.search) {
-      conditions.push(
-        or(
-          sql`${bounties.title} ILIKE ${'%' + filters.search + '%'}`,
-          sql`${bounties.description} ILIKE ${'%' + filters.search + '%'}`
-        )!
-      );
-    }
-    
-    // Filter by remote/local
-    if (filters?.isRemote !== undefined) {
-      conditions.push(eq(bounties.isRemote, filters.isRemote));
-    }
-    
-    // For local bounties, filter by distance if user location provided
-    if (filters?.userLat && filters?.userLon && !filters?.isRemote) {
-      const maxDist = filters.maxDistance || 50; // default 50 miles
-      // Using Haversine formula for distance calculation
-      conditions.push(
-        sql`
-          (3959 * acos(
-            cos(radians(${filters.userLat})) * 
-            cos(radians(${bounties.latitude}::numeric)) * 
-            cos(radians(${bounties.longitude}::numeric) - radians(${filters.userLon})) + 
-            sin(radians(${filters.userLat})) * 
-            sin(radians(${bounties.latitude}::numeric))
-          )) <= ${maxDist}
-        `
-      );
-    }
-    
-    return db
-      .select()
-      .from(bounties)
-      .where(and(...conditions))
-      .orderBy(desc(bounties.createdAt));
+    return retryDbOperation(
+      async () => {
+        let conditions = [eq(bounties.status, "active")];
+        
+        if (filters?.category) {
+          conditions.push(eq(bounties.category, filters.category));
+        }
+        
+        if (filters?.search) {
+          conditions.push(
+            or(
+              sql`${bounties.title} ILIKE ${'%' + filters.search + '%'}`,
+              sql`${bounties.description} ILIKE ${'%' + filters.search + '%'}`
+            )!
+          );
+        }
+        
+        // Filter by remote/local
+        if (filters?.isRemote !== undefined) {
+          conditions.push(eq(bounties.isRemote, filters.isRemote));
+        }
+        
+        // For local bounties, filter by distance if user location provided
+        if (filters?.userLat && filters?.userLon && !filters?.isRemote) {
+          const maxDist = filters.maxDistance || 50; // default 50 miles
+          // Using Haversine formula for distance calculation
+          conditions.push(
+            sql`
+              (3959 * acos(
+                cos(radians(${filters.userLat})) * 
+                cos(radians(${bounties.latitude}::numeric)) * 
+                cos(radians(${bounties.longitude}::numeric) - radians(${filters.userLon})) + 
+                sin(radians(${filters.userLat})) * 
+                sin(radians(${bounties.latitude}::numeric))
+              )) <= ${maxDist}
+            `
+          );
+        }
+        
+        return db
+          .select()
+          .from(bounties)
+          .where(and(...conditions))
+          .orderBy(desc(bounties.boostLevel), desc(bounties.createdAt));
+      },
+      'getBounties',
+      3
+    );
   }
 
   async getBounty(id: string): Promise<Bounty | undefined> {
@@ -400,16 +463,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getBountiesExpiredByDuration(): Promise<Bounty[]> {
-    return db
-      .select()
-      .from(bounties)
-      .where(
-        and(
-          eq(bounties.status, "active"),
-          sql`${bounties.createdAt} + INTERVAL '1 day' * ${bounties.duration} < NOW()`
-        )
-      )
-      .orderBy(desc(bounties.createdAt));
+    return retryDbOperation(
+      async () => {
+        return db
+          .select()
+          .from(bounties)
+          .where(
+            and(
+              eq(bounties.status, "active"),
+              sql`${bounties.createdAt} + INTERVAL '1 day' * ${bounties.duration} < NOW()`
+            )
+          )
+          .orderBy(desc(bounties.createdAt));
+      },
+      'getBountiesExpiredByDuration',
+      3
+    );
   }
 
   async deleteBounty(id: string, userId: string): Promise<Bounty | null> {
@@ -606,13 +675,13 @@ export class DatabaseStorage implements IStorage {
 
   // Messaging operations
   async getOrCreateThread(user1Id: string, user2Id: string): Promise<MessageThread> {
-    logger.info(`Creating thread between users: ${user1Id} and ${user2Id}`);
+    console.log(`Creating thread between users: ${user1Id} and ${user2Id}`);
     
     // Resolve both user IDs to ensure they are valid UUIDs
     const resolvedUser1Id = await this.resolveUserId(user1Id);
     const resolvedUser2Id = await this.resolveUserId(user2Id);
     
-    logger.info(`Resolved user IDs: ${resolvedUser1Id} and ${resolvedUser2Id}`);
+    console.log(`Resolved user IDs: ${resolvedUser1Id} and ${resolvedUser2Id}`);
 
     // Use transaction to ensure atomicity
     return await db.transaction(async (tx) => {
@@ -637,7 +706,7 @@ export class DatabaseStorage implements IStorage {
         .values({ user1Id: resolvedUser1Id, user2Id: resolvedUser2Id })
         .returning();
       
-      logger.info(`Created new thread ${newThread.id} between ${resolvedUser1Id} and ${resolvedUser2Id}`);
+      console.log(`Created new thread ${newThread.id} between ${resolvedUser1Id} and ${resolvedUser2Id}`);
       return newThread;
     });
   }
@@ -1148,22 +1217,28 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateExpiredBoosts(): Promise<void> {
-    const now = new Date();
-    
-    // Reset boost level for expired boosts
-    await db
-      .update(bounties)
-      .set({
-        boostLevel: 0,
-        updatedAt: new Date()
-      })
-      .where(
-        and(
-          sql`${bounties.boostExpiresAt} IS NOT NULL`,
-          sql`${bounties.boostExpiresAt} < ${now.toISOString()}`,
-          sql`${bounties.boostLevel} > 0`
-        )
-      );
+    return retryDbOperation(
+      async () => {
+        const now = new Date();
+        
+        // Reset boost level for expired boosts
+        await db
+          .update(bounties)
+          .set({
+            boostLevel: 0,
+            updatedAt: new Date()
+          })
+          .where(
+            and(
+              sql`${bounties.boostExpiresAt} IS NOT NULL`,
+              sql`${bounties.boostExpiresAt} < ${now.toISOString()}`,
+              sql`${bounties.boostLevel} > 0`
+            )
+          );
+      },
+      'updateExpiredBoosts',
+      3
+    );
   }
 
   async getSessionMetrics(since: Date): Promise<{ 

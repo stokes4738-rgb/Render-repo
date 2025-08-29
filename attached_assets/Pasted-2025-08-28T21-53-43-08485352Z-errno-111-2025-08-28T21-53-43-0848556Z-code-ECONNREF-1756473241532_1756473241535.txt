@@ -1,0 +1,2280 @@
+2025-08-28T21:53:43.08485352Z       errno: -111,
+2025-08-28T21:53:43.0848556Z       code: 'ECONNREFUSED',
+2025-08-28T21:53:43.08485777Z       syscall: 'connect',
+2025-08-28T21:53:43.08485992Z       address: '10.230.167.149',
+2025-08-28T21:53:43.08486207Z       port: 443
+2025-08-28T21:53:43.08486419Z     }
+2025-08-28T21:53:43.08486637Z   }
+2025-08-28T21:53:43.08486846Z }
+2025-08-28T21:53:43.085342873Z 9:53:43 PM [express] GET /api/bounties 500 in 45ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:25:12.811042645Z Login attempt for username: deanawm
+2025-08-28T22:25:12.81591736Z Database error: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:25:12.81593472Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:25:12.815939011Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:25:12.81594258Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:25:12.815945471Z     at async DatabaseStorage.getUserByUsername (file:///opt/render/project/src/dist/index.js:478:24)
+2025-08-28T22:25:12.815948551Z     at async file:///opt/render/project/src/dist/index.js:1659:16 {
+2025-08-28T22:25:12.815952111Z   severity: undefined,
+2025-08-28T22:25:12.815954901Z   code: undefined,
+2025-08-28T22:25:12.815957681Z   detail: undefined,
+2025-08-28T22:25:12.815960551Z   hint: undefined,
+2025-08-28T22:25:12.815963321Z   position: undefined,
+2025-08-28T22:25:12.815977941Z   internalPosition: undefined,
+2025-08-28T22:25:12.815979761Z   internalQuery: undefined,
+2025-08-28T22:25:12.815981512Z   where: undefined,
+2025-08-28T22:25:12.815983172Z   schema: undefined,
+2025-08-28T22:25:12.815984792Z   table: undefined,
+2025-08-28T22:25:12.815986402Z   column: undefined,
+2025-08-28T22:25:12.815988062Z   dataType: undefined,
+2025-08-28T22:25:12.815989692Z   constraint: undefined,
+2025-08-28T22:25:12.815991402Z   file: undefined,
+2025-08-28T22:25:12.815993022Z   line: undefined,
+2025-08-28T22:25:12.815994642Z   routine: undefined,
+2025-08-28T22:25:12.815996892Z   sourceError: TypeError: fetch failed
+2025-08-28T22:25:12.815999302Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:25:12.816000962Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:25:12.816002752Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:25:12.816005102Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:25:12.816006862Z       at async DatabaseStorage.getUserByUsername (file:///opt/render/project/src/dist/index.js:478:24)
+2025-08-28T22:25:12.816008852Z       at async file:///opt/render/project/src/dist/index.js:1659:16 {
+2025-08-28T22:25:12.816010522Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:25:12.816012262Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:25:12.816013933Z       errno: -111,
+2025-08-28T22:25:12.816015602Z       code: 'ECONNREFUSED',
+2025-08-28T22:25:12.816017342Z       syscall: 'connect',
+2025-08-28T22:25:12.816019013Z       address: '10.230.167.149',
+2025-08-28T22:25:12.816020753Z       port: 443
+2025-08-28T22:25:12.816022443Z     }
+2025-08-28T22:25:12.816024173Z   }
+2025-08-28T22:25:12.816025853Z }
+2025-08-28T22:25:12.816476514Z 10:25:12 PM [express] POST /api/login 500 in 6ms :: {"message":"Database connection error"}
+2025-08-28T22:45:08.043925319Z Login attempt for username: demo
+2025-08-28T22:45:08.04668158Z 10:45:08 PM [express] POST /api/login 200 in 3ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T22:45:08.569339468Z [ERROR] 2025-08-28T22:45:08.568Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:08.569384439Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:08.56939097Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:08.5693952Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:08.56939929Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:45:08.5694054Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:45:08.56941013Z   severity: undefined,
+2025-08-28T22:45:08.56941381Z   code: undefined,
+2025-08-28T22:45:08.56941759Z   detail: undefined,
+2025-08-28T22:45:08.569421471Z   hint: undefined,
+2025-08-28T22:45:08.56942558Z   position: undefined,
+2025-08-28T22:45:08.569431061Z   internalPosition: undefined,
+2025-08-28T22:45:08.569434791Z   internalQuery: undefined,
+2025-08-28T22:45:08.569438611Z   where: undefined,
+2025-08-28T22:45:08.569442251Z   schema: undefined,
+2025-08-28T22:45:08.569445821Z   table: undefined,
+2025-08-28T22:45:08.569449631Z   column: undefined,
+2025-08-28T22:45:08.569477062Z   dataType: undefined,
+2025-08-28T22:45:08.569479622Z   constraint: undefined,
+2025-08-28T22:45:08.569481872Z   file: undefined,
+2025-08-28T22:45:08.569484022Z   line: undefined,
+2025-08-28T22:45:08.569486042Z   routine: undefined,
+2025-08-28T22:45:08.569490022Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:08.569493592Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:08.569495902Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:08.569498202Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:08.569502233Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:08.569504433Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:45:08.569506683Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:45:08.569508883Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:08.569511123Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:08.569513203Z       errno: -111,
+2025-08-28T22:45:08.569515493Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:08.569517613Z       syscall: 'connect',
+2025-08-28T22:45:08.569519723Z       address: '10.230.167.149',
+2025-08-28T22:45:08.569521943Z       port: 443
+2025-08-28T22:45:08.569524023Z     }
+2025-08-28T22:45:08.569526213Z   }
+2025-08-28T22:45:08.569528323Z }
+2025-08-28T22:45:08.572975522Z [ERROR] 2025-08-28T22:45:08.572Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:08.572997332Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:08.573001412Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:08.573003982Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:45:08.573007283Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:45:08.573010203Z   severity: undefined,
+2025-08-28T22:45:08.573012543Z   code: undefined,
+2025-08-28T22:45:08.573014933Z   detail: undefined,
+2025-08-28T22:45:08.573017433Z   hint: undefined,
+2025-08-28T22:45:08.573019973Z   position: undefined,
+2025-08-28T22:45:08.573023433Z   internalPosition: undefined,
+2025-08-28T22:45:08.573025913Z   internalQuery: undefined,
+2025-08-28T22:45:08.573028883Z   where: undefined,
+2025-08-28T22:45:08.573031333Z   schema: undefined,
+2025-08-28T22:45:08.573033743Z   table: undefined,
+2025-08-28T22:45:08.573036173Z   column: undefined,
+2025-08-28T22:45:08.573038623Z   dataType: undefined,
+2025-08-28T22:45:08.573041053Z   constraint: undefined,
+2025-08-28T22:45:08.573043843Z   file: undefined,
+2025-08-28T22:45:08.573046313Z   line: undefined,
+2025-08-28T22:45:08.573048664Z   routine: undefined,
+2025-08-28T22:45:08.573051773Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:08.573054724Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:08.573057324Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:08.573059914Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:08.573062414Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:45:08.573076504Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:45:08.573078364Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:08.573080124Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:08.573081784Z       errno: -111,
+2025-08-28T22:45:08.573083454Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:08.573085125Z       syscall: 'connect',
+2025-08-28T22:45:08.573086814Z       address: '10.230.167.149',
+2025-08-28T22:45:08.573088714Z       port: 443
+2025-08-28T22:45:08.573090425Z     }
+2025-08-28T22:45:08.573092735Z   }
+2025-08-28T22:45:08.573094415Z }
+2025-08-28T22:45:08.573890075Z 10:45:08 PM [express] GET /api/bounties 500 in 13ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:45:18.312757684Z [ERROR] 2025-08-28T22:45:18.312Z: Error fetching transactions: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:18.312791865Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:18.312799005Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.312804065Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.312809845Z     at async file:///opt/render/project/src/dist/index.js:2636:29 {
+2025-08-28T22:45:18.312815515Z   severity: undefined,
+2025-08-28T22:45:18.312820206Z   code: undefined,
+2025-08-28T22:45:18.312824296Z   detail: undefined,
+2025-08-28T22:45:18.312828326Z   hint: undefined,
+2025-08-28T22:45:18.312832856Z   position: undefined,
+2025-08-28T22:45:18.312838946Z   internalPosition: undefined,
+2025-08-28T22:45:18.312843926Z   internalQuery: undefined,
+2025-08-28T22:45:18.312848096Z   where: undefined,
+2025-08-28T22:45:18.312852756Z   schema: undefined,
+2025-08-28T22:45:18.312857087Z   table: undefined,
+2025-08-28T22:45:18.312861077Z   column: undefined,
+2025-08-28T22:45:18.312865377Z   dataType: undefined,
+2025-08-28T22:45:18.312869507Z   constraint: undefined,
+2025-08-28T22:45:18.312874047Z   file: undefined,
+2025-08-28T22:45:18.312878217Z   line: undefined,
+2025-08-28T22:45:18.312882387Z   routine: undefined,
+2025-08-28T22:45:18.312887917Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:18.312892817Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:18.312896868Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.312901618Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:18.312906608Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.312910878Z       at async file:///opt/render/project/src/dist/index.js:2636:29 {
+2025-08-28T22:45:18.312914868Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:18.312918868Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:18.312922918Z       errno: -111,
+2025-08-28T22:45:18.312926978Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:18.312930769Z       syscall: 'connect',
+2025-08-28T22:45:18.312935159Z       address: '10.230.167.149',
+2025-08-28T22:45:18.312939789Z       port: 443
+2025-08-28T22:45:18.312943799Z     }
+2025-08-28T22:45:18.312947939Z   }
+2025-08-28T22:45:18.312952359Z }
+2025-08-28T22:45:18.313257877Z 10:45:18 PM [express] GET /api/user/transactions 500 in 7ms :: {"message":"Failed to fetch transactio…
+2025-08-28T22:45:18.31377623Z [ERROR] 2025-08-28T22:45:18.313Z: Error fetching payment methods: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:18.313792111Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:18.313795141Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.313797161Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.313799621Z     at async file:///opt/render/project/src/dist/index.js:2927:31 {
+2025-08-28T22:45:18.313801981Z   severity: undefined,
+2025-08-28T22:45:18.313803691Z   code: undefined,
+2025-08-28T22:45:18.313805491Z   detail: undefined,
+2025-08-28T22:45:18.313807141Z   hint: undefined,
+2025-08-28T22:45:18.313808801Z   position: undefined,
+2025-08-28T22:45:18.313811021Z   internalPosition: undefined,
+2025-08-28T22:45:18.313812961Z   internalQuery: undefined,
+2025-08-28T22:45:18.313814651Z   where: undefined,
+2025-08-28T22:45:18.313816361Z   schema: undefined,
+2025-08-28T22:45:18.313818031Z   table: undefined,
+2025-08-28T22:45:18.313819771Z   column: undefined,
+2025-08-28T22:45:18.313821421Z   dataType: undefined,
+2025-08-28T22:45:18.313823061Z   constraint: undefined,
+2025-08-28T22:45:18.313824812Z   file: undefined,
+2025-08-28T22:45:18.313826492Z   line: undefined,
+2025-08-28T22:45:18.313828381Z   routine: undefined,
+2025-08-28T22:45:18.313830712Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:18.313833022Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:18.313846192Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.313848442Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:18.313850592Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.313852332Z       at async file:///opt/render/project/src/dist/index.js:2927:31 {
+2025-08-28T22:45:18.313854012Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:18.313855692Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:18.313857402Z       errno: -111,
+2025-08-28T22:45:18.313859222Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:18.313860933Z       syscall: 'connect',
+2025-08-28T22:45:18.313862613Z       address: '10.230.167.149',
+2025-08-28T22:45:18.313864342Z       port: 443
+2025-08-28T22:45:18.313866053Z     }
+2025-08-28T22:45:18.313867793Z   }
+2025-08-28T22:45:18.313869563Z }
+2025-08-28T22:45:18.314219222Z 10:45:18 PM [express] GET /api/payments/methods 500 in 6ms :: {"message":"Failed to fetch payment met…
+2025-08-28T22:45:18.32232953Z [ERROR] 2025-08-28T22:45:18.322Z: Error fetching payment history: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:18.32234466Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:18.32234864Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.3223509Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.32235391Z     at async file:///opt/render/project/src/dist/index.js:3107:25 {
+2025-08-28T22:45:18.32235664Z   severity: undefined,
+2025-08-28T22:45:18.32235832Z   code: undefined,
+2025-08-28T22:45:18.322372221Z   detail: undefined,
+2025-08-28T22:45:18.322374171Z   hint: undefined,
+2025-08-28T22:45:18.322375801Z   position: undefined,
+2025-08-28T22:45:18.322378181Z   internalPosition: undefined,
+2025-08-28T22:45:18.322379831Z   internalQuery: undefined,
+2025-08-28T22:45:18.322381621Z   where: undefined,
+2025-08-28T22:45:18.322383241Z   schema: undefined,
+2025-08-28T22:45:18.322384871Z   table: undefined,
+2025-08-28T22:45:18.322386611Z   column: undefined,
+2025-08-28T22:45:18.322388241Z   dataType: undefined,
+2025-08-28T22:45:18.322390171Z   constraint: undefined,
+2025-08-28T22:45:18.322391921Z   file: undefined,
+2025-08-28T22:45:18.322393641Z   line: undefined,
+2025-08-28T22:45:18.322395271Z   routine: undefined,
+2025-08-28T22:45:18.322397591Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:18.322399781Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:18.322401541Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:18.322403301Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:18.322405472Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:18.322407232Z       at async file:///opt/render/project/src/dist/index.js:3107:25 {
+2025-08-28T22:45:18.322408892Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:18.322410602Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:18.322412272Z       errno: -111,
+2025-08-28T22:45:18.322413922Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:18.322415592Z       syscall: 'connect',
+2025-08-28T22:45:18.322417262Z       address: '10.230.167.149',
+2025-08-28T22:45:18.322418962Z       port: 443
+2025-08-28T22:45:18.322420862Z     }
+2025-08-28T22:45:18.322422582Z   }
+2025-08-28T22:45:18.322424232Z }
+2025-08-28T22:45:18.322803182Z 10:45:18 PM [express] GET /api/payments/history 500 in 4ms :: {"message":"Failed to fetch payment his…
+2025-08-28T22:45:19.626363073Z [ERROR] 2025-08-28T22:45:19.625Z: Error fetching friend requests: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:19.626395944Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:19.626402404Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:19.626407034Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:19.626412135Z     at async DatabaseStorage.getFriendRequests (file:///opt/render/project/src/dist/index.js:761:26)
+2025-08-28T22:45:19.626417085Z     at async file:///opt/render/project/src/dist/index.js:2843:24 {
+2025-08-28T22:45:19.626422145Z   severity: undefined,
+2025-08-28T22:45:19.626426855Z   code: undefined,
+2025-08-28T22:45:19.626431165Z   detail: undefined,
+2025-08-28T22:45:19.626435405Z   hint: undefined,
+2025-08-28T22:45:19.626439625Z   position: undefined,
+2025-08-28T22:45:19.626444426Z   internalPosition: undefined,
+2025-08-28T22:45:19.626448686Z   internalQuery: undefined,
+2025-08-28T22:45:19.626453156Z   where: undefined,
+2025-08-28T22:45:19.626457466Z   schema: undefined,
+2025-08-28T22:45:19.626461566Z   table: undefined,
+2025-08-28T22:45:19.626465876Z   column: undefined,
+2025-08-28T22:45:19.626469996Z   dataType: undefined,
+2025-08-28T22:45:19.626474306Z   constraint: undefined,
+2025-08-28T22:45:19.626492317Z   file: undefined,
+2025-08-28T22:45:19.626495577Z   line: undefined,
+2025-08-28T22:45:19.626498127Z   routine: undefined,
+2025-08-28T22:45:19.626502197Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:19.626505687Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:19.626508287Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:19.626510937Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:19.626513967Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:19.626516657Z       at async DatabaseStorage.getFriendRequests (file:///opt/render/project/src/dist/index.js:761:26)
+2025-08-28T22:45:19.626519237Z       at async file:///opt/render/project/src/dist/index.js:2843:24 {
+2025-08-28T22:45:19.626522068Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:19.626525228Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:19.626528118Z       errno: -111,
+2025-08-28T22:45:19.626530608Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:19.626556138Z       syscall: 'connect',
+2025-08-28T22:45:19.626563658Z       address: '10.230.167.149',
+2025-08-28T22:45:19.626566218Z       port: 443
+2025-08-28T22:45:19.626569139Z     }
+2025-08-28T22:45:19.626571629Z   }
+2025-08-28T22:45:19.626574059Z }
+2025-08-28T22:45:19.626934618Z 10:45:19 PM [express] GET /api/friends/requests 500 in 9ms :: {"message":"Failed to fetch friend requ…
+2025-08-28T22:45:19.627746899Z [ERROR] 2025-08-28T22:45:19.627Z: Error fetching friends: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:19.627758559Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:19.627761189Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:19.627763019Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:19.627764849Z     at async DatabaseStorage.getUserFriends (file:///opt/render/project/src/dist/index.js:740:33)
+2025-08-28T22:45:19.627767949Z     at async file:///opt/render/project/src/dist/index.js:2833:23 {
+2025-08-28T22:45:19.62777022Z   severity: undefined,
+2025-08-28T22:45:19.627771989Z   code: undefined,
+2025-08-28T22:45:19.62777366Z   detail: undefined,
+2025-08-28T22:45:19.62777536Z   hint: undefined,
+2025-08-28T22:45:19.62777704Z   position: undefined,
+2025-08-28T22:45:19.6277809Z   internalPosition: undefined,
+2025-08-28T22:45:19.62778261Z   internalQuery: undefined,
+2025-08-28T22:45:19.62778427Z   where: undefined,
+2025-08-28T22:45:19.62778591Z   schema: undefined,
+2025-08-28T22:45:19.62778757Z   table: undefined,
+2025-08-28T22:45:19.62778928Z   column: undefined,
+2025-08-28T22:45:19.62779094Z   dataType: undefined,
+2025-08-28T22:45:19.62779259Z   constraint: undefined,
+2025-08-28T22:45:19.62779425Z   file: undefined,
+2025-08-28T22:45:19.62779594Z   line: undefined,
+2025-08-28T22:45:19.62779759Z   routine: undefined,
+2025-08-28T22:45:19.62780117Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:19.62780345Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:19.62780523Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:19.62780694Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:19.627817891Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:19.627819751Z       at async DatabaseStorage.getUserFriends (file:///opt/render/project/src/dist/index.js:740:33)
+2025-08-28T22:45:19.627821531Z       at async file:///opt/render/project/src/dist/index.js:2833:23 {
+2025-08-28T22:45:19.627823181Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:19.627824951Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:19.627826611Z       errno: -111,
+2025-08-28T22:45:19.627828531Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:19.627830211Z       syscall: 'connect',
+2025-08-28T22:45:19.627831981Z       address: '10.230.167.149',
+2025-08-28T22:45:19.627833711Z       port: 443
+2025-08-28T22:45:19.627835411Z     }
+2025-08-28T22:45:19.627837161Z   }
+2025-08-28T22:45:19.627838981Z }
+2025-08-28T22:45:19.628237741Z 10:45:19 PM [express] GET /api/friends 500 in 7ms :: {"message":"Failed to fetch friends"}
+2025-08-28T22:45:22.382380467Z [ERROR] 2025-08-28T22:45:22.382Z: Error fetching threads: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:22.382409547Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:22.382413267Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:22.382415768Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:22.382418077Z     at async DatabaseStorage.getUserThreads (file:///opt/render/project/src/dist/index.js:696:34)
+2025-08-28T22:45:22.382420768Z     at async file:///opt/render/project/src/dist/index.js:2663:23 {
+2025-08-28T22:45:22.382423618Z   severity: undefined,
+2025-08-28T22:45:22.382426068Z   code: undefined,
+2025-08-28T22:45:22.382428148Z   detail: undefined,
+2025-08-28T22:45:22.382430628Z   hint: undefined,
+2025-08-28T22:45:22.382432658Z   position: undefined,
+2025-08-28T22:45:22.382435698Z   internalPosition: undefined,
+2025-08-28T22:45:22.382437778Z   internalQuery: undefined,
+2025-08-28T22:45:22.382439808Z   where: undefined,
+2025-08-28T22:45:22.382441888Z   schema: undefined,
+2025-08-28T22:45:22.382444148Z   table: undefined,
+2025-08-28T22:45:22.382446178Z   column: undefined,
+2025-08-28T22:45:22.382448148Z   dataType: undefined,
+2025-08-28T22:45:22.382450188Z   constraint: undefined,
+2025-08-28T22:45:22.382452178Z   file: undefined,
+2025-08-28T22:45:22.382454229Z   line: undefined,
+2025-08-28T22:45:22.382456218Z   routine: undefined,
+2025-08-28T22:45:22.382459518Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:22.382462239Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:22.382464369Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:22.382466499Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:22.382469229Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:22.382471549Z       at async DatabaseStorage.getUserThreads (file:///opt/render/project/src/dist/index.js:696:34)
+2025-08-28T22:45:22.382473669Z       at async file:///opt/render/project/src/dist/index.js:2663:23 {
+2025-08-28T22:45:22.382475699Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:22.382477839Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:22.38249209Z       errno: -111,
+2025-08-28T22:45:22.382494719Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:22.382496879Z       syscall: 'connect',
+2025-08-28T22:45:22.38249903Z       address: '10.230.167.149',
+2025-08-28T22:45:22.38250113Z       port: 443
+2025-08-28T22:45:22.38250322Z     }
+2025-08-28T22:45:22.38250537Z   }
+2025-08-28T22:45:22.38250749Z }
+2025-08-28T22:45:22.383081314Z 10:45:22 PM [express] GET /api/messages/threads 500 in 6ms :: {"message":"Failed to fetch threads"}
+2025-08-28T22:45:25.743294078Z [ERROR] 2025-08-28T22:45:25.743Z: Error fetching activities: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:25.743320229Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:25.743327709Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:25.743334079Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:25.743340299Z     at async file:///opt/render/project/src/dist/index.js:2899:27 {
+2025-08-28T22:45:25.74334702Z   severity: undefined,
+2025-08-28T22:45:25.74335297Z   code: undefined,
+2025-08-28T22:45:25.74335878Z   detail: undefined,
+2025-08-28T22:45:25.74336242Z   hint: undefined,
+2025-08-28T22:45:25.74336591Z   position: undefined,
+2025-08-28T22:45:25.74337004Z   internalPosition: undefined,
+2025-08-28T22:45:25.74337361Z   internalQuery: undefined,
+2025-08-28T22:45:25.74337704Z   where: undefined,
+2025-08-28T22:45:25.743380451Z   schema: undefined,
+2025-08-28T22:45:25.743383901Z   table: undefined,
+2025-08-28T22:45:25.743387311Z   column: undefined,
+2025-08-28T22:45:25.743391021Z   dataType: undefined,
+2025-08-28T22:45:25.743394511Z   constraint: undefined,
+2025-08-28T22:45:25.743398021Z   file: undefined,
+2025-08-28T22:45:25.743401821Z   line: undefined,
+2025-08-28T22:45:25.743405261Z   routine: undefined,
+2025-08-28T22:45:25.743409541Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:25.743413711Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:25.743417321Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:25.743420892Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:25.743424832Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:25.743428382Z       at async file:///opt/render/project/src/dist/index.js:2899:27 {
+2025-08-28T22:45:25.743432482Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:25.743436002Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:25.743439502Z       errno: -111,
+2025-08-28T22:45:25.743442972Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:25.743446452Z       syscall: 'connect',
+2025-08-28T22:45:25.743449962Z       address: '10.230.167.149',
+2025-08-28T22:45:25.743453522Z       port: 443
+2025-08-28T22:45:25.743457082Z     }
+2025-08-28T22:45:25.743460622Z   }
+2025-08-28T22:45:25.743480993Z }
+2025-08-28T22:45:25.743841922Z 10:45:25 PM [express] GET /api/user/activities 500 in 5ms :: {"message":"Failed to fetch activities"}
+2025-08-28T22:45:50.695366552Z Login attempt for username: Dallas1221
+2025-08-28T22:45:50.697187859Z 10:45:50 PM [express] POST /api/login 200 in 1ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T22:45:50.905403261Z [ERROR] 2025-08-28T22:45:50.905Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:50.905423351Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:50.905427361Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:50.905429511Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:50.905431281Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:45:50.905433551Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:45:50.905435962Z   severity: undefined,
+2025-08-28T22:45:50.905437771Z   code: undefined,
+2025-08-28T22:45:50.905439462Z   detail: undefined,
+2025-08-28T22:45:50.905441102Z   hint: undefined,
+2025-08-28T22:45:50.905442942Z   position: undefined,
+2025-08-28T22:45:50.905445152Z   internalPosition: undefined,
+2025-08-28T22:45:50.905446952Z   internalQuery: undefined,
+2025-08-28T22:45:50.905448602Z   where: undefined,
+2025-08-28T22:45:50.905450252Z   schema: undefined,
+2025-08-28T22:45:50.905451882Z   table: undefined,
+2025-08-28T22:45:50.905453542Z   column: undefined,
+2025-08-28T22:45:50.905455202Z   dataType: undefined,
+2025-08-28T22:45:50.905456862Z   constraint: undefined,
+2025-08-28T22:45:50.905458532Z   file: undefined,
+2025-08-28T22:45:50.905460172Z   line: undefined,
+2025-08-28T22:45:50.905461802Z   routine: undefined,
+2025-08-28T22:45:50.905474552Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:50.905478483Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:50.905481143Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:50.905484483Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:50.905488033Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:50.905490973Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:45:50.905493723Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:45:50.905496553Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:50.905499393Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:50.905501583Z       errno: -111,
+2025-08-28T22:45:50.905503983Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:50.905506443Z       syscall: 'connect',
+2025-08-28T22:45:50.905509033Z       address: '10.230.167.149',
+2025-08-28T22:45:50.905512213Z       port: 443
+2025-08-28T22:45:50.905516553Z     }
+2025-08-28T22:45:50.905519404Z   }
+2025-08-28T22:45:50.905521504Z }
+2025-08-28T22:45:50.907606787Z [ERROR] 2025-08-28T22:45:50.907Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:50.907619658Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:50.907623678Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:50.907626608Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:45:50.907629288Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:45:50.907632618Z   severity: undefined,
+2025-08-28T22:45:50.907648208Z   code: undefined,
+2025-08-28T22:45:50.907650118Z   detail: undefined,
+2025-08-28T22:45:50.907651788Z   hint: undefined,
+2025-08-28T22:45:50.907653798Z   position: undefined,
+2025-08-28T22:45:50.907655728Z   internalPosition: undefined,
+2025-08-28T22:45:50.907657518Z   internalQuery: undefined,
+2025-08-28T22:45:50.907659179Z   where: undefined,
+2025-08-28T22:45:50.907660828Z   schema: undefined,
+2025-08-28T22:45:50.907662459Z   table: undefined,
+2025-08-28T22:45:50.907664668Z   column: undefined,
+2025-08-28T22:45:50.907666329Z   dataType: undefined,
+2025-08-28T22:45:50.907667959Z   constraint: undefined,
+2025-08-28T22:45:50.907669659Z   file: undefined,
+2025-08-28T22:45:50.907671329Z   line: undefined,
+2025-08-28T22:45:50.907672989Z   routine: undefined,
+2025-08-28T22:45:50.907675009Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:50.907677189Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:50.907678929Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:50.907680699Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:50.907682359Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:45:50.907684089Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:45:50.907685779Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:50.907687489Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:50.907689159Z       errno: -111,
+2025-08-28T22:45:50.907690829Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:50.907692539Z       syscall: 'connect',
+2025-08-28T22:45:50.907694229Z       address: '10.230.167.149',
+2025-08-28T22:45:50.907695939Z       port: 443
+2025-08-28T22:45:50.90769764Z     }
+2025-08-28T22:45:50.907699389Z   }
+2025-08-28T22:45:50.907701109Z }
+2025-08-28T22:45:50.908150821Z 10:45:50 PM [express] GET /api/bounties 500 in 6ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:45:57.577748163Z 10:45:57 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:45:57.593367764Z [ERROR] 2025-08-28T22:45:57.593Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:45:57.593389685Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:45:57.593394685Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:57.593398395Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:57.593401865Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:45:57.593406005Z     at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:45:57.593410405Z   severity: undefined,
+2025-08-28T22:45:57.593413995Z   code: undefined,
+2025-08-28T22:45:57.593417445Z   detail: undefined,
+2025-08-28T22:45:57.593420875Z   hint: undefined,
+2025-08-28T22:45:57.593424415Z   position: undefined,
+2025-08-28T22:45:57.593428396Z   internalPosition: undefined,
+2025-08-28T22:45:57.593431836Z   internalQuery: undefined,
+2025-08-28T22:45:57.593435516Z   where: undefined,
+2025-08-28T22:45:57.593438946Z   schema: undefined,
+2025-08-28T22:45:57.593442426Z   table: undefined,
+2025-08-28T22:45:57.593445896Z   column: undefined,
+2025-08-28T22:45:57.593462576Z   dataType: undefined,
+2025-08-28T22:45:57.593476857Z   constraint: undefined,
+2025-08-28T22:45:57.593479847Z   file: undefined,
+2025-08-28T22:45:57.593481917Z   line: undefined,
+2025-08-28T22:45:57.593484047Z   routine: undefined,
+2025-08-28T22:45:57.593486637Z   sourceError: TypeError: fetch failed
+2025-08-28T22:45:57.593489337Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:45:57.593491417Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:45:57.593493587Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:45:57.593497728Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:45:57.593499928Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:45:57.593502057Z       at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:45:57.593504168Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:45:57.593506278Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:45:57.593508378Z       errno: -111,
+2025-08-28T22:45:57.593510448Z       code: 'ECONNREFUSED',
+2025-08-28T22:45:57.593512538Z       syscall: 'connect',
+2025-08-28T22:45:57.593514628Z       address: '10.230.167.149',
+2025-08-28T22:45:57.593516768Z       port: 443
+2025-08-28T22:45:57.593519058Z     }
+2025-08-28T22:45:57.593521378Z   }
+2025-08-28T22:45:57.593523528Z }
+2025-08-28T22:45:57.593876927Z 10:45:57 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:50:52.054021712Z 10:50:52 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:50:53.138495368Z 10:50:53 PM [express] GET /api/user 200 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:50:53.712296387Z [ERROR] 2025-08-28T22:50:53.711Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:50:53.712329528Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:50:53.712335098Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:53.712339318Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:50:53.712343588Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:50:53.712348968Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:50:53.712354058Z   severity: undefined,
+2025-08-28T22:50:53.712358518Z   code: undefined,
+2025-08-28T22:50:53.712362738Z   detail: undefined,
+2025-08-28T22:50:53.712367049Z   hint: undefined,
+2025-08-28T22:50:53.712371229Z   position: undefined,
+2025-08-28T22:50:53.712380219Z   internalPosition: undefined,
+2025-08-28T22:50:53.712386929Z   internalQuery: undefined,
+2025-08-28T22:50:53.712391319Z   where: undefined,
+2025-08-28T22:50:53.712395529Z   schema: undefined,
+2025-08-28T22:50:53.712399689Z   table: undefined,
+2025-08-28T22:50:53.712403779Z   column: undefined,
+2025-08-28T22:50:53.71240789Z   dataType: undefined,
+2025-08-28T22:50:53.71241216Z   constraint: undefined,
+2025-08-28T22:50:53.71241633Z   file: undefined,
+2025-08-28T22:50:53.71242045Z   line: undefined,
+2025-08-28T22:50:53.7124248Z   routine: undefined,
+2025-08-28T22:50:53.71244332Z   sourceError: TypeError: fetch failed
+2025-08-28T22:50:53.71244694Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:50:53.71244972Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:53.712452731Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:50:53.712456031Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:50:53.712458861Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:50:53.712461621Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:50:53.712464351Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:50:53.712466751Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:50:53.712469431Z       errno: -111,
+2025-08-28T22:50:53.712471821Z       code: 'ECONNREFUSED',
+2025-08-28T22:50:53.712474031Z       syscall: 'connect',
+2025-08-28T22:50:53.712476261Z       address: '10.230.167.149',
+2025-08-28T22:50:53.712478611Z       port: 443
+2025-08-28T22:50:53.712481021Z     }
+2025-08-28T22:50:53.712483861Z   }
+2025-08-28T22:50:53.712486281Z }
+2025-08-28T22:50:53.715335675Z [ERROR] 2025-08-28T22:50:53.715Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:50:53.715350305Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:50:53.715352825Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:53.715354565Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:50:53.715356765Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:50:53.715359105Z   severity: undefined,
+2025-08-28T22:50:53.715360805Z   code: undefined,
+2025-08-28T22:50:53.715362475Z   detail: undefined,
+2025-08-28T22:50:53.715364125Z   hint: undefined,
+2025-08-28T22:50:53.715365885Z   position: undefined,
+2025-08-28T22:50:53.715368126Z   internalPosition: undefined,
+2025-08-28T22:50:53.715369866Z   internalQuery: undefined,
+2025-08-28T22:50:53.715372415Z   where: undefined,
+2025-08-28T22:50:53.715375596Z   schema: undefined,
+2025-08-28T22:50:53.715378596Z   table: undefined,
+2025-08-28T22:50:53.715381266Z   column: undefined,
+2025-08-28T22:50:53.715383926Z   dataType: undefined,
+2025-08-28T22:50:53.715386676Z   constraint: undefined,
+2025-08-28T22:50:53.715389406Z   file: undefined,
+2025-08-28T22:50:53.715392056Z   line: undefined,
+2025-08-28T22:50:53.715394636Z   routine: undefined,
+2025-08-28T22:50:53.715398036Z   sourceError: TypeError: fetch failed
+2025-08-28T22:50:53.715400816Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:50:53.715402566Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:53.715404396Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:50:53.715406107Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:50:53.715407876Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:50:53.715409556Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:50:53.715411276Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:50:53.715422487Z       errno: -111,
+2025-08-28T22:50:53.715424337Z       code: 'ECONNREFUSED',
+2025-08-28T22:50:53.715426257Z       syscall: 'connect',
+2025-08-28T22:50:53.715427937Z       address: '10.230.167.149',
+2025-08-28T22:50:53.715429747Z       port: 443
+2025-08-28T22:50:53.715431447Z     }
+2025-08-28T22:50:53.715433187Z   }
+2025-08-28T22:50:53.715434907Z }
+2025-08-28T22:50:53.715965091Z 10:50:53 PM [express] GET /api/bounties 500 in 8ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:50:55.47922493Z 10:50:55 PM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:50:55.896439349Z [ERROR] 2025-08-28T22:50:55.896Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:50:55.89646582Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:50:55.89646917Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:55.89647161Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:50:55.89647376Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:50:55.8964764Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:50:55.89647901Z   severity: undefined,
+2025-08-28T22:50:55.8964818Z   code: undefined,
+2025-08-28T22:50:55.896484051Z   detail: undefined,
+2025-08-28T22:50:55.896486111Z   hint: undefined,
+2025-08-28T22:50:55.89648814Z   position: undefined,
+2025-08-28T22:50:55.896490961Z   internalPosition: undefined,
+2025-08-28T22:50:55.896493031Z   internalQuery: undefined,
+2025-08-28T22:50:55.896495091Z   where: undefined,
+2025-08-28T22:50:55.896497151Z   schema: undefined,
+2025-08-28T22:50:55.896499301Z   table: undefined,
+2025-08-28T22:50:55.896501381Z   column: undefined,
+2025-08-28T22:50:55.896503461Z   dataType: undefined,
+2025-08-28T22:50:55.896505501Z   constraint: undefined,
+2025-08-28T22:50:55.896507541Z   file: undefined,
+2025-08-28T22:50:55.896509591Z   line: undefined,
+2025-08-28T22:50:55.896511971Z   routine: undefined,
+2025-08-28T22:50:55.896514741Z   sourceError: TypeError: fetch failed
+2025-08-28T22:50:55.896517421Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:50:55.896519531Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:55.896521681Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:50:55.896524412Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:50:55.896526561Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:50:55.896528692Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:50:55.896530982Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:50:55.896562133Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:50:55.896565762Z       errno: -111,
+2025-08-28T22:50:55.896568803Z       code: 'ECONNREFUSED',
+2025-08-28T22:50:55.896572233Z       syscall: 'connect',
+2025-08-28T22:50:55.896575703Z       address: '10.230.167.149',
+2025-08-28T22:50:55.896579003Z       port: 443
+2025-08-28T22:50:55.896582743Z     }
+2025-08-28T22:50:55.896585983Z   }
+2025-08-28T22:50:55.896588083Z }
+2025-08-28T22:50:55.898916323Z [ERROR] 2025-08-28T22:50:55.898Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:50:55.898930123Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:50:55.898933063Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:55.898934933Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:50:55.898936863Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:50:55.898939243Z   severity: undefined,
+2025-08-28T22:50:55.898940963Z   code: undefined,
+2025-08-28T22:50:55.898942743Z   detail: undefined,
+2025-08-28T22:50:55.898944394Z   hint: undefined,
+2025-08-28T22:50:55.898946344Z   position: undefined,
+2025-08-28T22:50:55.898948584Z   internalPosition: undefined,
+2025-08-28T22:50:55.898950254Z   internalQuery: undefined,
+2025-08-28T22:50:55.898951884Z   where: undefined,
+2025-08-28T22:50:55.898953534Z   schema: undefined,
+2025-08-28T22:50:55.898955184Z   table: undefined,
+2025-08-28T22:50:55.898956874Z   column: undefined,
+2025-08-28T22:50:55.898958504Z   dataType: undefined,
+2025-08-28T22:50:55.898960184Z   constraint: undefined,
+2025-08-28T22:50:55.898964274Z   file: undefined,
+2025-08-28T22:50:55.898966054Z   line: undefined,
+2025-08-28T22:50:55.898967754Z   routine: undefined,
+2025-08-28T22:50:55.898970384Z   sourceError: TypeError: fetch failed
+2025-08-28T22:50:55.898972724Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:50:55.898974514Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:50:55.898976324Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:50:55.898978064Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:50:55.898979864Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:50:55.898981524Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:50:55.898983195Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:50:55.898984845Z       errno: -111,
+2025-08-28T22:50:55.898986645Z       code: 'ECONNREFUSED',
+2025-08-28T22:50:55.898988345Z       syscall: 'connect',
+2025-08-28T22:50:55.898990105Z       address: '10.230.167.149',
+2025-08-28T22:50:55.898991905Z       port: 443
+2025-08-28T22:50:55.898993605Z     }
+2025-08-28T22:50:55.898995335Z   }
+2025-08-28T22:50:55.898997015Z }
+2025-08-28T22:50:55.899671442Z 10:50:55 PM [express] GET /api/bounties 500 in 7ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:51:27.664394651Z 10:51:27 PM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:51:28.235569823Z [ERROR] 2025-08-28T22:51:28.235Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:51:28.235595744Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:51:28.235601424Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:51:28.235605114Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:51:28.235608754Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:51:28.235614004Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:51:28.235631215Z   severity: undefined,
+2025-08-28T22:51:28.235633575Z   code: undefined,
+2025-08-28T22:51:28.235635675Z   detail: undefined,
+2025-08-28T22:51:28.235637775Z   hint: undefined,
+2025-08-28T22:51:28.235639805Z   position: undefined,
+2025-08-28T22:51:28.235643135Z   internalPosition: undefined,
+2025-08-28T22:51:28.235645215Z   internalQuery: undefined,
+2025-08-28T22:51:28.235647335Z   where: undefined,
+2025-08-28T22:51:28.235649375Z   schema: undefined,
+2025-08-28T22:51:28.235651425Z   table: undefined,
+2025-08-28T22:51:28.235653475Z   column: undefined,
+2025-08-28T22:51:28.235655515Z   dataType: undefined,
+2025-08-28T22:51:28.235657605Z   constraint: undefined,
+2025-08-28T22:51:28.235659665Z   file: undefined,
+2025-08-28T22:51:28.235661705Z   line: undefined,
+2025-08-28T22:51:28.235663796Z   routine: undefined,
+2025-08-28T22:51:28.235667336Z   sourceError: TypeError: fetch failed
+2025-08-28T22:51:28.235670856Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:51:28.235673086Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:51:28.235675276Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:51:28.235678886Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:51:28.235681056Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:51:28.235683126Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:51:28.235685246Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:51:28.235687366Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:51:28.235689436Z       errno: -111,
+2025-08-28T22:51:28.235691506Z       code: 'ECONNREFUSED',
+2025-08-28T22:51:28.235693606Z       syscall: 'connect',
+2025-08-28T22:51:28.235696016Z       address: '10.230.167.149',
+2025-08-28T22:51:28.235698156Z       port: 443
+2025-08-28T22:51:28.235700246Z     }
+2025-08-28T22:51:28.235702446Z   }
+2025-08-28T22:51:28.235704526Z }
+2025-08-28T22:51:28.237260797Z [ERROR] 2025-08-28T22:51:28.237Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:51:28.237277307Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:51:28.237280437Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:51:28.237283137Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:51:28.237285837Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:51:28.237288257Z   severity: undefined,
+2025-08-28T22:51:28.237290467Z   code: undefined,
+2025-08-28T22:51:28.237292617Z   detail: undefined,
+2025-08-28T22:51:28.237294677Z   hint: undefined,
+2025-08-28T22:51:28.237296837Z   position: undefined,
+2025-08-28T22:51:28.237299098Z   internalPosition: undefined,
+2025-08-28T22:51:28.237301158Z   internalQuery: undefined,
+2025-08-28T22:51:28.237303327Z   where: undefined,
+2025-08-28T22:51:28.237305398Z   schema: undefined,
+2025-08-28T22:51:28.237307488Z   table: undefined,
+2025-08-28T22:51:28.237309528Z   column: undefined,
+2025-08-28T22:51:28.237311558Z   dataType: undefined,
+2025-08-28T22:51:28.237313598Z   constraint: undefined,
+2025-08-28T22:51:28.237315658Z   file: undefined,
+2025-08-28T22:51:28.237329728Z   line: undefined,
+2025-08-28T22:51:28.237331998Z   routine: undefined,
+2025-08-28T22:51:28.237334508Z   sourceError: TypeError: fetch failed
+2025-08-28T22:51:28.237337039Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:51:28.237339219Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:51:28.237341388Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:51:28.237343528Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:51:28.237345709Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:51:28.237347799Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:51:28.237349889Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:51:28.237351979Z       errno: -111,
+2025-08-28T22:51:28.237354019Z       code: 'ECONNREFUSED',
+2025-08-28T22:51:28.237356049Z       syscall: 'connect',
+2025-08-28T22:51:28.237358149Z       address: '10.230.167.149',
+2025-08-28T22:51:28.237360309Z       port: 443
+2025-08-28T22:51:28.237362679Z     }
+2025-08-28T22:51:28.237364829Z   }
+2025-08-28T22:51:28.237366939Z }
+2025-08-28T22:51:28.237843752Z 10:51:28 PM [express] GET /api/bounties 500 in 6ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:51:37.686482223Z ==> Deploying...
+2025-08-28T22:51:54.641531827Z ==> Running 'npm start'
+2025-08-28T22:51:54.880046915Z 
+2025-08-28T22:51:54.880074446Z > rest-express@1.0.0 start
+2025-08-28T22:51:54.880079456Z > NODE_ENV=production node dist/index.js
+2025-08-28T22:51:54.880081486Z 
+2025-08-28T22:51:56.95009079Z 10:51:56 PM [express] serving on port 3000
+2025-08-28T22:51:59.437383308Z ==> Your service is live 🎉
+2025-08-28T22:51:59.468573224Z ==> 
+2025-08-28T22:51:59.729904764Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T22:51:59.755067921Z ==> 
+2025-08-28T22:51:59.778310608Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T22:51:59.801725405Z ==> 
+2025-08-28T22:51:59.825564022Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T22:52:38.267326038Z 10:52:38 PM [express] GET /api/user 304 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:52:39.02902952Z [ERROR] 2025-08-28T22:52:38.979Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:52:39.029051271Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:52:39.029055371Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:39.029058291Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:52:39.029061481Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:52:39.029064871Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:52:39.029068161Z   severity: undefined,
+2025-08-28T22:52:39.029073561Z   code: undefined,
+2025-08-28T22:52:39.029076431Z   detail: undefined,
+2025-08-28T22:52:39.029079381Z   hint: undefined,
+2025-08-28T22:52:39.029082211Z   position: undefined,
+2025-08-28T22:52:39.029086071Z   internalPosition: undefined,
+2025-08-28T22:52:39.029088882Z   internalQuery: undefined,
+2025-08-28T22:52:39.029091691Z   where: undefined,
+2025-08-28T22:52:39.029094422Z   schema: undefined,
+2025-08-28T22:52:39.029097152Z   table: undefined,
+2025-08-28T22:52:39.029099872Z   column: undefined,
+2025-08-28T22:52:39.029102602Z   dataType: undefined,
+2025-08-28T22:52:39.029105322Z   constraint: undefined,
+2025-08-28T22:52:39.029108062Z   file: undefined,
+2025-08-28T22:52:39.029110822Z   line: undefined,
+2025-08-28T22:52:39.029113552Z   routine: undefined,
+2025-08-28T22:52:39.029117452Z   sourceError: TypeError: fetch failed
+2025-08-28T22:52:39.029121182Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:52:39.029124012Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:39.029126852Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:52:39.029130192Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:52:39.029132963Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:52:39.029135963Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:52:39.029138793Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:52:39.029141843Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:52:39.029144623Z       errno: -111,
+2025-08-28T22:52:39.029147683Z       code: 'ECONNREFUSED',
+2025-08-28T22:52:39.029150413Z       syscall: 'connect',
+2025-08-28T22:52:39.029153193Z       address: '10.230.167.149',
+2025-08-28T22:52:39.029155993Z       port: 443
+2025-08-28T22:52:39.029158803Z     }
+2025-08-28T22:52:39.029161613Z   }
+2025-08-28T22:52:39.029164373Z }
+2025-08-28T22:52:39.032578483Z [ERROR] 2025-08-28T22:52:39.032Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:52:39.032594413Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:52:39.032643905Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:39.032650925Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:52:39.032653215Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:52:39.032655655Z   severity: undefined,
+2025-08-28T22:52:39.032657495Z   code: undefined,
+2025-08-28T22:52:39.032659105Z   detail: undefined,
+2025-08-28T22:52:39.032660875Z   hint: undefined,
+2025-08-28T22:52:39.032662505Z   position: undefined,
+2025-08-28T22:52:39.032664935Z   internalPosition: undefined,
+2025-08-28T22:52:39.032666605Z   internalQuery: undefined,
+2025-08-28T22:52:39.032668275Z   where: undefined,
+2025-08-28T22:52:39.032669895Z   schema: undefined,
+2025-08-28T22:52:39.032671625Z   table: undefined,
+2025-08-28T22:52:39.032673265Z   column: undefined,
+2025-08-28T22:52:39.032674885Z   dataType: undefined,
+2025-08-28T22:52:39.032676506Z   constraint: undefined,
+2025-08-28T22:52:39.032678135Z   file: undefined,
+2025-08-28T22:52:39.032679766Z   line: undefined,
+2025-08-28T22:52:39.032681426Z   routine: undefined,
+2025-08-28T22:52:39.032683775Z   sourceError: TypeError: fetch failed
+2025-08-28T22:52:39.032685946Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:52:39.032687666Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:39.032689406Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:52:39.032691146Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:52:39.032692926Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:52:39.032694576Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:52:39.032696246Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:52:39.032697926Z       errno: -111,
+2025-08-28T22:52:39.032699576Z       code: 'ECONNREFUSED',
+2025-08-28T22:52:39.032701256Z       syscall: 'connect',
+2025-08-28T22:52:39.032702946Z       address: '10.230.167.149',
+2025-08-28T22:52:39.032704676Z       port: 443
+2025-08-28T22:52:39.032706356Z     }
+2025-08-28T22:52:39.032708066Z   }
+2025-08-28T22:52:39.032709736Z }
+2025-08-28T22:52:39.03331066Z 10:52:39 PM [express] GET /api/bounties 500 in 107ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:52:43.036951268Z 10:52:43 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:52:43.053403173Z [ERROR] 2025-08-28T22:52:43.052Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:52:43.053416173Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:52:43.053419223Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:43.053421163Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:52:43.053422893Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:52:43.053425123Z     at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:52:43.053428293Z   severity: undefined,
+2025-08-28T22:52:43.053430033Z   code: undefined,
+2025-08-28T22:52:43.053431763Z   detail: undefined,
+2025-08-28T22:52:43.053445054Z   hint: undefined,
+2025-08-28T22:52:43.053446814Z   position: undefined,
+2025-08-28T22:52:43.053449383Z   internalPosition: undefined,
+2025-08-28T22:52:43.053451114Z   internalQuery: undefined,
+2025-08-28T22:52:43.053452803Z   where: undefined,
+2025-08-28T22:52:43.053454494Z   schema: undefined,
+2025-08-28T22:52:43.053456144Z   table: undefined,
+2025-08-28T22:52:43.053457764Z   column: undefined,
+2025-08-28T22:52:43.053459374Z   dataType: undefined,
+2025-08-28T22:52:43.053461364Z   constraint: undefined,
+2025-08-28T22:52:43.053463094Z   file: undefined,
+2025-08-28T22:52:43.053464784Z   line: undefined,
+2025-08-28T22:52:43.053466594Z   routine: undefined,
+2025-08-28T22:52:43.053468794Z   sourceError: TypeError: fetch failed
+2025-08-28T22:52:43.053471444Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:52:43.053473154Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:52:43.053475084Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:52:43.053477544Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:52:43.053479224Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:52:43.053480954Z       at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:52:43.053482614Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:52:43.053484344Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:52:43.053486004Z       errno: -111,
+2025-08-28T22:52:43.053487734Z       code: 'ECONNREFUSED',
+2025-08-28T22:52:43.053489395Z       syscall: 'connect',
+2025-08-28T22:52:43.053491075Z       address: '10.230.167.149',
+2025-08-28T22:52:43.053492804Z       port: 443
+2025-08-28T22:52:43.053494475Z     }
+2025-08-28T22:52:43.053496205Z   }
+2025-08-28T22:52:43.053497895Z }
+2025-08-28T22:52:43.053901924Z 10:52:43 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:53:19.508396373Z Login attempt for username: Dallas1221
+2025-08-28T22:53:19.510862141Z 10:53:19 PM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T22:53:19.97944939Z [ERROR] 2025-08-28T22:53:19.979Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:53:19.979468231Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:53:19.979472581Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:19.979477151Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:53:19.979482471Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:53:19.979487831Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:53:19.979494281Z   severity: undefined,
+2025-08-28T22:53:19.979498971Z   code: undefined,
+2025-08-28T22:53:19.979503572Z   detail: undefined,
+2025-08-28T22:53:19.979506372Z   hint: undefined,
+2025-08-28T22:53:19.979509172Z   position: undefined,
+2025-08-28T22:53:19.979512612Z   internalPosition: undefined,
+2025-08-28T22:53:19.979515482Z   internalQuery: undefined,
+2025-08-28T22:53:19.979518212Z   where: undefined,
+2025-08-28T22:53:19.979521012Z   schema: undefined,
+2025-08-28T22:53:19.979531612Z   table: undefined,
+2025-08-28T22:53:19.979533332Z   column: undefined,
+2025-08-28T22:53:19.979534962Z   dataType: undefined,
+2025-08-28T22:53:19.979536582Z   constraint: undefined,
+2025-08-28T22:53:19.979538222Z   file: undefined,
+2025-08-28T22:53:19.979539872Z   line: undefined,
+2025-08-28T22:53:19.979541832Z   routine: undefined,
+2025-08-28T22:53:19.979544182Z   sourceError: TypeError: fetch failed
+2025-08-28T22:53:19.979546433Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:53:19.979548162Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:19.979549953Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:53:19.979552382Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:53:19.979554113Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:53:19.979555843Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:53:19.979557473Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:53:19.979559213Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:53:19.979560863Z       errno: -111,
+2025-08-28T22:53:19.979562503Z       code: 'ECONNREFUSED',
+2025-08-28T22:53:19.979564163Z       syscall: 'connect',
+2025-08-28T22:53:19.979565833Z       address: '10.230.167.149',
+2025-08-28T22:53:19.979567553Z       port: 443
+2025-08-28T22:53:19.979569223Z     }
+2025-08-28T22:53:19.979570963Z   }
+2025-08-28T22:53:19.979572703Z }
+2025-08-28T22:53:19.98156916Z [ERROR] 2025-08-28T22:53:19.981Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:53:19.98158191Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:53:19.981585Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:19.98158735Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:53:19.98158961Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:53:19.98159173Z   severity: undefined,
+2025-08-28T22:53:19.98159396Z   code: undefined,
+2025-08-28T22:53:19.98159609Z   detail: undefined,
+2025-08-28T22:53:19.98159813Z   hint: undefined,
+2025-08-28T22:53:19.981630021Z   position: undefined,
+2025-08-28T22:53:19.981632881Z   internalPosition: undefined,
+2025-08-28T22:53:19.981635001Z   internalQuery: undefined,
+2025-08-28T22:53:19.981637041Z   where: undefined,
+2025-08-28T22:53:19.981639071Z   schema: undefined,
+2025-08-28T22:53:19.981641142Z   table: undefined,
+2025-08-28T22:53:19.981643171Z   column: undefined,
+2025-08-28T22:53:19.981645471Z   dataType: undefined,
+2025-08-28T22:53:19.981647522Z   constraint: undefined,
+2025-08-28T22:53:19.981649772Z   file: undefined,
+2025-08-28T22:53:19.981651952Z   line: undefined,
+2025-08-28T22:53:19.981653992Z   routine: undefined,
+2025-08-28T22:53:19.981656262Z   sourceError: TypeError: fetch failed
+2025-08-28T22:53:19.981658632Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:53:19.981660752Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:19.981662852Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:53:19.981673872Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:53:19.981676112Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:53:19.981678152Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:53:19.981680212Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:53:19.981682272Z       errno: -111,
+2025-08-28T22:53:19.981684423Z       code: 'ECONNREFUSED',
+2025-08-28T22:53:19.981686512Z       syscall: 'connect',
+2025-08-28T22:53:19.981688592Z       address: '10.230.167.149',
+2025-08-28T22:53:19.981690712Z       port: 443
+2025-08-28T22:53:19.981692793Z     }
+2025-08-28T22:53:19.981694933Z   }
+2025-08-28T22:53:19.981696993Z }
+2025-08-28T22:53:19.982207724Z 10:53:19 PM [express] GET /api/bounties 500 in 7ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:53:24.126720854Z 10:53:24 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:53:24.135946Z [ERROR] 2025-08-28T22:53:24.135Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:53:24.135965411Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:53:24.13596966Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:24.135972581Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:53:24.135977851Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:53:24.135980261Z     at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:53:24.135982711Z   severity: undefined,
+2025-08-28T22:53:24.135984391Z   code: undefined,
+2025-08-28T22:53:24.135986231Z   detail: undefined,
+2025-08-28T22:53:24.135987961Z   hint: undefined,
+2025-08-28T22:53:24.135989721Z   position: undefined,
+2025-08-28T22:53:24.135992081Z   internalPosition: undefined,
+2025-08-28T22:53:24.135994261Z   internalQuery: undefined,
+2025-08-28T22:53:24.135996001Z   where: undefined,
+2025-08-28T22:53:24.135997641Z   schema: undefined,
+2025-08-28T22:53:24.135999361Z   table: undefined,
+2025-08-28T22:53:24.136001031Z   column: undefined,
+2025-08-28T22:53:24.136002701Z   dataType: undefined,
+2025-08-28T22:53:24.136004341Z   constraint: undefined,
+2025-08-28T22:53:24.136005992Z   file: undefined,
+2025-08-28T22:53:24.136007712Z   line: undefined,
+2025-08-28T22:53:24.136011872Z   routine: undefined,
+2025-08-28T22:53:24.136014442Z   sourceError: TypeError: fetch failed
+2025-08-28T22:53:24.136016872Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:53:24.136018642Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:53:24.136020382Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:53:24.136022652Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:53:24.136024422Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:53:24.136026162Z       at async file:///opt/render/project/src/dist/index.js:3470:20 {
+2025-08-28T22:53:24.136027822Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:53:24.136029552Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:53:24.136040092Z       errno: -111,
+2025-08-28T22:53:24.136041892Z       code: 'ECONNREFUSED',
+2025-08-28T22:53:24.136043832Z       syscall: 'connect',
+2025-08-28T22:53:24.136045872Z       address: '10.230.167.149',
+2025-08-28T22:53:24.136048062Z       port: 443
+2025-08-28T22:53:24.136049782Z     }
+2025-08-28T22:53:24.136051502Z   }
+2025-08-28T22:53:24.136053193Z }
+2025-08-28T22:53:24.136506653Z 10:53:24 PM [express] GET /api/creator/stats 500 in 6ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:53:54.342793305Z 10:53:54 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:54:24.721151378Z 10:54:24 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:54:54.91357255Z 10:54:54 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:55:25.114751414Z 10:55:25 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:55:55.519157346Z 10:55:55 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:56:25.859821731Z 10:56:25 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:56:56.058934952Z 10:56:56 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:57:31.234356625Z ==> Deploying...
+2025-08-28T22:57:26.291883794Z 10:57:26 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:57:47.329775475Z ==> Running 'npm start'
+2025-08-28T22:57:47.566683505Z 
+2025-08-28T22:57:47.566707595Z > rest-express@1.0.0 start
+2025-08-28T22:57:47.566711775Z > NODE_ENV=production node dist/index.js
+2025-08-28T22:57:47.566713866Z 
+2025-08-28T22:57:49.756961474Z 10:57:49 PM [express] serving on port 3000
+2025-08-28T22:58:10.351586004Z ==> Your service is live 🎉
+2025-08-28T22:58:12.099838752Z ==> 
+2025-08-28T22:58:13.700032769Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T22:58:13.730505754Z ==> 
+2025-08-28T22:58:13.761341821Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T22:58:13.797795206Z ==> 
+2025-08-28T22:58:13.831916031Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T22:58:37.953647698Z 10:58:37 PM [express] GET /api/user 200 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:58:38.74117478Z [ERROR] 2025-08-28T22:58:38.737Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:38.741206301Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:38.741212681Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:38.741217121Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:38.741221391Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:58:38.741226051Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:58:38.741230811Z   severity: undefined,
+2025-08-28T22:58:38.741235321Z   code: undefined,
+2025-08-28T22:58:38.741239771Z   detail: undefined,
+2025-08-28T22:58:38.741244441Z   hint: undefined,
+2025-08-28T22:58:38.741248762Z   position: undefined,
+2025-08-28T22:58:38.741254302Z   internalPosition: undefined,
+2025-08-28T22:58:38.741258712Z   internalQuery: undefined,
+2025-08-28T22:58:38.741262722Z   where: undefined,
+2025-08-28T22:58:38.741267252Z   schema: undefined,
+2025-08-28T22:58:38.741271962Z   table: undefined,
+2025-08-28T22:58:38.741276842Z   column: undefined,
+2025-08-28T22:58:38.741281292Z   dataType: undefined,
+2025-08-28T22:58:38.741285522Z   constraint: undefined,
+2025-08-28T22:58:38.741289872Z   file: undefined,
+2025-08-28T22:58:38.741296892Z   line: undefined,
+2025-08-28T22:58:38.741301663Z   routine: undefined,
+2025-08-28T22:58:38.741306732Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:38.741311573Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:38.741316483Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:38.741321143Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:38.741326673Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:38.741331433Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:58:38.741336173Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:58:38.741340473Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:38.741344903Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:38.741349103Z       errno: -111,
+2025-08-28T22:58:38.741354004Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:38.741358124Z       syscall: 'connect',
+2025-08-28T22:58:38.741362414Z       address: '10.230.167.149',
+2025-08-28T22:58:38.741367074Z       port: 443
+2025-08-28T22:58:38.741371654Z     }
+2025-08-28T22:58:38.741376304Z   }
+2025-08-28T22:58:38.741380724Z }
+2025-08-28T22:58:38.744383531Z [ERROR] 2025-08-28T22:58:38.744Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:38.744402071Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:38.744421112Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:38.744423642Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:38.744426232Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:38.744428752Z   severity: undefined,
+2025-08-28T22:58:38.744430822Z   code: undefined,
+2025-08-28T22:58:38.744432902Z   detail: undefined,
+2025-08-28T22:58:38.744434942Z   hint: undefined,
+2025-08-28T22:58:38.744437112Z   position: undefined,
+2025-08-28T22:58:38.744440092Z   internalPosition: undefined,
+2025-08-28T22:58:38.744442142Z   internalQuery: undefined,
+2025-08-28T22:58:38.744444292Z   where: undefined,
+2025-08-28T22:58:38.744446332Z   schema: undefined,
+2025-08-28T22:58:38.744448582Z   table: undefined,
+2025-08-28T22:58:38.744450612Z   column: undefined,
+2025-08-28T22:58:38.744452622Z   dataType: undefined,
+2025-08-28T22:58:38.744455163Z   constraint: undefined,
+2025-08-28T22:58:38.744458552Z   file: undefined,
+2025-08-28T22:58:38.744462403Z   line: undefined,
+2025-08-28T22:58:38.744466063Z   routine: undefined,
+2025-08-28T22:58:38.744469823Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:38.744473723Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:38.744477263Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:38.744480843Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:38.744484223Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:38.744487803Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:38.744491253Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:38.744493433Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:38.744495583Z       errno: -111,
+2025-08-28T22:58:38.744497683Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:38.744499733Z       syscall: 'connect',
+2025-08-28T22:58:38.744501823Z       address: '10.230.167.149',
+2025-08-28T22:58:38.744503973Z       port: 443
+2025-08-28T22:58:38.744506164Z     }
+2025-08-28T22:58:38.744508313Z   }
+2025-08-28T22:58:38.744510384Z }
+2025-08-28T22:58:38.745060014Z 10:58:38 PM [express] GET /api/bounties 500 in 46ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:58:42.960203979Z 10:58:42 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:58:42.96128898Z [ERROR] 2025-08-28T22:58:42.960Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:42.96129652Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:42.96129949Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:42.96130127Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:42.96130297Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:42.96130539Z     at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:42.96130749Z   severity: undefined,
+2025-08-28T22:58:42.96130926Z   code: undefined,
+2025-08-28T22:58:42.96131092Z   detail: undefined,
+2025-08-28T22:58:42.96132373Z   hint: undefined,
+2025-08-28T22:58:42.961325641Z   position: undefined,
+2025-08-28T22:58:42.961328321Z   internalPosition: undefined,
+2025-08-28T22:58:42.961330001Z   internalQuery: undefined,
+2025-08-28T22:58:42.961331681Z   where: undefined,
+2025-08-28T22:58:42.961333381Z   schema: undefined,
+2025-08-28T22:58:42.961335051Z   table: undefined,
+2025-08-28T22:58:42.961336711Z   column: undefined,
+2025-08-28T22:58:42.961338341Z   dataType: undefined,
+2025-08-28T22:58:42.961340031Z   constraint: undefined,
+2025-08-28T22:58:42.961341681Z   file: undefined,
+2025-08-28T22:58:42.961343301Z   line: undefined,
+2025-08-28T22:58:42.961344941Z   routine: undefined,
+2025-08-28T22:58:42.961347181Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:42.961349301Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:42.961351011Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:42.961352851Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:42.961354981Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:42.961356721Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:42.961358431Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:42.961360091Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:42.961361791Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:42.961363441Z       errno: -111,
+2025-08-28T22:58:42.961365051Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:42.961366671Z       syscall: 'connect',
+2025-08-28T22:58:42.961368361Z       address: '10.230.167.149',
+2025-08-28T22:58:42.961370061Z       port: 443
+2025-08-28T22:58:42.961371731Z     }
+2025-08-28T22:58:42.961373451Z   }
+2025-08-28T22:58:42.961375141Z }
+2025-08-28T22:58:42.961759229Z 10:58:42 PM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:58:42.961340031Z   constraint: undefined,
+2025-08-28T22:58:42.961341681Z   file: undefined,
+2025-08-28T22:58:42.961343301Z   line: undefined,
+2025-08-28T22:58:42.961344941Z   routine: undefined,
+2025-08-28T22:58:42.961347181Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:42.961349301Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:42.961351011Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:42.961352851Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:42.961354981Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:42.961356721Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:42.961358431Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:42.961360091Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:42.961361791Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:42.961363441Z       errno: -111,
+2025-08-28T22:58:42.961365051Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:42.961366671Z       syscall: 'connect',
+2025-08-28T22:58:42.961368361Z       address: '10.230.167.149',
+2025-08-28T22:58:42.961370061Z       port: 443
+2025-08-28T22:58:42.961371731Z     }
+2025-08-28T22:58:42.961373451Z   }
+2025-08-28T22:58:42.961375141Z }
+2025-08-28T22:58:42.961759229Z 10:58:42 PM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:58:46.817694791Z 10:58:46 PM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T22:58:47.224638313Z [ERROR] 2025-08-28T22:58:47.224Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:47.224658443Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:47.224661173Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.224663093Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:47.224664793Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:58:47.224666953Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:58:47.224669173Z   severity: undefined,
+2025-08-28T22:58:47.224670883Z   code: undefined,
+2025-08-28T22:58:47.224672583Z   detail: undefined,
+2025-08-28T22:58:47.224674213Z   hint: undefined,
+2025-08-28T22:58:47.224675893Z   position: undefined,
+2025-08-28T22:58:47.224678173Z   internalPosition: undefined,
+2025-08-28T22:58:47.224679933Z   internalQuery: undefined,
+2025-08-28T22:58:47.224682064Z   where: undefined,
+2025-08-28T22:58:47.224683704Z   schema: undefined,
+2025-08-28T22:58:47.224685304Z   table: undefined,
+2025-08-28T22:58:47.224697764Z   column: undefined,
+2025-08-28T22:58:47.224700974Z   dataType: undefined,
+2025-08-28T22:58:47.224704224Z   constraint: undefined,
+2025-08-28T22:58:47.224707134Z   file: undefined,
+2025-08-28T22:58:47.224709904Z   line: undefined,
+2025-08-28T22:58:47.224712684Z   routine: undefined,
+2025-08-28T22:58:47.224716244Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:47.224719564Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:47.224722504Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.224725444Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:47.224728104Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:47.224729854Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:58:47.224731585Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:58:47.224733285Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:47.224734985Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:47.224736634Z       errno: -111,
+2025-08-28T22:58:47.224738274Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:47.224739914Z       syscall: 'connect',
+2025-08-28T22:58:47.224741665Z       address: '10.230.167.149',
+2025-08-28T22:58:47.224743765Z       port: 443
+2025-08-28T22:58:47.224745475Z     }
+2025-08-28T22:58:47.224747185Z   }
+2025-08-28T22:58:47.224748855Z }
+2025-08-28T22:58:47.227349644Z [ERROR] 2025-08-28T22:58:47.227Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:47.227360795Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:47.227363175Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.227365084Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:47.227367104Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:47.227368904Z   severity: undefined,
+2025-08-28T22:58:47.227370715Z   code: undefined,
+2025-08-28T22:58:47.227372315Z   detail: undefined,
+2025-08-28T22:58:47.227373925Z   hint: undefined,
+2025-08-28T22:58:47.227375615Z   position: undefined,
+2025-08-28T22:58:47.227377435Z   internalPosition: undefined,
+2025-08-28T22:58:47.227379095Z   internalQuery: undefined,
+2025-08-28T22:58:47.227380815Z   where: undefined,
+2025-08-28T22:58:47.227382425Z   schema: undefined,
+2025-08-28T22:58:47.227384145Z   table: undefined,
+2025-08-28T22:58:47.227385755Z   column: undefined,
+2025-08-28T22:58:47.227387365Z   dataType: undefined,
+2025-08-28T22:58:47.227389005Z   constraint: undefined,
+2025-08-28T22:58:47.227390955Z   file: undefined,
+2025-08-28T22:58:47.227392645Z   line: undefined,
+2025-08-28T22:58:47.227394325Z   routine: undefined,
+2025-08-28T22:58:47.227396255Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:47.227398185Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:47.227399915Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.227401645Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:47.227403355Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:47.227413216Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:47.227415105Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:47.227416836Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:47.227418525Z       errno: -111,
+2025-08-28T22:58:47.227420585Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:47.227423396Z       syscall: 'connect',
+2025-08-28T22:58:47.227425546Z       address: '10.230.167.149',
+2025-08-28T22:58:47.227427686Z       port: 443
+2025-08-28T22:58:47.227429786Z     }
+2025-08-28T22:58:47.227432006Z   }
+2025-08-28T22:58:47.227434106Z }
+2025-08-28T22:58:47.227992507Z 10:58:47 PM [express] GET /api/bounties 500 in 7ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:58:50.968876634Z 10:58:50 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:58:50.969559538Z [ERROR] 2025-08-28T22:58:50.969Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:50.969568758Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:50.969572968Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:50.969575858Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:50.969578828Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:50.969582798Z     at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:50.969604258Z   severity: undefined,
+2025-08-28T22:58:50.969615759Z   code: undefined,
+2025-08-28T22:58:50.969618789Z   detail: undefined,
+2025-08-28T22:58:50.969621699Z   hint: undefined,
+2025-08-28T22:58:50.969624079Z   position: undefined,
+2025-08-28T22:58:50.969627369Z   internalPosition: undefined,
+2025-08-28T22:58:50.969630059Z   internalQuery: undefined,
+2025-08-28T22:58:50.969632789Z   where: undefined,
+2025-08-28T22:58:50.969635569Z   schema: undefined,
+2025-08-28T22:58:50.969638189Z   table: undefined,
+2025-08-28T22:58:50.969640749Z   column: undefined,
+2025-08-28T22:58:50.969643269Z   dataType: undefined,
+2025-08-28T22:58:50.969649189Z   constraint: undefined,
+2025-08-28T22:58:50.969652299Z   file: undefined,
+2025-08-28T22:58:50.969655119Z   line: undefined,
+2025-08-28T22:58:50.969658079Z   routine: undefined,
+2025-08-28T22:58:50.96966114Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:50.96966438Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:50.96966728Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:50.9696701Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:50.9696733Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:50.96967603Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:50.9696786Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:50.96968103Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:50.96968377Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:50.96968638Z       errno: -111,
+2025-08-28T22:58:50.96970109Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:50.96970404Z       syscall: 'connect',
+2025-08-28T22:58:50.96970687Z       address: '10.230.167.149',
+2025-08-28T22:58:50.96970973Z       port: 443
+2025-08-28T22:58:50.96971257Z     }
+2025-08-28T22:58:50.969715061Z   }
+2025-08-28T22:58:50.96971777Z }
+2025-08-28T22:58:50.970070607Z 10:58:50 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:59:21.264430699Z Deploy cancelled
+2025-08-28T22:58:47.224707134Z   file: undefined,
+2025-08-28T22:58:47.224709904Z   line: undefined,
+2025-08-28T22:58:47.224712684Z   routine: undefined,
+2025-08-28T22:58:47.224716244Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:47.224719564Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:47.224722504Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.224725444Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:47.224728104Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:47.224729854Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T22:58:47.224731585Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T22:58:47.224733285Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:47.224734985Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:47.224736634Z       errno: -111,
+2025-08-28T22:58:47.224738274Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:47.224739914Z       syscall: 'connect',
+2025-08-28T22:58:47.224741665Z       address: '10.230.167.149',
+2025-08-28T22:58:47.224743765Z       port: 443
+2025-08-28T22:58:47.224745475Z     }
+2025-08-28T22:58:47.224747185Z   }
+2025-08-28T22:58:47.224748855Z }
+2025-08-28T22:58:47.227349644Z [ERROR] 2025-08-28T22:58:47.227Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:47.227360795Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:47.227363175Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.227365084Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:47.227367104Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:47.227368904Z   severity: undefined,
+2025-08-28T22:58:47.227370715Z   code: undefined,
+2025-08-28T22:58:47.227372315Z   detail: undefined,
+2025-08-28T22:58:47.227373925Z   hint: undefined,
+2025-08-28T22:58:47.227375615Z   position: undefined,
+2025-08-28T22:58:47.227377435Z   internalPosition: undefined,
+2025-08-28T22:58:47.227379095Z   internalQuery: undefined,
+2025-08-28T22:58:47.227380815Z   where: undefined,
+2025-08-28T22:58:47.227382425Z   schema: undefined,
+2025-08-28T22:58:47.227384145Z   table: undefined,
+2025-08-28T22:58:47.227385755Z   column: undefined,
+2025-08-28T22:58:47.227387365Z   dataType: undefined,
+2025-08-28T22:58:47.227389005Z   constraint: undefined,
+2025-08-28T22:58:47.227390955Z   file: undefined,
+2025-08-28T22:58:47.227392645Z   line: undefined,
+2025-08-28T22:58:47.227394325Z   routine: undefined,
+2025-08-28T22:58:47.227396255Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:47.227398185Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:47.227399915Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:47.227401645Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:47.227403355Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T22:58:47.227413216Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T22:58:47.227415105Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:47.227416836Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:47.227418525Z       errno: -111,
+2025-08-28T22:58:47.227420585Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:47.227423396Z       syscall: 'connect',
+2025-08-28T22:58:47.227425546Z       address: '10.230.167.149',
+2025-08-28T22:58:47.227427686Z       port: 443
+2025-08-28T22:58:47.227429786Z     }
+2025-08-28T22:58:47.227432006Z   }
+2025-08-28T22:58:47.227434106Z }
+2025-08-28T22:58:47.227992507Z 10:58:47 PM [express] GET /api/bounties 500 in 7ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T22:58:50.968876634Z 10:58:50 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T22:58:50.969559538Z [ERROR] 2025-08-28T22:58:50.969Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T22:58:50.969568758Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T22:58:50.969572968Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:50.969575858Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:50.969578828Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:50.969582798Z     at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:50.969604258Z   severity: undefined,
+2025-08-28T22:58:50.969615759Z   code: undefined,
+2025-08-28T22:58:50.969618789Z   detail: undefined,
+2025-08-28T22:58:50.969621699Z   hint: undefined,
+2025-08-28T22:58:50.969624079Z   position: undefined,
+2025-08-28T22:58:50.969627369Z   internalPosition: undefined,
+2025-08-28T22:58:50.969630059Z   internalQuery: undefined,
+2025-08-28T22:58:50.969632789Z   where: undefined,
+2025-08-28T22:58:50.969635569Z   schema: undefined,
+2025-08-28T22:58:50.969638189Z   table: undefined,
+2025-08-28T22:58:50.969640749Z   column: undefined,
+2025-08-28T22:58:50.969643269Z   dataType: undefined,
+2025-08-28T22:58:50.969649189Z   constraint: undefined,
+2025-08-28T22:58:50.969652299Z   file: undefined,
+2025-08-28T22:58:50.969655119Z   line: undefined,
+2025-08-28T22:58:50.969658079Z   routine: undefined,
+2025-08-28T22:58:50.96966114Z   sourceError: TypeError: fetch failed
+2025-08-28T22:58:50.96966438Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T22:58:50.96966728Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T22:58:50.9696701Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T22:58:50.9696733Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T22:58:50.96967603Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T22:58:50.9696786Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T22:58:50.96968103Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T22:58:50.96968377Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T22:58:50.96968638Z       errno: -111,
+2025-08-28T22:58:50.96970109Z       code: 'ECONNREFUSED',
+2025-08-28T22:58:50.96970404Z       syscall: 'connect',
+2025-08-28T22:58:50.96970687Z       address: '10.230.167.149',
+2025-08-28T22:58:50.96970973Z       port: 443
+2025-08-28T22:58:50.96971257Z     }
+2025-08-28T22:58:50.969715061Z   }
+2025-08-28T22:58:50.96971777Z }
+2025-08-28T22:58:50.970070607Z 10:58:50 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T22:59:21.264430699Z Deploy cancelled
+2025-08-28T23:00:46.468442644Z ==> Deploying...
+2025-08-28T23:01:03.06879172Z ==> Running 'npm start'
+2025-08-28T23:01:03.292530731Z 
+2025-08-28T23:01:03.292555022Z > rest-express@1.0.0 start
+2025-08-28T23:01:03.292559592Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:01:03.292561902Z 
+2025-08-28T23:01:05.562468413Z 11:01:05 PM [express] serving on port 3000
+2025-08-28T23:01:25.311043142Z ==> Your service is live 🎉
+2025-08-28T23:01:25.346284247Z ==> 
+2025-08-28T23:01:25.389279391Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:01:25.426165106Z ==> 
+2025-08-28T23:01:25.471042311Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:01:25.530779332Z ==> 
+2025-08-28T23:01:25.568277498Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:01:30.027494918Z 11:01:30 PM [express] GET /api/user 304 in 5ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:01:30.687861755Z [ERROR] 2025-08-28T23:01:30.684Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:01:30.687882825Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:01:30.687887335Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:30.687889645Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:01:30.687891695Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T23:01:30.687895016Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T23:01:30.687898376Z   severity: undefined,
+2025-08-28T23:01:30.687900556Z   code: undefined,
+2025-08-28T23:01:30.687902856Z   detail: undefined,
+2025-08-28T23:01:30.687904916Z   hint: undefined,
+2025-08-28T23:01:30.687906936Z   position: undefined,
+2025-08-28T23:01:30.687910356Z   internalPosition: undefined,
+2025-08-28T23:01:30.687912416Z   internalQuery: undefined,
+2025-08-28T23:01:30.687914446Z   where: undefined,
+2025-08-28T23:01:30.687916506Z   schema: undefined,
+2025-08-28T23:01:30.687918586Z   table: undefined,
+2025-08-28T23:01:30.687921476Z   column: undefined,
+2025-08-28T23:01:30.687925136Z   dataType: undefined,
+2025-08-28T23:01:30.687928926Z   constraint: undefined,
+2025-08-28T23:01:30.687932277Z   file: undefined,
+2025-08-28T23:01:30.687935817Z   line: undefined,
+2025-08-28T23:01:30.687939037Z   routine: undefined,
+2025-08-28T23:01:30.687943527Z   sourceError: TypeError: fetch failed
+2025-08-28T23:01:30.687947957Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:01:30.687951737Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:30.687954957Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:01:30.687958117Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:01:30.687960247Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T23:01:30.687962347Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T23:01:30.687964397Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:01:30.687966517Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:01:30.687968558Z       errno: -111,
+2025-08-28T23:01:30.687970747Z       code: 'ECONNREFUSED',
+2025-08-28T23:01:30.687972827Z       syscall: 'connect',
+2025-08-28T23:01:30.687974958Z       address: '10.230.167.149',
+2025-08-28T23:01:30.687977138Z       port: 443
+2025-08-28T23:01:30.687979238Z     }
+2025-08-28T23:01:30.687981368Z   }
+2025-08-28T23:01:30.687983498Z }
+2025-08-28T23:01:30.690712779Z [ERROR] 2025-08-28T23:01:30.690Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:01:30.69072443Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:01:30.69074116Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:30.69074422Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T23:01:30.69074683Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T23:01:30.69074963Z   severity: undefined,
+2025-08-28T23:01:30.690752291Z   code: undefined,
+2025-08-28T23:01:30.69075506Z   detail: undefined,
+2025-08-28T23:01:30.690757911Z   hint: undefined,
+2025-08-28T23:01:30.690760621Z   position: undefined,
+2025-08-28T23:01:30.690763231Z   internalPosition: undefined,
+2025-08-28T23:01:30.690765711Z   internalQuery: undefined,
+2025-08-28T23:01:30.690768151Z   where: undefined,
+2025-08-28T23:01:30.690770741Z   schema: undefined,
+2025-08-28T23:01:30.690773301Z   table: undefined,
+2025-08-28T23:01:30.690775831Z   column: undefined,
+2025-08-28T23:01:30.690778391Z   dataType: undefined,
+2025-08-28T23:01:30.690780841Z   constraint: undefined,
+2025-08-28T23:01:30.690783231Z   file: undefined,
+2025-08-28T23:01:30.690785771Z   line: undefined,
+2025-08-28T23:01:30.690788211Z   routine: undefined,
+2025-08-28T23:01:30.690791212Z   sourceError: TypeError: fetch failed
+2025-08-28T23:01:30.690794212Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:01:30.690796942Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:30.690799712Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:01:30.690802332Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T23:01:30.690804882Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T23:01:30.690807512Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:01:30.690810332Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:01:30.690812942Z       errno: -111,
+2025-08-28T23:01:30.690815432Z       code: 'ECONNREFUSED',
+2025-08-28T23:01:30.690817842Z       syscall: 'connect',
+2025-08-28T23:01:30.690820322Z       address: '10.230.167.149',
+2025-08-28T23:01:30.690822892Z       port: 443
+2025-08-28T23:01:30.690825592Z     }
+2025-08-28T23:01:30.690828293Z   }
+2025-08-28T23:01:30.690830993Z }
+2025-08-28T23:01:30.691448079Z 11:01:30 PM [express] GET /api/bounties 500 in 41ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:01:35.106689182Z 11:01:35 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:01:35.108415858Z [ERROR] 2025-08-28T23:01:35.107Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:01:35.108429088Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:01:35.108435638Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:35.108440988Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:01:35.108446738Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T23:01:35.108453088Z     at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T23:01:35.108457689Z   severity: undefined,
+2025-08-28T23:01:35.108461299Z   code: undefined,
+2025-08-28T23:01:35.108464779Z   detail: undefined,
+2025-08-28T23:01:35.108480419Z   hint: undefined,
+2025-08-28T23:01:35.108482709Z   position: undefined,
+2025-08-28T23:01:35.108485209Z   internalPosition: undefined,
+2025-08-28T23:01:35.108487269Z   internalQuery: undefined,
+2025-08-28T23:01:35.1084893Z   where: undefined,
+2025-08-28T23:01:35.108491709Z   schema: undefined,
+2025-08-28T23:01:35.108493789Z   table: undefined,
+2025-08-28T23:01:35.1084958Z   column: undefined,
+2025-08-28T23:01:35.1084979Z   dataType: undefined,
+2025-08-28T23:01:35.10850009Z   constraint: undefined,
+2025-08-28T23:01:35.10850221Z   file: undefined,
+2025-08-28T23:01:35.10850427Z   line: undefined,
+2025-08-28T23:01:35.10850632Z   routine: undefined,
+2025-08-28T23:01:35.10850903Z   sourceError: TypeError: fetch failed
+2025-08-28T23:01:35.10851169Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:01:35.10851401Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:01:35.10851615Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:01:35.10851882Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:01:35.108533731Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T23:01:35.108535881Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T23:01:35.108537961Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:01:35.108540071Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:01:35.108542131Z       errno: -111,
+2025-08-28T23:01:35.108544181Z       code: 'ECONNREFUSED',
+2025-08-28T23:01:35.108548981Z       syscall: 'connect',
+2025-08-28T23:01:35.108551291Z       address: '10.230.167.149',
+2025-08-28T23:01:35.108553561Z       port: 443
+2025-08-28T23:01:35.108555891Z     }
+2025-08-28T23:01:35.108558061Z   }
+2025-08-28T23:01:35.108560171Z }
+2025-08-28T23:01:35.108907771Z 11:01:35 PM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T23:02:05.309386842Z 11:02:05 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:02:35.54423124Z 11:02:35 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:02:54.890742151Z Login attempt for username: Dallas1221
+2025-08-28T23:02:54.892894248Z 11:02:54 PM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T23:03:05.132841431Z Login attempt for username: Dallas1221
+2025-08-28T23:03:05.13432893Z 11:03:05 PM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T23:03:05.37947889Z [ERROR] 2025-08-28T23:03:05.379Z: Error fetching creator stats: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:03:05.379505071Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:03:05.379510191Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:05.379513941Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:03:05.379517501Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T23:03:05.379523782Z     at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T23:03:05.379527851Z   severity: undefined,
+2025-08-28T23:03:05.379545762Z   code: undefined,
+2025-08-28T23:03:05.379548152Z   detail: undefined,
+2025-08-28T23:03:05.379550252Z   hint: undefined,
+2025-08-28T23:03:05.379552412Z   position: undefined,
+2025-08-28T23:03:05.379554962Z   internalPosition: undefined,
+2025-08-28T23:03:05.379557032Z   internalQuery: undefined,
+2025-08-28T23:03:05.379559302Z   where: undefined,
+2025-08-28T23:03:05.379561392Z   schema: undefined,
+2025-08-28T23:03:05.379563843Z   table: undefined,
+2025-08-28T23:03:05.379566072Z   column: undefined,
+2025-08-28T23:03:05.379568092Z   dataType: undefined,
+2025-08-28T23:03:05.379570153Z   constraint: undefined,
+2025-08-28T23:03:05.379572193Z   file: undefined,
+2025-08-28T23:03:05.379574233Z   line: undefined,
+2025-08-28T23:03:05.379576273Z   routine: undefined,
+2025-08-28T23:03:05.379578923Z   sourceError: TypeError: fetch failed
+2025-08-28T23:03:05.379581403Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:03:05.379583483Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:05.379585613Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:03:05.379588323Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:03:05.379590803Z       at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:474:24)
+2025-08-28T23:03:05.379592953Z       at async file:///opt/render/project/src/dist/index.js:3473:20 {
+2025-08-28T23:03:05.379595043Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:03:05.379597113Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:03:05.379599253Z       errno: -111,
+2025-08-28T23:03:05.379601344Z       code: 'ECONNREFUSED',
+2025-08-28T23:03:05.379603424Z       syscall: 'connect',
+2025-08-28T23:03:05.379605533Z       address: '10.230.167.149',
+2025-08-28T23:03:05.379607704Z       port: 443
+2025-08-28T23:03:05.379610074Z     }
+2025-08-28T23:03:05.379612274Z   }
+2025-08-28T23:03:05.379614394Z }
+2025-08-28T23:03:05.379986234Z 11:03:05 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T23:03:05.829748161Z 11:03:05 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:03:13.591067434Z [ERROR] 2025-08-28T23:03:13.590Z: Error processing expired bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:03:13.591118095Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:03:13.591124485Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:13.591128405Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:03:13.591131945Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T23:03:13.591135606Z     at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T23:03:13.591139695Z   severity: undefined,
+2025-08-28T23:03:13.591143156Z   code: undefined,
+2025-08-28T23:03:13.591146986Z   detail: undefined,
+2025-08-28T23:03:13.591150456Z   hint: undefined,
+2025-08-28T23:03:13.591153916Z   position: undefined,
+2025-08-28T23:03:13.591157486Z   internalPosition: undefined,
+2025-08-28T23:03:13.591160936Z   internalQuery: undefined,
+2025-08-28T23:03:13.591164376Z   where: undefined,
+2025-08-28T23:03:13.591179107Z   schema: undefined,
+2025-08-28T23:03:13.591181347Z   table: undefined,
+2025-08-28T23:03:13.591183387Z   column: undefined,
+2025-08-28T23:03:13.591185417Z   dataType: undefined,
+2025-08-28T23:03:13.591187477Z   constraint: undefined,
+2025-08-28T23:03:13.591189557Z   file: undefined,
+2025-08-28T23:03:13.591191577Z   line: undefined,
+2025-08-28T23:03:13.591193577Z   routine: undefined,
+2025-08-28T23:03:13.591196177Z   sourceError: TypeError: fetch failed
+2025-08-28T23:03:13.591198817Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:03:13.591203117Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:13.591205397Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:03:13.591208007Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-28T23:03:13.591210157Z       at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2090:29)
+2025-08-28T23:03:13.591212228Z       at async file:///opt/render/project/src/dist/index.js:2380:7 {
+2025-08-28T23:03:13.591214288Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:03:13.591216417Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:03:13.591218498Z       errno: -111,
+2025-08-28T23:03:13.591220588Z       code: 'ECONNREFUSED',
+2025-08-28T23:03:13.591222618Z       syscall: 'connect',
+2025-08-28T23:03:13.591224748Z       address: '10.230.167.149',
+2025-08-28T23:03:13.591226918Z       port: 443
+2025-08-28T23:03:13.591229028Z     }
+2025-08-28T23:03:13.591231188Z   }
+2025-08-28T23:03:13.591233268Z }
+2025-08-28T23:03:13.593740934Z [ERROR] 2025-08-28T23:03:13.593Z: Error fetching bounties: NeonDbError: Error connecting to database: fetch failed
+2025-08-28T23:03:13.593750414Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-28T23:03:13.593752884Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:13.593754944Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T23:03:13.593757054Z     at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T23:03:13.593759214Z   severity: undefined,
+2025-08-28T23:03:13.593761334Z   code: undefined,
+2025-08-28T23:03:13.593763414Z   detail: undefined,
+2025-08-28T23:03:13.593765595Z   hint: undefined,
+2025-08-28T23:03:13.593767735Z   position: undefined,
+2025-08-28T23:03:13.593769844Z   internalPosition: undefined,
+2025-08-28T23:03:13.593771915Z   internalQuery: undefined,
+2025-08-28T23:03:13.593773975Z   where: undefined,
+2025-08-28T23:03:13.593776395Z   schema: undefined,
+2025-08-28T23:03:13.593778475Z   table: undefined,
+2025-08-28T23:03:13.593780535Z   column: undefined,
+2025-08-28T23:03:13.593782545Z   dataType: undefined,
+2025-08-28T23:03:13.593784585Z   constraint: undefined,
+2025-08-28T23:03:13.593786635Z   file: undefined,
+2025-08-28T23:03:13.593788735Z   line: undefined,
+2025-08-28T23:03:13.593790805Z   routine: undefined,
+2025-08-28T23:03:13.593793015Z   sourceError: TypeError: fetch failed
+2025-08-28T23:03:13.593795095Z       at node:internal/deps/undici/undici:13510:13
+2025-08-28T23:03:13.593797235Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:03:13.593799365Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-28T23:03:13.593810126Z       at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1001:9)
+2025-08-28T23:03:13.593812466Z       at async file:///opt/render/project/src/dist/index.js:2381:7 {
+2025-08-28T23:03:13.593814546Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-28T23:03:13.593816666Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-28T23:03:13.593818756Z       errno: -111,
+2025-08-28T23:03:13.593820816Z       code: 'ECONNREFUSED',
+2025-08-28T23:03:13.593822896Z       syscall: 'connect',
+2025-08-28T23:03:13.593824996Z       address: '10.230.167.149',
+2025-08-28T23:03:13.593827126Z       port: 443
+2025-08-28T23:03:13.593829236Z     }
+2025-08-28T23:03:13.593831366Z   }
+2025-08-28T23:03:13.593833456Z }
+2025-08-28T23:03:13.594404571Z 11:03:13 PM [express] GET /api/bounties 500 in 8ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:03:36.051431372Z 11:03:36 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:04:06.277709429Z 11:04:06 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:04:36.528238727Z 11:04:36 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:05:07.003771051Z 11:05:07 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:05:37.312077149Z 11:05:37 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:07:12.185672319Z ==> Deploying...
+2025-08-28T23:07:29.483164907Z ==> Running 'npm start'
+2025-08-28T23:07:29.768682138Z 
+2025-08-28T23:07:29.768703568Z > rest-express@1.0.0 start
+2025-08-28T23:07:29.768707748Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:07:29.768709988Z 
+2025-08-28T23:07:31.95780064Z 11:07:31 PM [express] serving on port 3000
+2025-08-28T23:07:33.738182729Z ==> Your service is live 🎉
+2025-08-28T23:07:33.775326725Z ==> 
+2025-08-28T23:07:33.80841303Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:07:33.847403525Z ==> 
+2025-08-28T23:07:33.878359131Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:07:33.915082956Z ==> 
+2025-08-28T23:07:33.944208392Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:08:21.111288021Z ==> Deploying...
+2025-08-28T23:08:37.68624446Z ==> Running 'npm start'
+2025-08-28T23:08:37.974596448Z 
+2025-08-28T23:08:37.974625249Z > rest-express@1.0.0 start
+2025-08-28T23:08:37.974631409Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:08:37.974634409Z 
+2025-08-28T23:08:40.172502486Z 11:08:40 PM [express] serving on port 3000
+2025-08-28T23:08:42.919388737Z ==> Your service is live 🎉
+2025-08-28T23:08:42.956219692Z ==> 
+2025-08-28T23:08:42.990470767Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:08:43.019904243Z ==> 
+2025-08-28T23:08:43.052647569Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:08:43.092059804Z ==> 
+2025-08-28T23:08:43.761051905Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:10:34.632403289Z ==> Deploying...
+2025-08-28T23:10:51.261480109Z ==> Running 'npm start'
+2025-08-28T23:10:51.546077956Z 
+2025-08-28T23:10:51.546120158Z > rest-express@1.0.0 start
+2025-08-28T23:10:51.546126238Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:10:51.546130048Z 
+2025-08-28T23:10:53.755715438Z 11:10:53 PM [express] serving on port 3000
+2025-08-28T23:10:56.07796986Z ==> Your service is live 🎉
+2025-08-28T23:10:56.112612835Z ==> 
+2025-08-28T23:10:56.146332361Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:10:56.176164677Z ==> 
+2025-08-28T23:10:56.205217942Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:10:56.649896073Z ==> 
+2025-08-28T23:10:56.67984733Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:11:37.911545973Z ==> Deploying...
+2025-08-28T23:11:54.553642131Z ==> Running 'npm start'
+2025-08-28T23:11:54.867105759Z 
+2025-08-28T23:11:54.86712373Z > rest-express@1.0.0 start
+2025-08-28T23:11:54.86712799Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:11:54.86712971Z 
+2025-08-28T23:11:57.061056319Z 11:11:57 PM [express] serving on port 3000
+2025-08-28T23:12:00.126843501Z ==> Your service is live 🎉
+2025-08-28T23:12:00.168527766Z ==> 
+2025-08-28T23:12:00.584259961Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:12:00.613600776Z ==> 
+2025-08-28T23:12:01.023023532Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:12:01.051788608Z ==> 
+2025-08-28T23:12:01.081078755Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:17:34.664982467Z ==> Deploying...
+2025-08-28T23:17:50.916625142Z ==> Running 'npm start'
+2025-08-28T23:17:51.197016663Z 
+2025-08-28T23:17:51.197040575Z > rest-express@1.0.0 start
+2025-08-28T23:17:51.197045605Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:17:51.197048275Z 
+2025-08-28T23:17:53.302334161Z 11:17:53 PM [express] serving on port 3000
+2025-08-28T23:17:55.759063885Z ==> Your service is live 🎉
+2025-08-28T23:17:56.113204258Z ==> 
+2025-08-28T23:17:56.375906243Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:17:56.600462953Z ==> 
+2025-08-28T23:17:56.627334129Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:17:56.654878506Z ==> 
+2025-08-28T23:17:56.683750532Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:19:37.253360115Z ==> Deploying...
+2025-08-28T23:19:54.03065601Z ==> Running 'npm start'
+2025-08-28T23:19:54.337733122Z 
+2025-08-28T23:19:54.337763255Z > rest-express@1.0.0 start
+2025-08-28T23:19:54.337767995Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:19:54.337770215Z 
+2025-08-28T23:19:56.601705517Z 11:19:56 PM [express] serving on port 3000
+2025-08-28T23:19:59.19175108Z ==> Your service is live 🎉
+2025-08-28T23:19:59.228726766Z ==> 
+2025-08-28T23:19:59.404473822Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:19:59.612132924Z ==> 
+2025-08-28T23:19:59.886655568Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:19:59.925502753Z ==> 
+2025-08-28T23:19:59.951887259Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:20:11.205893468Z 11:20:11 PM [express] GET /api/user 304 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:20:16.255126098Z 11:20:16 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:20:39.040661972Z 11:20:39 PM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:20:50.146876988Z ==> Deploying...
+2025-08-28T23:21:07.660352782Z ==> Running 'npm start'
+2025-08-28T23:21:07.89519788Z 
+2025-08-28T23:21:07.89522252Z > rest-express@1.0.0 start
+2025-08-28T23:21:07.895229461Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:21:07.895232711Z 
+2025-08-28T23:21:10.253928854Z 11:21:10 PM [express] serving on port 3000
+2025-08-28T23:21:11.7328092Z ==> Your service is live 🎉
+2025-08-28T23:21:11.764888786Z ==> 
+2025-08-28T23:21:11.795443722Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:21:11.826169918Z ==> 
+2025-08-28T23:21:11.856034704Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:21:11.8843248Z ==> 
+2025-08-28T23:21:11.920660536Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:24:26.772207865Z [ERROR] 2025-08-28T23:24:26.770Z: Error processing expired bounties: Error: connect ETIMEDOUT 35.227.164.209:2
+2025-08-28T23:24:26.772235666Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:24:26.772240516Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:24:26.772244056Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:24:26.772247396Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2097:29)
+2025-08-28T23:24:26.772250707Z     at async file:///opt/render/project/src/dist/index.js:2387:7 {
+2025-08-28T23:24:26.772254056Z   errno: -110,
+2025-08-28T23:24:26.772257917Z   code: 'ETIMEDOUT',
+2025-08-28T23:24:26.772286897Z   syscall: 'connect',
+2025-08-28T23:24:26.772293948Z   address: '35.227.164.209',
+2025-08-28T23:24:26.772297448Z   port: 2
+2025-08-28T23:24:26.772300738Z }
+2025-08-28T23:24:26.77404431Z [ERROR] 2025-08-28T23:24:26.773Z: Error processing expired bounties: Error: connect ETIMEDOUT 35.227.164.209:2
+2025-08-28T23:24:26.77406021Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:24:26.77406447Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:24:26.77406809Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:24:26.77407143Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2097:29)
+2025-08-28T23:24:26.774074931Z     at async file:///opt/render/project/src/dist/index.js:2387:7 {
+2025-08-28T23:24:26.774078401Z   errno: -110,
+2025-08-28T23:24:26.774083491Z   code: 'ETIMEDOUT',
+2025-08-28T23:24:26.774089411Z   syscall: 'connect',
+2025-08-28T23:24:26.774095751Z   address: '35.227.164.209',
+2025-08-28T23:24:26.774100991Z   port: 2
+2025-08-28T23:24:26.774106412Z }
+2025-08-28T23:24:37.239135458Z 11:24:37 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:26:18.166332939Z ==> Detected service running on port 3000
+2025-08-28T23:26:18.272805587Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-28T23:26:41.937054737Z [ERROR] 2025-08-28T23:26:41.936Z: Error fetching bounties: Error: connect ETIMEDOUT 35.227.164.209:2
+2025-08-28T23:26:41.937077718Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:26:41.937082388Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:26:41.937086148Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1008:9)
+2025-08-28T23:26:41.937089808Z     at async file:///opt/render/project/src/dist/index.js:2388:7 {
+2025-08-28T23:26:41.937093098Z   errno: -110,
+2025-08-28T23:26:41.937096948Z   code: 'ETIMEDOUT',
+2025-08-28T23:26:41.937114129Z   syscall: 'connect',
+2025-08-28T23:26:41.937118309Z   address: '35.227.164.209',
+2025-08-28T23:26:41.937121639Z   port: 2
+2025-08-28T23:26:41.937124809Z }
+2025-08-28T23:26:41.937858401Z 11:26:41 PM [express] GET /api/bounties 500 in 270697ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:26:41.938230342Z [ERROR] 2025-08-28T23:26:41.938Z: Error fetching bounties: Error: connect ETIMEDOUT 35.227.164.209:2
+2025-08-28T23:26:41.938237113Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:26:41.938241233Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:26:41.938258003Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1008:9)
+2025-08-28T23:26:41.938281144Z     at async file:///opt/render/project/src/dist/index.js:2388:7 {
+2025-08-28T23:26:41.938286274Z   errno: -110,
+2025-08-28T23:26:41.938289054Z   code: 'ETIMEDOUT',
+2025-08-28T23:26:41.938291064Z   syscall: 'connect',
+2025-08-28T23:26:41.938293704Z   address: '35.227.164.209',
+2025-08-28T23:26:41.938295714Z   port: 2
+2025-08-28T23:26:41.938297695Z }
+2025-08-28T23:26:41.938738258Z 11:26:41 PM [express] GET /api/bounties 500 in 270705ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:26:50.128984899Z [ERROR] 2025-08-28T23:26:50.128Z: Error fetching creator stats: Error: connect ETIMEDOUT 35.227.164.209:2
+2025-08-28T23:26:50.129011019Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:26:50.12901676Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:26:50.129020449Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:26:50.12902412Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:481:24)
+2025-08-28T23:26:50.12902756Z     at async file:///opt/render/project/src/dist/index.js:3480:20 {
+2025-08-28T23:26:50.12903097Z   errno: -110,
+2025-08-28T23:26:50.12903481Z   code: 'ETIMEDOUT',
+2025-08-28T23:26:50.12903837Z   syscall: 'connect',
+2025-08-28T23:26:50.12904277Z   address: '35.227.164.209',
+2025-08-28T23:26:50.12904614Z   port: 2
+2025-08-28T23:26:50.12904949Z }
+2025-08-28T23:26:50.129886266Z 11:26:50 PM [express] GET /api/creator/stats 500 in 133073ms :: {"message":"Failed to fetch creator s…
+2025-08-28T23:27:16.396490563Z ==> Deploying...
+2025-08-28T23:27:32.289645741Z ==> Running 'npm start'
+2025-08-28T23:27:32.519576468Z 
+2025-08-28T23:27:32.519597919Z > rest-express@1.0.0 start
+2025-08-28T23:27:32.519602209Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:27:32.519604289Z 
+2025-08-28T23:27:34.692574901Z 11:27:34 PM [express] serving on port 3000
+2025-08-28T23:27:38.379809365Z ==> Your service is live 🎉
+2025-08-28T23:27:38.818957696Z ==> 
+2025-08-28T23:27:39.249137779Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:27:39.741483743Z ==> 
+2025-08-28T23:27:40.273741053Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:27:39.604320906Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:27:39.604345657Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:27:39.604352017Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:27:39.604354758Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:27:39.604356788Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:27:39.604358458Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:27:39.604360488Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:27:39.604362568Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:27:40.854287555Z ==> 
+2025-08-28T23:27:41.393363863Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:28:21.929786433Z ==> Deploying...
+2025-08-28T23:28:38.882695442Z ==> Running 'npm start'
+2025-08-28T23:28:39.179283745Z 
+2025-08-28T23:28:39.179305316Z > rest-express@1.0.0 start
+2025-08-28T23:28:39.179309076Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:28:39.179311586Z 
+2025-08-28T23:28:41.583774736Z 11:28:41 PM [express] serving on port 3000
+2025-08-28T23:28:43.819578918Z ==> Your service is live 🎉
+2025-08-28T23:28:43.847456264Z ==> 
+2025-08-28T23:28:43.872766791Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:28:43.900273337Z ==> 
+2025-08-28T23:28:43.927364903Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:28:43.973941668Z ==> 
+2025-08-28T23:28:44.009956143Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:28:46.501474201Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:28:46.501497892Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:28:46.501500752Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:28:46.501503642Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:28:46.501505722Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:28:46.501511152Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:28:46.501513442Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:28:46.501515692Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:30:05.046488189Z ==> Deploying...
+2025-08-28T23:30:48.327713211Z ==> Running 'npm start'
+2025-08-28T23:30:48.560212897Z 
+2025-08-28T23:30:48.560237688Z > rest-express@1.0.0 start
+2025-08-28T23:30:48.560243128Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:30:48.560245458Z 
+2025-08-28T23:30:50.839780683Z 11:30:50 PM [express] serving on port 3000
+2025-08-28T23:30:56.16795216Z ==> Your service is live 🎉
+2025-08-28T23:30:56.458412611Z ==> 
+2025-08-28T23:30:56.491801997Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:30:55.742309296Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:30:55.742341807Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:30:55.742345237Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:30:55.742348307Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:30:55.742350787Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:30:55.742353197Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:30:55.742355637Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:30:55.742358047Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:30:56.788600517Z ==> 
+2025-08-28T23:30:56.822275843Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:30:56.849932949Z ==> 
+2025-08-28T23:30:56.877435605Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:32:35.437129523Z 11:32:35 PM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:32:38.172949696Z 11:32:38 PM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:32:43.625990489Z [ERROR] 2025-08-28T23:32:43.623Z: Error processing expired bounties: Error: Connection terminated due to connection timeout
+2025-08-28T23:32:43.626020289Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:32:43.626025089Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:32:43.62602856Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:32:43.62603206Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2117:29)
+2025-08-28T23:32:43.62603545Z     at async file:///opt/render/project/src/dist/index.js:2407:7 {
+2025-08-28T23:32:43.62603882Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-28T23:32:43.62604165Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-28T23:32:43.62604517Z       at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:32:43.62604791Z       at Connection.emit (node:events:518:28)
+2025-08-28T23:32:43.62605079Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:32:43.62605361Z       at Socket.emit (node:events:518:28)
+2025-08-28T23:32:43.62605635Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:32:43.62605917Z }
+2025-08-28T23:32:48.629944795Z [ERROR] 2025-08-28T23:32:48.629Z: Error fetching bounties: Error: Connection terminated due to connection timeout
+2025-08-28T23:32:48.629965335Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:32:48.629970335Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:32:48.629974445Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1028:9)
+2025-08-28T23:32:48.629978305Z     at async file:///opt/render/project/src/dist/index.js:2408:7 {
+2025-08-28T23:32:48.629982415Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-28T23:32:48.629986055Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-28T23:32:48.629990435Z       at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:32:48.629996375Z       at Connection.emit (node:events:518:28)
+2025-08-28T23:32:48.630018486Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:32:48.630022616Z       at Socket.emit (node:events:518:28)
+2025-08-28T23:32:48.630024816Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:32:48.630027056Z }
+2025-08-28T23:32:48.630767909Z 11:32:48 PM [express] GET /api/bounties 500 in 10012ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:33:41.450561195Z ==> Deploying...
+2025-08-28T23:33:57.917140067Z ==> Running 'npm start'
+2025-08-28T23:33:58.205690447Z 
+2025-08-28T23:33:58.205719537Z > rest-express@1.0.0 start
+2025-08-28T23:33:58.205724817Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:33:58.205728028Z 
+2025-08-28T23:34:00.480718063Z 11:34:00 PM [express] serving on port 3000
+2025-08-28T23:34:03.177724871Z ==> Your service is live 🎉
+2025-08-28T23:34:03.209183587Z ==> 
+2025-08-28T23:34:03.251123621Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:34:03.277934237Z ==> 
+2025-08-28T23:34:03.306718554Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:34:03.33393588Z ==> 
+2025-08-28T23:34:03.367744065Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:34:05.396451724Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:34:05.396472704Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:34:05.396475704Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:34:05.396478584Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:34:05.396480764Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:34:05.396483374Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:34:05.396485504Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:34:05.396487684Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:34:43.398096844Z ==> Deploying...
+2025-08-28T23:35:01.491833038Z ==> Running 'npm start'
+2025-08-28T23:35:01.71724712Z 
+2025-08-28T23:35:01.717277043Z > rest-express@1.0.0 start
+2025-08-28T23:35:01.717281443Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:35:01.717283263Z 
+2025-08-28T23:35:05.383854145Z ==> Your service is live 🎉
+2025-08-28T23:35:05.414548721Z ==> 
+2025-08-28T23:35:05.447015006Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:35:05.477556622Z ==> 
+2025-08-28T23:35:05.512607268Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:35:05.546128363Z ==> 
+2025-08-28T23:35:03.795584817Z 11:35:03 PM [express] serving on port 3000
+2025-08-28T23:35:05.57286847Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:35:08.716971321Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:35:08.717000544Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:35:08.717003754Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:35:08.717006594Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:35:08.717009194Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:35:08.717011594Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:35:08.717014415Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:35:08.717017035Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:40:17.66813015Z ==> Deploying...
+2025-08-28T23:40:52.61663347Z ==> Running 'npm start'
+2025-08-28T23:40:52.840776946Z 
+2025-08-28T23:40:52.840800726Z > rest-express@1.0.0 start
+2025-08-28T23:40:52.840805446Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:40:52.840807506Z 
+2025-08-28T23:40:54.995435334Z 11:40:54 PM [express] serving on port 3000
+2025-08-28T23:40:58.800242252Z ==> Your service is live 🎉
+2025-08-28T23:40:58.831983957Z ==> 
+2025-08-28T23:40:58.858603724Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:40:58.8847234Z ==> 
+2025-08-28T23:40:58.910754847Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:40:58.937287173Z ==> 
+2025-08-28T23:40:58.967988059Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:40:59.911090886Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:40:59.911137697Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:40:59.911143547Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:40:59.911149117Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:40:59.911153738Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:40:59.911158058Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:40:59.911162768Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:40:59.911167508Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:44:19.683304548Z ==> Deploying...
+2025-08-28T23:44:35.7054846Z ==> Running 'npm start'
+2025-08-28T23:44:35.993840909Z 
+2025-08-28T23:44:35.99386388Z > rest-express@1.0.0 start
+2025-08-28T23:44:35.993869511Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:44:35.993872111Z 
+2025-08-28T23:44:38.182959582Z 11:44:38 PM [express] serving on port 3000
+2025-08-28T23:44:38.184497003Z Error acquiring client from pool: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:44:38.184506494Z     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+2025-08-28T23:44:41.582769738Z ==> Your service is live 🎉
+2025-08-28T23:44:41.615003964Z ==> 
+2025-08-28T23:44:41.64620617Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:44:41.675665176Z ==> 
+2025-08-28T23:44:41.705459662Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:44:41.731268259Z ==> 
+2025-08-28T23:44:41.896482546Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:45:34.19686756Z 11:45:34 PM [express] GET /api/user 304 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:45:34.769921783Z [ERROR] 2025-08-28T23:45:34.767Z: Error processing expired bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:45:34.769950154Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:45:34.769956875Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:45:34.769961545Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:45:34.769965845Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2113:29)
+2025-08-28T23:45:34.769970506Z     at async file:///opt/render/project/src/dist/index.js:2403:7 {
+2025-08-28T23:45:34.769975006Z   errno: -3008,
+2025-08-28T23:45:34.769980166Z   code: 'ENOTFOUND',
+2025-08-28T23:45:34.769985496Z   syscall: 'getaddrinfo',
+2025-08-28T23:45:34.769989667Z   hostname: 'base'
+2025-08-28T23:45:34.769993997Z }
+2025-08-28T23:45:34.772451633Z [ERROR] 2025-08-28T23:45:34.772Z: Error fetching bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:45:34.772468894Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:45:34.772474904Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:45:34.772480395Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1024:9)
+2025-08-28T23:45:34.772484675Z     at async file:///opt/render/project/src/dist/index.js:2404:7 {
+2025-08-28T23:45:34.772489055Z   errno: -3008,
+2025-08-28T23:45:34.772493815Z   code: 'ENOTFOUND',
+2025-08-28T23:45:34.772498816Z   syscall: 'getaddrinfo',
+2025-08-28T23:45:34.772503156Z   hostname: 'base'
+2025-08-28T23:45:34.772507816Z }
+2025-08-28T23:45:34.77307687Z 11:45:34 PM [express] GET /api/bounties 500 in 15ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:45:37.852830714Z 11:45:37 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:45:37.864789855Z [ERROR] 2025-08-28T23:45:37.864Z: Error fetching creator stats: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:45:37.864805856Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:45:37.864809866Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:45:37.864812736Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:45:37.864815577Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:497:24)
+2025-08-28T23:45:37.864818327Z     at async file:///opt/render/project/src/dist/index.js:3496:20 {
+2025-08-28T23:45:37.864821257Z   errno: -3008,
+2025-08-28T23:45:37.864824807Z   code: 'ENOTFOUND',
+2025-08-28T23:45:37.864828337Z   syscall: 'getaddrinfo',
+2025-08-28T23:45:37.864831268Z   hostname: 'base'
+2025-08-28T23:45:37.864834078Z }
+2025-08-28T23:45:37.865346928Z 11:45:37 PM [express] GET /api/creator/stats 500 in 5ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T23:46:08.307924572Z 11:46:08 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:47:02.812084832Z 11:47:02 PM [express] POST /api/auth/login 200 in 1ms
+2025-08-28T23:47:09.46438524Z 11:47:09 PM [express] POST /api/auth/login 200 in 2ms
+2025-08-28T23:49:39.174235189Z 11:49:39 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:50:23.859785615Z ==> Deploying...
+2025-08-28T23:53:15.842000319Z ==> No open ports detected, continuing to scan...
+2025-08-28T23:53:15.925933583Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-28T23:53:16.653529453Z ==> Running 'npm start'
+2025-08-28T23:53:16.89455899Z 
+2025-08-28T23:53:16.894586071Z > rest-express@1.0.0 start
+2025-08-28T23:53:16.894591562Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:53:16.894594252Z 
+2025-08-28T23:53:19.253845144Z 11:53:19 PM [express] serving on port 3000
+2025-08-28T23:53:19.25642531Z Error acquiring client from pool: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:53:19.25643424Z     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+2025-08-28T23:53:24.717619117Z ==> Your service is live 🎉
+2025-08-28T23:53:24.745930773Z ==> 
+2025-08-28T23:53:25.007657407Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:53:25.036321244Z ==> 
+2025-08-28T23:53:25.06577891Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:53:25.098527035Z ==> 
+2025-08-28T23:53:25.133737521Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:53:47.719160713Z 11:53:47 PM [express] GET /api/user 304 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:53:48.315292991Z [ERROR] 2025-08-28T23:53:48.312Z: Error processing expired bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:53:48.315319872Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:53:48.315325622Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:53:48.315329162Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:53:48.315332472Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2113:29)
+2025-08-28T23:53:48.315335752Z     at async file:///opt/render/project/src/dist/index.js:2403:7 {
+2025-08-28T23:53:48.315339103Z   errno: -3008,
+2025-08-28T23:53:48.315343083Z   code: 'ENOTFOUND',
+2025-08-28T23:53:48.315347123Z   syscall: 'getaddrinfo',
+2025-08-28T23:53:48.315350583Z   hostname: 'base'
+2025-08-28T23:53:48.315353973Z }
+2025-08-28T23:53:48.317833656Z [ERROR] 2025-08-28T23:53:48.317Z: Error fetching bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:53:48.317846306Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:53:48.317849416Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:53:48.317853077Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1024:9)
+2025-08-28T23:53:48.317856126Z     at async file:///opt/render/project/src/dist/index.js:2404:7 {
+2025-08-28T23:53:48.317859017Z   errno: -3008,
+2025-08-28T23:53:48.317862367Z   code: 'ENOTFOUND',
+2025-08-28T23:53:48.317865677Z   syscall: 'getaddrinfo',
+2025-08-28T23:53:48.317868327Z   hostname: 'base'
+2025-08-28T23:53:48.317870957Z }
+2025-08-28T23:53:48.318475535Z 11:53:48 PM [express] GET /api/bounties 500 in 15ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:53:51.83195081Z 11:53:51 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:53:51.839570824Z [ERROR] 2025-08-28T23:53:51.839Z: Error fetching creator stats: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:53:51.839582824Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:53:51.839587394Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:53:51.839590435Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:53:51.839593255Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:497:24)
+2025-08-28T23:53:51.839596135Z     at async file:///opt/render/project/src/dist/index.js:3493:20 {
+2025-08-28T23:53:51.839598995Z   errno: -3008,
+2025-08-28T23:53:51.839603525Z   code: 'ENOTFOUND',
+2025-08-28T23:53:51.839609395Z   syscall: 'getaddrinfo',
+2025-08-28T23:53:51.839613725Z   hostname: 'base'
+2025-08-28T23:53:51.839618286Z }
+2025-08-28T23:53:51.840127941Z 11:53:51 PM [express] GET /api/creator/stats 500 in 4ms :: {"message":"Failed to fetch creator stats"}
+2025-08-28T23:54:16.807636594Z ==> Deploying...
+2025-08-28T23:54:34.284087226Z ==> Running 'npm start'
+2025-08-28T23:54:34.505839227Z 
+2025-08-28T23:54:34.505867688Z > rest-express@1.0.0 start
+2025-08-28T23:54:34.505873158Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:54:34.505875238Z 
+2025-08-28T23:54:36.733309344Z 11:54:36 PM [express] serving on port 3000
+2025-08-28T23:54:36.791266122Z Error acquiring client from pool: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:54:36.791289472Z     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+2025-08-28T23:54:38.030878173Z ==> Your service is live 🎉
+2025-08-28T23:54:38.059713549Z ==> 
+2025-08-28T23:54:38.084793886Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:54:38.114077342Z ==> 
+2025-08-28T23:54:38.139510649Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:54:38.402891834Z ==> 
+2025-08-28T23:54:38.4298601Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:55:28.686589493Z ==> Deploying...
+2025-08-28T23:55:44.972890696Z ==> Running 'npm start'
+2025-08-28T23:55:45.254378369Z 
+2025-08-28T23:55:45.254393469Z > rest-express@1.0.0 start
+2025-08-28T23:55:45.254397209Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:55:45.25439887Z 
+2025-08-28T23:55:47.390922326Z 11:55:47 PM [express] serving on port 3000
+2025-08-28T23:55:47.402229619Z Error acquiring client from pool: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:55:47.402242499Z     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+2025-08-28T23:55:49.830514122Z ==> Your service is live 🎉
+2025-08-28T23:55:49.858409129Z ==> 
+2025-08-28T23:55:49.894425234Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:55:49.9243536Z ==> 
+2025-08-28T23:55:49.955708806Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:55:49.988594041Z ==> 
+2025-08-28T23:55:50.022600727Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:55:54.930427253Z 11:55:54 PM [express] GET /api/user 401 in 3ms :: {"message":"Invalid token"}
+2025-08-28T23:56:11.114400011Z Login attempt for username: Dallas1221
+2025-08-28T23:56:11.118881585Z 11:56:11 PM [express] POST /api/login 200 in 4ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-28T23:56:11.638649674Z [ERROR] 2025-08-28T23:56:11.636Z: Error processing expired bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:56:11.638678195Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:56:11.638683495Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:56:11.638687155Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:56:11.638690815Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2113:29)
+2025-08-28T23:56:11.638694855Z     at async file:///opt/render/project/src/dist/index.js:2403:7 {
+2025-08-28T23:56:11.638698266Z   errno: -3008,
+2025-08-28T23:56:11.638700695Z   code: 'ENOTFOUND',
+2025-08-28T23:56:11.638703746Z   syscall: 'getaddrinfo',
+2025-08-28T23:56:11.638705956Z   hostname: 'base'
+2025-08-28T23:56:11.638708066Z }
+2025-08-28T23:56:11.64146039Z [ERROR] 2025-08-28T23:56:11.641Z: Error fetching bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:56:11.6414733Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:56:11.64147746Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:56:11.64148116Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1024:9)
+2025-08-28T23:56:11.64148463Z     at async file:///opt/render/project/src/dist/index.js:2404:7 {
+2025-08-28T23:56:11.64148844Z   errno: -3008,
+2025-08-28T23:56:11.64149187Z   code: 'ENOTFOUND',
+2025-08-28T23:56:11.64149428Z   syscall: 'getaddrinfo',
+2025-08-28T23:56:11.64149636Z   hostname: 'base'
+2025-08-28T23:56:11.641498571Z }
+2025-08-28T23:56:11.642193787Z 11:56:11 PM [express] GET /api/bounties 500 in 15ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:56:19.301171373Z 11:56:19 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:56:19.301518281Z [ERROR] 2025-08-28T23:56:19.301Z: Error fetching creator stats: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:56:19.301526631Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:56:19.301530391Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:56:19.301533801Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:56:19.301537082Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:497:24)
+2025-08-28T23:56:19.301539991Z     at async file:///opt/render/project/src/dist/index.js:3493:20 {
+2025-08-28T23:56:19.301543242Z   errno: -3008,
+2025-08-28T23:56:19.301546692Z   code: 'ENOTFOUND',
+2025-08-28T23:56:19.301550322Z   syscall: 'getaddrinfo',
+2025-08-28T23:56:19.301553082Z   hostname: 'base'
+2025-08-28T23:56:19.301555862Z }
+2025-08-28T23:56:19.302004272Z 11:56:19 PM [express] GET /api/creator/stats 500 in 10ms :: {"message":"Failed to fetch creator stats…
+2025-08-28T23:56:44.038686867Z ==> Deploying...
+2025-08-28T23:57:04.566130398Z ==> Running 'npm start'
+2025-08-28T23:57:04.9356132Z 
+2025-08-28T23:57:04.935636411Z > rest-express@1.0.0 start
+2025-08-28T23:57:04.935641511Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:57:04.935643751Z 
+2025-08-28T23:57:07.758382906Z 11:57:07 PM [express] serving on port 3000
+2025-08-28T23:57:07.760443688Z Error acquiring client from pool: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:57:07.760485139Z     at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:122:26)
+2025-08-28T23:57:14.910545865Z ==> Your service is live 🎉
+2025-08-28T23:57:14.951328489Z ==> 
+2025-08-28T23:57:14.997968703Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:57:15.157711521Z ==> 
+2025-08-28T23:57:15.183935168Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:57:15.309856092Z ==> 
+2025-08-28T23:57:15.338484907Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:58:11.005573706Z ==> Deploying...
+2025-08-28T23:58:27.041446633Z ==> Running 'npm start'
+2025-08-28T23:58:27.324723745Z 
+2025-08-28T23:58:27.324742576Z > rest-express@1.0.0 start
+2025-08-28T23:58:27.324746497Z > NODE_ENV=production node dist/index.js
+2025-08-28T23:58:27.324748467Z 
+2025-08-28T23:58:29.527519366Z 11:58:29 PM [express] serving on port 3000
+2025-08-28T23:58:32.340698381Z ==> Your service is live 🎉
+2025-08-28T23:58:32.372079926Z ==> 
+2025-08-28T23:58:32.397963793Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:58:32.42373927Z ==> 
+2025-08-28T23:58:32.449821986Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-28T23:58:32.475435632Z ==> 
+2025-08-28T23:58:32.499337119Z ==> ///////////////////////////////////////////////////////////
+2025-08-28T23:58:34.429414742Z Error acquiring client from pool: Error: Connection terminated due to connection timeout
+2025-08-28T23:58:34.429446084Z     at Client._connectionCallback (/opt/render/project/src/node_modules/pg-pool/index.js:262:17)
+2025-08-28T23:58:34.429450374Z     at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:149:18)
+2025-08-28T23:58:34.429454935Z     at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:58:34.429458164Z     at Connection.emit (node:events:518:28)
+2025-08-28T23:58:34.429460325Z     at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:58:34.429462445Z     at Socket.emit (node:events:518:28)
+2025-08-28T23:58:34.429464495Z     at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:58:37.556590037Z 11:58:37 PM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:58:38.196887296Z [ERROR] 2025-08-28T23:58:38.193Z: Error processing expired bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:58:38.196935077Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:58:38.196942897Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:58:38.196947157Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:58:38.196951688Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2113:29)
+2025-08-28T23:58:38.196955718Z     at async file:///opt/render/project/src/dist/index.js:2403:7 {
+2025-08-28T23:58:38.196959848Z   errno: -3008,
+2025-08-28T23:58:38.196964888Z   code: 'ENOTFOUND',
+2025-08-28T23:58:38.196969248Z   syscall: 'getaddrinfo',
+2025-08-28T23:58:38.196973348Z   hostname: 'base'
+2025-08-28T23:58:38.196977338Z }
+2025-08-28T23:58:38.205832474Z [ERROR] 2025-08-28T23:58:38.205Z: Error fetching bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:58:38.205854684Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:58:38.205859874Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:58:38.205865614Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1024:9)
+2025-08-28T23:58:38.205870115Z     at async file:///opt/render/project/src/dist/index.js:2404:7 {
+2025-08-28T23:58:38.205874624Z   errno: -3008,
+2025-08-28T23:58:38.205879915Z   code: 'ENOTFOUND',
+2025-08-28T23:58:38.205885205Z   syscall: 'getaddrinfo',
+2025-08-28T23:58:38.205889385Z   hostname: 'base'
+2025-08-28T23:58:38.205944186Z }
+2025-08-28T23:58:38.206930231Z 11:58:38 PM [express] GET /api/bounties 500 in 28ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:58:43.96047641Z [ERROR] 2025-08-28T23:58:43.959Z: Error fetching creator stats: Error: getaddrinfo ENOTFOUND base
+2025-08-28T23:58:43.960508931Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:58:43.960514811Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:58:43.960519801Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:58:43.960524261Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:497:24)
+2025-08-28T23:58:43.960528721Z     at async file:///opt/render/project/src/dist/index.js:3493:20 {
+2025-08-28T23:58:43.960532621Z   errno: -3008,
+2025-08-28T23:58:43.960537791Z   code: 'ENOTFOUND',
+2025-08-28T23:58:43.960542851Z   syscall: 'getaddrinfo',
+2025-08-28T23:58:43.960547181Z   hostname: 'base'
+2025-08-28T23:58:43.960551312Z }
+2025-08-28T23:58:43.961440854Z 11:58:43 PM [express] GET /api/creator/stats 500 in 11ms :: {"message":"Failed to fetch creator stats…
+2025-08-28T23:58:43.964296047Z 11:58:43 PM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:59:03.899533591Z 11:59:03 PM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-28T23:59:09.321894741Z [ERROR] 2025-08-28T23:59:09.319Z: Error processing expired bounties: Error: Connection terminated due to connection timeout
+2025-08-28T23:59:09.321918492Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:59:09.321923542Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:59:09.321928673Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:59:09.321932233Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2113:29)
+2025-08-28T23:59:09.321935603Z     at async file:///opt/render/project/src/dist/index.js:2403:7 {
+2025-08-28T23:59:09.321939533Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-28T23:59:09.321943134Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-28T23:59:09.321947054Z       at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:59:09.321950864Z       at Connection.emit (node:events:518:28)
+2025-08-28T23:59:09.321954904Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:59:09.321958304Z       at Socket.emit (node:events:518:28)
+2025-08-28T23:59:09.321961715Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:59:09.321965135Z }
+2025-08-28T23:59:10.225610507Z 11:59:10 PM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-28T23:59:14.325616652Z [ERROR] 2025-08-28T23:59:14.325Z: Error fetching bounties: Error: Connection terminated due to connection timeout
+2025-08-28T23:59:14.325644493Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:59:14.325650264Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:59:14.325655274Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1024:9)
+2025-08-28T23:59:14.325669235Z     at async file:///opt/render/project/src/dist/index.js:2404:7 {
+2025-08-28T23:59:14.325674675Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-28T23:59:14.325678165Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-28T23:59:14.325682715Z       at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:59:14.325686356Z       at Connection.emit (node:events:518:28)
+2025-08-28T23:59:14.325704387Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:59:14.325706707Z       at Socket.emit (node:events:518:28)
+2025-08-28T23:59:14.325708797Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:59:14.325710967Z }
+2025-08-28T23:59:14.326423957Z 11:59:14 PM [express] GET /api/bounties 500 in 10011ms :: {"message":"Failed to fetch bounties"}
+2025-08-28T23:59:15.229233082Z [ERROR] 2025-08-28T23:59:15.228Z: Error fetching creator stats: Error: Connection terminated due to connection timeout
+2025-08-28T23:59:15.229261384Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-28T23:59:15.229265124Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-28T23:59:15.229267914Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-28T23:59:15.229269994Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:497:24)
+2025-08-28T23:59:15.229272154Z     at async file:///opt/render/project/src/dist/index.js:3493:20 {
+2025-08-28T23:59:15.229274914Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-28T23:59:15.229276965Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-28T23:59:15.229279475Z       at Object.onceWrapper (node:events:632:28)
+2025-08-28T23:59:15.229281485Z       at Connection.emit (node:events:518:28)
+2025-08-28T23:59:15.229283605Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-28T23:59:15.229285765Z       at Socket.emit (node:events:518:28)
+2025-08-28T23:59:15.229287805Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-28T23:59:15.229289906Z }
+2025-08-28T23:59:15.230017836Z 11:59:15 PM [express] GET /api/creator/stats 500 in 5004ms :: {"message":"Failed to fetch creator sta…

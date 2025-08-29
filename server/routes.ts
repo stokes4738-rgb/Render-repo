@@ -1847,6 +1847,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
           allUsers = await db.select().from(users).limit(100).catch(() => []);
           allBounties = await db.select().from(bounties).limit(100).catch(() => []);
           allTransactions = await db.select().from(transactions).limit(200).catch(() => []);
+          
+          // Get real active user counts directly from database
+          const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+          const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+          const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+          
+          try {
+            // Real active user counts from database
+            const [realActiveUsersResult, realDailyActiveResult, realMonthlyActiveResult] = await Promise.all([
+              db.select({ count: sql`count(*)` }).from(users).where(sql`"lastSeen" > ${sevenDaysAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${sevenDaysAgo.toISOString()})`).catch(() => [{ count: 0 }]),
+              db.select({ count: sql`count(*)` }).from(users).where(sql`"lastSeen" > ${oneDayAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${oneDayAgo.toISOString()})`).catch(() => [{ count: 0 }]),
+              db.select({ count: sql`count(*)` }).from(users).where(sql`"lastSeen" > ${thirtyDaysAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${thirtyDaysAgo.toISOString()})`).catch(() => [{ count: 0 }])
+            ]);
+            
+            // Store real counts for later use
+            const realActiveUsers = Number(realActiveUsersResult[0]?.count || 0);
+            const realDailyActiveUsers = Number(realDailyActiveResult[0]?.count || 0);
+            const realMonthlyActiveUsers = Number(realMonthlyActiveResult[0]?.count || 0);
+            
+            // Attach to a variable we can access later
+            global.realActivityCounts = {
+              weekly: realActiveUsers,
+              daily: realDailyActiveUsers,
+              monthly: realMonthlyActiveUsers
+            };
+          } catch (dbError) {
+            logger.error("Error getting real activity counts:", dbError);
+            global.realActivityCounts = { weekly: 0, daily: 0, monthly: 0 };
+          }
         }
       } catch (dbError) {
         logger.error("Database query error in creator stats:", dbError);
@@ -1868,15 +1897,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Calculate statistics from sample data, but scale appropriately
-      const sampleActiveUsers = allUsers.filter(u => 
-        new Date(u.lastSeen || u.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-      ).length;
-      
-      // Scale up the active users based on sample size vs total
-      const activeUsers = totalUsers > 0 && allUsers.length > 0 
-        ? Math.round((sampleActiveUsers / allUsers.length) * totalUsers)
-        : sampleActiveUsers;
+      // Use real active user counts from database query
+      const activeUsers = global.realActivityCounts?.weekly || 0;
 
       const totalUserBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || '0'), 0);
 
@@ -1992,34 +2014,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .slice(0, 10)
       };
 
-      // Real user engagement metrics (scaled from sample)
-      const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-      
-      const sampleDailyActive = allUsers.filter(u => 
-        new Date(u.lastSeen || u.createdAt) > oneDayAgo
-      ).length;
-      
-      const sampleWeeklyActive = allUsers.filter(u => 
-        new Date(u.lastSeen || u.createdAt) > sevenDaysAgo
-      ).length;
-      
-      const sampleMonthlyActive = allUsers.filter(u => 
-        new Date(u.lastSeen || u.createdAt) > thirtyDaysAgo
-      ).length;
-      
-      // Scale engagement metrics to full user base
-      const dailyActiveUsers = totalUsers > 0 && allUsers.length > 0
-        ? Math.round((sampleDailyActive / allUsers.length) * totalUsers)
-        : sampleDailyActive;
-        
-      const weeklyActiveUsers = totalUsers > 0 && allUsers.length > 0
-        ? Math.round((sampleWeeklyActive / allUsers.length) * totalUsers)
-        : sampleWeeklyActive;
-        
-      const monthlyActiveUsers = totalUsers > 0 && allUsers.length > 0
-        ? Math.round((sampleMonthlyActive / allUsers.length) * totalUsers)
-        : sampleMonthlyActive;
+      // Use real engagement metrics from database queries
+      const dailyActiveUsers = global.realActivityCounts?.daily || 0;
+      const weeklyActiveUsers = global.realActivityCounts?.weekly || 0;
+      const monthlyActiveUsers = global.realActivityCounts?.monthly || 0;
 
       // Calculate retention rate (users who returned after 7 days)
       const usersFromLastWeek = allUsers.filter(u => {

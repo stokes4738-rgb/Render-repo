@@ -1,0 +1,92 @@
+2025-08-29T01:42:57.391036447Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:43:04.063285298Z 1:43:04 AM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T01:43:10.070098144Z 1:43:10 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:44:10.076855733Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:44:10.076857853Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:44:10.076859984Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:44:10.076862124Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:44:10.076864253Z }
+2025-08-29T01:44:10.07763524Z 1:44:10 AM [express] GET /api/creator/stats 500 in 60015ms :: {"message":"Failed to fetch creator st…
+2025-08-29T01:44:41.042940325Z Connection attempt 3 failed: Connection terminated due to connection timeout
+2025-08-29T01:44:41.042973596Z Retrying connection in 15 seconds...
+2025-08-29T01:45:26.052467056Z Connection attempt 4 failed: Connection terminated due to connection timeout
+2025-08-29T01:45:26.052495997Z Retrying connection in 20 seconds...
+2025-08-29T01:46:16.060846761Z Connection attempt 5 failed: Connection terminated due to connection timeout
+2025-08-29T01:46:16.061123397Z Failed to establish database connection after 5 attempts
+2025-08-29T01:46:16.061608927Z Full error: Error: Connection terminated due to connection timeout
+2025-08-29T01:46:16.061620947Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:46:16.061627418Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:46:16.061632587Z     at async testConnection (file:///opt/render/project/src/dist/index.js:478:26) {
+2025-08-29T01:46:16.061637128Z Continuing startup - database may become available later
+2025-08-29T01:46:16.061638508Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:46:16.061655968Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:46:16.061660668Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:46:16.061665728Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:46:16.061670368Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:46:16.061675068Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:46:16.061679488Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:46:16.061683759Z }
+2025-08-29T01:46:40.480793288Z 1:46:40 AM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:47:10.693923816Z 1:47:10 AM [express] GET /api/admin/banned-ips 200 in 2ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:47:40.903993593Z 1:47:40 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:48:02.543980323Z ==> Detected service running on port 3000
+2025-08-29T01:48:02.664173351Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T01:48:11.291042339Z 1:48:11 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:48:41.504062078Z 1:48:41 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:49:49.610352787Z ==> Deploying...
+2025-08-29T01:50:05.755811531Z ==> Running 'npm start'
+2025-08-29T01:50:06.032299002Z 
+2025-08-29T01:50:06.032318612Z > rest-express@1.0.0 start
+2025-08-29T01:50:06.032322123Z > NODE_ENV=production node dist/index.js
+2025-08-29T01:50:06.032323853Z 
+2025-08-29T01:50:08.132798724Z 1:50:08 AM [express] serving on port 3000
+2025-08-29T01:50:10.641486163Z ==> Your service is live 🎉
+2025-08-29T01:50:10.673021038Z ==> 
+2025-08-29T01:50:11.043136479Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:50:11.070436085Z ==> 
+2025-08-29T01:50:11.097576042Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T01:50:11.124754148Z ==> 
+2025-08-29T01:50:11.151899734Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:50:15.105490065Z 1:50:15 AM [express] GET /api/user 304 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T01:50:25.703851792Z [ERROR] 2025-08-29T01:50:25.703Z: Expired bounties processing failed: Error: Expired bounties processing timeout
+2025-08-29T01:50:25.703899623Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2497:54)
+2025-08-29T01:50:25.703903713Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:50:25.703906673Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:50:25.703920834Z [ERROR] 2025-08-29T01:50:25.703Z: Expired boosts update failed: Error: Expired boosts update timeout
+2025-08-29T01:50:25.703928784Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2503:54)
+2025-08-29T01:50:25.703931524Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:50:25.703933254Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:50:35.706776895Z [ERROR] 2025-08-29T01:50:35.706Z: Bounties query failed: Error: Active bounties query timeout
+2025-08-29T01:50:35.706800036Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2530:52)
+2025-08-29T01:50:35.706805136Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:50:35.706809056Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:50:35.707555862Z 1:50:35 AM [express] GET /api/bounties 304 in 20007ms :: []
+2025-08-29T01:50:45.705427381Z [ERROR] 2025-08-29T01:50:45.704Z: Error processing expired bounties: Error: Connection terminated due to connection timeout
+2025-08-29T01:50:45.705450181Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:50:45.705454681Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:50:45.705458732Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:50:45.705462392Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2130:29) {
+2025-08-29T01:50:45.705466452Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:50:45.705469942Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:50:45.705473992Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:50:45.705477572Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:50:45.705483892Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:50:45.705490192Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:50:45.705496362Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:50:45.705501552Z }
+2025-08-29T01:50:46.660130617Z 1:50:46 AM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:50:57.458854259Z ==> Deploying...
+2025-08-29T01:51:08.041514226Z Retrying connection in 5 seconds...
+2025-08-29T01:51:08.041518366Z Connection attempt 1 failed: Connection terminated due to connection timeout
+2025-08-29T01:51:14.994986335Z ==> Running 'npm start'
+2025-08-29T01:51:15.285215663Z 
+2025-08-29T01:51:15.285238883Z > rest-express@1.0.0 start
+2025-08-29T01:51:15.285243023Z > NODE_ENV=production node dist/index.js
+2025-08-29T01:51:15.285245213Z 
+2025-08-29T01:51:17.703738196Z 1:51:17 AM [express] serving on port 3000
+2025-08-29T01:51:19.420111681Z ==> Your service is live 🎉
+2025-08-29T01:51:19.449873357Z ==> 
+2025-08-29T01:51:19.479174423Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:51:19.679940206Z ==> 
+2025-08-29T01:51:19.705723463Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T01:51:19.730838739Z ==> 

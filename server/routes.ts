@@ -800,7 +800,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/messages/threads', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const threads = await storage.getUserThreads(userId);
+      
+      // Add timeout protection
+      const queryTimeout = 10000;
+      const threads = await Promise.race([
+        storage.getUserThreads(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("Threads query failed:", error);
+        return [];
+      });
+      
       res.json(threads);
     } catch (error) {
       logger.error("Error fetching threads:", error);
@@ -811,7 +823,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/messages/threads/:threadId', verifyToken, async (req: any, res) => {
     try {
       const { threadId } = req.params;
-      const messages = await storage.getThreadMessages(threadId);
+      
+      // Add timeout protection
+      const queryTimeout = 10000;
+      const messages = await Promise.race([
+        storage.getThreadMessages(threadId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("Messages query failed:", error);
+        return [];
+      });
+      
       res.json(messages);
     } catch (error) {
       logger.error("Error fetching messages:", error);
@@ -823,7 +847,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.id;
       const messageData = insertMessageSchema.parse({ ...req.body, senderId: userId });
-      const message = await storage.createMessage(messageData);
+      
+      // Add timeout protection
+      const queryTimeout = 10000;
+      const message = await Promise.race([
+        storage.createMessage(messageData),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Query timeout')), queryTimeout)
+        )
+      ]);
+      
       res.status(201).json(message);
     } catch (error) {
       logger.error("Error creating message:", error);
@@ -954,29 +987,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Message is required" });
       }
 
-      // Get or create thread between user and creator
-      const thread = await storage.getOrCreateThread(userId, creatorId);
+      // Add timeout protection for database operations
+      const queryTimeout = 15000; // 15 seconds for complex feedback operations
       
-      // Create the feedback message
-      const newMessage = await storage.createMessage({
-        threadId: thread.id,
-        senderId: userId,
-        content: message.trim(),
-      });
+      try {
+        // Get or create thread between user and creator
+        const thread = await Promise.race([
+          storage.getOrCreateThread(userId, creatorId),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Thread query timeout')), queryTimeout)
+          )
+        ]);
+        
+        // Create the feedback message
+        const newMessage = await Promise.race([
+          storage.createMessage({
+            threadId: thread.id,
+            senderId: userId,
+            content: message.trim(),
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Message creation timeout')), queryTimeout)
+          )
+        ]);
 
-      // Create activity for the feedback
-      await storage.createActivity({
-        userId,
-        type: "feedback_sent",
-        description: `Sent ${type || 'feedback'} to creator`,
-        metadata: { type, threadId: thread.id },
-      });
+        // Create activity for the feedback (optional - don't fail if this times out)
+        try {
+          await Promise.race([
+            storage.createActivity({
+              userId,
+              type: "feedback_sent",
+              description: `Sent ${type || 'feedback'} to creator`,
+              metadata: { type, threadId: thread.id },
+            }),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Activity creation timeout')), 5000)
+            )
+          ]);
+        } catch (activityError) {
+          logger.error("Activity creation failed (non-critical):", activityError);
+        }
 
-      res.status(201).json({ 
-        success: true, 
-        message: "Feedback sent successfully",
-        threadId: thread.id 
-      });
+        res.status(201).json({ 
+          success: true, 
+          message: "Feedback sent successfully",
+          threadId: thread.id 
+        });
+      } catch (timeoutError) {
+        logger.error("Feedback operation timeout:", timeoutError);
+        res.status(408).json({ message: "Request timeout - please try again" });
+        return;
+      }
     } catch (error: any) {
       logger.error("Error sending feedback:", error);
       res.status(500).json({ message: "Failed to send feedback" });
@@ -1133,7 +1194,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/payments/methods', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const paymentMethods = await storage.getUserPaymentMethods(userId);
+      
+      // Add timeout protection for database query
+      const queryTimeout = 10000; // 10 seconds
+      const paymentMethods = await Promise.race([
+        storage.getUserPaymentMethods(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Query timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("Payment methods query failed:", error);
+        return []; // Return empty array on timeout/error
+      });
+      
       res.json(paymentMethods);
     } catch (error) {
       logger.error("Error fetching payment methods:", error);
@@ -1268,7 +1341,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Amount and payment method required" });
       }
 
-      const user = await storage.getUser(userId);
+      // Add timeout protection for database operations
+      const queryTimeout = 15000;
+      
+      const user = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
+        )
+      ]);
+      
       if (!user?.stripeCustomerId) {
         return res.status(400).json({ message: "Stripe customer not found" });
       }
@@ -1289,30 +1371,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return_url: `${req.protocol}://${req.get('host')}/account`,
       });
 
-      // Save payment record
-      const payment = await storage.createPayment({
-        userId,
-        stripePaymentIntentId: paymentIntent.id,
-        amount: feeInfo.grossAmount,
-        platformFee: feeInfo.fee,
-        netAmount: feeInfo.grossAmount, // User gets the full amount they requested
-        status: paymentIntent.status,
-        type: 'deposit',
-        description: `Account deposit of $${amount} (platform fee: $${feeInfo.fee})`,
-      });
+      // Save payment record with timeout protection
+      const payment = await Promise.race([
+        storage.createPayment({
+          userId,
+          stripePaymentIntentId: paymentIntent.id,
+          amount: feeInfo.grossAmount,
+          platformFee: feeInfo.fee,
+          netAmount: feeInfo.grossAmount, // User gets the full amount they requested
+          status: paymentIntent.status,
+          type: 'deposit',
+          description: `Account deposit of $${amount} (platform fee: $${feeInfo.fee})`,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Payment creation timeout')), queryTimeout)
+        )
+      ]);
 
       // If payment succeeded, update user balance and record platform revenue
       if (paymentIntent.status === 'succeeded') {
-        await storage.updateUserBalance(userId, feeInfo.grossAmount);
-        await storage.updatePaymentStatus(payment.id, 'succeeded');
+        await Promise.race([
+          storage.updateUserBalance(userId, feeInfo.grossAmount),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Balance update timeout')), queryTimeout)
+          )
+        ]);
+        
+        await Promise.race([
+          storage.updatePaymentStatus(payment.id, 'succeeded'),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Payment status update timeout')), queryTimeout)
+          )
+        ]);
         
         // Create platform revenue record
-        await storage.createPlatformRevenue({
-          transactionId: payment.id,
-          amount: feeInfo.fee,
-          source: "deposit",
-          description: `Platform fee from deposit: $${amount}`,
-        });
+        await Promise.race([
+          storage.createPlatformRevenue({
+            transactionId: payment.id,
+            amount: feeInfo.fee,
+            source: "deposit",
+            description: `Platform fee from deposit: $${amount}`,
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Revenue record timeout')), queryTimeout)
+          )
+        ]);
       }
 
       res.json({ 
@@ -1771,27 +1874,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid amount" });
       }
       
+      // Add timeout protection for test deposit operations
+      const queryTimeout = 10000;
+      
       // Add funds to user balance
-      await storage.updateUserBalance(userId, amount);
+      await Promise.race([
+        storage.updateUserBalance(userId, amount),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Balance update timeout')), queryTimeout)
+        )
+      ]);
       
       // Create transaction record
-      await storage.createTransaction({
-        userId,
-        type: "earning",
-        amount,
-        description: "Test deposit",
-        status: "completed",
-      });
+      await Promise.race([
+        storage.createTransaction({
+          userId,
+          type: "earning",
+          amount,
+          description: "Test deposit",
+          status: "completed",
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Transaction creation timeout')), queryTimeout)
+        )
+      ]);
       
-      // Create activity
-      await storage.createActivity({
-        userId,
-        type: "deposit",
-        description: `Added $${amount} in test funds`,
-        metadata: { amount },
-      });
+      // Create activity (optional - don't fail if this times out)
+      try {
+        await Promise.race([
+          storage.createActivity({
+            userId,
+            type: "deposit",
+            description: `Added $${amount} in test funds`,
+            metadata: { amount },
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Activity creation timeout')), 5000)
+          )
+        ]);
+      } catch (activityError) {
+        logger.error("Activity creation failed (non-critical):", activityError);
+      }
       
-      const updatedUser = await storage.getUser(userId);
+      const updatedUser = await Promise.race([
+        storage.getUser(userId),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('User fetch timeout')), queryTimeout)
+        )
+      ]);
       res.json({ 
         success: true, 
         balance: updatedUser?.balance,

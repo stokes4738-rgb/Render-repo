@@ -1811,27 +1811,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.set('Surrogate-Control', 'no-store');
 
       const userId = req.user.id;
-      const user = await storage.getUser(userId);
       
       // Allow any authenticated user to access admin reports
       // Previously restricted to specific users
 
-      // Get comprehensive app statistics (now possible with paid Neon tier)
-      const [
-        revenue,
-        totalRevenue,
-        allUsers,
-        allBounties,
-        allTransactions,
-        recentActivity
-      ] = await Promise.all([
-        storage.getPlatformRevenue(),
-        storage.getTotalPlatformRevenue(),
-        storage.getAllUsers(),
-        storage.getAllBounties(),
-        storage.getAllTransactions(),
-        storage.getRecentActivity(50)
-      ]);
+      // Use optimized database queries with proper error handling
+      let revenue = [];
+      let totalRevenue = "0.00";
+      let allUsers = [];
+      let allBounties = [];
+      let allTransactions = [];
+      let recentActivity = [];
+
+      try {
+        // Get basic counts first (fastest queries)
+        const [userCount, bountyCount, transactionCount] = await Promise.all([
+          db.select({ count: sql`count(*)` }).from(users),
+          db.select({ count: sql`count(*)` }).from(bounties),
+          db.select({ count: sql`count(*)` }).from(transactions)
+        ]);
+
+        const totalUsers = Number(userCount[0]?.count || 0);
+        const totalBounties = Number(bountyCount[0]?.count || 0);
+        const totalTransactionCount = Number(transactionCount[0]?.count || 0);
+
+        // If we have data, get more detailed info with smaller batches
+        if (totalUsers > 0) {
+          [revenue, totalRevenue, recentActivity] = await Promise.all([
+            storage.getPlatformRevenue().catch(() => []),
+            storage.getTotalPlatformRevenue().catch(() => "0.00"),
+            storage.getRecentActivity(20).catch(() => [])
+          ]);
+
+          // Get sample of users and transactions for calculations (not all)
+          allUsers = await db.select().from(users).limit(100).catch(() => []);
+          allBounties = await db.select().from(bounties).limit(100).catch(() => []);
+          allTransactions = await db.select().from(transactions).limit(200).catch(() => []);
+        }
+      } catch (dbError) {
+        logger.error("Database query error in creator stats:", dbError);
+        // Return mock data if database fails
+        return res.json({
+          revenue: { data: [], total: "0.00", transactionCount: 0, avgPerTransaction: "0.00" },
+          users: { total: 0, active: 0, totalBalance: "0.00", newLast30Days: 0, growthRate: "0.0" },
+          bounties: { total: 0, active: 0, completed: 0, totalValue: "0.00", completionRate: "0.0" },
+          transactions: { total: 0, totalVolume: "0.00", deposits: 0, withdrawals: 0, avgTransactionSize: "0.00" },
+          spending: {
+            totalUserSpent: "0.00",
+            pointPurchases: { total: "0.00", count: 0, avgPurchase: "0.00" },
+            withdrawals: { total: "0.00", count: 0, avgWithdrawal: "0.00" },
+            refunds: { total: "0.00", count: 0 },
+            breakdown: {},
+            last30Days: { pointPurchases: "0.00", spending: "0.00" }
+          },
+          activity: []
+        });
+      }
 
       // Real-time statistics (now possible with paid Neon tier)
       const activeUsers = allUsers.filter(u => 

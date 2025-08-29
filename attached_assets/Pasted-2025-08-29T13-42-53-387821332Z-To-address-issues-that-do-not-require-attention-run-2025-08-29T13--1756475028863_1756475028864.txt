@@ -1,0 +1,98 @@
+2025-08-29T13:42:53.387821332Z To address issues that do not require attention, run:
+2025-08-29T13:42:53.387824372Z   npm audit fix
+2025-08-29T13:42:53.387826942Z 
+2025-08-29T13:42:53.387829632Z To address all issues (including breaking changes), run:
+2025-08-29T13:42:53.387833543Z   npm audit fix --force
+2025-08-29T13:42:53.387836143Z 
+2025-08-29T13:42:53.387839853Z Run `npm audit` for details.
+2025-08-29T13:42:53.543138957Z 
+2025-08-29T13:42:53.543164578Z > rest-express@1.0.0 build
+2025-08-29T13:42:53.543168118Z > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-08-29T13:42:53.543171728Z 
+2025-08-29T13:42:53.740174318Z vite v5.4.19 building for production...
+2025-08-29T13:42:53.80016799Z transforming...
+2025-08-29T13:42:57.962324844Z ✓ 1785 modules transformed.
+2025-08-29T13:42:58.12892422Z rendering chunks...
+2025-08-29T13:42:58.298168024Z computing gzip size...
+2025-08-29T13:42:58.310319012Z ../dist/public/index.html                           5.72 kB │ gzip:  1.73 kB
+2025-08-29T13:42:58.310350562Z ../dist/public/assets/index-DGeDf_zb.css           87.48 kB │ gzip: 14.87 kB
+2025-08-29T13:42:58.310443074Z ../dist/public/assets/authUtils-CcDzk6i0.js         0.08 kB │ gzip:  0.10 kB
+2025-08-29T13:42:58.310554406Z ../dist/public/assets/credit-card-Dntj-Bty.js       0.38 kB │ gzip:  0.29 kB
+2025-08-29T13:42:58.310695748Z ../dist/public/assets/web-C5ckUlvB.js               0.41 kB │ gzip:  0.27 kB
+2025-08-29T13:42:58.310736359Z ../dist/public/assets/circle-alert-D4FA1O8w.js      0.42 kB │ gzip:  0.29 kB
+2025-08-29T13:42:58.310762429Z ../dist/public/assets/shield-P9VTRk7h.js            0.44 kB │ gzip:  0.33 kB
+2025-08-29T13:42:58.31077435Z ../dist/public/assets/users-DAPAnIH9.js             0.47 kB │ gzip:  0.33 kB
+2025-08-29T13:42:58.310823481Z ../dist/public/assets/label-DTe8VH42.js             0.55 kB │ gzip:  0.38 kB
+2025-08-29T13:42:58.310836231Z ../dist/public/assets/input-p88DY8v7.js             0.57 kB │ gzip:  0.35 kB
+2025-08-29T13:42:58.310842411Z ../dist/public/assets/message-circle-uKaXKjjt.js    0.60 kB │ gzip:  0.32 kB
+2025-08-29T13:42:58.310870751Z ../dist/public/assets/not-found-NClxgrrR.js         0.63 kB │ gzip:  0.36 kB
+2025-08-29T13:42:58.310875531Z ../dist/public/assets/badge-fbl7KD9a.js             0.90 kB │ gzip:  0.42 kB
+2025-08-29T13:42:58.310921562Z ../dist/public/assets/trophy-BwFcKj6T.js            0.95 kB │ gzip:  0.46 kB
+2025-08-29T13:42:58.310943483Z ../dist/public/assets/zap-Dr1VfK7o.js               1.42 kB │ gzip:  0.55 kB
+2025-08-29T13:42:58.311135076Z ../dist/public/assets/tabs-M4JshjRc.js              6.68 kB │ gzip:  2.68 kB
+2025-08-29T13:42:58.311158716Z ../dist/public/assets/Landing-vWw9D8W6.js           7.84 kB │ gzip:  2.13 kB
+2025-08-29T13:42:58.311180097Z ../dist/public/assets/index-B-SC77mJ.js             8.12 kB │ gzip:  3.39 kB
+2025-08-29T13:42:58.311198267Z ../dist/public/assets/CreatorInbox-C6rbozvL.js     11.47 kB │ gzip:  4.07 kB
+2025-08-29T13:42:58.311202977Z ../dist/public/assets/AuthPage-Cv_4J_Tw.js         12.88 kB │ gzip:  3.75 kB
+2025-08-29T13:42:58.311237838Z ../dist/public/assets/Profile-PWn9pwt4.js          17.30 kB │ gzip:  5.00 kB
+2025-08-29T13:42:58.311262018Z ../dist/public/assets/Account-CyWvQGLS.js          78.99 kB │ gzip: 24.85 kB
+2025-08-29T13:42:58.311280709Z ../dist/public/assets/Tutorial-BnAt8RZL.js         83.11 kB │ gzip: 20.28 kB
+2025-08-29T13:42:58.311304859Z ../dist/public/assets/Home-DaMnpgOY.js            192.90 kB │ gzip: 48.65 kB
+2025-08-29T13:42:58.311310709Z ../dist/public/assets/index-CUYeu16j.js           292.36 kB │ gzip: 95.64 kB
+2025-08-29T13:42:58.311567684Z ✓ built in 4.55s
+2025-08-29T13:42:58.377857158Z 
+2025-08-29T13:42:58.377881659Z   dist/index.js  207.5kb
+2025-08-29T13:42:58.377884579Z 
+2025-08-29T13:42:58.377886739Z ⚡ Done in 13ms
+2025-08-29T13:42:59.477256321Z ==> Uploading build...
+2025-08-29T13:43:10.186153245Z ==> Uploaded in 7.2s. Compression took 3.5s
+2025-08-29T13:43:10.240350333Z ==> Build successful 🎉
+2025-08-29T13:43:13.279587409Z ==> Deploying...
+2025-08-29T13:43:31.584078556Z ==> Running 'npm start'
+2025-08-29T13:43:31.873919243Z 
+2025-08-29T13:43:31.873946333Z > rest-express@1.0.0 start
+2025-08-29T13:43:31.873950853Z > NODE_ENV=production node dist/index.js
+2025-08-29T13:43:31.873953004Z 
+2025-08-29T13:43:34.07682165Z [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+2025-08-29T13:43:34.078575279Z 📊 Database Configuration:
+2025-08-29T13:43:34.078602399Z    User: pocket_user
+2025-08-29T13:43:34.078656231Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-29T13:43:34.078782244Z    Database: pocket_bounty
+2025-08-29T13:43:34.078830116Z    SSL: enabled
+2025-08-29T13:43:34.080345178Z 🚀 Environment: PRODUCTION
+2025-08-29T13:43:34.080511133Z 🔍 Testing database connection (3 attempts)...
+2025-08-29T13:43:34.183785991Z 🚀 PocketBounty Server Starting...
+2025-08-29T13:43:34.184028977Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T13:43:34.184036947Z 📱 App Name: PocketBounty
+2025-08-29T13:43:34.184042898Z 🌍 Environment: production
+2025-08-29T13:43:34.184053468Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-29T13:43:34.18410902Z 🚪 Port: 3000
+2025-08-29T13:43:34.18411794Z 💳 Stripe Mode: TEST
+2025-08-29T13:43:34.18412652Z 📧 Email: Configured
+2025-08-29T13:43:34.18412988Z 🔐 Session: Configured
+2025-08-29T13:43:34.184164831Z 🗄️  Database: Configured
+2025-08-29T13:43:34.184170171Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T13:43:34.19273427Z ❌ Connection attempt 1/3 failed:
+2025-08-29T13:43:34.192862844Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:43:34.192870224Z    Network error - unable to reach database server
+2025-08-29T13:43:34.192888674Z    ⏳ Waiting 1000ms before retry...
+2025-08-29T13:43:34.193643845Z Database operation "getUserByUsername(support)" failed (attempt 1/3): Error connecting to database: fetch failed
+2025-08-29T13:43:34.193670816Z Waiting 1000ms before retrying "getUserByUsername(support)"...
+2025-08-29T13:43:35.197756486Z ❌ Connection attempt 2/3 failed:
+2025-08-29T13:43:35.197769067Z    ⏳ Waiting 2000ms before retry...
+2025-08-29T13:43:35.197785237Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:43:35.197788667Z    Network error - unable to reach database server
+2025-08-29T13:43:35.198223309Z Waiting 2000ms before retrying "getUserByUsername(support)"...
+2025-08-29T13:43:35.198232729Z Database operation "getUserByUsername(support)" failed (attempt 2/3): Error connecting to database: fetch failed
+2025-08-29T13:43:37.204007583Z ❌ Connection attempt 3/3 failed:
+2025-08-29T13:43:37.204030884Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:43:37.204033664Z    Network error - unable to reach database server
+2025-08-29T13:43:37.204035864Z ❌ All database connection attempts failed
+2025-08-29T13:43:37.204039184Z 💡 Server will continue running, but database operations will fail
+2025-08-29T13:43:37.204041284Z 💡 Please check your DATABASE_URL environment variable
+2025-08-29T13:43:37.204061565Z ⚠️  CRITICAL: Database unreachable in production!
+2025-08-29T13:43:37.204069145Z ⚠️  Please verify your Neon database configuration
+2025-08-29T13:43:37.204075215Z ⚠️  Check if you need to use the External Database URL
+2025-08-29T13:43:37.204575119Z Database operation "getUserByUsername(support)" failed (attempt 3/3): Error connecting to database: fetch failed
+2025-08-29T13:43:37.221508031Z 1:43:37 PM [express] Warning: Failed to ensure support user: Error connecting to database: fetch failed
+2025-08-29T13:43:37.221607204Z 1:43:37 PM [express] serving on port 3000

@@ -2262,6 +2262,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let allBounties = [];
       let allTransactions = [];
       let recentActivity = [];
+      let totalUsers = 0;
+      let totalBounties = 0;
+      let totalTransactionCount = 0;
 
       try {
         // Set timeouts and get live data with proper connection management
@@ -2273,21 +2276,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        const totalUsers = Number(userCount[0]?.count || 0);
+        totalUsers = Number(userCount[0]?.count || 0);
 
         const bountyCount = await Promise.race([
           db.select({ count: sql`count(*)` }).from(bounties),
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        const totalBounties = Number(bountyCount[0]?.count || 0);
+        totalBounties = Number(bountyCount[0]?.count || 0);
 
         const transactionCount = await Promise.race([
           db.select({ count: sql`count(*)` }).from(transactions),
           new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
         ]).catch(() => [{ count: 0 }]);
 
-        const totalTransactionCount = Number(transactionCount[0]?.count || 0);
+        totalTransactionCount = Number(transactionCount[0]?.count || 0);
 
         // Get real activity data with timeout protection
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);

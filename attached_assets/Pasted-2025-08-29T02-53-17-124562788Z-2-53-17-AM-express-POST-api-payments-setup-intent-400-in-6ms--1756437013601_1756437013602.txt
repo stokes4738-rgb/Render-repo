@@ -1,0 +1,50 @@
+2025-08-29T02:53:17.124562788Z 2:53:17 AM [express] POST /api/payments/setup-intent 400 in 6ms :: {"message":"User email required"}
+2025-08-29T02:53:59.754885544Z ==> Deploying...
+2025-08-29T02:54:20.647185842Z ==> Your service is live 🎉
+2025-08-29T02:54:20.676791668Z ==> 
+2025-08-29T02:54:20.701857364Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:54:20.922824245Z ==> 
+2025-08-29T02:54:20.949836202Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T02:54:21.117018649Z ==> 
+2025-08-29T02:54:21.143296906Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T02:54:25.47702114Z 2:54:25 AM [express] GET /api/user 304 in 1ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T02:54:26.102844722Z 2:54:26 AM [express] GET /api/bounties 304 in 20ms :: []
+2025-08-29T02:54:27.985341538Z 2:54:27 AM [express] GET /api/payments/history 304 in 3ms :: []
+2025-08-29T02:54:27.988545841Z 2:54:27 AM [express] GET /api/user/transactions 304 in 3ms :: []
+2025-08-29T02:54:27.989567007Z 2:54:27 AM [express] GET /api/payments/methods 304 in 3ms :: []
+2025-08-29T02:59:26.265344664Z ==> Detected service running on port 3000
+2025-08-29T02:59:26.368232361Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T03:00:00.677101246Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T03:00:00.677104657Z   hint: undefined,
+2025-08-29T03:00:00.677108106Z   position: undefined,
+2025-08-29T03:00:00.677114007Z   internalPosition: undefined,
+2025-08-29T03:00:00.677117517Z   internalQuery: undefined,
+2025-08-29T03:00:00.677120977Z   where: undefined,
+2025-08-29T03:00:00.677124377Z   schema: 'public',
+2025-08-29T03:00:00.677127747Z   table: 'message_threads',
+2025-08-29T03:00:00.677131077Z   column: undefined,
+2025-08-29T03:00:00.677134397Z   dataType: undefined,
+2025-08-29T03:00:00.677138567Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T03:00:00.677156398Z   file: 'ri_triggers.c',
+2025-08-29T03:00:00.677158707Z   line: '2608',
+2025-08-29T03:00:00.677162598Z   routine: 'ri_ReportViolation'
+2025-08-29T03:00:00.677164748Z }
+2025-08-29T03:00:00.677562146Z 3:00:00 AM [express] POST /api/feedback 408 in 8ms :: {"message":"Request timeout - please try again…
+2025-08-29T03:08:36.583352107Z Deploy cancelled
+2025-08-29T03:09:17.586350988Z ==> Deploying...
+2025-08-29T03:09:34.553185932Z ==> Running 'npm start'
+2025-08-29T03:09:34.850755893Z 
+2025-08-29T03:09:34.850793323Z > rest-express@1.0.0 start
+2025-08-29T03:09:34.850798194Z > NODE_ENV=production node dist/index.js
+2025-08-29T03:09:34.850800554Z 
+2025-08-29T03:09:37.142019769Z Production mode: skipping connection test, will connect on demand
+2025-08-29T03:09:37.17134154Z 3:09:37 AM [express] serving on port 3000
+2025-08-29T03:09:38.45199602Z ==> Your service is live 🎉
+2025-08-29T03:09:38.580941573Z ==> 
+2025-08-29T03:09:38.608878419Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:09:38.636616186Z ==> 
+2025-08-29T03:09:38.670930561Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T03:09:38.695836758Z ==> 
+2025-08-29T03:09:38.720796635Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:09:42.44944348Z 3:09:42 AM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T03:09:47.378558861Z 3:09:47 AM [express] GET /api/user 304 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…

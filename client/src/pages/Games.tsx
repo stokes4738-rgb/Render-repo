@@ -128,7 +128,7 @@ function SnakeGame() {
 
         return newSnake;
       });
-    }, 150);
+    }, 120); // Faster game speed
 
     return () => clearInterval(gameInterval);
   }, [gameRunning, gameOver, direction, food, score, submitScoreMutation]);
@@ -191,7 +191,7 @@ function SnakeGame() {
           })}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-4">
           {!gameRunning && !gameOver && (
             <Button onClick={startSnake} className="flex-1" data-testid="button-start-snake">
               <Play className="w-4 h-4 mr-2" />
@@ -214,8 +214,57 @@ function SnakeGame() {
           )}
         </div>
 
+        {/* Touch Controls for Snake */}
+        <div className="grid grid-cols-3 gap-2 max-w-40 mx-auto">
+          <div></div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDirection({ x: 0, y: -1 })}
+            disabled={!gameRunning || gameOver || direction.y !== 0}
+            data-testid="button-snake-up"
+          >
+            <ArrowUp className="w-4 h-4" />
+          </Button>
+          <div></div>
+          
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDirection({ x: -1, y: 0 })}
+            disabled={!gameRunning || gameOver || direction.x !== 0}
+            data-testid="button-snake-left"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+          <div className="flex items-center justify-center">
+            <div className="w-8 h-8 rounded bg-green-500 flex items-center justify-center text-white text-xs">🐍</div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDirection({ x: 1, y: 0 })}
+            disabled={!gameRunning || gameOver || direction.x !== 0}
+            data-testid="button-snake-right"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+          
+          <div></div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setDirection({ x: 0, y: 1 })}
+            disabled={!gameRunning || gameOver || direction.y !== 0}
+            data-testid="button-snake-down"
+          >
+            <ArrowDown className="w-4 h-4" />
+          </Button>
+          <div></div>
+        </div>
+
         <div className="text-xs text-muted-foreground text-center space-y-1">
-          <p>🎯 Use arrow keys to control the snake</p>
+          <p>🎯 Use arrow keys OR touch controls above</p>
           <p>🍎 Eat red food to grow and earn points!</p>
           <p>💰 Earn 2 points per food eaten</p>
         </div>
@@ -427,19 +476,64 @@ function Game2048() {
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="outline" onClick={() => move('up')} data-testid="button-up-2048">
-            <ArrowUp className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" onClick={() => move('down')} data-testid="button-down-2048">
-            <ArrowDown className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" onClick={() => move('left')} data-testid="button-left-2048">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" onClick={() => move('right')} data-testid="button-right-2048">
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+        {/* Touch Controls for 2048 */}
+        <div className="space-y-2">
+          <div className="grid grid-cols-3 gap-2 max-w-48 mx-auto">
+            <div></div>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => move('up')} 
+              disabled={gameOver}
+              className="h-12"
+              data-testid="button-up-2048"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </Button>
+            <div></div>
+            
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => move('left')} 
+              disabled={gameOver}
+              className="h-12"
+              data-testid="button-left-2048"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <div className="flex items-center justify-center">
+              <div className="w-10 h-10 rounded bg-orange-500 flex items-center justify-center text-white font-bold">2048</div>
+            </div>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => move('right')} 
+              disabled={gameOver}
+              className="h-12"
+              data-testid="button-right-2048"
+            >
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+            
+            <div></div>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => move('down')} 
+              disabled={gameOver}
+              className="h-12"
+              data-testid="button-down-2048"
+            >
+              <ArrowDown className="w-5 h-5" />
+            </Button>
+            <div></div>
+          </div>
+          
+          {/* Swipe gesture hint */}
+          <p className="text-xs text-center text-muted-foreground">
+            💡 Tip: Use arrow keys or touch controls to move tiles
+          </p>
         </div>
 
         <div className="text-xs text-muted-foreground text-center space-y-1">
@@ -1067,34 +1161,48 @@ export default function Games() {
           </div>
 
           {/* Game Controls */}
-          <div className="flex gap-2">
-            {!gameState.gameStarted || gameState.gameOver ? (
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              {!gameState.gameStarted || gameState.gameOver ? (
+                <Button 
+                  onClick={jump} 
+                  className="flex-1 gap-2"
+                  data-testid="button-start-game"
+                >
+                  <Play className="w-4 h-4" />
+                  {gameState.gameOver ? 'Play Again' : 'Start Game'}
+                </Button>
+              ) : (
+                <Button 
+                  onClick={jump} 
+                  className="flex-1 gap-2"
+                  data-testid="button-jump"
+                >
+                  <span className="animate-bounce">🐦</span>
+                  Jump!
+                </Button>
+              )}
+              
               <Button 
-                onClick={jump} 
-                className="flex-1 gap-2"
-                data-testid="button-start-game"
+                variant="outline" 
+                onClick={resetGame}
+                data-testid="button-reset-game"
               >
-                <Play className="w-4 h-4" />
-                {gameState.gameOver ? 'Play Again' : 'Start Game'}
+                <RotateCcw className="w-4 h-4" />
               </Button>
-            ) : (
+            </div>
+            
+            {/* Large Touch Control for Flappy Bird */}
+            {gameState.gameStarted && !gameState.gameOver && (
               <Button 
                 onClick={jump} 
-                className="flex-1 gap-2"
-                data-testid="button-jump"
+                size="lg"
+                className="w-full h-16 text-lg bg-blue-500 hover:bg-blue-600"
+                data-testid="button-flappy-touch"
               >
-                <span className="animate-bounce">🐦</span>
-                Jump!
+                🐦 TAP TO FLY
               </Button>
             )}
-            
-            <Button 
-              variant="outline" 
-              onClick={resetGame}
-              data-testid="button-reset-game"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </Button>
           </div>
 
           {/* Instructions */}

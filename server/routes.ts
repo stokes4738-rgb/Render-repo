@@ -1234,13 +1234,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Message is required" });
       }
 
-      // If creator is sending feedback to themselves, handle it differently
+      // If creator is sending feedback to themselves, create a special admin thread
       if (userId === creatorId) {
-        // Log creator feedback for internal tracking
-        logger.info(`Creator self-feedback: ${message}`);
+        // Create an admin user for creator feedback if it doesn't exist
+        try {
+          await storage.createUser({
+            id: "admin-feedback",
+            username: "PocketBounty Admin",
+            email: "admin@pocketbounty.life",
+            passwordHash: "none",
+            points: 0,
+            balance: 0,
+            level: 1,
+            lifetimeEarnings: 0,
+            totalReviews: 0,
+            averageRating: 5.0,
+            profileCompleted: true
+          });
+        } catch (err) {
+          // Admin user already exists, that's fine
+        }
+        
+        // Create thread between creator and admin
+        const adminThread = await storage.getOrCreateThread(userId, "admin-feedback");
+        
+        // Create the feedback message in the admin thread
+        await storage.createMessage({
+          threadId: adminThread.id,
+          senderId: userId,
+          content: `📝 Creator Note: ${message.trim()}`,
+        });
+
         return res.status(201).json({ 
           success: true, 
-          message: "Feedback received and logged for internal review" 
+          message: "Feedback saved to your admin inbox",
+          threadId: adminThread.id 
         });
       }
 

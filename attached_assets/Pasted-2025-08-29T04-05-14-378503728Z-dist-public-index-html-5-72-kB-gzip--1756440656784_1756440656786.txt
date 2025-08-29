@@ -1,0 +1,104 @@
+2025-08-29T04:05:14.378503728Z ../dist/public/index.html                           5.72 kB │ gzip:  1.74 kB
+2025-08-29T04:05:14.378532788Z ../dist/public/assets/index-CIADquGX.css           87.32 kB │ gzip: 14.86 kB
+2025-08-29T04:05:14.378598659Z ../dist/public/assets/authUtils-CcDzk6i0.js         0.08 kB │ gzip:  0.10 kB
+2025-08-29T04:05:14.378745242Z ../dist/public/assets/credit-card-BxQ62W5r.js       0.38 kB │ gzip:  0.29 kB
+2025-08-29T04:05:14.378851024Z ../dist/public/assets/web-9JuAR-Un.js               0.41 kB │ gzip:  0.27 kB
+2025-08-29T04:05:14.378859274Z ../dist/public/assets/circle-alert-Br5cmETx.js      0.42 kB │ gzip:  0.29 kB
+2025-08-29T04:05:14.378868904Z ../dist/public/assets/shield-DImHdDEI.js            0.44 kB │ gzip:  0.33 kB
+2025-08-29T04:05:14.378876065Z ../dist/public/assets/users-BLZaFHld.js             0.47 kB │ gzip:  0.33 kB
+2025-08-29T04:05:14.378914935Z ../dist/public/assets/label-CQ6aQc60.js             0.55 kB │ gzip:  0.38 kB
+2025-08-29T04:05:14.378922416Z ../dist/public/assets/input-2JmUCuwi.js             0.57 kB │ gzip:  0.35 kB
+2025-08-29T04:05:14.378944066Z ../dist/public/assets/message-circle-BD5LSCPs.js    0.60 kB │ gzip:  0.32 kB
+2025-08-29T04:05:14.378957876Z ../dist/public/assets/not-found-CIRqa8-V.js         0.63 kB │ gzip:  0.36 kB
+2025-08-29T04:05:14.378962866Z ../dist/public/assets/badge-BgIE37zi.js             0.90 kB │ gzip:  0.42 kB
+2025-08-29T04:05:14.378971446Z ../dist/public/assets/trophy-DDEHgaOy.js            0.95 kB │ gzip:  0.46 kB
+2025-08-29T04:05:14.379000477Z ../dist/public/assets/zap-GFDwhm4l.js               1.42 kB │ gzip:  0.55 kB
+2025-08-29T04:05:14.379205141Z ../dist/public/assets/tabs-CowNNPlD.js              6.68 kB │ gzip:  2.68 kB
+2025-08-29T04:05:14.379254092Z ../dist/public/assets/Landing-soSYE_jK.js           7.84 kB │ gzip:  2.13 kB
+2025-08-29T04:05:14.379268932Z ../dist/public/assets/index-Di0CmZ9T.js             8.12 kB │ gzip:  3.38 kB
+2025-08-29T04:05:14.379316653Z ../dist/public/assets/CreatorInbox-BT2pRDZL.js     11.47 kB │ gzip:  4.07 kB
+2025-08-29T04:05:14.379321643Z ../dist/public/assets/AuthPage-BQR6eMDQ.js         12.88 kB │ gzip:  3.75 kB
+2025-08-29T04:05:14.379323973Z ../dist/public/assets/Profile-Cs4WpEhh.js          17.30 kB │ gzip:  5.00 kB
+2025-08-29T04:05:14.379333093Z ../dist/public/assets/Account-DA1mSjYF.js          78.99 kB │ gzip: 24.85 kB
+2025-08-29T04:05:14.379335453Z ../dist/public/assets/Tutorial-DOp-KCFl.js         83.11 kB │ gzip: 20.28 kB
+2025-08-29T04:05:14.379368244Z ../dist/public/assets/Home-DwAhbiw0.js            191.06 kB │ gzip: 48.36 kB
+2025-08-29T04:05:14.379372214Z ../dist/public/assets/index-C6op9cBB.js           292.36 kB │ gzip: 95.63 kB
+2025-08-29T04:05:14.379637779Z ✓ built in 4.54s
+2025-08-29T04:05:14.448701902Z 
+2025-08-29T04:05:14.448726082Z   dist/index.js  181.0kb
+2025-08-29T04:05:14.448728712Z 
+2025-08-29T04:05:14.448730922Z ⚡ Done in 14ms
+2025-08-29T04:05:15.955847368Z ==> Uploading build...
+2025-08-29T04:05:30.859973243Z ==> Uploaded in 11.2s. Compression took 3.7s
+2025-08-29T04:05:30.917824908Z ==> Build successful 🎉
+2025-08-29T04:05:33.526335225Z ==> Deploying...
+2025-08-29T04:05:52.169068898Z ==> Running 'npm start'
+2025-08-29T04:05:52.467031499Z 
+2025-08-29T04:05:52.46705265Z > rest-express@1.0.0 start
+2025-08-29T04:05:52.46705761Z > NODE_ENV=production node dist/index.js
+2025-08-29T04:05:52.467059351Z 
+2025-08-29T04:05:54.745980526Z Production mode: skipping connection test, will connect on demand
+2025-08-29T04:05:54.781583596Z 4:05:54 AM [express] serving on port 3000
+2025-08-29T04:06:04.558099581Z ==> Your service is live 🎉
+2025-08-29T04:06:04.586868107Z ==> 
+2025-08-29T04:06:04.625502152Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T04:06:04.652129469Z ==> 
+2025-08-29T04:06:04.677858826Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T04:06:04.703686472Z ==> 
+2025-08-29T04:06:04.728466208Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T04:06:21.285695528Z 4:06:21 AM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T04:06:21.884520698Z 4:06:21 AM [express] GET /api/bounties 304 in 49ms :: []
+2025-08-29T04:07:08.332403225Z [ERROR] 2025-08-29T04:07:08.329Z: Activity creation failed (non-critical): error: insert or update on table "activities" violates foreign key constraint "activities_user_id_users_id_fk"
+2025-08-29T04:07:08.332433276Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T04:07:08.332438446Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T04:07:08.332443287Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T04:07:08.332448507Z     at async DatabaseStorage.createActivity (file:///opt/render/project/src/dist/index.js:848:31)
+2025-08-29T04:07:08.332458348Z     at async Promise.all (index 1)
+2025-08-29T04:07:08.332464268Z     at async file:///opt/render/project/src/dist/index.js:2854:7 {
+2025-08-29T04:07:08.332469668Z   length: 283,
+2025-08-29T04:07:08.332475909Z   severity: 'ERROR',
+2025-08-29T04:07:08.332481089Z   code: '23503',
+2025-08-29T04:07:08.332486659Z   detail: 'Key (user_id)=(46848986) is not present in table "users".',
+2025-08-29T04:07:08.332492519Z   hint: undefined,
+2025-08-29T04:07:08.332497219Z   position: undefined,
+2025-08-29T04:07:08.33250178Z   internalPosition: undefined,
+2025-08-29T04:07:08.33250545Z   internalQuery: undefined,
+2025-08-29T04:07:08.33250889Z   where: undefined,
+2025-08-29T04:07:08.3325123Z   schema: 'public',
+2025-08-29T04:07:08.332515811Z   table: 'activities',
+2025-08-29T04:07:08.332519201Z   column: undefined,
+2025-08-29T04:07:08.332522651Z   dataType: undefined,
+2025-08-29T04:07:08.332526121Z   constraint: 'activities_user_id_users_id_fk',
+2025-08-29T04:07:08.332529561Z   file: 'ri_triggers.c',
+2025-08-29T04:07:08.332533021Z   line: '2608',
+2025-08-29T04:07:08.332536492Z   routine: 'ri_ReportViolation'
+2025-08-29T04:07:08.332540002Z }
+2025-08-29T04:07:08.332991266Z 4:07:08 AM [express] POST /api/user/points 200 in 19ms :: {"success":true}
+2025-08-29T04:07:08.502513966Z 4:07:08 AM [express] GET /api/user 304 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T04:07:58.253242139Z [ERROR] 2025-08-29T04:07:58.252Z: Activity creation failed (non-critical): error: insert or update on table "activities" violates foreign key constraint "activities_user_id_users_id_fk"
+2025-08-29T04:07:58.253279121Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T04:07:58.253284461Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T04:07:58.253290761Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T04:07:58.253294501Z     at async DatabaseStorage.createActivity (file:///opt/render/project/src/dist/index.js:848:31)
+2025-08-29T04:07:58.253299702Z     at async Promise.all (index 1)
+2025-08-29T04:07:58.253304122Z     at async file:///opt/render/project/src/dist/index.js:2854:7 {
+2025-08-29T04:07:58.253307952Z   length: 283,
+2025-08-29T04:07:58.253312793Z   severity: 'ERROR',
+2025-08-29T04:07:58.253329503Z   code: '23503',
+2025-08-29T04:07:58.253332243Z   detail: 'Key (user_id)=(46848986) is not present in table "users".',
+2025-08-29T04:07:58.253334854Z   hint: undefined,
+2025-08-29T04:07:58.253336894Z   position: undefined,
+2025-08-29T04:07:58.253339014Z   internalPosition: undefined,
+2025-08-29T04:07:58.253341144Z   internalQuery: undefined,
+2025-08-29T04:07:58.253343144Z   where: undefined,
+2025-08-29T04:07:58.253345194Z   schema: 'public',
+2025-08-29T04:07:58.253347214Z   table: 'activities',
+2025-08-29T04:07:58.253349244Z   column: undefined,
+2025-08-29T04:07:58.253351504Z   dataType: undefined,
+2025-08-29T04:07:58.253353695Z   constraint: 'activities_user_id_users_id_fk',
+2025-08-29T04:07:58.253355785Z   file: 'ri_triggers.c',
+2025-08-29T04:07:58.253358045Z   line: '2608',
+2025-08-29T04:07:58.253360175Z   routine: 'ri_ReportViolation'
+2025-08-29T04:07:58.253362325Z }
+2025-08-29T04:07:58.254033252Z 4:07:58 AM [express] POST /api/user/points 200 in 14ms :: {"success":true}
+2025-08-29T04:07:58.441724066Z 4:07:58 AM [express] GET /api/user 304 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…

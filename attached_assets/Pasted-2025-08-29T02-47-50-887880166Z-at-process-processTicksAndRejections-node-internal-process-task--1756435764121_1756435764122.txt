@@ -1,0 +1,133 @@
+2025-08-29T02:47:50.887880166Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:47:50.887884326Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:47:50.887887316Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2122:29)
+2025-08-29T02:47:50.887890906Z     at async Promise.all (index 0)
+2025-08-29T02:47:50.887893706Z     at async file:///opt/render/project/src/dist/index.js:2485:9 {
+2025-08-29T02:47:50.887896527Z   errno: -111,
+2025-08-29T02:47:50.887900817Z   code: 'ECONNREFUSED',
+2025-08-29T02:47:50.887903947Z   syscall: 'connect',
+2025-08-29T02:47:50.887907307Z   address: '10.230.167.149',
+2025-08-29T02:47:50.887910377Z   port: 2
+2025-08-29T02:47:50.887913168Z }
+2025-08-29T02:47:50.888233535Z [ERROR] 2025-08-29T02:47:50.888Z: Expired boosts update failed: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:47:50.888242315Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:47:50.888245835Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:47:50.888248846Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1031:9)
+2025-08-29T02:47:50.888251776Z     at async Promise.all (index 1)
+2025-08-29T02:47:50.888254796Z     at async file:///opt/render/project/src/dist/index.js:2485:9 {
+2025-08-29T02:47:50.888257626Z   errno: -111,
+2025-08-29T02:47:50.888260766Z   code: 'ECONNREFUSED',
+2025-08-29T02:47:50.888263627Z   syscall: 'connect',
+2025-08-29T02:47:50.888266487Z   address: '10.230.167.149',
+2025-08-29T02:47:50.888269337Z   port: 2
+2025-08-29T02:47:50.888272077Z }
+2025-08-29T02:47:50.889512115Z [ERROR] 2025-08-29T02:47:50.889Z: Bounties query failed: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:47:50.889536596Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:47:50.889538856Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:47:50.889541186Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:47:50.889542966Z     at async DatabaseStorage.getActiveBounties (file:///opt/render/project/src/dist/index.js:1017:32)
+2025-08-29T02:47:50.889544696Z     at async file:///opt/render/project/src/dist/index.js:2519:21 {
+2025-08-29T02:47:50.889546406Z   errno: -111,
+2025-08-29T02:47:50.889548157Z   code: 'ECONNREFUSED',
+2025-08-29T02:47:50.889549966Z   syscall: 'connect',
+2025-08-29T02:47:50.889551727Z   address: '10.230.167.149',
+2025-08-29T02:47:50.889553457Z   port: 2
+2025-08-29T02:47:50.889555107Z }
+2025-08-29T02:47:50.890145249Z 2:47:50 AM [express] GET /api/bounties 304 in 5ms :: []
+2025-08-29T02:47:54.950695862Z 2:47:54 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T02:47:54.953500304Z [ERROR] 2025-08-29T02:47:54.953Z: Error fetching creator stats: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:47:54.953514595Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:47:54.953519335Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:47:54.953523225Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:47:54.953526766Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1043:34)
+2025-08-29T02:47:54.953530336Z     at async file:///opt/render/project/src/dist/index.js:4109:27 {
+2025-08-29T02:47:54.953533906Z   errno: -111,
+2025-08-29T02:47:54.953538146Z   code: 'ECONNREFUSED',
+2025-08-29T02:47:54.953541606Z   syscall: 'connect',
+2025-08-29T02:47:54.953545657Z   address: '10.230.167.149',
+2025-08-29T02:47:54.953549187Z   port: 2
+2025-08-29T02:47:54.953552727Z }
+2025-08-29T02:47:54.953938408Z 2:47:54 AM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+2025-08-29T02:48:05.259769775Z 2:48:05 AM [express] GET /api/payments/history 200 in 51ms :: []
+2025-08-29T02:48:05.261612623Z 2:48:05 AM [express] GET /api/user/transactions 200 in 44ms :: []
+2025-08-29T02:48:05.263020689Z 2:48:05 AM [express] GET /api/payments/methods 304 in 43ms :: []
+2025-08-29T02:48:12.10708016Z 2:48:12 AM [express] POST /api/payments/setup-intent 400 in 5ms :: {"message":"User email required"}
+2025-08-29T02:48:21.095357952Z 2:48:21 AM [express] POST /api/payments/setup-intent 400 in 4ms :: {"message":"User email required"}
+2025-08-29T02:48:27.005064336Z 2:48:27 AM [express] GET /api/messages/threads 200 in 6ms :: []
+2025-08-29T02:48:32.895174824Z [ERROR] 2025-08-29T02:48:32.892Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T02:48:32.895197225Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:48:32.895202135Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:48:32.895206205Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:48:32.895209635Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T02:48:32.895213625Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T02:48:32.895217395Z   length: 306,
+2025-08-29T02:48:32.895221485Z   severity: 'ERROR',
+2025-08-29T02:48:32.895225185Z   code: '23503',
+2025-08-29T02:48:32.895228835Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T02:48:32.895232395Z   hint: undefined,
+2025-08-29T02:48:32.895235835Z   position: undefined,
+2025-08-29T02:48:32.895240016Z   internalPosition: undefined,
+2025-08-29T02:48:32.895243426Z   internalQuery: undefined,
+2025-08-29T02:48:32.895246826Z   where: undefined,
+2025-08-29T02:48:32.895250306Z   schema: 'public',
+2025-08-29T02:48:32.895253796Z   table: 'message_threads',
+2025-08-29T02:48:32.895257226Z   column: undefined,
+2025-08-29T02:48:32.895260646Z   dataType: undefined,
+2025-08-29T02:48:32.895264616Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T02:48:32.895268107Z   file: 'ri_triggers.c',
+2025-08-29T02:48:32.895271556Z   line: '2608',
+2025-08-29T02:48:32.895274997Z   routine: 'ri_ReportViolation'
+2025-08-29T02:48:32.895278477Z }
+2025-08-29T02:48:32.89615843Z 2:48:32 AM [express] POST /api/feedback 408 in 12ms :: {"message":"Request timeout - please try agai…
+2025-08-29T02:48:35.682843863Z [ERROR] 2025-08-29T02:48:35.682Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T02:48:35.682868334Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:48:35.682873224Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:48:35.682877355Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:48:35.682880855Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T02:48:35.682895135Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T02:48:35.682897495Z   length: 306,
+2025-08-29T02:48:35.682900205Z   severity: 'ERROR',
+2025-08-29T02:48:35.682902355Z   code: '23503',
+2025-08-29T02:48:35.682904465Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T02:48:35.682906525Z   hint: undefined,
+2025-08-29T02:48:35.682908565Z   position: undefined,
+2025-08-29T02:48:35.682911325Z   internalPosition: undefined,
+2025-08-29T02:48:35.682913385Z   internalQuery: undefined,
+2025-08-29T02:48:35.682915425Z   where: undefined,
+2025-08-29T02:48:35.682917896Z   schema: 'public',
+2025-08-29T02:48:35.682919965Z   table: 'message_threads',
+2025-08-29T02:48:35.682922025Z   column: undefined,
+2025-08-29T02:48:35.682924066Z   dataType: undefined,
+2025-08-29T02:48:35.682926726Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T02:48:35.682928776Z   file: 'ri_triggers.c',
+2025-08-29T02:48:35.682930886Z   line: '2608',
+2025-08-29T02:48:35.682932976Z   routine: 'ri_ReportViolation'
+2025-08-29T02:48:35.682935096Z }
+2025-08-29T02:48:35.683570002Z 2:48:35 AM [express] POST /api/feedback 408 in 20ms :: {"message":"Request timeout - please try agai…
+2025-08-29T02:48:37.866119424Z [ERROR] 2025-08-29T02:48:37.865Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T02:48:37.866139124Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:48:37.866142844Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:48:37.866146154Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:48:37.866148314Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T02:48:37.866150384Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T02:48:37.866152764Z   length: 306,
+2025-08-29T02:48:37.866155744Z   severity: 'ERROR',
+2025-08-29T02:48:37.866157925Z   code: '23503',
+2025-08-29T02:48:37.866160085Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T02:48:37.866162315Z   hint: undefined,
+2025-08-29T02:48:37.866164345Z   position: undefined,
+2025-08-29T02:48:37.866166755Z   internalPosition: undefined,
+2025-08-29T02:48:37.866168815Z   internalQuery: undefined,
+2025-08-29T02:48:37.866170915Z   where: undefined,
+2025-08-29T02:48:37.866173095Z   schema: 'public',
+2025-08-29T02:48:37.866176025Z   table: 'message_threads',
+2025-08-29T02:48:37.866178245Z   column: undefined,
+2025-08-29T02:48:37.866180295Z   dataType: undefined,
+2025-08-29T02:48:37.866182815Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T02:48:37.866184895Z   file: 'ri_triggers.c',
+2025-08-29T02:48:37.866186935Z   line: '2608',
+2025-08-29T02:48:37.866189025Z   routine: 'ri_ReportViolation'
+2025-08-29T02:48:37.866191096Z }
+2025-08-29T02:48:37.86675649Z 2:48:37 AM [express] POST /api/feedback 408 in 18ms :: {"message":"Request timeout - please try agai…
+2025-08-29T02:48:42.110765662Z 2:48:42 AM [express] GET /api/user/transactions 304 in 17ms :: []
+2025-08-29T02:48:42.209955167Z 2:48:42 AM [express] GET /api/payments/methods 304 in 15ms :: []

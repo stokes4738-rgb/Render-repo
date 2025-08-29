@@ -132,15 +132,19 @@ export const transactions = pgTable("transactions", {
   id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").references(() => users.id).notNull(),
   bountyId: uuid("bounty_id").references(() => bounties.id),
-  type: varchar("type", { length: 50 }).notNull(), // earning, spending, payout
+  type: varchar("type", { length: 50 }).notNull(), // earning, spending, payout, points_purchase
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  currency: varchar("currency", { length: 3 }).default("usd"),
+  points: integer("points"), // Points credited/debited for this transaction
   status: varchar("status", { length: 50 }).default("pending"), // pending, completed, failed
   description: text("description"),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id"), // Link to Stripe PI
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => [
   index("idx_transactions_user_id").on(table.userId),
   index("idx_transactions_created_at").on(table.createdAt),
   index("idx_transactions_type").on(table.type),
+  index("idx_transactions_stripe_pi").on(table.stripePaymentIntentId),
 ]);
 
 export const messageThreads = pgTable("message_threads", {

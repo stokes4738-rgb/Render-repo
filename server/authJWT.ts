@@ -3,6 +3,7 @@ import { Express, Request, Response, NextFunction } from "express";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
+import { ensureStripeCustomer } from "./stripeCustomer";
 import type { User } from "@shared/schema";
 
 // Enforce JWT secret from environment
@@ -101,8 +102,16 @@ export function verifyToken(req: any, res: any, next: any) {
     }
     
     // For regular users, check database
-    storage.getUser(decoded.id).then(user => {
+    storage.getUser(decoded.id).then(async user => {
       if (user) {
+        // Ensure Stripe customer exists for this user
+        try {
+          await ensureStripeCustomer(user);
+        } catch (error) {
+          console.warn("Failed to ensure Stripe customer:", error);
+          // Don't fail auth if Stripe is down, just log and continue
+        }
+        
         req.user = user;
         next();
       } else {

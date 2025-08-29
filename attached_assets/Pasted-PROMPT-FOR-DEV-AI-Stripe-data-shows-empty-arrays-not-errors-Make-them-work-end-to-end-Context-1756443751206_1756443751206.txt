@@ -1,0 +1,242 @@
+PROMPT FOR DEV/AI — Stripe data shows empty arrays (not errors). Make them work end-to-end.
+
+Context (keep):
+
+Stack: Node/Express + Drizzle + Postgres + Stripe (TEST).
+
+Deployed on Render, port 3000, base URL fixed.
+
+Support user is seeded (9f1f3ebb-ab6a-4a00-867d-76a1472b656c).
+
+Logs now show:
+
+/api/feedback → 201 ✅
+
+/api/points/purchase → 200 (clientSecret returned) ✅
+
+/api/payments/setup-intent → 200 (clientSecret returned) ✅
+
+/api/payments/methods → 304 … []
+
+/api/payments/history → 304 … []
+
+/api/user/transactions → 304 … []
+
+Diagnosis:
+
+These are not runtime errors. 304 = Not Modified due to ETag/If-None-Match; the empty arrays indicate no persisted data yet.
+
+We need to (1) ensure each user has a Stripe customer, (2) attach a payment method to that customer after SetupIntent confirmation, (3) record successful payments to app “transactions”, and (4) hydrate history/methods from Stripe so endpoints aren’t empty.
+
+Goals
+
+Guarantee Stripe customer linkage for every authenticated user.
+
+SetupIntent flow attaches the PM to the customer and sets default.
+
+/api/payments/methods returns attached PMs (Stripe → DTO → cache/DB).
+
+/api/payments/history returns recent payments (Stripe PI/charges) and/or mirrored DB rows.
+
+/api/user/transactions records app-level credits/debits (e.g., points purchases).
+
+Keep ETag/304 behavior, but only if responses are actually cacheable. Otherwise return 200.
+
+Required changes
+1) Ensure stripe_customer_id exists and is created on demand
+
+DB: add users.stripe_customer_id TEXT NULL.
+
+On login/registration, if user.stripe_customer_id is null:
+
+Create Stripe customer: customers.create({ email, name, metadata: { userId } })
+
+Save stripe_customer_id back to DB.
+
+// stripeCustomer.ts
+import Stripe from 'stripe';
+import { db } from './db';
+import { users } from './schema';
+import { eq } from 'drizzle-orm';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' });
+
+export async function ensureStripeCustomer(user: { id: string; email?: string; username?: string; stripeCustomerId?: string; }) {
+  if (user.stripeCustomerId) return user.stripeCustomerId;
+  const customer = await stripe.customers.create({
+    email: user.email,
+    name: user.username ?? undefined,
+    metadata: { appUserId: user.id },
+  });
+  await db.update(users).set({ stripeCustomerId: customer.id }).where(eq(users.id, user.id));
+  return customer.id;
+}
+
+
+Use this on session bootstrap (e.g., after JWT verify).
+
+2) Create SetupIntent for the customer and persist the attachment on success
+
+Server: when creating SetupIntent, pass the customer ID and enable automatic methods.
+
+// payments.ts (route)
+router.post('/api/payments/setup-intent', auth, async (req, res) => {
+  const customerId = await ensureStripeCustomer(req.user);
+  const si = await stripe.setupIntents.create({
+    customer: customerId,
+    automatic_payment_methods: { enabled: true },
+    usage: 'off_session',
+  });
+  res.json({ clientSecret: si.client_secret });
+});
+
+
+Webhooks: handle setup_intent.succeeded and payment_method.attached to ensure PM is attached to the right customer and optionally set default.
+
+// webhooks.ts
+router.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const sig = req.headers['stripe-signature']!;
+  const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+
+  if (event.type === 'setup_intent.succeeded') {
+    const si = event.data.object as Stripe.SetupIntent;
+    const pmId = si.payment_method as string;
+    const customerId = si.customer as string;
+
+    // Optional: set as default
+    await stripe.customers.update(customerId, { invoice_settings: { default_payment_method: pmId } });
+
+    // Optionally mirror in DB: upsert into user_payment_methods table for faster reads
+    await mirrorPaymentMethod(pmId, customerId);
+  }
+
+  if (event.type === 'payment_method.attached') {
+    // No-op or mirror to DB if needed
+  }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const pi = event.data.object as Stripe.PaymentIntent;
+    await recordTransactionFromPI(pi); // see Section 4
+  }
+
+  res.json({ received: true });
+});
+
+3) /api/payments/methods should read Stripe → DTO, with optional DB cache
+router.get('/api/payments/methods', auth, async (req, res) => {
+  const customerId = await ensureStripeCustomer(req.user);
+  const list = await stripe.paymentMethods.list({ customer: customerId, type: 'card' });
+
+  const methods = list.data.map(pm => ({
+    id: pm.id,
+    brand: pm.card?.brand,
+    last4: pm.card?.last4,
+    expMonth: pm.card?.exp_month,
+    expYear: pm.card?.exp_year,
+    default: undefined, // set below
+  }));
+
+  const customer = await stripe.customers.retrieve(customerId);
+  const defaultPm = (customer as any).invoice_settings?.default_payment_method;
+  for (const m of methods) m.default = m.id === defaultPm;
+
+  // If you keep ETag caching, compute a stable hash of `methods` and set ETag
+  res.status(200).json(methods);
+});
+
+4) /api/payments/history should aggregate recent Stripe activity
+
+Minimal viable: list PaymentIntents by customer and map to a history DTO.
+
+Optional: mirror each success to a payments table for quick filtering/pagination.
+
+router.get('/api/payments/history', auth, async (req, res) => {
+  const customerId = await ensureStripeCustomer(req.user);
+  const pis = await stripe.paymentIntents.list({ customer: customerId, limit: 20 });
+  const history = pis.data.map(pi => ({
+    id: pi.id,
+    amount: (pi.amount_received ?? pi.amount) / 100,
+    currency: pi.currency,
+    status: pi.status,
+    created: pi.created,
+    description: pi.description ?? null,
+  }));
+  res.status(200).json(history);
+});
+
+5) /api/user/transactions — record app-level entries on successful payments
+
+Add table transactions (id, user_id, type: 'points_purchase' | 'payout' | ..., amount, currency, points, stripe_payment_intent_id, created_at).
+
+In the payment_intent.succeeded webhook, credit points and insert a transaction row.
+
+async function recordTransactionFromPI(pi: Stripe.PaymentIntent) {
+  const customerId = pi.customer as string;
+  // Lookup user by stripe_customer_id
+  const user = await db.query.users.findFirst({ where: (t, { eq }) => eq(t.stripeCustomerId, customerId) });
+  if (!user) return;
+
+  // Derive points from your price/pack mapping or metadata on PI
+  const points = Number(pi.metadata?.points ?? 0);
+
+  await db.insert(transactions).values({
+    userId: user.id,
+    type: 'points_purchase',
+    amount: (pi.amount_received ?? pi.amount) / 100,
+    currency: pi.currency,
+    points,
+    stripePaymentIntentId: pi.id,
+    createdAt: new Date(),
+  });
+
+  // Credit the user’s points balance
+  await creditUserPoints(user.id, points);
+}
+
+6) Seed some test data so arrays are not empty
+
+Use Stripe test cards to attach a PM and create a small test purchase.
+
+Client flow (TEST):
+
+Call /api/payments/setup-intent → use clientSecret to collect details with Stripe.js.
+
+Confirm the SI; webhook fires → PM attached → /api/payments/methods now returns 1 card.
+
+Create a test points purchase (small amount) → confirm PI on client → webhook payment_intent.succeeded → /api/payments/history and /api/user/transactions now return 1 row each.
+
+(If you want instant seeding without UI)
+
+Create a PM with pm_card_visa and attach to customer via API.
+
+Create a payment_intent with automatic_payment_methods: { enabled: true }, confirm=true, customer set.
+
+7) Caching/ETag cleanup
+
+If the front-end is sending If-None-Match, compute and set ETags only when list stability matters; otherwise remove ETag headers so responses are 200 during active testing.
+
+Never return 304 with a new body—either send 304 without body or 200 with JSON.
+
+Deliverables
+
+Migration adding users.stripe_customer_id and transactions table.
+
+ensureStripeCustomer helper wired into auth/session flow.
+
+SetupIntent route updated to include customer.
+
+Stripe webhook handlers for setup_intent.succeeded and payment_intent.succeeded.
+
+/api/payments/methods, /api/payments/history, /api/user/transactions implemented as above (return 200 with data).
+
+Optional: DB mirrors for PMs & payments for faster UI.
+
+ETag logic adjusted or disabled for these endpoints during dev.
+
+After implementing, rebuild & redeploy, then:
+
+Attach a test card → /api/payments/methods should return 1+ items.
+
+Make a $0.50 test points purchase → /api/payments/history and /api/user/transactions should return entries reflecting the purchase and credited points.
+
+End of prompt.

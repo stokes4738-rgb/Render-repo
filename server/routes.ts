@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { WebSocketServer, WebSocket } from "ws";
 import { storage } from "./storage";
 import { setupAuthJWT, verifyToken } from "./authJWT";
+import { ensureStripeCustomer } from "./stripeCustomer";
 import { insertBountySchema, insertMessageSchema, insertTransactionSchema, insertReviewSchema, insertPaymentMethodSchema, insertPaymentSchema, insertPlatformRevenueSchema, users, bounties, transactions } from "@shared/schema";
 import { logger } from "./utils/logger";
 import { sendSupportEmail } from "./utils/email";
@@ -12,7 +13,7 @@ import { requireAgeVerification } from "./middleware/ageVerification";
 import { checkIPBan } from "./middleware/ipBanning";
 import { contentFilterMiddleware } from "./middleware/contentFilter";
 import { db } from "./db";
-import { sql } from "drizzle-orm";
+import { sql, eq } from "drizzle-orm";
 import Stripe from "stripe";
 
 // Stripe setup with error handling for missing keys
@@ -105,34 +106,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     // Handle the event
     switch (event.type) {
+      case "setup_intent.succeeded":
+        const setupIntent = event.data.object as any;
+        const paymentMethodId = setupIntent.payment_method as string;
+        const customerId = setupIntent.customer as string;
+        
+        logger.info(`SetupIntent ${setupIntent.id} succeeded for customer ${customerId}`);
+        
+        try {
+          // Set as default payment method for the customer
+          await stripe.customers.update(customerId, {
+            invoice_settings: { default_payment_method: paymentMethodId }
+          });
+          
+          logger.info(`Set ${paymentMethodId} as default for customer ${customerId}`);
+        } catch (error) {
+          logger.error("Error setting default payment method:", error);
+        }
+        break;
+
       case "payment_intent.succeeded":
         const paymentIntent = event.data.object as any;
         logger.info(`PaymentIntent ${paymentIntent.id} was successful!`);
         
-        // Handle point purchases
-        if (paymentIntent.metadata?.type === 'point_purchase') {
-          try {
-            const userId = paymentIntent.metadata.userId;
-            const pointsToAward = parseInt(paymentIntent.metadata.points);
-            const purchaseAmount = (paymentIntent.amount / 100).toFixed(2);
+        // Record transaction for all successful payments
+        try {
+          const customerId = paymentIntent.customer;
+          if (customerId) {
+            // Look up user by stripe customer ID
+            const [user] = await db.select({ id: users.id })
+              .from(users)
+              .where(eq(users.stripeCustomerId, customerId))
+              .limit(1);
             
-            // Create point purchase record
-            await storage.createPointPurchase({
-              userId,
-              points: pointsToAward,
-              amount: purchaseAmount,
-              stripePaymentIntentId: paymentIntent.id,
-              stripeStatus: 'succeeded',
-              currency: paymentIntent.currency,
-            });
-            
-            // Update user points
-            await storage.updateUserPoints(userId, pointsToAward);
-            
-            logger.info(`Webhook: Awarded ${pointsToAward} points to user ${userId} via webhook`);
-          } catch (error) {
-            logger.error("Error processing point purchase webhook:", error);
+            if (user) {
+              const amount = (paymentIntent.amount_received || paymentIntent.amount) / 100;
+              const points = Number(paymentIntent.metadata?.points || 0);
+              
+              // Create transaction record
+              await storage.createTransaction({
+                userId: user.id,
+                type: 'points_purchase',
+                amount: amount.toString(),
+                currency: paymentIntent.currency,
+                points,
+                status: 'completed',
+                description: `Points purchase via Stripe: ${points} points`,
+                stripePaymentIntentId: paymentIntent.id,
+              });
+              
+              // Create point purchase record if it's a points purchase
+              if (paymentIntent.metadata?.type === 'point_purchase') {
+                await storage.createPointPurchase({
+                  userId: user.id,
+                  points,
+                  amount: amount.toString(),
+                  stripePaymentIntentId: paymentIntent.id,
+                  stripeStatus: 'succeeded',
+                  currency: paymentIntent.currency,
+                });
+                
+                // Update user points
+                await storage.updateUserPoints(user.id, points);
+                
+                logger.info(`Webhook: Awarded ${points} points to user ${user.id}`);
+              }
+            }
           }
+        } catch (error) {
+          logger.error("Error processing payment_intent.succeeded webhook:", error);
         }
         break;
       
@@ -1601,22 +1643,40 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Payment routes
   app.get('/api/payments/methods', verifyToken, async (req: any, res) => {
+    if (!stripe) {
+      return res.status(503).json({ message: "Payment system not configured" });
+    }
+
     try {
-      const userId = req.user.id;
+      const customerId = await ensureStripeCustomer(req.user);
+      const queryTimeout = 15000; // 15 seconds for Stripe operations
       
-      // Add timeout protection for database query
-      const queryTimeout = 10000; // 10 seconds
+      // Get payment methods from Stripe
       const paymentMethods = await Promise.race([
-        storage.getUserPaymentMethods(userId),
+        stripe.paymentMethods.list({
+          customer: customerId,
+          type: 'card',
+        }),
         new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Query timeout')), queryTimeout)
+          setTimeout(() => reject(new Error('Stripe payment methods timeout')), queryTimeout)
         )
       ]).catch((error) => {
-        logger.error("Payment methods query failed:", error);
-        return []; // Return empty array on timeout/error
+        logger.error("Failed to fetch Stripe payment methods:", error);
+        return { data: [] };
       });
       
-      res.json(paymentMethods);
+      // Transform Stripe data to match our frontend expectations
+      const transformedMethods = paymentMethods.data.map(pm => ({
+        id: pm.id,
+        type: pm.type,
+        last4: pm.card?.last4,
+        brand: pm.card?.brand,
+        expMonth: pm.card?.exp_month,
+        expYear: pm.card?.exp_year,
+        isDefault: false, // We'll check this separately if needed
+      }));
+      
+      res.json(transformedMethods);
     } catch (error) {
       logger.error("Error fetching payment methods:", error);
       res.status(500).json({ message: "Failed to fetch payment methods" });
@@ -1632,56 +1692,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const queryTimeout = 15000; // 15 seconds for payment operations
       
-      const user = await Promise.race([
-        storage.getUser(userId),
-        new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
-        )
-      ]).catch((error) => {
-        logger.error("Failed to get user for setup intent:", error);
-        return null;
-      });
-      
-      if (!user?.email) {
-        logger.error("User email missing for setup intent:", { userId, userExists: !!user });
-        return res.status(400).json({ message: "User email required" });
-      }
-
-      let customer;
-      if (user.stripeCustomerId) {
-        customer = await Promise.race([
-          stripe.customers.retrieve(user.stripeCustomerId),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Stripe customer retrieve timeout')), queryTimeout)
-          )
-        ]);
-      } else {
-        customer = await Promise.race([
-          stripe.customers.create({
-            email: user.email,
-            name: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email,
-          }),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Stripe customer create timeout')), queryTimeout)
-          )
-        ]);
-        
-        // Update user stripe info with timeout protection
-        try {
-          await Promise.race([
-            storage.updateUserStripeInfo(userId, customer.id),
-            new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Stripe info update timeout')), 5000)
-            )
-          ]);
-        } catch (updateError) {
-          logger.error("Failed to update stripe info (non-critical):", updateError);
-        }
-      }
+      // Ensure Stripe customer exists for this user
+      const customerId = await ensureStripeCustomer(req.user);
 
       const setupIntent = await Promise.race([
         stripe.setupIntents.create({
-          customer: customer.id,
+          customer: customerId,
+          automatic_payment_methods: { enabled: true },
           usage: 'off_session',
         }),
         new Promise((_, reject) => 
@@ -1915,10 +1932,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get('/api/payments/history', verifyToken, async (req: any, res) => {
+    if (!stripe) {
+      return res.status(503).json({ message: "Payment system not configured" });
+    }
+
     try {
-      const userId = req.user.id;
-      const payments = await storage.getUserPayments(userId);
-      res.json(payments);
+      const customerId = await ensureStripeCustomer(req.user);
+      const queryTimeout = 15000; // 15 seconds for Stripe operations
+      
+      // Get payment intents from Stripe
+      const paymentIntents = await Promise.race([
+        stripe.paymentIntents.list({
+          customer: customerId,
+          limit: 50,
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Stripe payment intents timeout')), queryTimeout)
+        )
+      ]).catch((error) => {
+        logger.error("Failed to fetch Stripe payment intents:", error);
+        return { data: [] };
+      });
+      
+      // Transform Stripe data to match our frontend expectations
+      const transformedPayments = paymentIntents.data.map(pi => ({
+        id: pi.id,
+        amount: (pi.amount / 100).toFixed(2),
+        currency: pi.currency.toUpperCase(),
+        status: pi.status,
+        description: pi.description || 'Payment',
+        created: new Date(pi.created * 1000).toISOString(),
+        metadata: pi.metadata,
+        points: pi.metadata?.points ? Number(pi.metadata.points) : 0,
+      }));
+      
+      res.json(transformedPayments);
     } catch (error) {
       logger.error("Error fetching payment history:", error);
       res.status(500).json({ message: "Failed to fetch payment history" });

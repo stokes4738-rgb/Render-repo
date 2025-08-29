@@ -1,0 +1,50 @@
+2025-08-29T01:24:23.27781776Z [ERROR] 2025-08-29T01:24:23.275Z: Expired bounties processing failed: Error: Expired bounties processing timeout
+2025-08-29T01:24:23.277850892Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2495:54)
+2025-08-29T01:24:23.277856382Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:24:23.277861122Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:24:23.278057713Z [ERROR] 2025-08-29T01:24:23.277Z: Expired boosts update failed: Error: Expired boosts update timeout
+2025-08-29T01:24:23.278076594Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2501:54)
+2025-08-29T01:24:23.278082314Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:24:23.278087544Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:24:33.052327848Z 1:24:33 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:24:33.226892195Z [ERROR] 2025-08-29T01:24:33.224Z: Error fetching creator stats: Error: Connection terminated due to connection timeout
+2025-08-29T01:24:33.226920475Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:24:33.226925986Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:24:33.226931346Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:24:33.226935036Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1049:34)
+2025-08-29T01:24:33.226938476Z     at async file:///opt/render/project/src/dist/index.js:4115:27 {
+2025-08-29T01:24:33.226943206Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:24:33.226946636Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:24:33.226951396Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:24:33.226954767Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:24:33.226958107Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:24:33.226961407Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:24:33.226964787Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:24:33.226968137Z }
+2025-08-29T01:24:33.227593106Z 1:24:33 AM [express] GET /api/creator/stats 500 in 90010ms :: {"message":"Failed to fetch creator st…
+2025-08-29T01:24:33.278713032Z [ERROR] 2025-08-29T01:24:33.278Z: Bounties query failed: Error: Active bounties query timeout
+2025-08-29T01:24:33.278743084Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:2528:52)
+2025-08-29T01:24:33.278748064Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:24:33.278751754Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:24:51.256884916Z Connection attempt 2 failed: Connection terminated due to connection timeout
+2025-08-29T01:24:51.256909777Z Retrying connection in 10 seconds...
+2025-08-29T01:24:53.60049018Z Connection attempt 1 failed: Connection terminated due to connection timeout
+2025-08-29T01:24:53.600543163Z Retrying connection in 5 seconds...
+2025-08-29T01:25:13.282004127Z [ERROR] 2025-08-29T01:25:13.281Z: Error processing expired bounties: Error: Connection terminated due to connection timeout
+2025-08-29T01:25:13.282038008Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:25:13.282043039Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:25:13.282047409Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:25:13.282050849Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2128:29) {
+2025-08-29T01:25:13.282054929Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:25:13.28205834Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:25:13.28206253Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:25:13.28206614Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:25:13.28207009Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:25:13.282076001Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:25:13.282081981Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:25:13.282087781Z }
+2025-08-29T01:25:26.642913598Z [ERROR] 2025-08-29T01:25:26.642Z: Payment methods query failed: Error: Query timeout
+2025-08-29T01:25:26.64293958Z     at Timeout._onTimeout (file:///opt/render/project/src/dist/index.js:3277:50)
+2025-08-29T01:25:26.64294455Z     at listOnTimeout (node:internal/timers:588:17)
+2025-08-29T01:25:26.64294823Z     at process.processTimers (node:internal/timers:523:7)
+2025-08-29T01:25:26.64367681Z 1:25:26 AM [express] GET /api/payments/methods 200 in 10002ms :: []

@@ -1,0 +1,100 @@
+2025-08-29T01:17:13.382809858Z ==> Cloning from https://github.com/stokes4738-rgb/Render-repo
+2025-08-29T01:17:15.451398612Z ==> Checking out commit 1d12dd5b0f9a2836e9cac1d336a8bd6751085f83 in branch main
+2025-08-29T01:17:16.825952689Z ==> Downloading cache...
+2025-08-29T01:17:32.28450291Z ==> Transferred 230MB in 9s. Extraction took 5s.
+2025-08-29T01:17:57.947930285Z ==> Using Node.js version 22.16.0 (default)
+2025-08-29T01:17:57.983538947Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2025-08-29T01:17:58.069129645Z ==> Running build command 'npm install --include=dev && npm run build'...
+2025-08-29T01:18:00.185243887Z 
+2025-08-29T01:18:00.185273228Z up to date, audited 661 packages in 2s
+2025-08-29T01:18:00.18538291Z 
+2025-08-29T01:18:00.185390881Z 81 packages are looking for funding
+2025-08-29T01:18:00.185401501Z   run `npm fund` for details
+2025-08-29T01:18:00.224152032Z 
+2025-08-29T01:18:00.224177043Z 11 vulnerabilities (3 low, 8 moderate)
+2025-08-29T01:18:00.224180443Z 
+2025-08-29T01:18:00.224184393Z To address issues that do not require attention, run:
+2025-08-29T01:18:00.224187263Z   npm audit fix
+2025-08-29T01:18:00.224189844Z 
+2025-08-29T01:18:00.224192544Z To address all issues (including breaking changes), run:
+2025-08-29T01:18:00.224195773Z   npm audit fix --force
+2025-08-29T01:18:00.224198134Z 
+2025-08-29T01:18:00.224201554Z Run `npm audit` for details.
+2025-08-29T01:18:00.438667226Z 
+2025-08-29T01:18:00.438691937Z > rest-express@1.0.0 build
+2025-08-29T01:18:00.438696197Z > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-08-29T01:18:00.438700577Z 
+2025-08-29T01:18:00.709050415Z vite v5.4.19 building for production...
+2025-08-29T01:18:00.782577957Z transforming...
+2025-08-29T01:18:01.111650423Z Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+2025-08-29T01:18:01.111668393Z   npx update-browserslist-db@latest
+2025-08-29T01:18:01.111672404Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-08-29T01:18:05.76575702Z ✓ 1784 modules transformed.
+2025-08-29T01:18:05.96434028Z rendering chunks...
+2025-08-29T01:18:06.193115944Z computing gzip size...
+2025-08-29T01:18:06.207273863Z ../dist/public/index.html                           5.72 kB │ gzip:  1.73 kB
+2025-08-29T01:18:06.207303044Z ../dist/public/assets/index-Bh0raRSr.css           85.00 kB │ gzip: 14.56 kB
+2025-08-29T01:18:06.207486348Z ../dist/public/assets/authUtils-CcDzk6i0.js         0.08 kB │ gzip:  0.10 kB
+2025-08-29T01:18:06.207607631Z ../dist/public/assets/credit-card-BSPrW2AN.js       0.38 kB │ gzip:  0.29 kB
+2025-08-29T01:18:06.207640612Z ../dist/public/assets/web-CagDzaC_.js               0.41 kB │ gzip:  0.26 kB
+2025-08-29T01:18:06.207646592Z ../dist/public/assets/circle-alert-B4s_A-we.js      0.42 kB │ gzip:  0.29 kB
+2025-08-29T01:18:06.207686944Z ../dist/public/assets/shield-ClTsL2mZ.js            0.44 kB │ gzip:  0.33 kB
+2025-08-29T01:18:06.207691144Z ../dist/public/assets/users-BEFpxRm7.js             0.47 kB │ gzip:  0.33 kB
+2025-08-29T01:18:06.207728185Z ../dist/public/assets/label-tV2YZzV6.js             0.55 kB │ gzip:  0.37 kB
+2025-08-29T01:18:06.207732075Z ../dist/public/assets/input-B5G-c-M3.js             0.57 kB │ gzip:  0.35 kB
+2025-08-29T01:18:06.207737305Z ../dist/public/assets/message-circle-CH5slgOg.js    0.60 kB │ gzip:  0.32 kB
+2025-08-29T01:18:06.207790086Z ../dist/public/assets/not-found-tXTy8dPN.js         0.63 kB │ gzip:  0.36 kB
+2025-08-29T01:18:06.207796096Z ../dist/public/assets/badge-9uD__0vE.js             0.90 kB │ gzip:  0.41 kB
+2025-08-29T01:18:06.207839187Z ../dist/public/assets/trophy-CGfSGHmT.js            0.95 kB │ gzip:  0.46 kB
+2025-08-29T01:18:06.207848248Z ../dist/public/assets/zap-Chnu_OVF.js               1.42 kB │ gzip:  0.54 kB
+2025-08-29T01:18:06.208047403Z ../dist/public/assets/tabs-D3Hy_wz8.js              6.68 kB │ gzip:  2.68 kB
+2025-08-29T01:18:06.208058143Z ../dist/public/assets/Landing-D2SPIy-z.js           7.84 kB │ gzip:  2.13 kB
+2025-08-29T01:18:06.208060883Z ../dist/public/assets/index-CxQqF_09.js             8.12 kB │ gzip:  3.38 kB
+2025-08-29T01:18:06.208088434Z ../dist/public/assets/CreatorInbox-h1wU2KIU.js     11.47 kB │ gzip:  4.07 kB
+2025-08-29T01:18:06.208091254Z ../dist/public/assets/AuthPage-qLK2iujY.js         12.88 kB │ gzip:  3.75 kB
+2025-08-29T01:18:06.208105234Z ../dist/public/assets/Profile-DV_eUQBQ.js          17.30 kB │ gzip:  5.00 kB
+2025-08-29T01:18:06.208119624Z ../dist/public/assets/Account-49HaRsO5.js          78.92 kB │ gzip: 24.79 kB
+2025-08-29T01:18:06.208125215Z ../dist/public/assets/Tutorial-DmCXLLKy.js         83.09 kB │ gzip: 20.27 kB
+2025-08-29T01:18:06.208127085Z ../dist/public/assets/Home-CrivVXp7.js            166.67 kB │ gzip: 42.17 kB
+2025-08-29T01:18:06.208217217Z ../dist/public/assets/index-Bsiu6yrt.js           292.36 kB │ gzip: 95.64 kB
+2025-08-29T01:18:06.208420062Z ✓ built in 5.47s
+2025-08-29T01:18:06.278518878Z 
+2025-08-29T01:18:06.278537888Z   dist/index.js  180.6kb
+2025-08-29T01:18:06.278540368Z 
+2025-08-29T01:18:06.278542528Z ⚡ Done in 15ms
+2025-08-29T01:18:18.242108144Z ==> Uploading build...
+2025-08-29T01:18:32.501485098Z ==> Uploaded in 10.4s. Compression took 3.9s
+2025-08-29T01:18:32.555429064Z ==> Build successful 🎉
+2025-08-29T01:18:34.521210644Z ==> Deploying...
+2025-08-29T01:18:51.625594416Z ==> Running 'npm start'
+2025-08-29T01:18:51.854770482Z 
+2025-08-29T01:18:51.854792872Z > rest-express@1.0.0 start
+2025-08-29T01:18:51.854798092Z > NODE_ENV=production node dist/index.js
+2025-08-29T01:18:51.854801552Z 
+2025-08-29T01:18:53.933082395Z 1:18:53 AM [express] serving on port 3000
+2025-08-29T01:18:56.270815688Z ==> Your service is live 🎉
+2025-08-29T01:18:56.483801769Z ==> 
+2025-08-29T01:18:56.509903886Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:18:56.536241852Z ==> 
+2025-08-29T01:18:56.561423919Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T01:18:56.587294655Z ==> 
+2025-08-29T01:18:56.613092722Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:19:13.853749531Z Connection attempt 1 failed: Connection terminated due to connection timeout
+2025-08-29T01:19:13.853858893Z Retrying connection in 2 seconds...
+2025-08-29T01:19:35.855923917Z Connection attempt 2 failed: Connection terminated due to connection timeout
+2025-08-29T01:19:35.855955777Z Retrying connection in 4 seconds...
+2025-08-29T01:19:59.864867017Z Connection attempt 3 failed: Connection terminated due to connection timeout
+2025-08-29T01:19:59.865404718Z Failed to establish database connection after 3 attempts
+2025-08-29T01:19:59.867374229Z Full error: Error: Connection terminated due to connection timeout
+2025-08-29T01:19:59.867390269Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:19:59.867394679Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:19:59.867398479Z     at async testConnection (file:///opt/render/project/src/dist/index.js:476:26) {
+2025-08-29T01:19:59.867402579Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:19:59.867405979Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:19:59.867413519Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:19:59.86741705Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:19:59.86742056Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:19:59.86742407Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:19:59.86742757Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:19:59.867431Z }
+2025-08-29T01:20:01.218681891Z 1:20:01 AM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…

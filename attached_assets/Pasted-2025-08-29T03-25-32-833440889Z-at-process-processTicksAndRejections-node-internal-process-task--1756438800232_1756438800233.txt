@@ -1,0 +1,50 @@
+2025-08-29T03:25:32.833440889Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T03:25:32.8340484Z 3:25:32 AM [express] GET /api/creator/stats 500 in 167ms :: {"message":"Failed to fetch creator stat…
+2025-08-29T03:27:13.563732587Z ==> Deploying...
+2025-08-29T03:27:30.992046894Z 
+2025-08-29T03:27:30.992058974Z > rest-express@1.0.0 start
+2025-08-29T03:27:30.992063914Z > NODE_ENV=production node dist/index.js
+2025-08-29T03:27:30.992065564Z 
+2025-08-29T03:27:33.089866815Z Production mode: skipping connection test, will connect on demand
+2025-08-29T03:27:33.188197065Z 3:27:33 AM [express] serving on port 3000
+2025-08-29T03:27:34.828802166Z ==> Your service is live 🎉
+2025-08-29T03:27:34.859926822Z ==> 
+2025-08-29T03:27:34.890755468Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:27:35.066969444Z ==> 
+2025-08-29T03:27:35.092821361Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T03:27:35.117379327Z ==> 
+2025-08-29T03:27:35.142655214Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:29:43.132221184Z 3:29:43 AM [express] GET /api/user 304 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T03:29:43.823697058Z 3:29:43 AM [express] GET /api/bounties 304 in 50ms :: []
+2025-08-29T03:29:47.843447948Z 3:29:47 AM [express] GET /api/points/packages 200 in 1ms :: [{"id":"test","points":25,"price":0.5,"l…
+2025-08-29T03:29:49.763019479Z 3:29:49 AM [express] POST /api/points/purchase 200 in 832ms :: {"clientSecret":"pi_3S1J0bQqdcdobcY60…
+2025-08-29T03:29:56.66524333Z 3:29:56 AM [express] POST /api/points/purchase 200 in 310ms :: {"clientSecret":"pi_3S1J0iQqdcdobcY61…
+2025-08-29T03:31:20.749069251Z ==> Deploying...
+2025-08-29T03:31:37.893864226Z ==> Running 'npm start'
+2025-08-29T03:31:38.123534925Z 
+2025-08-29T03:31:38.123556096Z > rest-express@1.0.0 start
+2025-08-29T03:31:38.123560276Z > NODE_ENV=production node dist/index.js
+2025-08-29T03:31:38.123562336Z 
+2025-08-29T03:31:40.20152121Z Production mode: skipping connection test, will connect on demand
+2025-08-29T03:31:40.229130256Z 3:31:40 AM [express] serving on port 3000
+2025-08-29T03:31:42.187565167Z ==> Your service is live 🎉
+2025-08-29T03:31:42.215998854Z ==> 
+2025-08-29T03:31:42.24167076Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:31:42.267227647Z ==> 
+2025-08-29T03:31:42.294693033Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T03:31:42.328120289Z ==> 
+2025-08-29T03:31:42.356512525Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:31:46.723456912Z 3:31:46 AM [express] GET /api/user 304 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T03:31:47.322771632Z 3:31:47 AM [express] GET /api/bounties 304 in 21ms :: []
+2025-08-29T03:31:49.682762167Z 3:31:49 AM [express] GET /api/user/transactions 304 in 4ms :: []
+2025-08-29T03:31:49.683652508Z 3:31:49 AM [express] GET /api/payments/methods 304 in 3ms :: []
+2025-08-29T03:31:49.691594592Z 3:31:49 AM [express] GET /api/payments/history 304 in 3ms :: []
+2025-08-29T03:31:54.767159811Z 3:31:54 AM [express] GET /api/points/packages 304 in 1ms :: [{"id":"test","points":25,"price":0.5,"l…
+2025-08-29T03:31:56.422454986Z 3:31:56 AM [express] POST /api/points/purchase 200 in 380ms :: {"clientSecret":"pi_3S1J2eQqdcdobcY60…
+2025-08-29T03:36:41.196737113Z 3:36:41 AM [express] GET /api/friends 200 in 27ms :: []
+2025-08-29T03:36:41.388937601Z 3:36:41 AM [express] GET /api/friends/requests 200 in 4ms :: []
+2025-08-29T03:36:43.39533409Z ==> Detected service running on port 3000
+2025-08-29T03:36:43.507724792Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T03:37:37.525156911Z 3:37:37 AM [express] GET /api/user/transactions 304 in 17ms :: []
+2025-08-29T03:37:37.526036893Z 3:37:37 AM [express] GET /api/payments/history 304 in 16ms :: []
+2025-08-29T03:37:37.52707362Z 3:37:37 AM [express] GET /api/payments/methods 304 in 10ms :: []

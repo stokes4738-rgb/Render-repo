@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuthJWT";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Gamepad2, Trophy, Star, RotateCcw, Maximize, Play, Pause } from "lucide-react";
+import { Gamepad2, Trophy, Star, RotateCcw, Maximize, Play, Pause, Grid3X3, Brain, Zap, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from "lucide-react";
 
 // Game state interface
 interface GameState {
@@ -39,7 +39,11 @@ const GAME_CONFIG = {
   canvasHeight: 400,
 };
 
+// Game type definitions
+type GameType = 'flappy' | 'snake' | '2048' | 'memory' | 'simon';
+
 export default function Games() {
+  const [selectedGame, setSelectedGame] = useState<GameType>('flappy');
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -403,36 +407,75 @@ export default function Games() {
         </CardContent>
       </Card>
 
-      {/* Coming Soon Games */}
+      {/* Game Selection */}
       <Card>
         <CardHeader>
-          <CardTitle>🚀 More Games Coming Soon!</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Gamepad2 className="w-5 h-5" />
+            🎮 Choose Your Game
+          </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-4 border border-dashed border-border rounded-lg opacity-50">
-              <div className="text-2xl mb-2">🐍</div>
-              <div className="font-medium">Snake</div>
-              <div className="text-sm text-muted-foreground">Coming Soon</div>
-            </div>
-            <div className="text-center p-4 border border-dashed border-border rounded-lg opacity-50">
-              <div className="text-2xl mb-2">🧩</div>
-              <div className="font-medium">2048</div>
-              <div className="text-sm text-muted-foreground">Coming Soon</div>
-            </div>
-            <div className="text-center p-4 border border-dashed border-border rounded-lg opacity-50">
-              <div className="text-2xl mb-2">🎯</div>
-              <div className="font-medium">Memory</div>
-              <div className="text-sm text-muted-foreground">Coming Soon</div>
-            </div>
-            <div className="text-center p-4 border border-dashed border-border rounded-lg opacity-50">
-              <div className="text-2xl mb-2">🚀</div>
-              <div className="font-medium">Asteroids</div>
-              <div className="text-sm text-muted-foreground">Coming Soon</div>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <Button
+              variant={selectedGame === 'flappy' ? 'default' : 'outline'}
+              onClick={() => setSelectedGame('flappy')}
+              className="h-20 flex-col gap-2"
+              data-testid="button-select-flappy"
+            >
+              <span className="text-2xl">🐦</span>
+              <span className="text-sm">Flappy Bird</span>
+            </Button>
+            
+            <Button
+              variant={selectedGame === 'snake' ? 'default' : 'outline'}
+              onClick={() => setSelectedGame('snake')}
+              className="h-20 flex-col gap-2"
+              data-testid="button-select-snake"
+            >
+              <span className="text-2xl">🐍</span>
+              <span className="text-sm">Snake</span>
+            </Button>
+            
+            <Button
+              variant={selectedGame === '2048' ? 'default' : 'outline'}
+              onClick={() => setSelectedGame('2048')}
+              className="h-20 flex-col gap-2"
+              data-testid="button-select-2048"
+            >
+              <Grid3X3 className="w-6 h-6" />
+              <span className="text-sm">2048</span>
+            </Button>
+            
+            <Button
+              variant={selectedGame === 'memory' ? 'default' : 'outline'}
+              onClick={() => setSelectedGame('memory')}
+              className="h-20 flex-col gap-2"
+              data-testid="button-select-memory"
+            >
+              <Brain className="w-6 h-6" />
+              <span className="text-sm">Memory</span>
+            </Button>
+            
+            <Button
+              variant={selectedGame === 'simon' ? 'default' : 'outline'}
+              onClick={() => setSelectedGame('simon')}
+              className="h-20 flex-col gap-2"
+              data-testid="button-select-simon"
+            >
+              <Zap className="w-6 h-6" />
+              <span className="text-sm">Simon Says</span>
+            </Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Game Components */}
+      {selectedGame === 'flappy' && <FlappyBirdGame />}
+      {selectedGame === 'snake' && <SnakeGame />}
+      {selectedGame === '2048' && <Game2048 />}
+      {selectedGame === 'memory' && <MemoryGame />}
+      {selectedGame === 'simon' && <SimonGame />}
     </div>
   );
 }

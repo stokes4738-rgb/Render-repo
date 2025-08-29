@@ -1824,49 +1824,133 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let recentActivity = [];
 
       try {
-        // Get only essential counts to avoid timeouts
-        const [userCount, bountyCount] = await Promise.all([
-          db.select({ count: sql`count(*)` }).from(users).catch(() => [{ count: 0 }]),
-          db.select({ count: sql`count(*)` }).from(bounties).catch(() => [{ count: 0 }])
-        ]);
+        // Set timeouts and get live data with proper connection management
+        const queryTimeout = 10000; // 10 second timeout per query
+        
+        // Sequential queries to avoid overwhelming the connection pool
+        const userCount = await Promise.race([
+          db.select({ count: sql`count(*)` }).from(users),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
+        ]).catch(() => [{ count: 0 }]);
 
         const totalUsers = Number(userCount[0]?.count || 0);
+
+        const bountyCount = await Promise.race([
+          db.select({ count: sql`count(*)` }).from(bounties),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
+        ]).catch(() => [{ count: 0 }]);
+
         const totalBounties = Number(bountyCount[0]?.count || 0);
 
-        // Get simple activity counts only
+        const transactionCount = await Promise.race([
+          db.select({ count: sql`count(*)` }).from(transactions),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('Query timeout')), queryTimeout))
+        ]).catch(() => [{ count: 0 }]);
+
+        const totalTransactionCount = Number(transactionCount[0]?.count || 0);
+
+        // Get real activity data with timeout protection
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         
-        let weeklyActive = 0;
-        let dailyActive = 0;
-        let monthlyActive = 0;
-        
-        try {
-          // Get only the most critical activity data
-          const weeklyResult = await db.select({ count: sql`count(*)` })
-            .from(users)
-            .where(sql`"lastSeen" > ${sevenDaysAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${sevenDaysAgo.toISOString()})`)
-            .catch(() => [{ count: 0 }]);
-          weeklyActive = Number(weeklyResult[0]?.count || 0);
-        } catch (e) {
-          logger.error("Error getting weekly active:", e);
-        }
+        // Get real live data with timeout protection
+        if (totalUsers > 0) {
+          // Get revenue data
+          try {
+            [revenue, totalRevenue] = await Promise.all([
+              Promise.race([
+                storage.getPlatformRevenue(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Revenue timeout')), queryTimeout))
+              ]).catch(() => []),
+              Promise.race([
+                storage.getTotalPlatformRevenue(),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Total revenue timeout')), queryTimeout))
+              ]).catch(() => "0.00")
+            ]);
+          } catch (e) {
+            logger.error("Revenue data error:", e);
+            revenue = [];
+            totalRevenue = "0.00";
+          }
 
-        // Set simple fallback data to avoid complex queries
-        totalRevenue = "0.00";
-        revenue = [];
-        recentActivity = [];
-        allUsers = [];
-        allBounties = [];
-        allTransactions = [];
-        
-        // Store activity counts
-        global.realActivityCounts = {
-          weekly: weeklyActive,
-          daily: Math.round(weeklyActive * 0.4), // Estimate 40% daily from weekly
-          monthly: Math.round(weeklyActive * 1.5) // Estimate 150% monthly from weekly
-        };
+          // Get activity data
+          try {
+            recentActivity = await Promise.race([
+              storage.getRecentActivity(20),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Activity timeout')), queryTimeout))
+            ]).catch(() => []);
+          } catch (e) {
+            logger.error("Activity data error:", e);
+            recentActivity = [];
+          }
+
+          // Get user samples for calculations
+          try {
+            allUsers = await Promise.race([
+              db.select().from(users).limit(200),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Users timeout')), queryTimeout))
+            ]).catch(() => []);
+          } catch (e) {
+            logger.error("Users sample error:", e);
+            allUsers = [];
+          }
+
+          // Get bounty samples
+          try {
+            allBounties = await Promise.race([
+              db.select().from(bounties).limit(200),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Bounties timeout')), queryTimeout))
+            ]).catch(() => []);
+          } catch (e) {
+            logger.error("Bounties sample error:", e);
+            allBounties = [];
+          }
+
+          // Get transaction samples
+          try {
+            allTransactions = await Promise.race([
+              db.select().from(transactions).limit(300),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Transactions timeout')), queryTimeout))
+            ]).catch(() => []);
+          } catch (e) {
+            logger.error("Transactions sample error:", e);
+            allTransactions = [];
+          }
+
+          // Get real active user counts with timeout protection
+          try {
+            const weeklyResult = await Promise.race([
+              db.select({ count: sql`count(*)` })
+                .from(users)
+                .where(sql`"lastSeen" > ${sevenDaysAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${sevenDaysAgo.toISOString()})`),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Weekly active timeout')), queryTimeout))
+            ]).catch(() => [{ count: 0 }]);
+
+            const dailyResult = await Promise.race([
+              db.select({ count: sql`count(*)` })
+                .from(users)
+                .where(sql`"lastSeen" > ${oneDayAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${oneDayAgo.toISOString()})`),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Daily active timeout')), queryTimeout))
+            ]).catch(() => [{ count: 0 }]);
+
+            const monthlyResult = await Promise.race([
+              db.select({ count: sql`count(*)` })
+                .from(users)
+                .where(sql`"lastSeen" > ${thirtyDaysAgo.toISOString()} OR ("lastSeen" IS NULL AND "createdAt" > ${thirtyDaysAgo.toISOString()})`),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('Monthly active timeout')), queryTimeout))
+            ]).catch(() => [{ count: 0 }]);
+
+            global.realActivityCounts = {
+              weekly: Number(weeklyResult[0]?.count || 0),
+              daily: Number(dailyResult[0]?.count || 0),
+              monthly: Number(monthlyResult[0]?.count || 0)
+            };
+          } catch (e) {
+            logger.error("Activity counts error:", e);
+            global.realActivityCounts = { weekly: 0, daily: 0, monthly: 0 };
+          }
+        }
       } catch (dbError) {
         logger.error("Database query error in creator stats:", dbError);
         // Return mock data if database fails

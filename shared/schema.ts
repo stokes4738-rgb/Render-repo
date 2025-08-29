@@ -380,6 +380,41 @@ export const insertPlatformRevenueSchema = createInsertSchema(platformRevenue).o
   createdAt: true,
 });
 
+// Feedback table for user reports/suggestions
+export const feedback = pgTable("feedback", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  type: varchar("type", { length: 50 }).notNull(), // 'bug', 'suggestion', 'general'
+  message: text("message").notNull(),
+  status: varchar("status", { length: 50 }).default("pending"), // 'pending', 'reviewed', 'resolved'
+  adminResponse: text("admin_response"),
+  userAgent: text("user_agent"),
+  url: varchar("url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+  index("idx_feedback_user_id").on(table.userId),
+  index("idx_feedback_status").on(table.status),
+  index("idx_feedback_created_at").on(table.createdAt),
+]);
+
+// Point purchases table for tracking point transactions
+export const pointPurchases = pgTable("point_purchases", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  points: integer("points").notNull(),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id").unique(),
+  stripeStatus: varchar("stripe_status", { length: 50 }), // 'pending', 'succeeded', 'failed'
+  currency: varchar("currency", { length: 3 }).default("usd"),
+  createdAt: timestamp("created_at").defaultNow(),
+  completedAt: timestamp("completed_at"),
+}, (table) => [
+  index("idx_point_purchases_user_id").on(table.userId),
+  index("idx_point_purchases_stripe_intent").on(table.stripePaymentIntentId),
+  index("idx_point_purchases_created_at").on(table.createdAt),
+]);
+
 // 2FA verification logs table
 export const twoFactorLogs = pgTable("two_factor_logs", {
   id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -393,6 +428,20 @@ export const twoFactorLogs = pgTable("two_factor_logs", {
   index("idx_2fa_logs_user_id").on(table.userId),
   index("idx_2fa_logs_created_at").on(table.createdAt),
 ]);
+
+export const insertFeedbackSchema = createInsertSchema(feedback).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  status: true,
+  adminResponse: true,
+});
+
+export const insertPointPurchaseSchema = createInsertSchema(pointPurchases).omit({
+  id: true,
+  createdAt: true,
+  completedAt: true,
+});
 
 export const insertTwoFactorLogSchema = createInsertSchema(twoFactorLogs).omit({
   id: true,
@@ -459,3 +508,7 @@ export type TwoFactorLog = typeof twoFactorLogs.$inferSelect;
 export type InsertTwoFactorLog = z.infer<typeof insertTwoFactorLogSchema>;
 export type VerificationRequest = typeof verificationRequests.$inferSelect;
 export type InsertVerificationRequest = z.infer<typeof insertVerificationRequestSchema>;
+export type Feedback = typeof feedback.$inferSelect;
+export type InsertFeedback = z.infer<typeof insertFeedbackSchema>;
+export type PointPurchase = typeof pointPurchases.$inferSelect;
+export type InsertPointPurchase = z.infer<typeof insertPointPurchaseSchema>;

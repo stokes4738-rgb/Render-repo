@@ -12,6 +12,8 @@ import {
   payments,
   platformRevenue,
   boostHistory,
+  feedback,
+  pointPurchases,
   type User,
   type UpsertUser,
   type Bounty,
@@ -39,6 +41,10 @@ import {
   twoFactorLogs,
   type TwoFactorLog,
   type InsertTwoFactorLog,
+  type Feedback,
+  type InsertFeedback,
+  type PointPurchase,
+  type InsertPointPurchase,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, or, sql } from "drizzle-orm";
@@ -157,6 +163,19 @@ export interface IStorage {
   // Age & Background Verification operations (simplified for now)
   checkUserAge(userId: string): Promise<boolean>; // Simple age check
   flagUserForSafety(userId: string, reason?: string): Promise<void>; // Safety flag
+  
+  // Feedback operations
+  createFeedback(feedback: InsertFeedback): Promise<Feedback>;
+  getFeedback(id: string): Promise<Feedback | undefined>;
+  getAllFeedback(status?: string): Promise<Feedback[]>;
+  updateFeedbackStatus(id: string, status: string, adminResponse?: string): Promise<void>;
+  
+  // Point purchase operations
+  createPointPurchase(purchase: InsertPointPurchase): Promise<PointPurchase>;
+  getPointPurchase(id: string): Promise<PointPurchase | undefined>;
+  getPointPurchaseByStripeIntent(intentId: string): Promise<PointPurchase | undefined>;
+  updatePointPurchase(id: string, data: Partial<PointPurchase>): Promise<void>;
+  getUserPointPurchases(userId: string): Promise<PointPurchase[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1196,6 +1215,99 @@ export class DatabaseStorage implements IStorage {
       type: 'safety_flag',
       description: `User flagged for safety review: ${reason || 'Unspecified'}`,
     });
+  }
+
+  // Feedback operations
+  async createFeedback(feedbackData: InsertFeedback): Promise<Feedback> {
+    const result = await db
+      .insert(feedback)
+      .values(feedbackData)
+      .returning();
+    
+    return Array.isArray(result) ? result[0] : result;
+  }
+
+  async getFeedback(id: string): Promise<Feedback | undefined> {
+    const [result] = await db
+      .select()
+      .from(feedback)
+      .where(eq(feedback.id, id));
+    
+    return result;
+  }
+
+  async getAllFeedback(status?: string): Promise<Feedback[]> {
+    if (status) {
+      return db
+        .select()
+        .from(feedback)
+        .where(eq(feedback.status, status))
+        .orderBy(desc(feedback.createdAt));
+    }
+    
+    return db
+      .select()
+      .from(feedback)
+      .orderBy(desc(feedback.createdAt));
+  }
+
+  async updateFeedbackStatus(id: string, status: string, adminResponse?: string): Promise<void> {
+    const updateData: any = {
+      status,
+      updatedAt: new Date(),
+    };
+    
+    if (adminResponse !== undefined) {
+      updateData.adminResponse = adminResponse;
+    }
+    
+    await db
+      .update(feedback)
+      .set(updateData)
+      .where(eq(feedback.id, id));
+  }
+
+  // Point purchase operations
+  async createPointPurchase(purchaseData: InsertPointPurchase): Promise<PointPurchase> {
+    const result = await db
+      .insert(pointPurchases)
+      .values(purchaseData)
+      .returning();
+    
+    return Array.isArray(result) ? result[0] : result;
+  }
+
+  async getPointPurchase(id: string): Promise<PointPurchase | undefined> {
+    const [result] = await db
+      .select()
+      .from(pointPurchases)
+      .where(eq(pointPurchases.id, id));
+    
+    return result;
+  }
+
+  async getPointPurchaseByStripeIntent(intentId: string): Promise<PointPurchase | undefined> {
+    const [result] = await db
+      .select()
+      .from(pointPurchases)
+      .where(eq(pointPurchases.stripePaymentIntentId, intentId));
+    
+    return result;
+  }
+
+  async updatePointPurchase(id: string, data: Partial<PointPurchase>): Promise<void> {
+    await db
+      .update(pointPurchases)
+      .set(data)
+      .where(eq(pointPurchases.id, id));
+  }
+
+  async getUserPointPurchases(userId: string): Promise<PointPurchase[]> {
+    return db
+      .select()
+      .from(pointPurchases)
+      .where(eq(pointPurchases.userId, userId))
+      .orderBy(desc(pointPurchases.createdAt));
   }
 }
 

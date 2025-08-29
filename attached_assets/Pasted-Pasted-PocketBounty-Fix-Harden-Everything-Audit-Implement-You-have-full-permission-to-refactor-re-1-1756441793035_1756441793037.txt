@@ -1,0 +1,42 @@
+Pasted--PocketBounty-Fix-Harden-Everything-Audit-Implement-You-have-full-permission-to-refactor-re-1756441762185_1756441762185.txt
+# PocketBounty – Fix & Harden Everything (Audit +
+Implement)
+You have full permission to refactor responsibly.
+Target: stable arcade, aligned UI, working feedback, working payments (Stripe Link + buy points),
+and clear logs.
+## Context
+- App name: PocketBounty
+- Current stack: Node.js + Express, frontend HTML/CSS/JS, Postgres (Neon), hosted on Render.
+- Symptoms:
+1) Arcade/2048 controls unreliable (touch + keyboard), tiles/boxes don’t match buttons.
+2) UI grid/buttons don’t align.
+3) Feedback form fails to send.
+4) Payments:
+- Adding card with Stripe Link/autofill → “something went wrong” page.
+- Checkout to buy points fails / points not credited.
+- Add payment method flow times out.
+## What I want you to do
+1) Environment sanity check (diagnostics script for Node, DB, Stripe, URLs).
+2) Env & config validation (DATABASE_URL, Stripe keys, APP_BASE_URL, SESSION_SECRET).
+3) Database setup: feedback + point_purchases tables.
+4) Feedback API: POST /api/feedback → saves to DB, returns {ok:true}.
+5) Arcade/2048: fix controls, grid alignment, test mode, proper CSS grid layout.
+6) UI: ensure buttons map directly to moves, remove pixel misalign.
+7) Stripe: implement PaymentElement + SetupIntent + webhook crediting points reliably.
+- Fix “something went wrong” by correcting APP_BASE_URL + CORS origins.
+- Log full Stripe errors.
+8) Performance: timeout middleware, DB pool sizing, lazy-load arcade assets.
+9) Error handling: global logging, unhandled rejections, optional Sentry.
+10) Accept/Done criteria: arcade moves smooth, UI aligned, feedback saves, payments succeed,
+points credited.
+## Example code
+- config.ts: env validation
+- payments.ts: create-intent, setup-intent, webhook handling
+- feedback.ts: saves messages to DB
+- client payment script: Stripe PaymentElement setup
+- touch + keyboard input for 2048
+## Final steps
+- Add README “how to run locally + test payments”.
+- Boot log: app version, host URL, DB status, Stripe mode.
+- Checklist: arcade works, feedback works, payments succeed, no redirect errors.
+Do not ship until all acceptance criteria pass

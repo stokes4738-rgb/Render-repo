@@ -106,9 +106,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     // Handle the event
     switch (event.type) {
       case "payment_intent.succeeded":
-        const paymentIntent = event.data.object;
+        const paymentIntent = event.data.object as any;
         logger.info(`PaymentIntent ${paymentIntent.id} was successful!`);
-        // TODO: Handle successful payment
+        
+        // Handle point purchases
+        if (paymentIntent.metadata?.type === 'point_purchase') {
+          try {
+            const userId = paymentIntent.metadata.userId;
+            const pointsToAward = parseInt(paymentIntent.metadata.points);
+            const purchaseAmount = (paymentIntent.amount / 100).toFixed(2);
+            
+            // Create point purchase record
+            await storage.createPointPurchase({
+              userId,
+              points: pointsToAward,
+              amount: purchaseAmount,
+              stripePaymentIntentId: paymentIntent.id,
+              stripeStatus: 'succeeded',
+              currency: paymentIntent.currency,
+            });
+            
+            // Update user points
+            await storage.updateUserPoints(userId, pointsToAward);
+            
+            logger.info(`Webhook: Awarded ${pointsToAward} points to user ${userId} via webhook`);
+          } catch (error) {
+            logger.error("Error processing point purchase webhook:", error);
+          }
+        }
         break;
       
       case "payment_intent.payment_failed":
@@ -418,6 +443,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid payment type" });
       }
 
+      // Check if we already processed this payment
+      const existingPurchase = await storage.getPointPurchaseByStripeIntent(paymentIntentId);
+      if (existingPurchase) {
+        logger.info(`Payment ${paymentIntentId} already processed`);
+        return res.json({ 
+          success: true, 
+          pointsAwarded: parseInt(paymentIntent.metadata.points),
+          message: `Purchase already completed!`
+        });
+      }
+
       const pointsToAward = parseInt(paymentIntent.metadata.points);
       const packageLabel = paymentIntent.description;
       const purchaseAmount = (paymentIntent.amount / 100).toFixed(2);
@@ -426,6 +462,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Execute points and transaction operations with timeout protection
       await Promise.all([
+        Promise.race([
+          storage.createPointPurchase({
+            userId,
+            points: pointsToAward,
+            amount: purchaseAmount,
+            stripePaymentIntentId: paymentIntentId,
+            stripeStatus: 'succeeded',
+            currency: 'usd',
+          }),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Point purchase creation timeout')), queryTimeout)
+          )
+        ]),
         Promise.race([
           storage.updateUserPoints(userId, pointsToAward),
           new Promise((_, reject) => 
@@ -1223,7 +1272,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Feedback system for users to contact creator
+  // New simple feedback API endpoint that saves to database
+  app.post('/api/feedback/submit', async (req: any, res) => {
+    try {
+      const { type = 'general', message, url } = req.body;
+      let userId = req.user?.id;
+      const userAgent = req.headers['user-agent'] || '';
+      
+      if (!message || !message.trim()) {
+        return res.status(400).json({ error: "Message is required" });
+      }
+      
+      // Create or use an anonymous user for feedback
+      if (!userId) {
+        try {
+          const anonymousUser = await storage.getUserByUsername('anonymous_feedback');
+          if (anonymousUser) {
+            userId = anonymousUser.id;
+          } else {
+            const newUser = await storage.createUser({
+              id: 'anonymous_feedback',
+              username: 'anonymous_feedback',
+              email: 'anonymous@feedback.local',
+              password: 'none',
+              points: 0,
+              balance: "0",
+            });
+            userId = newUser.id;
+          }
+        } catch (err) {
+          // User already exists
+          userId = 'anonymous_feedback';
+        }
+      }
+      
+      // Save feedback to database
+      const feedbackRecord = await storage.createFeedback({
+        userId,
+        type,
+        message: message.trim(),
+        userAgent,
+        url: url || '',
+      });
+      
+      res.json({ 
+        ok: true,
+        id: feedbackRecord.id,
+        message: "Feedback received successfully" 
+      });
+    } catch (error) {
+      logger.error("Error saving feedback:", error);
+      res.status(500).json({ error: "Failed to save feedback" });
+    }
+  });
+  
+  // Original feedback system for users to contact creator via messaging
   app.post('/api/feedback', verifyToken, async (req: any, res) => {
     try {
       const userId = req.user.id;

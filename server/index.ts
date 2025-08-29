@@ -6,6 +6,7 @@ import compression from "compression";
 import helmet from "helmet";
 // @ts-ignore
 import corsSetup from "./cors-setup.js";
+import { config, logStartupInfo, runDiagnostics } from "./config";
 
 const app = express();
 
@@ -30,6 +31,16 @@ app.get("/health", (req, res) => {
 
 app.get("/healthz", (req, res) => {
   res.status(200).send("ok");
+});
+
+// Diagnostics endpoint
+app.get("/api/diagnostics", async (req, res) => {
+  try {
+    const diagnostics = await runDiagnostics();
+    res.json(diagnostics);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Database connection test endpoint
@@ -156,6 +167,7 @@ app.use((req, res, next) => {
     host: process.platform === 'win32' ? 'localhost' : '0.0.0.0',
     reusePort: true,
   }, () => {
+    logStartupInfo();
     log(`serving on port ${port}`);
   });
 

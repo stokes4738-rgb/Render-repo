@@ -1,0 +1,50 @@
+2025-08-29T03:15:23.824601646Z       'cache-control': 'no-cache, no-store',
+2025-08-29T03:15:23.824607356Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=OWgXKAkSauzPR9ATYakherFGwp9IDlHK6DIFUrozs61_N1YOUNxkkU3dWaoZzHsi328LNV0pNGs8sKqR",
+2025-08-29T03:15:23.824622337Z       vary: 'Origin',
+2025-08-29T03:15:23.824624257Z       'www-authenticate': 'Bearer realm="Stripe"',
+2025-08-29T03:15:23.824625997Z       'x-robots-tag': 'none',
+2025-08-29T03:15:23.824627697Z       'x-wc': 'ABHIJ',
+2025-08-29T03:15:23.824629567Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-29T03:15:23.824631267Z     },
+2025-08-29T03:15:23.824633037Z     statusCode: 401,
+2025-08-29T03:15:23.824634707Z     requestId: undefined
+2025-08-29T03:15:23.824636397Z   },
+2025-08-29T03:15:23.824638107Z   rawType: 'invalid_request_error',
+2025-08-29T03:15:23.824639877Z   code: undefined,
+2025-08-29T03:15:23.824641607Z   doc_url: undefined,
+2025-08-29T03:15:23.824643237Z   param: undefined,
+2025-08-29T03:15:23.824644857Z   detail: undefined,
+2025-08-29T03:15:23.824646857Z   headers: {
+2025-08-29T03:15:23.824648548Z     server: 'nginx',
+2025-08-29T03:15:23.824650277Z     date: 'Fri, 29 Aug 2025 03:15:23 GMT',
+2025-08-29T03:15:23.824652037Z     'content-type': 'application/json',
+2025-08-29T03:15:23.824655858Z     'content-length': '134',
+2025-08-29T03:15:23.824657758Z     connection: 'keep-alive',
+2025-08-29T03:15:23.824659878Z     'access-control-allow-credentials': 'true',
+2025-08-29T03:15:23.824661688Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-29T03:15:23.824663368Z     'access-control-allow-origin': '*',
+2025-08-29T03:15:23.824665098Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-29T03:15:23.824666798Z     'access-control-max-age': '300',
+2025-08-29T03:15:23.824668478Z     'cache-control': 'no-cache, no-store',
+2025-08-29T03:15:23.824670278Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=OWgXKAkSauzPR9ATYakherFGwp9IDlHK6DIFUrozs61_N1YOUNxkkU3dWaoZzHsi328LNV0pNGs8sKqR",
+2025-08-29T03:15:23.824672028Z     vary: 'Origin',
+2025-08-29T03:15:23.824673678Z     'www-authenticate': 'Bearer realm="Stripe"',
+2025-08-29T03:15:23.824675338Z     'x-robots-tag': 'none',
+2025-08-29T03:15:23.824677348Z     'x-wc': 'ABHIJ',
+2025-08-29T03:15:23.824679128Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-29T03:15:23.824680828Z   },
+2025-08-29T03:15:23.824682578Z   requestId: undefined,
+2025-08-29T03:15:23.824684268Z   statusCode: 401,
+2025-08-29T03:15:23.824685949Z   userMessage: undefined,
+2025-08-29T03:15:23.824687598Z   charge: undefined,
+2025-08-29T03:15:23.824689318Z   decline_code: undefined,
+2025-08-29T03:15:23.824690978Z   payment_intent: undefined,
+2025-08-29T03:15:23.824692819Z   payment_method: undefined,
+2025-08-29T03:15:23.824694599Z   payment_method_type: undefined,
+2025-08-29T03:15:23.824696329Z   setup_intent: undefined,
+2025-08-29T03:15:23.824698059Z   source: undefined
+2025-08-29T03:15:23.824699759Z }
+2025-08-29T03:15:23.82514546Z 3:15:23 AM [express] POST /api/payments/setup-intent 500 in 35ms :: {"message":"Failed to create set…
+2025-08-29T03:17:54.189325548Z ==> Detected service running on port 3000
+2025-08-29T03:17:54.276212749Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T03:19:35.187001099Z 3:19:35 AM [express] POST /api/register 400 in 18ms :: {"message":"Username already exists"}

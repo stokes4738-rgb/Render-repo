@@ -471,11 +471,25 @@ export default function Games() {
       </Card>
 
       {/* Game Components */}
-      {selectedGame === 'flappy' && <FlappyBirdGame />}
-      {selectedGame === 'snake' && <SnakeGame />}
-      {selectedGame === '2048' && <Game2048 />}
-      {selectedGame === 'memory' && <MemoryGame />}
-      {selectedGame === 'simon' && <SimonGame />}
+      {selectedGame !== 'flappy' && (
+        <Card>
+          <CardContent className="p-8 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl">🚧</div>
+              <h3 className="text-lg font-semibold">Coming Soon!</h3>
+              <p className="text-muted-foreground">
+                This game is under development. Try Flappy Bird for now!
+              </p>
+              <Button 
+                onClick={() => setSelectedGame('flappy')}
+                data-testid="button-play-flappy"
+              >
+                🐦 Play Flappy Bird
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

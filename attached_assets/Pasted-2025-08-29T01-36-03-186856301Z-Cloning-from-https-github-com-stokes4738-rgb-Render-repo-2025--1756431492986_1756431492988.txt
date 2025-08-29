@@ -1,0 +1,138 @@
+2025-08-29T01:36:03.186856301Z ==> Cloning from https://github.com/stokes4738-rgb/Render-repo
+2025-08-29T01:36:05.252028978Z ==> Checking out commit 5eaef44622a03488dd12fb861ee0ab39879d9655 in branch main
+2025-08-29T01:36:06.357456809Z ==> Downloading cache...
+2025-08-29T01:36:19.657416184Z ==> Transferred 230MB in 8s. Extraction took 4s.
+2025-08-29T01:36:24.540243859Z ==> Using Node.js version 22.16.0 (default)
+2025-08-29T01:36:24.567016237Z ==> Docs on specifying a Node.js version: https://render.com/docs/node-version
+2025-08-29T01:36:24.628492942Z ==> Running build command 'npm install --include=dev && npm run build'...
+2025-08-29T01:36:27.329454247Z 
+2025-08-29T01:36:27.329475758Z up to date, audited 661 packages in 3s
+2025-08-29T01:36:27.329480238Z 
+2025-08-29T01:36:27.329483088Z 81 packages are looking for funding
+2025-08-29T01:36:27.329486529Z   run `npm fund` for details
+2025-08-29T01:36:27.353700375Z 
+2025-08-29T01:36:27.353723876Z 11 vulnerabilities (3 low, 8 moderate)
+2025-08-29T01:36:27.353726886Z 
+2025-08-29T01:36:27.353729727Z To address issues that do not require attention, run:
+2025-08-29T01:36:27.353732267Z   npm audit fix
+2025-08-29T01:36:27.353734257Z 
+2025-08-29T01:36:27.353736397Z To address all issues (including breaking changes), run:
+2025-08-29T01:36:27.353739417Z   npm audit fix --force
+2025-08-29T01:36:27.353741527Z 
+2025-08-29T01:36:27.353744418Z Run `npm audit` for details.
+2025-08-29T01:36:27.51082202Z 
+2025-08-29T01:36:27.510839001Z > rest-express@1.0.0 build
+2025-08-29T01:36:27.510841911Z > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-08-29T01:36:27.510844582Z 
+2025-08-29T01:36:27.696397799Z vite v5.4.19 building for production...
+2025-08-29T01:36:27.754764559Z transforming...
+2025-08-29T01:36:28.043735426Z Browserslist: browsers data (caniuse-lite) is 10 months old. Please run:
+2025-08-29T01:36:28.043760848Z   npx update-browserslist-db@latest
+2025-08-29T01:36:28.043764498Z   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-08-29T01:36:31.791422096Z ✓ 1784 modules transformed.
+2025-08-29T01:36:32.070049482Z rendering chunks...
+2025-08-29T01:36:32.282465693Z computing gzip size...
+2025-08-29T01:36:32.294272357Z ../dist/public/index.html                           5.72 kB │ gzip:  1.73 kB
+2025-08-29T01:36:32.294315199Z ../dist/public/assets/index-Bh0raRSr.css           85.00 kB │ gzip: 14.56 kB
+2025-08-29T01:36:32.294470089Z ../dist/public/assets/authUtils-CcDzk6i0.js         0.08 kB │ gzip:  0.10 kB
+2025-08-29T01:36:32.294617088Z ../dist/public/assets/credit-card-BSPrW2AN.js       0.38 kB │ gzip:  0.29 kB
+2025-08-29T01:36:32.294630739Z ../dist/public/assets/web-CagDzaC_.js               0.41 kB │ gzip:  0.26 kB
+2025-08-29T01:36:32.294696223Z ../dist/public/assets/circle-alert-B4s_A-we.js      0.42 kB │ gzip:  0.29 kB
+2025-08-29T01:36:32.294716525Z ../dist/public/assets/shield-ClTsL2mZ.js            0.44 kB │ gzip:  0.33 kB
+2025-08-29T01:36:32.294753457Z ../dist/public/assets/users-BEFpxRm7.js             0.47 kB │ gzip:  0.33 kB
+2025-08-29T01:36:32.294768448Z ../dist/public/assets/label-tV2YZzV6.js             0.55 kB │ gzip:  0.37 kB
+2025-08-29T01:36:32.29480478Z ../dist/public/assets/input-B5G-c-M3.js             0.57 kB │ gzip:  0.35 kB
+2025-08-29T01:36:32.294817541Z ../dist/public/assets/message-circle-CH5slgOg.js    0.60 kB │ gzip:  0.32 kB
+2025-08-29T01:36:32.294838612Z ../dist/public/assets/not-found-tXTy8dPN.js         0.63 kB │ gzip:  0.36 kB
+2025-08-29T01:36:32.294856443Z ../dist/public/assets/badge-9uD__0vE.js             0.90 kB │ gzip:  0.41 kB
+2025-08-29T01:36:32.294904897Z ../dist/public/assets/trophy-CGfSGHmT.js            0.95 kB │ gzip:  0.46 kB
+2025-08-29T01:36:32.294913917Z ../dist/public/assets/zap-Chnu_OVF.js               1.42 kB │ gzip:  0.54 kB
+2025-08-29T01:36:32.295083618Z ../dist/public/assets/tabs-D3Hy_wz8.js              6.68 kB │ gzip:  2.68 kB
+2025-08-29T01:36:32.295165673Z ../dist/public/assets/Landing-D2SPIy-z.js           7.84 kB │ gzip:  2.13 kB
+2025-08-29T01:36:32.295174094Z ../dist/public/assets/index-CxQqF_09.js             8.12 kB │ gzip:  3.38 kB
+2025-08-29T01:36:32.295229137Z ../dist/public/assets/CreatorInbox-h1wU2KIU.js     11.47 kB │ gzip:  4.07 kB
+2025-08-29T01:36:32.295235627Z ../dist/public/assets/AuthPage-qLK2iujY.js         12.88 kB │ gzip:  3.75 kB
+2025-08-29T01:36:32.295267859Z ../dist/public/assets/Profile-DV_eUQBQ.js          17.30 kB │ gzip:  5.00 kB
+2025-08-29T01:36:32.295292061Z ../dist/public/assets/Account-49HaRsO5.js          78.92 kB │ gzip: 24.79 kB
+2025-08-29T01:36:32.295358155Z ../dist/public/assets/Tutorial-DmCXLLKy.js         83.09 kB │ gzip: 20.27 kB
+2025-08-29T01:36:32.295362015Z ../dist/public/assets/Home-CrivVXp7.js            166.67 kB │ gzip: 42.17 kB
+2025-08-29T01:36:32.295384837Z ../dist/public/assets/index-Bsiu6yrt.js           292.36 kB │ gzip: 95.64 kB
+2025-08-29T01:36:32.295721528Z ✓ built in 4.58s
+2025-08-29T01:36:32.362826278Z 
+2025-08-29T01:36:32.36284781Z   dist/index.js  180.8kb
+2025-08-29T01:36:32.36285055Z 
+2025-08-29T01:36:32.36285303Z ⚡ Done in 13ms
+2025-08-29T01:36:35.548844729Z ==> Uploading build...
+2025-08-29T01:36:51.982374622Z ==> Uploaded in 13.0s. Compression took 3.4s
+2025-08-29T01:36:52.026789472Z ==> Build successful 🎉
+2025-08-29T01:37:06.037054673Z ==> Deploying...
+2025-08-29T01:37:22.509461304Z ==> Running 'npm start'
+2025-08-29T01:37:22.787049393Z 
+2025-08-29T01:37:22.787072873Z > rest-express@1.0.0 start
+2025-08-29T01:37:22.787077193Z > NODE_ENV=production node dist/index.js
+2025-08-29T01:37:22.787079373Z 
+2025-08-29T01:37:24.891097187Z 1:37:24 AM [express] serving on port 3000
+2025-08-29T01:37:24.892714218Z Connection attempt 1 failed: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:24.892737198Z Retrying connection in 5 seconds...
+2025-08-29T01:37:27.548777172Z ==> Your service is live 🎉
+2025-08-29T01:37:27.585569027Z ==> 
+2025-08-29T01:37:27.610999414Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:37:27.64097544Z ==> 
+2025-08-29T01:37:27.836590103Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T01:37:27.872219358Z ==> 
+2025-08-29T01:37:27.897811675Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:37:29.900914904Z Connection attempt 2 failed: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:29.900935504Z Retrying connection in 10 seconds...
+2025-08-29T01:37:39.907078751Z Connection attempt 3 failed: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:39.907255654Z Retrying connection in 15 seconds...
+2025-08-29T01:37:46.600828642Z 1:37:46 AM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T01:37:47.194142764Z [ERROR] 2025-08-29T01:37:47.189Z: Expired boosts update failed: Error: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:47.194189335Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:37:47.194193045Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:37:47.194196415Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1039:9)
+2025-08-29T01:37:47.194199735Z     at async Promise.all (index 1)
+2025-08-29T01:37:47.194202465Z     at async file:///opt/render/project/src/dist/index.js:2493:9 {
+2025-08-29T01:37:47.194204785Z   errno: -3008,
+2025-08-29T01:37:47.194208175Z   code: 'ENOTFOUND',
+2025-08-29T01:37:47.194211066Z   syscall: 'getaddrinfo',
+2025-08-29T01:37:47.194213375Z   hostname: 'base'
+2025-08-29T01:37:47.194215626Z }
+2025-08-29T01:37:47.194217936Z [ERROR] 2025-08-29T01:37:47.192Z: Error processing expired bounties: Error: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:47.194220396Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:37:47.194222796Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:37:47.194225046Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:37:47.194227356Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2130:29)
+2025-08-29T01:37:47.194229716Z     at async Promise.all (index 0)
+2025-08-29T01:37:47.194231936Z     at async file:///opt/render/project/src/dist/index.js:2493:9 {
+2025-08-29T01:37:47.194234126Z   errno: -3008,
+2025-08-29T01:37:47.194236426Z   code: 'ENOTFOUND',
+2025-08-29T01:37:47.194238736Z   syscall: 'getaddrinfo',
+2025-08-29T01:37:47.194241016Z   hostname: 'base'
+2025-08-29T01:37:47.194243296Z }
+2025-08-29T01:37:47.19706687Z [ERROR] 2025-08-29T01:37:47.196Z: Bounties query failed: Error: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:47.197089031Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:37:47.197091961Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:37:47.197095111Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:37:47.197097681Z     at async DatabaseStorage.getActiveBounties (file:///opt/render/project/src/dist/index.js:1025:32)
+2025-08-29T01:37:47.197099911Z     at async file:///opt/render/project/src/dist/index.js:2527:21 {
+2025-08-29T01:37:47.197102271Z   errno: -3008,
+2025-08-29T01:37:47.197105331Z   code: 'ENOTFOUND',
+2025-08-29T01:37:47.197127242Z   syscall: 'getaddrinfo',
+2025-08-29T01:37:47.197129792Z   hostname: 'base'
+2025-08-29T01:37:47.197149362Z }
+2025-08-29T01:37:47.198270664Z 1:37:47 AM [express] GET /api/bounties 200 in 24ms :: []
+2025-08-29T01:37:54.913222027Z Retrying connection in 20 seconds...
+2025-08-29T01:37:54.913227727Z Connection attempt 4 failed: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:59.909082639Z 1:37:59 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:37:59.915085495Z [ERROR] 2025-08-29T01:37:59.914Z: Error fetching creator stats: Error: getaddrinfo ENOTFOUND base
+2025-08-29T01:37:59.915106546Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:37:59.915111775Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:37:59.915116366Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:37:59.915120726Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1051:34)
+2025-08-29T01:37:59.915126976Z     at async file:///opt/render/project/src/dist/index.js:4117:27 {
+2025-08-29T01:37:59.915131166Z   errno: -3008,
+2025-08-29T01:37:59.915135586Z   code: 'ENOTFOUND',
+2025-08-29T01:37:59.915140246Z   syscall: 'getaddrinfo',
+2025-08-29T01:37:59.915144656Z   hostname: 'base'
+2025-08-29T01:37:59.915148966Z }
+2025-08-29T01:37:59.915574404Z 1:37:59 AM [express] GET /api/creator/stats 500 in 14ms :: {"message":"Failed to fetch creator stats…

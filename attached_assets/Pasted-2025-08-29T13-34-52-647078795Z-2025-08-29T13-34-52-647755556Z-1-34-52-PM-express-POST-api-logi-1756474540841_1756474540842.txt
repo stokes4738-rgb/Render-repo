@@ -1,0 +1,98 @@
+2025-08-29T13:34:52.647078795Z }
+2025-08-29T13:34:52.647755556Z 1:34:52 PM [express] POST /api/login 500 in 3013ms :: {"message":"Database connection error"}
+2025-08-29T13:34:56.124931208Z Login attempt for username: test1
+2025-08-29T13:34:56.130996131Z Database operation "getUserByUsername(test1)" failed (attempt 1/3): Error connecting to database: fetch failed
+2025-08-29T13:34:56.131025743Z Waiting 1000ms before retrying "getUserByUsername(test1)"...
+2025-08-29T13:34:57.134236012Z Database operation "getUserByUsername(test1)" failed (attempt 2/3): Error connecting to database: fetch failed
+2025-08-29T13:34:57.134272844Z Waiting 2000ms before retrying "getUserByUsername(test1)"...
+2025-08-29T13:34:59.137838586Z Database operation "getUserByUsername(test1)" failed (attempt 3/3): Error connecting to database: fetch failed
+2025-08-29T13:34:59.138172917Z Database error: NeonDbError: Error connecting to database: fetch failed
+2025-08-29T13:34:59.138179897Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-29T13:34:59.138183317Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T13:34:59.138186598Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-29T13:34:59.138189408Z     at async file:///opt/render/project/src/dist/index.js:772:28
+2025-08-29T13:34:59.138192078Z     at async retryDbOperation (file:///opt/render/project/src/dist/index.js:736:14)
+2025-08-29T13:34:59.138194748Z     at async file:///opt/render/project/src/dist/index.js:2118:16 {
+2025-08-29T13:34:59.138198368Z   severity: undefined,
+2025-08-29T13:34:59.138200828Z   code: undefined,
+2025-08-29T13:34:59.138203488Z   detail: undefined,
+2025-08-29T13:34:59.138206159Z   hint: undefined,
+2025-08-29T13:34:59.138208679Z   position: undefined,
+2025-08-29T13:34:59.138211199Z   internalPosition: undefined,
+2025-08-29T13:34:59.138213629Z   internalQuery: undefined,
+2025-08-29T13:34:59.138216169Z   where: undefined,
+2025-08-29T13:34:59.138218649Z   schema: undefined,
+2025-08-29T13:34:59.13822128Z   table: undefined,
+2025-08-29T13:34:59.13822446Z   column: undefined,
+2025-08-29T13:34:59.13822711Z   dataType: undefined,
+2025-08-29T13:34:59.13823009Z   constraint: undefined,
+2025-08-29T13:34:59.13823251Z   file: undefined,
+2025-08-29T13:34:59.138235181Z   line: undefined,
+2025-08-29T13:34:59.138237691Z   routine: undefined,
+2025-08-29T13:34:59.138241511Z   sourceError: TypeError: fetch failed
+2025-08-29T13:34:59.138244441Z       at node:internal/deps/undici/undici:13510:13
+2025-08-29T13:34:59.138246881Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T13:34:59.138249531Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-29T13:34:59.138253342Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-29T13:34:59.138257952Z       at async file:///opt/render/project/src/dist/index.js:772:28
+2025-08-29T13:34:59.138261412Z       at async retryDbOperation (file:///opt/render/project/src/dist/index.js:736:14)
+2025-08-29T13:34:59.138264232Z       at async file:///opt/render/project/src/dist/index.js:2118:16 {
+2025-08-29T13:34:59.138267292Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-29T13:34:59.138281003Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-29T13:34:59.138284104Z       errno: -111,
+2025-08-29T13:34:59.138286644Z       code: 'ECONNREFUSED',
+2025-08-29T13:34:59.138289114Z       syscall: 'connect',
+2025-08-29T13:34:59.138291574Z       address: '10.230.167.149',
+2025-08-29T13:34:59.138294104Z       port: 443
+2025-08-29T13:34:59.138296344Z     }
+2025-08-29T13:34:59.138298494Z   }
+2025-08-29T13:34:59.138300974Z }
+2025-08-29T13:34:59.138915632Z 1:34:59 PM [express] POST /api/login 500 in 3014ms :: {"message":"Database connection error"}
+2025-08-29T13:35:20.926106921Z Login attempt for username: test1
+2025-08-29T13:35:20.929855241Z Waiting 1000ms before retrying "getUserByUsername(test1)"...
+2025-08-29T13:35:20.929875492Z Database operation "getUserByUsername(test1)" failed (attempt 1/3): Error connecting to database: fetch failed
+2025-08-29T13:35:21.932798925Z Database operation "getUserByUsername(test1)" failed (attempt 2/3): Error connecting to database: fetch failed
+2025-08-29T13:35:21.932822727Z Waiting 2000ms before retrying "getUserByUsername(test1)"...
+2025-08-29T13:35:23.938558386Z Database operation "getUserByUsername(test1)" failed (attempt 3/3): Error connecting to database: fetch failed
+2025-08-29T13:35:23.938795431Z Database error: NeonDbError: Error connecting to database: fetch failed
+2025-08-29T13:35:23.938814102Z     at execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+2025-08-29T13:35:23.938819552Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T13:35:23.938824312Z     at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-29T13:35:23.938828993Z     at async file:///opt/render/project/src/dist/index.js:772:28
+2025-08-29T13:35:23.938833113Z     at async retryDbOperation (file:///opt/render/project/src/dist/index.js:736:14)
+2025-08-29T13:35:23.938837123Z     at async file:///opt/render/project/src/dist/index.js:2118:16 {
+2025-08-29T13:35:23.938842143Z   severity: undefined,
+2025-08-29T13:35:23.938846004Z   code: undefined,
+2025-08-29T13:35:23.938850034Z   detail: undefined,
+2025-08-29T13:35:23.938853824Z   hint: undefined,
+2025-08-29T13:35:23.938857724Z   position: undefined,
+2025-08-29T13:35:23.938862215Z   internalPosition: undefined,
+2025-08-29T13:35:23.938866165Z   internalQuery: undefined,
+2025-08-29T13:35:23.938870125Z   where: undefined,
+2025-08-29T13:35:23.938874055Z   schema: undefined,
+2025-08-29T13:35:23.938877916Z   table: undefined,
+2025-08-29T13:35:23.938881736Z   column: undefined,
+2025-08-29T13:35:23.938885656Z   dataType: undefined,
+2025-08-29T13:35:23.938889636Z   constraint: undefined,
+2025-08-29T13:35:23.938893377Z   file: undefined,
+2025-08-29T13:35:23.938897087Z   line: undefined,
+2025-08-29T13:35:23.938900927Z   routine: undefined,
+2025-08-29T13:35:23.938905667Z   sourceError: TypeError: fetch failed
+2025-08-29T13:35:23.938909507Z       at node:internal/deps/undici/undici:13510:13
+2025-08-29T13:35:23.938913558Z       at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T13:35:23.938917548Z       at async execute (file:///opt/render/project/src/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+2025-08-29T13:35:23.938921848Z       at async NeonHttpPreparedQuery.execute (file:///opt/render/project/src/node_modules/drizzle-orm/neon-http/session.js:40:20)
+2025-08-29T13:35:23.938926399Z       at async file:///opt/render/project/src/dist/index.js:772:28
+2025-08-29T13:35:23.938930369Z       at async retryDbOperation (file:///opt/render/project/src/dist/index.js:736:14)
+2025-08-29T13:35:23.93895006Z       at async file:///opt/render/project/src/dist/index.js:2118:16 {
+2025-08-29T13:35:23.93895282Z     [cause]: Error: connect ECONNREFUSED 10.230.167.149:443
+2025-08-29T13:35:23.93895511Z         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1636:16) {
+2025-08-29T13:35:23.93895735Z       errno: -111,
+2025-08-29T13:35:23.938959661Z       code: 'ECONNREFUSED',
+2025-08-29T13:35:23.938962001Z       syscall: 'connect',
+2025-08-29T13:35:23.938964371Z       address: '10.230.167.149',
+2025-08-29T13:35:23.938966721Z       port: 443
+2025-08-29T13:35:23.938968971Z     }
+2025-08-29T13:35:23.938971211Z   }
+2025-08-29T13:35:23.938973602Z }
+2025-08-29T13:35:23.939773321Z 1:35:23 PM [express] POST /api/login 500 in 3014ms :: {"message":"Database connection error"}

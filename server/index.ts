@@ -67,40 +67,83 @@ app.get("/api/db-test", async (req, res) => {
     
     const [, user, , host, database] = urlParts;
     
-    // Simple direct connection test with pg
-    const { Client } = await import("pg");
-    const client = new Client({
-      connectionString: dbUrl,
-      ssl: { rejectUnauthorized: false },
-      connectionTimeoutMillis: 10000 // 10 second timeout
-    });
+    // Check if using internal vs external URL
+    const isInternalUrl = host.includes('dpg-') && !host.includes('.render.com');
+    const isNeonUrl = host.includes('neon.tech') || host.includes('neon.db');
     
-    await client.connect();
-    const result = await client.query('SELECT NOW()');
-    await client.end();
-    
-    res.json({ 
-      success: true,
+    // Try both Neon HTTP and direct pg connection
+    const results: any = {
       dbUser: user,
       dbHost: host,
       dbName: database,
-      serverTime: result.rows[0].now,
-      message: "Database connection successful!"
-    });
-  } catch (error: any) {
-    const dbUrl = process.env.DATABASE_URL || '';
+      urlType: isInternalUrl ? 'INTERNAL' : isNeonUrl ? 'NEON_EXTERNAL' : 'EXTERNAL',
+      tests: {}
+    };
     
+    // Test 1: Neon HTTP connection (what we use in the app)
+    try {
+      const { getDatabaseStatus } = await import("./db");
+      const status = await getDatabaseStatus();
+      results.tests.neonHttp = status;
+    } catch (error: any) {
+      results.tests.neonHttp = {
+        connected: false,
+        error: error.message
+      };
+    }
+    
+    // Test 2: Direct pg connection
+    try {
+      const { Client } = await import("pg");
+      const client = new Client({
+        connectionString: dbUrl,
+        ssl: { rejectUnauthorized: false },
+        connectionTimeoutMillis: 10000
+      });
+      
+      await client.connect();
+      const result = await client.query('SELECT NOW()');
+      await client.end();
+      
+      results.tests.directPg = {
+        connected: true,
+        serverTime: result.rows[0].now
+      };
+    } catch (error: any) {
+      results.tests.directPg = {
+        connected: false,
+        error: error.message,
+        code: error.code
+      };
+    }
+    
+    // Determine overall status
+    const anyConnected = Object.values(results.tests).some((test: any) => test.connected);
+    
+    if (anyConnected) {
+      res.json({ 
+        success: true,
+        ...results,
+        message: "At least one connection method succeeded"
+      });
+    } else {
+      res.status(500).json({ 
+        success: false,
+        ...results,
+        possibleIssues: [
+          isInternalUrl ? "⚠️ Using INTERNAL URL - switch to EXTERNAL URL in production" : null,
+          "1. Check if DATABASE_URL uses the External connection string",
+          "2. Database might be suspended (check Neon dashboard)",
+          "3. Network/firewall blocking connection to " + host,
+          "4. Database credentials might have changed"
+        ].filter(Boolean)
+      });
+    }
+  } catch (error: any) {
     res.status(500).json({ 
-      error: "Database connection failed",
+      error: "Database test failed",
       message: error.message,
-      code: error.code,
-      dbUrlFormat: dbUrl ? dbUrl.replace(/:([^@]+)@/, ':****@').substring(0, 80) + "..." : null,
-      possibleIssues: [
-        "1. Check if External Database URL is correct",
-        "2. Database might be suspended (free tier)",
-        "3. Network/firewall blocking connection",
-        "4. Database credentials might be wrong"
-      ]
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
   }
 });

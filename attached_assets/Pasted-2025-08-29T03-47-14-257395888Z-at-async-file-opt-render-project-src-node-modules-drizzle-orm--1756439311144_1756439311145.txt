@@ -1,0 +1,77 @@
+2025-08-29T03:47:14.257395888Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T03:47:14.257399489Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T03:47:14.257402978Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T03:47:14.257406589Z   length: 306,
+2025-08-29T03:47:14.257410629Z   severity: 'ERROR',
+2025-08-29T03:47:14.257414069Z   code: '23503',
+2025-08-29T03:47:14.257417689Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T03:47:14.257421149Z   hint: undefined,
+2025-08-29T03:47:14.257424529Z   position: undefined,
+2025-08-29T03:47:14.257428559Z   internalPosition: undefined,
+2025-08-29T03:47:14.25743199Z   internalQuery: undefined,
+2025-08-29T03:47:14.25743581Z   where: undefined,
+2025-08-29T03:47:14.25743921Z   schema: 'public',
+2025-08-29T03:47:14.25744299Z   table: 'message_threads',
+2025-08-29T03:47:14.25744647Z   column: undefined,
+2025-08-29T03:47:14.2574499Z   dataType: undefined,
+2025-08-29T03:47:14.25745384Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T03:47:14.2574573Z   file: 'ri_triggers.c',
+2025-08-29T03:47:14.25746074Z   line: '2608',
+2025-08-29T03:47:14.25746416Z   routine: 'ri_ReportViolation'
+2025-08-29T03:47:14.257467611Z }
+2025-08-29T03:47:14.257914434Z 3:47:14 AM [express] POST /api/feedback 408 in 8ms :: {"message":"Request timeout - please try again…
+2025-08-29T03:47:26.573225194Z Login attempt for username: Dallas1221
+2025-08-29T03:47:26.575227653Z 3:47:26 AM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-29T03:47:27.131138103Z 3:47:27 AM [express] GET /api/bounties 200 in 103ms :: []
+2025-08-29T03:47:32.21868705Z [ERROR] 2025-08-29T03:47:32.218Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T03:47:32.21870632Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T03:47:32.21871123Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T03:47:32.218721301Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T03:47:32.218723081Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T03:47:32.218724731Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T03:47:32.218726391Z   length: 306,
+2025-08-29T03:47:32.218728721Z   severity: 'ERROR',
+2025-08-29T03:47:32.218730451Z   code: '23503',
+2025-08-29T03:47:32.218732211Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T03:47:32.218733921Z   hint: undefined,
+2025-08-29T03:47:32.218735541Z   position: undefined,
+2025-08-29T03:47:32.218737821Z   internalPosition: undefined,
+2025-08-29T03:47:32.218739461Z   internalQuery: undefined,
+2025-08-29T03:47:32.218741071Z   where: undefined,
+2025-08-29T03:47:32.218742651Z   schema: 'public',
+2025-08-29T03:47:32.218744291Z   table: 'message_threads',
+2025-08-29T03:47:32.218745951Z   column: undefined,
+2025-08-29T03:47:32.218747562Z   dataType: undefined,
+2025-08-29T03:47:32.218749882Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T03:47:32.218751502Z   file: 'ri_triggers.c',
+2025-08-29T03:47:32.218753162Z   line: '2608',
+2025-08-29T03:47:32.218754772Z   routine: 'ri_ReportViolation'
+2025-08-29T03:47:32.218756412Z }
+2025-08-29T03:47:32.219296208Z 3:47:32 AM [express] POST /api/feedback 408 in 5ms :: {"message":"Request timeout - please try again…
+2025-08-29T03:48:08.510499949Z 3:48:08 AM [express] GET /api/user 200 in 2ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T03:48:09.052552798Z 3:48:09 AM [express] GET /api/bounties 304 in 20ms :: []
+2025-08-29T03:48:14.810896398Z [ERROR] 2025-08-29T03:48:14.810Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T03:48:14.810921648Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T03:48:14.810926319Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T03:48:14.810930529Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T03:48:14.810934009Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T03:48:14.810937719Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T03:48:14.810941339Z   length: 306,
+2025-08-29T03:48:14.810945889Z   severity: 'ERROR',
+2025-08-29T03:48:14.810949389Z   code: '23503',
+2025-08-29T03:48:14.81095292Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T03:48:14.81095688Z   hint: undefined,
+2025-08-29T03:48:14.81096039Z   position: undefined,
+2025-08-29T03:48:14.81096429Z   internalPosition: undefined,
+2025-08-29T03:48:14.81096773Z   internalQuery: undefined,
+2025-08-29T03:48:14.81097117Z   where: undefined,
+2025-08-29T03:48:14.81097472Z   schema: 'public',
+2025-08-29T03:48:14.81097816Z   table: 'message_threads',
+2025-08-29T03:48:14.81098158Z   column: undefined,
+2025-08-29T03:48:14.81098501Z   dataType: undefined,
+2025-08-29T03:48:14.810989121Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T03:48:14.810992631Z   file: 'ri_triggers.c',
+2025-08-29T03:48:14.810996131Z   line: '2608',
+2025-08-29T03:48:14.810999661Z   routine: 'ri_ReportViolation'
+2025-08-29T03:48:14.811003171Z }
+2025-08-29T03:48:14.811459435Z 3:48:14 AM [express] POST /api/feedback 408 in 6ms :: {"message":"Request timeout - please try again…

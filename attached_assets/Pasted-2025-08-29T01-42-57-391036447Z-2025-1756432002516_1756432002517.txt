@@ -1,0 +1,50 @@
+2025-08-29T01:42:57.391036447Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T01:43:04.063285298Z 1:43:04 AM [express] GET /api/user 304 in 4ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T01:43:10.070098144Z 1:43:10 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T01:43:34.863673086Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:43:34.863678367Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:43:34.863682247Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2130:29) {
+2025-08-29T01:43:34.863686416Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:43:34.863690007Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:43:34.863694127Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:43:34.863697717Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:43:34.863701317Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:43:34.863704857Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:43:34.863708357Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:43:34.863711937Z }
+2025-08-29T01:44:01.038577623Z Connection attempt 2 failed: Connection terminated due to connection timeout
+2025-08-29T01:44:01.038610584Z Retrying connection in 10 seconds...
+2025-08-29T01:44:10.076798432Z [ERROR] 2025-08-29T01:44:10.076Z: Error fetching creator stats: Error: Connection terminated due to connection timeout
+2025-08-29T01:44:10.076818483Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:44:10.076823063Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:44:10.076827273Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T01:44:10.076843343Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1051:34)
+2025-08-29T01:44:10.076845733Z     at async file:///opt/render/project/src/dist/index.js:4117:27 {
+2025-08-29T01:44:10.076848583Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:44:10.076850743Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:44:10.076853523Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:44:10.076855733Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:44:10.076857853Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:44:10.076859984Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:44:10.076862124Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:44:10.076864253Z }
+2025-08-29T01:44:10.07763524Z 1:44:10 AM [express] GET /api/creator/stats 500 in 60015ms :: {"message":"Failed to fetch creator st…
+2025-08-29T01:44:41.042940325Z Connection attempt 3 failed: Connection terminated due to connection timeout
+2025-08-29T01:44:41.042973596Z Retrying connection in 15 seconds...
+2025-08-29T01:45:26.052467056Z Connection attempt 4 failed: Connection terminated due to connection timeout
+2025-08-29T01:45:26.052495997Z Retrying connection in 20 seconds...
+2025-08-29T01:46:16.060846761Z Connection attempt 5 failed: Connection terminated due to connection timeout
+2025-08-29T01:46:16.061123397Z Failed to establish database connection after 5 attempts
+2025-08-29T01:46:16.061608927Z Full error: Error: Connection terminated due to connection timeout
+2025-08-29T01:46:16.061620947Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T01:46:16.061627418Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T01:46:16.061632587Z     at async testConnection (file:///opt/render/project/src/dist/index.js:478:26) {
+2025-08-29T01:46:16.061637128Z Continuing startup - database may become available later
+2025-08-29T01:46:16.061638508Z   [cause]: Error: Connection terminated unexpectedly
+2025-08-29T01:46:16.061655968Z       at Connection.<anonymous> (/opt/render/project/src/node_modules/pg/lib/client.js:136:73)
+2025-08-29T01:46:16.061660668Z       at Object.onceWrapper (node:events:632:28)
+2025-08-29T01:46:16.061665728Z       at Connection.emit (node:events:518:28)
+2025-08-29T01:46:16.061670368Z       at Socket.<anonymous> (/opt/render/project/src/node_modules/pg/lib/connection.js:62:12)
+2025-08-29T01:46:16.061675068Z       at Socket.emit (node:events:518:28)
+2025-08-29T01:46:16.061679488Z       at TCP.<anonymous> (node:net:351:12)
+2025-08-29T01:46:16.061683759Z }

@@ -1868,16 +1868,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Real-time statistics (now possible with paid Neon tier)
-      const activeUsers = allUsers.filter(u => 
+      // Calculate statistics from sample data, but scale appropriately
+      const sampleActiveUsers = allUsers.filter(u => 
         new Date(u.lastSeen || u.createdAt) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       ).length;
+      
+      // Scale up the active users based on sample size vs total
+      const activeUsers = totalUsers > 0 && allUsers.length > 0 
+        ? Math.round((sampleActiveUsers / allUsers.length) * totalUsers)
+        : sampleActiveUsers;
 
       const totalUserBalance = allUsers.reduce((sum, u) => sum + parseFloat(u.balance || '0'), 0);
 
-      // Calculate bounty statistics
-      const activeBounties = allBounties.filter(b => b.status === 'active').length;
-      const completedBounties = allBounties.filter(b => b.status === 'completed').length;
+      // Calculate bounty statistics from sample
+      const sampleActiveBounties = allBounties.filter(b => b.status === 'active').length;
+      const sampleCompletedBounties = allBounties.filter(b => b.status === 'completed').length;
+      
+      // Scale up bounty stats
+      const activeBounties = totalBounties > 0 && allBounties.length > 0
+        ? Math.round((sampleActiveBounties / allBounties.length) * totalBounties)
+        : sampleActiveBounties;
+        
+      const completedBounties = totalBounties > 0 && allBounties.length > 0
+        ? Math.round((sampleCompletedBounties / allBounties.length) * totalBounties)
+        : sampleCompletedBounties;
+        
       const totalBountyValue = allBounties.reduce((sum, b) => sum + parseFloat(b.reward || '0'), 0);
 
       // Calculate transaction statistics
@@ -1918,10 +1933,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
       const sixtyDaysAgo = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000);
 
-      const newUsersLast30 = allUsers.filter(u => new Date(u.createdAt) > thirtyDaysAgo).length;
-      const newUsersPrevious30 = allUsers.filter(u => 
+      const sampleNewUsersLast30 = allUsers.filter(u => new Date(u.createdAt) > thirtyDaysAgo).length;
+      const sampleNewUsersPrevious30 = allUsers.filter(u => 
         new Date(u.createdAt) > sixtyDaysAgo && new Date(u.createdAt) <= thirtyDaysAgo
       ).length;
+      
+      // Scale up growth metrics
+      const newUsersLast30 = totalUsers > 0 && allUsers.length > 0
+        ? Math.round((sampleNewUsersLast30 / allUsers.length) * totalUsers)
+        : sampleNewUsersLast30;
+        
+      const newUsersPrevious30 = totalUsers > 0 && allUsers.length > 0
+        ? Math.round((sampleNewUsersPrevious30 / allUsers.length) * totalUsers) 
+        : sampleNewUsersPrevious30;
 
       const userGrowthRate = newUsersPrevious30 > 0 
         ? ((newUsersLast30 - newUsersPrevious30) / newUsersPrevious30 * 100).toFixed(1)
@@ -1968,21 +1992,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .slice(0, 10)
       };
 
-      // Real user engagement metrics
+      // Real user engagement metrics (scaled from sample)
       const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
       
-      const dailyActiveUsers = allUsers.filter(u => 
+      const sampleDailyActive = allUsers.filter(u => 
         new Date(u.lastSeen || u.createdAt) > oneDayAgo
       ).length;
       
-      const weeklyActiveUsers = allUsers.filter(u => 
+      const sampleWeeklyActive = allUsers.filter(u => 
         new Date(u.lastSeen || u.createdAt) > sevenDaysAgo
       ).length;
       
-      const monthlyActiveUsers = allUsers.filter(u => 
+      const sampleMonthlyActive = allUsers.filter(u => 
         new Date(u.lastSeen || u.createdAt) > thirtyDaysAgo
       ).length;
+      
+      // Scale engagement metrics to full user base
+      const dailyActiveUsers = totalUsers > 0 && allUsers.length > 0
+        ? Math.round((sampleDailyActive / allUsers.length) * totalUsers)
+        : sampleDailyActive;
+        
+      const weeklyActiveUsers = totalUsers > 0 && allUsers.length > 0
+        ? Math.round((sampleWeeklyActive / allUsers.length) * totalUsers)
+        : sampleWeeklyActive;
+        
+      const monthlyActiveUsers = totalUsers > 0 && allUsers.length > 0
+        ? Math.round((sampleMonthlyActive / allUsers.length) * totalUsers)
+        : sampleMonthlyActive;
 
       // Calculate retention rate (users who returned after 7 days)
       const usersFromLastWeek = allUsers.filter(u => {
@@ -2028,25 +2065,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
           avgPerTransaction: revenue.length > 0 ? (parseFloat(totalRevenue) / revenue.length).toFixed(2) : "0.00"
         },
         users: {
-          total: allUsers.length,
+          total: totalUsers,
           active: activeUsers,
           totalBalance: totalUserBalance.toFixed(2),
           newLast30Days: newUsersLast30,
           growthRate: userGrowthRate
         },
         bounties: {
-          total: allBounties.length,
+          total: totalBounties,
           active: activeBounties,
           completed: completedBounties,
           totalValue: totalBountyValue.toFixed(2),
-          completionRate: allBounties.length > 0 ? ((completedBounties / allBounties.length) * 100).toFixed(1) : '0'
+          completionRate: totalBounties > 0 ? ((completedBounties / totalBounties) * 100).toFixed(1) : '0'
         },
         transactions: {
-          total: allTransactions.length,
+          total: totalTransactionCount,
           totalVolume: totalVolume.toFixed(2),
           deposits: deposits.length,
           withdrawals: withdrawals.length,
-          avgTransactionSize: allTransactions.length > 0 ? (totalVolume / allTransactions.length).toFixed(2) : '0'
+          avgTransactionSize: totalTransactionCount > 0 ? (totalVolume / totalTransactionCount).toFixed(2) : '0'
         },
         spending: {
           totalUserSpent: totalUserSpent.toFixed(2),

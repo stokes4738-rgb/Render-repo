@@ -1492,9 +1492,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         new Promise((_, reject) => 
           setTimeout(() => reject(new Error('User query timeout')), queryTimeout)
         )
-      ]);
+      ]).catch((error) => {
+        logger.error("Failed to get user for setup intent:", error);
+        return null;
+      });
       
       if (!user?.email) {
+        logger.error("User email missing for setup intent:", { userId, userExists: !!user });
         return res.status(400).json({ message: "User email required" });
       }
 

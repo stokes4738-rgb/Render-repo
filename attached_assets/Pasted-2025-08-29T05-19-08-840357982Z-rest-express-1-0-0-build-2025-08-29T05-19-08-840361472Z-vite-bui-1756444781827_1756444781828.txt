@@ -1,0 +1,50 @@
+2025-08-29T05:19:08.840357982Z > rest-express@1.0.0 build
+2025-08-29T05:19:08.840361472Z > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-08-29T05:19:08.840365582Z 
+2025-08-29T05:19:09.027419146Z vite v5.4.19 building for production...
+2025-08-29T05:19:09.081223278Z transforming...
+2025-08-29T05:19:13.331895262Z ✓ 1785 modules transformed.
+2025-08-29T05:19:13.493601754Z rendering chunks...
+2025-08-29T05:19:13.704745917Z computing gzip size...
+2025-08-29T05:19:13.717340541Z ../dist/public/index.html                           5.72 kB │ gzip:  1.73 kB
+2025-08-29T05:19:13.717366062Z ../dist/public/assets/index-DGeDf_zb.css           87.48 kB │ gzip: 14.87 kB
+2025-08-29T05:19:13.717477894Z ../dist/public/assets/authUtils-CcDzk6i0.js         0.08 kB │ gzip:  0.10 kB
+2025-08-29T05:19:13.717595386Z ../dist/public/assets/credit-card-Dntj-Bty.js       0.38 kB │ gzip:  0.29 kB
+2025-08-29T05:19:13.717742569Z ../dist/public/assets/web-C5ckUlvB.js               0.41 kB │ gzip:  0.27 kB
+2025-08-29T05:19:13.717760549Z ../dist/public/assets/circle-alert-D4FA1O8w.js      0.42 kB │ gzip:  0.29 kB
+2025-08-29T05:19:13.71780366Z ../dist/public/assets/shield-P9VTRk7h.js            0.44 kB │ gzip:  0.33 kB
+2025-08-29T05:19:13.71780826Z ../dist/public/assets/users-DAPAnIH9.js             0.47 kB │ gzip:  0.33 kB
+2025-08-29T05:19:13.71782844Z ../dist/public/assets/label-DTe8VH42.js             0.55 kB │ gzip:  0.38 kB
+2025-08-29T05:19:13.71784413Z ../dist/public/assets/input-p88DY8v7.js             0.57 kB │ gzip:  0.35 kB
+2025-08-29T05:19:13.717853121Z ../dist/public/assets/message-circle-uKaXKjjt.js    0.60 kB │ gzip:  0.32 kB
+2025-08-29T05:19:13.717886161Z ../dist/public/assets/not-found-NClxgrrR.js         0.63 kB │ gzip:  0.36 kB
+2025-08-29T05:19:13.717897811Z ../dist/public/assets/badge-fbl7KD9a.js             0.90 kB │ gzip:  0.42 kB
+2025-08-29T05:19:13.717915352Z ../dist/public/assets/trophy-BwFcKj6T.js            0.95 kB │ gzip:  0.46 kB
+2025-08-29T05:19:13.717937742Z ../dist/public/assets/zap-Dr1VfK7o.js               1.42 kB │ gzip:  0.55 kB
+2025-08-29T05:19:13.718106775Z ../dist/public/assets/tabs-M4JshjRc.js              6.68 kB │ gzip:  2.68 kB
+2025-08-29T05:19:13.718133606Z ../dist/public/assets/Landing-vWw9D8W6.js           7.84 kB │ gzip:  2.13 kB
+2025-08-29T05:19:13.718143496Z ../dist/public/assets/index-B-SC77mJ.js             8.12 kB │ gzip:  3.39 kB
+2025-08-29T05:19:13.718172297Z ../dist/public/assets/CreatorInbox-C6rbozvL.js     11.47 kB │ gzip:  4.07 kB
+2025-08-29T05:19:13.718178447Z ../dist/public/assets/AuthPage-Cv_4J_Tw.js         12.88 kB │ gzip:  3.75 kB
+2025-08-29T05:19:13.718204387Z ../dist/public/assets/Profile-PWn9pwt4.js          17.30 kB │ gzip:  5.00 kB
+2025-08-29T05:19:13.718208607Z ../dist/public/assets/Account-CyWvQGLS.js          78.99 kB │ gzip: 24.85 kB
+2025-08-29T05:19:13.718242558Z ../dist/public/assets/Tutorial-BnAt8RZL.js         83.11 kB │ gzip: 20.28 kB
+2025-08-29T05:19:13.718244948Z ../dist/public/assets/Home-DaMnpgOY.js            192.90 kB │ gzip: 48.65 kB
+2025-08-29T05:19:13.718280299Z ../dist/public/assets/index-CUYeu16j.js           292.36 kB │ gzip: 95.64 kB
+2025-08-29T05:19:13.718547664Z ✓ built in 4.67s
+2025-08-29T05:19:13.781360253Z ✘ [ERROR] "await" can only be used inside an "async" function
+2025-08-29T05:19:13.781386204Z 
+2025-08-29T05:19:13.781390444Z     server/authJWT.ts:85:31:
+2025-08-29T05:19:13.781394524Z       85 │         const resolvedUserId = await storage.resolveUserId("468489...
+2025-08-29T05:19:13.781397444Z          ╵                                ~~~~~
+2025-08-29T05:19:13.781399724Z 
+2025-08-29T05:19:13.781402854Z   Consider adding the "async" keyword here:
+2025-08-29T05:19:13.781405074Z 
+2025-08-29T05:19:13.781407445Z     server/authJWT.ts:49:7:
+2025-08-29T05:19:13.781410254Z       49 │ export function verifyToken(req: any, res: any, next: any) {
+2025-08-29T05:19:13.781413414Z          │        ^
+2025-08-29T05:19:13.781415985Z          ╵        async
+2025-08-29T05:19:13.781418175Z 
+2025-08-29T05:19:13.781987445Z 1 error
+2025-08-29T05:19:13.802300043Z ==> Build failed 😞
+2025-08-29T05:19:13.802319114Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys

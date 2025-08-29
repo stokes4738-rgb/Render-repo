@@ -46,7 +46,7 @@ function generateToken(user: any): string {
   );
 }
 
-export function verifyToken(req: any, res: any, next: any) {
+export async function verifyToken(req: any, res: any, next: any) {
   const token = req.headers.authorization?.replace("Bearer ", "");
   
   if (!token) {

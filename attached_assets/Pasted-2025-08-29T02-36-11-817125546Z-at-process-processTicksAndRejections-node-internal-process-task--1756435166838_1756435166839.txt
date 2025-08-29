@@ -1,0 +1,99 @@
+2025-08-29T02:36:11.817125546Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:11.817127896Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:11.817129677Z     at async processExpiredBounties (file:///opt/render/project/src/dist/index.js:2122:29)
+2025-08-29T02:36:11.817132037Z     at async Promise.all (index 0)
+2025-08-29T02:36:11.817133857Z     at async file:///opt/render/project/src/dist/index.js:2485:9 {
+2025-08-29T02:36:11.817135547Z   errno: -111,
+2025-08-29T02:36:11.817137727Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:11.817139447Z   syscall: 'connect',
+2025-08-29T02:36:11.817141717Z   address: '10.230.167.149',
+2025-08-29T02:36:11.817143377Z   port: 2
+2025-08-29T02:36:11.817144987Z }
+2025-08-29T02:36:11.818021035Z [ERROR] 2025-08-29T02:36:11.817Z: Expired boosts update failed: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:11.818033106Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:11.818036056Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:11.818037966Z     at async DatabaseStorage.updateExpiredBoosts (file:///opt/render/project/src/dist/index.js:1031:9)
+2025-08-29T02:36:11.818040406Z     at async Promise.all (index 1)
+2025-08-29T02:36:11.818042186Z     at async file:///opt/render/project/src/dist/index.js:2485:9 {
+2025-08-29T02:36:11.818043886Z   errno: -111,
+2025-08-29T02:36:11.818046606Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:11.818048356Z   syscall: 'connect',
+2025-08-29T02:36:11.818050636Z   address: '10.230.167.149',
+2025-08-29T02:36:11.818052337Z   port: 2
+2025-08-29T02:36:11.818054087Z }
+2025-08-29T02:36:11.820483079Z [ERROR] 2025-08-29T02:36:11.820Z: Bounties query failed: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:11.82049855Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:11.82050156Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:11.82050351Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:11.82050529Z     at async DatabaseStorage.getActiveBounties (file:///opt/render/project/src/dist/index.js:1017:32)
+2025-08-29T02:36:11.82050705Z     at async file:///opt/render/project/src/dist/index.js:2519:21 {
+2025-08-29T02:36:11.820509661Z   errno: -111,
+2025-08-29T02:36:11.820513071Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:11.820516401Z   syscall: 'connect',
+2025-08-29T02:36:11.820520321Z   address: '10.230.167.149',
+2025-08-29T02:36:11.820522841Z   port: 2
+2025-08-29T02:36:11.820525991Z }
+2025-08-29T02:36:11.821484463Z 2:36:11 AM [express] GET /api/bounties 304 in 19ms :: []
+2025-08-29T02:36:17.709555042Z 2:36:17 AM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T02:36:17.716715872Z [ERROR] 2025-08-29T02:36:17.716Z: Error fetching creator stats: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:17.716750523Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:17.716754934Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:17.716757314Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:17.716759394Z     at async DatabaseStorage.getSessionMetrics (file:///opt/render/project/src/dist/index.js:1043:34)
+2025-08-29T02:36:17.716761474Z     at async file:///opt/render/project/src/dist/index.js:4109:27 {
+2025-08-29T02:36:17.716763554Z   errno: -111,
+2025-08-29T02:36:17.716766214Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:17.716768284Z   syscall: 'connect',
+2025-08-29T02:36:17.716771745Z   address: '10.230.167.149',
+2025-08-29T02:36:17.716773895Z   port: 2
+2025-08-29T02:36:17.716775955Z }
+2025-08-29T02:36:17.717197618Z 2:36:17 AM [express] GET /api/creator/stats 500 in 7ms :: {"message":"Failed to fetch creator stats"}
+2025-08-29T02:36:41.261856159Z [ERROR] 2025-08-29T02:36:41.261Z: Payment methods query failed: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:41.26188214Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:41.261886481Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:41.261889461Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:41.261892591Z     at async file:///opt/render/project/src/dist/index.js:3268:31 {
+2025-08-29T02:36:41.261895611Z   errno: -111,
+2025-08-29T02:36:41.261899341Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:41.261902242Z   syscall: 'connect',
+2025-08-29T02:36:41.261905912Z   address: '10.230.167.149',
+2025-08-29T02:36:41.261908902Z   port: 2
+2025-08-29T02:36:41.261911732Z }
+2025-08-29T02:36:41.262468582Z 2:36:41 AM [express] GET /api/payments/methods 304 in 8ms :: []
+2025-08-29T02:36:41.263587783Z [ERROR] 2025-08-29T02:36:41.263Z: Error fetching transactions: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:41.263600034Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:41.263604804Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:41.263607744Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:41.263610594Z     at async file:///opt/render/project/src/dist/index.js:2842:29 {
+2025-08-29T02:36:41.263613835Z   errno: -111,
+2025-08-29T02:36:41.263619145Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:41.263624225Z   syscall: 'connect',
+2025-08-29T02:36:41.263629295Z   address: '10.230.167.149',
+2025-08-29T02:36:41.263633685Z   port: 2
+2025-08-29T02:36:41.263638146Z }
+2025-08-29T02:36:41.264096931Z 2:36:41 AM [express] GET /api/user/transactions 500 in 6ms :: {"message":"Failed to fetch transactio…
+2025-08-29T02:36:41.265273385Z [ERROR] 2025-08-29T02:36:41.265Z: Error fetching payment history: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:41.265282395Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:41.265285466Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:41.265288286Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:41.265292896Z     at async file:///opt/render/project/src/dist/index.js:3523:25 {
+2025-08-29T02:36:41.265309567Z   errno: -111,
+2025-08-29T02:36:41.265324498Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:41.265326448Z   syscall: 'connect',
+2025-08-29T02:36:41.265328428Z   address: '10.230.167.149',
+2025-08-29T02:36:41.265330188Z   port: 2
+2025-08-29T02:36:41.265331848Z }
+2025-08-29T02:36:41.265800243Z 2:36:41 AM [express] GET /api/payments/history 500 in 7ms :: {"message":"Failed to fetch payment his…
+2025-08-29T02:36:49.492999081Z [ERROR] 2025-08-29T02:36:49.492Z: Error creating setup intent: Error: connect ECONNREFUSED 10.230.167.149:2
+2025-08-29T02:36:49.493017362Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T02:36:49.493021282Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T02:36:49.493023632Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T02:36:49.493025852Z     at async DatabaseStorage.getUser (file:///opt/render/project/src/dist/index.js:504:24)
+2025-08-29T02:36:49.493028032Z     at async file:///opt/render/project/src/dist/index.js:3290:20 {
+2025-08-29T02:36:49.493032783Z   errno: -111,
+2025-08-29T02:36:49.493036153Z   code: 'ECONNREFUSED',
+2025-08-29T02:36:49.493039713Z   syscall: 'connect',
+2025-08-29T02:36:49.493044203Z   address: '10.230.167.149',
+2025-08-29T02:36:49.493047673Z   port: 2
+2025-08-29T02:36:49.493051433Z }
+2025-08-29T02:36:49.493516619Z 2:36:49 AM [express] POST /api/payments/setup-intent 500 in 5ms :: {"message":"Failed to create setu…

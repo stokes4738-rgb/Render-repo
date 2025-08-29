@@ -13,6 +13,7 @@ import CreatorDashboard from "./CreatorDashboard";
 import CreatorInbox from "./CreatorInbox";
 import Referrals from "./Referrals";
 import PointsStore from "./PointsStore";
+import Games from "./Games";
 import { CreatorAuthModal } from "@/components/CreatorAuthModal";
 
 export default function Home() {
@@ -82,6 +83,8 @@ export default function Home() {
         return <Post />;
       case "messages":
         return <Messages />;
+      case "arcade":
+        return <Games />;
       case "profile":
         return <Profile />;
       case "friends":

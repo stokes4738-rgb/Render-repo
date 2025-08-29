@@ -1,0 +1,62 @@
+2025-08-29T13:45:12.542343158Z   dist/index.js  207.5kb
+2025-08-29T13:45:12.542345769Z 
+2025-08-29T13:45:12.542348538Z ⚡ Done in 15ms
+2025-08-29T13:45:13.696858762Z ==> Uploading build...
+2025-08-29T13:45:24.486733653Z ==> Uploaded in 7.4s. Compression took 3.4s
+2025-08-29T13:45:24.549899781Z ==> Build successful 🎉
+2025-08-29T13:45:28.29184244Z ==> Deploying...
+2025-08-29T13:45:45.894364596Z ==> Running 'npm start'
+2025-08-29T13:45:46.184130566Z 
+2025-08-29T13:45:46.184151486Z > rest-express@1.0.0 start
+2025-08-29T13:45:46.184155446Z > NODE_ENV=production node dist/index.js
+2025-08-29T13:45:46.184158207Z 
+2025-08-29T13:45:48.284833145Z [dotenv@17.2.1] injecting env (0) from .env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+2025-08-29T13:45:48.286653834Z 📊 Database Configuration:
+2025-08-29T13:45:48.286663124Z    User: pocket_user
+2025-08-29T13:45:48.286735625Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-29T13:45:48.286818057Z    Database: pocket_bounty
+2025-08-29T13:45:48.286854608Z    SSL: enabled
+2025-08-29T13:45:48.288172756Z 🚀 Environment: PRODUCTION
+2025-08-29T13:45:48.28837842Z 🔍 Testing database connection (3 attempts)...
+2025-08-29T13:45:48.390892184Z 🚀 PocketBounty Server Starting...
+2025-08-29T13:45:48.391125599Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T13:45:48.391132239Z 📱 App Name: PocketBounty
+2025-08-29T13:45:48.391143009Z 🌍 Environment: production
+2025-08-29T13:45:48.391148639Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-29T13:45:48.39117877Z 🚪 Port: 3000
+2025-08-29T13:45:48.39118178Z 💳 Stripe Mode: TEST
+2025-08-29T13:45:48.39118545Z 📧 Email: Configured
+2025-08-29T13:45:48.391197271Z 🔐 Session: Configured
+2025-08-29T13:45:48.391199091Z 🗄️  Database: Configured
+2025-08-29T13:45:48.391257552Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T13:45:48.398294832Z ❌ Connection attempt 1/3 failed:
+2025-08-29T13:45:48.398418705Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:45:48.398424875Z    Network error - unable to reach database server
+2025-08-29T13:45:48.398458986Z    ⏳ Waiting 1000ms before retry...
+2025-08-29T13:45:48.39912425Z Database operation "getUserByUsername(support)" failed (attempt 1/3): Error connecting to database: fetch failed
+2025-08-29T13:45:48.399137661Z Waiting 1000ms before retrying "getUserByUsername(support)"...
+2025-08-29T13:45:49.403678635Z ❌ Connection attempt 2/3 failed:
+2025-08-29T13:45:49.403700395Z    ⏳ Waiting 2000ms before retry...
+2025-08-29T13:45:49.403702365Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:45:49.403713555Z    Network error - unable to reach database server
+2025-08-29T13:45:49.404700146Z Database operation "getUserByUsername(support)" failed (attempt 2/3): Error connecting to database: fetch failed
+2025-08-29T13:45:49.404711987Z Waiting 2000ms before retrying "getUserByUsername(support)"...
+2025-08-29T13:45:50.78565315Z ==> Your service is live 🎉
+2025-08-29T13:45:50.812848996Z ==> 
+2025-08-29T13:45:50.838346392Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T13:45:50.862554059Z ==> 
+2025-08-29T13:45:50.886201506Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T13:45:50.911291493Z ==> 
+2025-08-29T13:45:50.937666149Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T13:45:51.409285739Z ❌ Connection attempt 3/3 failed:
+2025-08-29T13:45:51.409306489Z    Error: Error connecting to database: fetch failed
+2025-08-29T13:45:51.409309159Z    Network error - unable to reach database server
+2025-08-29T13:45:51.409311299Z ❌ All database connection attempts failed
+2025-08-29T13:45:51.409314589Z 💡 Server will continue running, but database operations will fail
+2025-08-29T13:45:51.409316799Z 💡 Please check your DATABASE_URL environment variable
+2025-08-29T13:45:51.409391091Z ⚠️  CRITICAL: Database unreachable in production!
+2025-08-29T13:45:51.409396501Z ⚠️  Please verify your Neon database configuration
+2025-08-29T13:45:51.409398711Z ⚠️  Check if you need to use the External Database URL
+2025-08-29T13:45:51.410458664Z Database operation "getUserByUsername(support)" failed (attempt 3/3): Error connecting to database: fetch failed
+2025-08-29T13:45:51.42619992Z 1:45:51 PM [express] Warning: Failed to ensure support user: Error connecting to database: fetch failed
+2025-08-29T13:45:51.426313073Z 1:45:51 PM [express] serving on port 3000

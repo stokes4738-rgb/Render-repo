@@ -1234,6 +1234,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Message is required" });
       }
 
+      // If creator is sending feedback to themselves, handle it differently
+      if (userId === creatorId) {
+        // Log creator feedback for internal tracking
+        logger.info(`Creator self-feedback: ${message}`);
+        return res.status(201).json({ 
+          success: true, 
+          message: "Feedback received and logged for internal review" 
+        });
+      }
+
       // Add timeout protection for database operations
       const queryTimeout = 15000; // 15 seconds for complex feedback operations
       

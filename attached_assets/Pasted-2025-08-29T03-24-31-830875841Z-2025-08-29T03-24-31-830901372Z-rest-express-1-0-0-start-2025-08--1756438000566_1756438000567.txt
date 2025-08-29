@@ -1,0 +1,50 @@
+2025-08-29T03:24:31.830875841Z 
+2025-08-29T03:24:31.830901372Z > rest-express@1.0.0 start
+2025-08-29T03:24:31.830906961Z > NODE_ENV=production node dist/index.js
+2025-08-29T03:24:31.830909821Z 
+2025-08-29T03:24:33.936278459Z Production mode: skipping connection test, will connect on demand
+2025-08-29T03:24:34.036635014Z 3:24:33 AM [express] serving on port 3000
+2025-08-29T03:24:35.667971014Z ==> Your service is live 🎉
+2025-08-29T03:24:35.703749919Z ==> 
+2025-08-29T03:24:35.914717131Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:24:35.940457007Z ==> 
+2025-08-29T03:24:35.966431204Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T03:24:35.99726671Z ==> 
+2025-08-29T03:24:36.022397236Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T03:25:16.435922406Z 3:25:16 AM [express] GET /api/user 200 in 3ms :: {"id":"46848986","username":"Dallas1221","email":"s…
+2025-08-29T03:25:17.060557728Z 3:25:17 AM [express] GET /api/bounties 304 in 72ms :: []
+2025-08-29T03:25:23.970183855Z [ERROR] 2025-08-29T03:25:23.966Z: Feedback operation timeout: error: insert or update on table "message_threads" violates foreign key constraint "message_threads_user1_id_users_id_fk"
+2025-08-29T03:25:23.970206556Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T03:25:23.970210936Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T03:25:23.970214346Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T03:25:23.970217196Z     at async DatabaseStorage.getOrCreateThread (file:///opt/render/project/src/dist/index.js:722:29)
+2025-08-29T03:25:23.970220176Z     at async file:///opt/render/project/src/dist/index.js:3084:24 {
+2025-08-29T03:25:23.970223026Z   length: 306,
+2025-08-29T03:25:23.970226606Z   severity: 'ERROR',
+2025-08-29T03:25:23.970229346Z   code: '23503',
+2025-08-29T03:25:23.970232176Z   detail: 'Key (user1_id)=(46848986) is not present in table "users".',
+2025-08-29T03:25:23.970235006Z   hint: undefined,
+2025-08-29T03:25:23.970237736Z   position: undefined,
+2025-08-29T03:25:23.970241796Z   internalPosition: undefined,
+2025-08-29T03:25:23.970244756Z   internalQuery: undefined,
+2025-08-29T03:25:23.970247526Z   where: undefined,
+2025-08-29T03:25:23.970250317Z   schema: 'public',
+2025-08-29T03:25:23.970253057Z   table: 'message_threads',
+2025-08-29T03:25:23.970255807Z   column: undefined,
+2025-08-29T03:25:23.970258547Z   dataType: undefined,
+2025-08-29T03:25:23.970261897Z   constraint: 'message_threads_user1_id_users_id_fk',
+2025-08-29T03:25:23.970264637Z   file: 'ri_triggers.c',
+2025-08-29T03:25:23.970267407Z   line: '2608',
+2025-08-29T03:25:23.970270137Z   routine: 'ri_ReportViolation'
+2025-08-29T03:25:23.970272917Z }
+2025-08-29T03:25:23.97094314Z 3:25:23 AM [express] POST /api/feedback 408 in 11ms :: {"message":"Request timeout - please try agai…
+2025-08-29T03:25:28.020563063Z 3:25:28 AM [express] GET /api/payments/methods 304 in 16ms :: []
+2025-08-29T03:25:28.021327538Z 3:25:28 AM [express] GET /api/user/transactions 304 in 15ms :: []
+2025-08-29T03:25:28.02194512Z 3:25:28 AM [express] GET /api/payments/history 304 in 13ms :: []
+2025-08-29T03:25:32.666042857Z 3:25:32 AM [express] GET /api/admin/banned-ips 200 in 1ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T03:25:32.833411018Z [ERROR] 2025-08-29T03:25:32.833Z: Error fetching creator stats: ReferenceError: sevenDaysAgo is not defined
+2025-08-29T03:25:32.833428079Z     at file:///opt/render/project/src/dist/index.js:4107:30
+2025-08-29T03:25:32.833432979Z     at Array.filter (<anonymous>)
+2025-08-29T03:25:32.833436589Z     at file:///opt/render/project/src/dist/index.js:4105:42
+2025-08-29T03:25:32.833440889Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T03:25:32.8340484Z 3:25:32 AM [express] GET /api/creator/stats 500 in 167ms :: {"message":"Failed to fetch creator stat…

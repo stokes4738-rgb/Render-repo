@@ -2541,6 +2541,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const monthlyActiveUsers = global.realActivityCounts?.monthly || 0;
 
       // Calculate retention rate (users who returned after 7 days)
+      const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
       const usersFromLastWeek = allUsers.filter(u => {
         const createdDate = new Date(u.createdAt);
         return createdDate < sevenDaysAgo && createdDate > new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);

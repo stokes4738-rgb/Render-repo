@@ -8,18 +8,16 @@ if (!process.env.DATABASE_URL) {
 // Parse the database URL to check if it's internal or external
 const isInternalUrl = process.env.DATABASE_URL.includes('dpg-') && !process.env.DATABASE_URL.includes('.render.com');
 
-// Create a connection pool optimized for Neon Scale plan
+// Create a simple, reliable connection pool for Neon
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  // Optimized for Scale plan with unlimited connections
-  max: 20, // Increased pool size for Scale plan
-  min: 5, // Keep minimum connections alive
-  idleTimeoutMillis: 300000, // 5 minutes - Scale plan can handle longer connections
-  connectionTimeoutMillis: 30000, // Faster connection on Scale plan
+  // Minimal, stable settings
+  max: 1, // Single connection only
+  min: 0, // No persistent connections
+  idleTimeoutMillis: 5000, // Quick cleanup (5 seconds)
+  connectionTimeoutMillis: 60000, // Standard timeout (1 minute)
   // SSL configuration for Neon
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 // Test the connection on startup with retry logic

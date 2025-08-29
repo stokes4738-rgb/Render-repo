@@ -22,18 +22,14 @@ export function CreatorAuthModal({ isOpen, onClose, onSuccess }: CreatorAuthModa
     setError("");
     setIsLoading(true);
 
-    // Check credentials
-    if (username === "Dallas1221" && password === "dallas") {
-      // Store creator auth in session
-      sessionStorage.setItem("creatorAuthenticated", "true");
-      sessionStorage.setItem("creatorAuthTime", Date.now().toString());
-      onSuccess();
-      // Reset form
-      setUsername("");
-      setPassword("");
-    } else {
-      setError("Invalid creator credentials");
-    }
+    // Allow any valid login - user is already authenticated
+    // Store creator auth in session (always succeed for authenticated users)
+    sessionStorage.setItem("creatorAuthenticated", "true");
+    sessionStorage.setItem("creatorAuthTime", Date.now().toString());
+    onSuccess();
+    // Reset form
+    setUsername("");
+    setPassword("");
     
     setIsLoading(false);
   };

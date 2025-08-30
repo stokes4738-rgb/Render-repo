@@ -35,7 +35,8 @@ function AddPaymentMethodForm({ onSuccess }: { onSuccess: () => void }) {
 
   const setupIntentMutation = useMutation({
     mutationFn: async () => {
-      return apiRequest("POST", "/api/payments/setup-intent", {});
+      const response = await apiRequest("POST", "/api/payments/setup-intent", {});
+      return response.json();
     },
     onError: (error) => {
       if (isUnauthorizedError(error)) {
@@ -96,7 +97,13 @@ function AddPaymentMethodForm({ onSuccess }: { onSuccess: () => void }) {
 
     try {
       const response = await setupIntentMutation.mutateAsync();
+      console.log("Setup intent response:", response);
       const clientSecret = (response as any).clientSecret;
+      console.log("Client secret:", clientSecret);
+
+      if (!clientSecret) {
+        throw new Error("No client secret received from server");
+      }
 
       const { error, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
         payment_method: {

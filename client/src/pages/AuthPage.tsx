@@ -40,10 +40,16 @@ type LoginForm = z.infer<typeof loginSchema>;
 type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function AuthPage() {
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const { toast } = useToast();
   const { loginMutation, registerMutation, isAuthenticated } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
+  
+  // Check for referral code in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const referralCode = urlParams.get('ref');
+  
+  // If there's a referral code, default to signup mode
+  const [isLogin, setIsLogin] = useState(!referralCode);
   
   // Direct state management instead of react-hook-form to avoid iOS issues
   const [formData, setFormData] = useState({
@@ -184,7 +190,8 @@ export default function AuthPage() {
         dateOfBirth: formData.dateOfBirth,
         parentalConsent: formData.parentalConsent,
         parentEmail: formData.parentEmail,
-        parentName: formData.parentName
+        parentName: formData.parentName,
+        referralCode: referralCode // Include referral code if present
       } as any);
     }
   };
@@ -229,6 +236,13 @@ export default function AuthPage() {
               <p className="text-blue-200 text-sm">
                 {isLogin ? "Sign in to your account" : "Create your account and start earning"}
               </p>
+              {referralCode && !isLogin && (
+                <div className="mt-2 p-2 bg-green-500/20 rounded-md">
+                  <p className="text-green-200 text-xs">
+                    🎉 Signing up with referral code: <span className="font-mono font-bold">{referralCode}</span>
+                  </p>
+                </div>
+              )}
             </CardHeader>
             <CardContent className="pt-0">
               <form 

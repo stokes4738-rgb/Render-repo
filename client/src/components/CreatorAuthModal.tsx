@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Shield, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 interface CreatorAuthModalProps {
   isOpen: boolean;
@@ -16,22 +18,51 @@ export function CreatorAuthModal({ isOpen, onClose, onSuccess }: CreatorAuthModa
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setIsLoading(true);
 
-    // Allow any valid login - user is already authenticated
-    // Store creator auth in session (always succeed for authenticated users)
-    sessionStorage.setItem("creatorAuthenticated", "true");
-    sessionStorage.setItem("creatorAuthTime", Date.now().toString());
-    onSuccess();
-    // Reset form
-    setUsername("");
-    setPassword("");
-    
-    setIsLoading(false);
+    try {
+      const response = await apiRequest("POST", "/api/creator/verify", {
+        username,
+        password
+      });
+
+      const data = await response.json();
+      
+      if (data.success && data.username === "Dallas1221") {
+        toast({
+          title: "Access Granted",
+          description: "Welcome to Creator Dashboard",
+        });
+        sessionStorage.setItem("creatorAuthenticated", "true");
+        sessionStorage.setItem("creatorAuthTime", Date.now().toString());
+        onSuccess();
+        // Reset form
+        setUsername("");
+        setPassword("");
+      } else {
+        setError("Invalid credentials. Creator access denied.");
+        toast({
+          title: "Access Denied",
+          description: "Only authorized creator accounts can access this area.",
+          variant: "destructive",
+        });
+      }
+    } catch (err) {
+      setError("Authentication failed. Please try again.");
+      toast({
+        title: "Error",
+        description: "Failed to verify credentials",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+      setPassword("");
+    }
   };
 
   const handleClose = () => {

@@ -176,8 +176,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     mutationFn: async () => {
       clearStoredToken();
       setToken(null);
-      // Clear creator verification when logging out
+      // Clear ALL creator verification when logging out
       sessionStorage.removeItem("creator_verified");
+      sessionStorage.removeItem("creatorAuthenticated");
+      sessionStorage.removeItem("creatorAuthTime");
     },
     onSuccess: () => {
       queryClient.setQueryData(["/api/user"], null);

@@ -1,0 +1,54 @@
+2025-08-30T18:13:57.884221547Z ../dist/public/assets/Landing-XDv9w4O8.js           7.84 kB │ gzip:  2.13 kB
+2025-08-30T18:13:57.884230277Z ../dist/public/assets/index-BYNC6w49.js             8.12 kB │ gzip:  3.38 kB
+2025-08-30T18:13:57.884246037Z ../dist/public/assets/AuthPage-CWWGnLC4.js         12.84 kB │ gzip:  3.73 kB
+2025-08-30T18:13:57.884248347Z ../dist/public/assets/CreatorInbox-B2cFIEv0.js     14.52 kB │ gzip:  4.91 kB
+2025-08-30T18:13:57.884281648Z ../dist/public/assets/Profile-DO6ArhPS.js          16.88 kB │ gzip:  4.86 kB
+2025-08-30T18:13:57.884285408Z ../dist/public/assets/Account-HQs_DXS2.js          79.12 kB │ gzip: 24.92 kB
+2025-08-30T18:13:57.884287748Z ../dist/public/assets/Tutorial-Ba8ChmNS.js         83.11 kB │ gzip: 20.28 kB
+2025-08-30T18:13:57.884292058Z ../dist/public/assets/Home-CCK4KmU1.js            193.44 kB │ gzip: 48.84 kB
+2025-08-30T18:13:57.884293898Z ../dist/public/assets/index-BOfgtFEH.js           292.51 kB │ gzip: 95.67 kB
+2025-08-30T18:13:57.884569684Z ✓ built in 4.87s
+2025-08-30T18:13:57.953157324Z 
+2025-08-30T18:13:57.953182494Z   dist/index.js  209.7kb
+2025-08-30T18:13:57.953185684Z 
+2025-08-30T18:13:57.953188315Z ⚡ Done in 16ms
+2025-08-30T18:13:59.220501155Z ==> Uploading build...
+2025-08-30T18:14:53.045903431Z ==> Uploaded in 8.2s. Compression took 45.7s
+2025-08-30T18:14:53.105441817Z ==> Build successful 🎉
+2025-08-30T18:15:19.797116462Z ==> Deploying...
+2025-08-30T18:15:39.555250749Z 📊 Database Configuration:
+2025-08-30T18:15:39.55527826Z    User: pocket_user
+2025-08-30T18:15:39.55530267Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T18:15:39.555429733Z    Database: pocket_bounty
+2025-08-30T18:15:39.555482854Z    SSL: enabled
+2025-08-30T18:15:39.555487905Z    Type: Render Internal Database
+2025-08-30T18:15:39.556299405Z 🚀 Environment: PRODUCTION
+2025-08-30T18:15:39.556576351Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T18:15:39.663837455Z 🚀 PocketBounty Server Starting...
+2025-08-30T18:15:39.663875786Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T18:15:39.663881667Z 📱 App Name: PocketBounty
+2025-08-30T18:15:39.663885036Z 🌍 Environment: production
+2025-08-30T18:15:39.663892537Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T18:15:39.663896067Z 🚪 Port: 3000
+2025-08-30T18:15:39.663900977Z 💳 Stripe Mode: LIVE
+2025-08-30T18:15:39.663917077Z 📧 Email: Configured
+2025-08-30T18:15:39.663923368Z 🔐 Session: Configured
+2025-08-30T18:15:39.663929108Z 🗄️  Database: Configured
+2025-08-30T18:15:39.663933748Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T18:15:39.757469067Z ✅ Database connection successful
+2025-08-30T18:15:39.757650092Z    Server time: Sat Aug 30 2025 18:15:39 GMT+0000 (Coordinated Universal Time)
+2025-08-30T18:15:39.757657202Z    Database: pocket_bounty
+2025-08-30T18:15:39.757660132Z    PostgreSQL: 16.10
+2025-08-30T18:15:39.774366749Z 6:15:39 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T18:15:39.774493702Z 6:15:39 PM [express] serving on port 3000
+2025-08-30T18:15:42.42024133Z ==> Your service is live 🎉
+2025-08-30T18:15:42.446276778Z ==> 
+2025-08-30T18:15:42.469812784Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T18:15:42.492727952Z ==> 
+2025-08-30T18:15:42.515708789Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T18:15:42.541753626Z ==> 
+2025-08-30T18:15:42.568324943Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T18:17:07.046081118Z Login attempt for username: Dallas1221
+2025-08-30T18:17:07.05025635Z 6:17:07 PM [express] POST /api/login 200 in 4ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-30T18:17:07.557472876Z 6:17:07 PM [express] GET /api/bounties 304 in 82ms :: []
+2025-08-30T18:17:13.49546022Z 6:17:13 PM [express] POST /api/creator/verify 401 in 58ms :: {"success":false,"message":"Invalid cre…

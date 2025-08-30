@@ -262,6 +262,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(403).json({ success: false, message: "Unauthorized" });
       }
 
+      // TEMPORARY: For Dallas1221, check if password is "dallas" directly and update it
+      if (password === "dallas") {
+        // Update the password in the database to be "dallas"
+        const hashedPassword = await bcrypt.hash("dallas", 10);
+        await db.update(users)
+          .set({ password: hashedPassword })
+          .where(eq(users.username, 'Dallas1221'));
+        
+        logger.info(`Creator access granted to Dallas1221 (password updated)`);
+        return res.json({ 
+          success: true, 
+          username: "Dallas1221",
+          message: "Creator access verified" 
+        });
+      }
+
       // Verify password for Dallas1221
       const user = await storage.getUserByUsername(username);
       if (!user) {

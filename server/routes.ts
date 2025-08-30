@@ -2268,10 +2268,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       // Create onboarding link
+      const baseUrl = process.env.BASE_URL || 'https://pocketbounty-web.onrender.com';
       const accountLink = await stripe.accountLinks.create({
         account: connectAccountId,
-        refresh_url: `${process.env.BASE_URL}/account?tab=withdraw`,
-        return_url: `${process.env.BASE_URL}/account?tab=withdraw&onboarding=complete`,
+        refresh_url: `${baseUrl}/account?tab=withdraw`,
+        return_url: `${baseUrl}/account?tab=withdraw&onboarding=complete`,
         type: 'account_onboarding',
       });
       

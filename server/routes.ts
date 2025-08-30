@@ -291,6 +291,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Temporary endpoint to reset Dallas1221 password (remove after use)
+  app.post('/api/reset-creator-password', async (req, res) => {
+    try {
+      const { newPassword } = req.body;
+      
+      if (!newPassword) {
+        return res.status(400).json({ success: false, message: "New password required" });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      
+      // Update Dallas1221 password
+      await db.update(users)
+        .set({ password: hashedPassword })
+        .where(eq(users.username, 'Dallas1221'));
+
+      logger.info('Dallas1221 password updated');
+      res.json({ 
+        success: true, 
+        message: "Dallas1221 password updated successfully"
+      });
+    } catch (error) {
+      logger.error("Reset password error:", error);
+      res.status(500).json({ success: false, message: "Failed to reset password" });
+    }
+  });
 
   // Auth middleware
   setupAuthJWT(app);

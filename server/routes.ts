@@ -2133,52 +2133,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Process the payout using the new direct payment methods
+      // For individual users, we'll process withdrawals as refunds or manual transfers
+      // This is much simpler than Stripe Connect for individual users
       let payoutResult;
       let transferId;
       
-      if (stripe && (user.bankAccountToken || user.debitCardToken)) {
-        // Use the new direct payout methods
-        if (method === 'debit_card' && user.debitCardToken && user.stripeConnectAccountId) {
-          const { processCardPayout } = await import('./stripePayouts');
-          payoutResult = await processCardPayout(
-            userId,
-            withdrawalAmount,
-            user.stripeConnectAccountId,
-            feeAmount
-          );
-          transferId = payoutResult.payoutId;
-        } else if (method === 'bank_transfer' && user.bankAccountToken && user.stripeConnectAccountId) {
-          const { processBankTransfer } = await import('./stripePayouts');
-          payoutResult = await processBankTransfer(
-            userId,
-            withdrawalAmount,
-            user.stripeConnectAccountId
-          );
-          transferId = payoutResult.transferId;
-        } else {
-          // Fallback for other methods
-          const { processStripePayout } = await import('./stripePayouts');
-          payoutResult = await processStripePayout({
-            amount: finalAmount,
-            userId,
-            email: user.email,
-            stripeConnectAccountId: user.stripeConnectAccountId,
-            method: method === 'debit_card' ? 'debit_card' : 'bank_transfer'
-          });
-          transferId = payoutResult.payoutId;
-        }
-      } else {
-        // Fallback to simulated payout
-        transferId = `sim_transfer_${Date.now()}`;
-        payoutResult = {
-          success: true,
-          payoutId: transferId,
-          amount: finalAmount,
-          status: 'pending',
-          estimatedArrival: method === 'debit_card' ? 'instant' : '1-2 business days'
-        };
-      }
+      // Since this is for individuals, not a marketplace, we'll handle withdrawals differently
+      // Store withdrawal requests and process them manually or via simpler Stripe methods
+      transferId = `withdrawal_${Date.now()}_${userId}`;
+      
+      // Log withdrawal request for manual processing
+      logger.info(`Withdrawal request: User ${user.username} requesting $${finalAmount} via ${method}`);
+      
+      // For now, simulate the withdrawal and you can process manually through Stripe dashboard
+      payoutResult = {
+        success: true,
+        payoutId: transferId,
+        amount: finalAmount,
+        status: 'pending',
+        estimatedArrival: method === 'debit_card' ? '1-3 business days' : '3-5 business days',
+        note: 'Withdrawal request received and will be processed'
+      };
 
       // Create withdrawal transaction record
       const methodNames: Record<string, string> = {

@@ -1,0 +1,50 @@
+2025-08-30T17:35:20.087093023Z 5:35:20 PM [express] POST /api/creator/verify 500 in 3ms :: {"success":false,"message":"Verification…
+2025-08-30T17:36:58.373783238Z ==> Deploying...
+2025-08-30T17:37:20.495433543Z ==> Running 'npm start'
+2025-08-30T17:37:20.826498208Z 
+2025-08-30T17:37:20.826521768Z > rest-express@1.0.0 start
+2025-08-30T17:37:20.826527928Z > NODE_ENV=production node dist/index.js
+2025-08-30T17:37:20.826530659Z 
+2025-08-30T17:37:21.079497308Z node:internal/modules/package_json_reader:256
+2025-08-30T17:37:21.079516298Z   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-08-30T17:37:21.079519009Z         ^
+2025-08-30T17:37:21.079521118Z 
+2025-08-30T17:37:21.079524169Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'bcrypt' imported from /opt/render/project/src/dist/index.js
+2025-08-30T17:37:21.079528389Z     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+2025-08-30T17:37:21.079531419Z     at packageResolve (node:internal/modules/esm/resolve:768:81)
+2025-08-30T17:37:21.079533879Z     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+2025-08-30T17:37:21.079536159Z     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+2025-08-30T17:37:21.079538639Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:780:12)
+2025-08-30T17:37:21.079541239Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:704:25)
+2025-08-30T17:37:21.079543679Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:687:38)
+2025-08-30T17:37:21.079545769Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:305:38)
+2025-08-30T17:37:21.079547809Z     at ModuleJob._link (node:internal/modules/esm/module_job:137:49) {
+2025-08-30T17:37:21.079550289Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-08-30T17:37:21.079552329Z }
+2025-08-30T17:37:21.079554099Z 
+2025-08-30T17:37:21.079556069Z Node.js v22.16.0
+2025-08-30T17:37:29.614366538Z ==> Exited with status 1
+2025-08-30T17:37:29.628972896Z ==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploys
+2025-08-30T17:37:31.41037365Z ==> Running 'npm start'
+2025-08-30T17:37:31.720802074Z 
+2025-08-30T17:37:31.720822455Z > rest-express@1.0.0 start
+2025-08-30T17:37:31.720826255Z > NODE_ENV=production node dist/index.js
+2025-08-30T17:37:31.720827945Z 
+2025-08-30T17:37:31.915372927Z node:internal/modules/package_json_reader:256
+2025-08-30T17:37:31.915392117Z   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+2025-08-30T17:37:31.915395037Z         ^
+2025-08-30T17:37:31.915397307Z 
+2025-08-30T17:37:31.915400217Z Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'bcrypt' imported from /opt/render/project/src/dist/index.js
+2025-08-30T17:37:31.915404627Z     at Object.getPackageJSONURL (node:internal/modules/package_json_reader:256:9)
+2025-08-30T17:37:31.915434478Z     at packageResolve (node:internal/modules/esm/resolve:768:81)
+2025-08-30T17:37:31.915437798Z     at moduleResolve (node:internal/modules/esm/resolve:854:18)
+2025-08-30T17:37:31.915440968Z     at defaultResolve (node:internal/modules/esm/resolve:984:11)
+2025-08-30T17:37:31.915443578Z     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:780:12)
+2025-08-30T17:37:31.915446228Z     at #cachedDefaultResolve (node:internal/modules/esm/loader:704:25)
+2025-08-30T17:37:31.915449158Z     at ModuleLoader.resolve (node:internal/modules/esm/loader:687:38)
+2025-08-30T17:37:31.915451628Z     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:305:38)
+2025-08-30T17:37:31.915453868Z     at ModuleJob._link (node:internal/modules/esm/module_job:137:49) {
+2025-08-30T17:37:31.915456829Z   code: 'ERR_MODULE_NOT_FOUND'
+2025-08-30T17:37:31.915459518Z }
+2025-08-30T17:37:31.915462009Z 
+2025-08-30T17:37:31.915470939Z Node.js v22.16.0

@@ -1,0 +1,50 @@
+2025-08-30T20:40:08.52175007Z   setup_intent: undefined,
+2025-08-30T20:40:08.521787691Z   source: undefined
+2025-08-30T20:40:08.521791371Z }
+2025-08-30T20:40:08.522107318Z 8:40:08 PM [express] POST /api/payments/deposit 400 in 2403ms :: {"message":"Your card has insuffici…
+2025-08-30T20:40:36.774990858Z 8:40:36 PM [express] POST /api/payments/deposit 200 in 1878ms :: {"success":true,"paymentIntent":{"i…
+2025-08-30T20:40:36.916917591Z 8:40:36 PM [express] GET /api/user/transactions 304 in 5ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…
+2025-08-30T20:40:39.406380833Z 8:40:39 PM [express] GET /api/user/transactions 304 in 3ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…
+2025-08-30T20:40:39.551014333Z 8:40:39 PM [express] GET /api/payments/methods 304 in 153ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:41:50.207201573Z 8:41:50 PM [express] GET /api/user 200 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T20:41:50.669860109Z 8:41:50 PM [express] GET /api/bounties 304 in 14ms :: []
+2025-08-30T20:41:52.936967363Z 8:41:52 PM [express] GET /api/user/transactions 304 in 18ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1…
+2025-08-30T20:41:53.050287914Z 8:41:53 PM [express] GET /api/payments/methods 304 in 135ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:41:53.153790805Z 8:41:53 PM [express] GET /api/payments/history 200 in 236ms :: [{"id":"pi_3S1vZfQqdcdobcY61Qp1k2oJ",…
+2025-08-30T20:41:54.250563719Z 8:41:54 PM [express] GET /api/messages/threads 200 in 10ms :: [{"id":"32b993f8-b347-4164-854a-4bc926…
+2025-08-30T20:42:31.289499462Z 8:42:31 PM [express] POST /api/bounties 400 in 38ms :: {"message":"Your content contains inappropria…
+2025-08-30T20:43:47.815810628Z ==> Detected service running on port 3000
+2025-08-30T20:43:47.919295351Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-30T20:46:06.388744281Z ==> Deploying...
+2025-08-30T20:46:26.159373558Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T20:46:26.159471006Z    Database: pocket_bounty
+2025-08-30T20:46:26.159491237Z    SSL: enabled
+2025-08-30T20:46:26.159500088Z    Type: Render Internal Database
+2025-08-30T20:46:26.160101845Z 🚀 Environment: PRODUCTION
+2025-08-30T20:46:26.160304881Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T20:46:26.17959635Z 🚀 PocketBounty Server Starting...
+2025-08-30T20:46:26.179636184Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T20:46:26.179643144Z 📱 App Name: PocketBounty
+2025-08-30T20:46:26.179687398Z 🌍 Environment: production
+2025-08-30T20:46:26.179696508Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T20:46:26.179702419Z 🚪 Port: 3000
+2025-08-30T20:46:26.179730441Z 💳 Stripe Mode: LIVE
+2025-08-30T20:46:26.179732881Z 📧 Email: Configured
+2025-08-30T20:46:26.179751953Z 🔐 Session: Configured
+2025-08-30T20:46:26.179754143Z 🗄️  Database: Configured
+2025-08-30T20:46:26.179756613Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T20:46:26.280624385Z Database operation "getUserByUsername(support)" failed (attempt 1/3): column "last_payment_intent_id" does not exist
+2025-08-30T20:46:26.286267754Z ✅ Database connection successful
+2025-08-30T20:46:26.286284765Z    Server time: Sat Aug 30 2025 20:46:26 GMT+0000 (Coordinated Universal Time)
+2025-08-30T20:46:26.286293066Z    Database: pocket_bounty
+2025-08-30T20:46:26.286317268Z    PostgreSQL: 16.10
+2025-08-30T20:46:26.358900481Z 8:46:26 PM [express] Warning: Failed to ensure support user: column "last_payment_intent_id" of relation "users" does not exist
+2025-08-30T20:46:26.359030652Z 8:46:26 PM [express] serving on port 3000
+2025-08-30T20:46:27.275245651Z ==> Your service is live 🎉
+2025-08-30T20:46:27.306027487Z ==> 
+2025-08-30T20:46:27.333184324Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:46:27.359918521Z ==> 
+2025-08-30T20:46:27.386715718Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T20:46:27.412723245Z ==> 
+2025-08-30T20:46:27.438255382Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:47:13.061328885Z 8:47:13 PM [express] POST /api/sync-all-balances-to-zero 200 in 17ms :: {"success":true,"message":"A…

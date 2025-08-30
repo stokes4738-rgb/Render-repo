@@ -98,7 +98,8 @@ export default function CreatorInbox() {
 
   if (threadsLoading) {
     return (
-      <div className="space-y-4">
+      <CreatorProtected>
+        <div className="space-y-4">
         <div className="flex justify-between items-center">
           <div className="h-6 bg-muted rounded w-48 animate-pulse"></div>
           <div className="h-8 bg-muted rounded w-16 animate-pulse"></div>
@@ -115,12 +116,14 @@ export default function CreatorInbox() {
           </div>
         ))}
       </div>
+      </CreatorProtected>
     );
   }
 
   if (selectedThread) {
     return (
-      <div className="space-y-4">
+      <CreatorProtected>
+        <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -210,11 +213,13 @@ export default function CreatorInbox() {
           </div>
         </Card>
       </div>
+      </CreatorProtected>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <CreatorProtected>
+      <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-lg font-bold flex items-center gap-2">
@@ -290,5 +295,6 @@ export default function CreatorInbox() {
         </div>
       )}
     </div>
+    </CreatorProtected>
   );
 }

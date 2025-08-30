@@ -248,6 +248,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupAuthJWT(app);
 
+  // Creator verification endpoint (special auth for Creator tab)
+  app.post('/api/creator/verify', async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      if (!username || !password) {
+        return res.status(400).json({ success: false, message: "Username and password required" });
+      }
+
+      // Only allow Dallas1221 to access creator features
+      if (username !== "Dallas1221") {
+        logger.warn(`Unauthorized creator access attempt from username: ${username}`);
+        return res.status(403).json({ success: false, message: "Unauthorized" });
+      }
+
+      // Verify password for Dallas1221
+      const user = await storage.getUserByUsername(username);
+      if (!user) {
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
+      }
+
+      const validPassword = await bcrypt.compare(password, user.passwordHash);
+      if (!validPassword) {
+        logger.warn(`Failed creator verification attempt for Dallas1221`);
+        return res.status(401).json({ success: false, message: "Invalid credentials" });
+      }
+
+      logger.info(`Creator access granted to Dallas1221`);
+      res.json({ 
+        success: true, 
+        username: user.username,
+        message: "Creator access verified" 
+      });
+    } catch (error) {
+      logger.error("Creator verification error:", error);
+      res.status(500).json({ success: false, message: "Verification failed" });
+    }
+  });
+
   // Admin safety monitoring endpoints (protected)
   app.get('/api/admin/banned-ips', verifyToken, async (req: any, res) => {
     try {

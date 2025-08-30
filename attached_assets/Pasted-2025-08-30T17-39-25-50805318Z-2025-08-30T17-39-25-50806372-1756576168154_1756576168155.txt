@@ -1,0 +1,50 @@
+2025-08-30T17:39:25.50805318Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T17:39:25.50806372Z 📱 App Name: PocketBounty
+2025-08-30T17:39:25.50806625Z 🌍 Environment: production
+2025-08-30T17:39:25.50806946Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T17:39:25.50807493Z 🚪 Port: 3000
+2025-08-30T17:39:25.50808083Z 💳 Stripe Mode: LIVE
+2025-08-30T17:39:25.508089241Z 📧 Email: Configured
+2025-08-30T17:39:25.508112561Z 🔐 Session: Configured
+2025-08-30T17:39:25.508116171Z 🗄️  Database: Configured
+2025-08-30T17:39:25.508118681Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T17:39:25.596522744Z ✅ Database connection successful
+2025-08-30T17:39:25.596688248Z    Server time: Sat Aug 30 2025 17:39:25 GMT+0000 (Coordinated Universal Time)
+2025-08-30T17:39:25.596693988Z    Database: pocket_bounty
+2025-08-30T17:39:25.596697439Z    PostgreSQL: 16.10
+2025-08-30T17:39:25.613804971Z 5:39:25 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T17:39:25.613902424Z 5:39:25 PM [express] serving on port 3000
+2025-08-30T17:39:34.894438286Z ==> Your service is live 🎉
+2025-08-30T17:39:35.355878162Z ==> 
+2025-08-30T17:39:35.379067899Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:39:35.402299216Z ==> 
+2025-08-30T17:39:35.429750753Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T17:39:35.45612389Z ==> 
+2025-08-30T17:39:35.481362357Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:40:22.78903423Z 5:40:22 PM [express] GET /api/user 200 in 17ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-30T17:40:24.636955505Z 5:40:24 PM [express] GET /api/user 304 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:40:25.063179316Z 5:40:25 PM [express] GET /api/bounties 304 in 17ms :: []
+2025-08-30T17:40:25.520941958Z 5:40:25 PM [express] GET /api/user 304 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:40:25.699017043Z 5:40:25 PM [express] GET /api/bounties 304 in 4ms :: []
+2025-08-30T17:40:26.971487697Z 5:40:26 PM [express] GET /api/user 304 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:40:27.123566735Z 5:40:27 PM [express] GET /api/bounties 304 in 4ms :: []
+2025-08-30T17:40:28.350173632Z 5:40:28 PM [express] GET /api/user 304 in 2ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:40:28.513759008Z 5:40:28 PM [express] GET /api/bounties 304 in 3ms :: []
+2025-08-30T17:40:34.693021135Z 5:40:34 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:40:55.132351926Z [ERROR] 2025-08-30T17:40:55.130Z: Creator verification error: Error: data and hash arguments required
+2025-08-30T17:40:55.132378777Z     at Object.compare (/opt/render/project/src/node_modules/bcrypt/bcrypt.js:204:17)
+2025-08-30T17:40:55.132384697Z     at /opt/render/project/src/node_modules/bcrypt/promises.js:26:12
+2025-08-30T17:40:55.132424658Z     at new Promise (<anonymous>)
+2025-08-30T17:40:55.132433148Z     at Object.promise (/opt/render/project/src/node_modules/bcrypt/promises.js:17:12)
+2025-08-30T17:40:55.132436728Z     at Object.compare (/opt/render/project/src/node_modules/bcrypt/bcrypt.js:200:25)
+2025-08-30T17:40:55.132441338Z     at file:///opt/render/project/src/dist/index.js:2803:42
+2025-08-30T17:40:55.132443618Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:40:55.13294689Z 5:40:55 PM [express] POST /api/creator/verify 500 in 4ms :: {"success":false,"message":"Verification…
+2025-08-30T17:40:59.298775581Z 5:40:59 PM [express] GET /api/user 304 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:40:59.831602912Z 5:40:59 PM [express] GET /api/bounties 304 in 367ms :: []
+2025-08-30T17:41:01.685326779Z 5:41:01 PM [express] GET /api/user 304 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:41:02.101481786Z 5:41:02 PM [express] GET /api/bounties 304 in 4ms :: []
+2025-08-30T17:41:08.014427949Z 5:41:08 PM [express] GET /api/user 304 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T17:41:08.181628492Z 5:41:08 PM [express] GET /api/bounties 304 in 3ms :: []
+2025-08-30T17:44:31.980311585Z ==> Detected service running on port 3000
+2025-08-30T17:44:32.055265798Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding

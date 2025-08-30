@@ -291,40 +291,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Temporary endpoint to create Dallas1221 user (remove after use)
-  app.post('/api/setup-creator', async (req, res) => {
-    try {
-      // Check if Dallas1221 already exists
-      const existingUser = await storage.getUserByUsername('Dallas1221');
-      if (existingUser) {
-        return res.json({ success: true, message: "Dallas1221 already exists" });
-      }
-
-      // Create Dallas1221 user with hashed password
-      const hashedPassword = await bcrypt.hash('Dallas1221password', 10);
-      
-      // Insert directly into database
-      const [newUser] = await db.insert(users).values({
-        username: 'Dallas1221',
-        password: hashedPassword,
-        firstName: 'Dallas',
-        lastName: 'Creator',
-        email: 'dallas@pocketbounty.life',
-        points: 1000,
-        balance: '50.00'
-      }).returning({ id: users.id, username: users.username });
-
-      logger.info(`Created Dallas1221 user with ID: ${newUser.id}`);
-      res.json({ 
-        success: true, 
-        message: "Dallas1221 user created successfully",
-        userId: newUser.id 
-      });
-    } catch (error) {
-      logger.error("Setup creator error:", error);
-      res.status(500).json({ success: false, message: "Failed to setup creator" });
-    }
-  });
 
   // Auth middleware
   setupAuthJWT(app);

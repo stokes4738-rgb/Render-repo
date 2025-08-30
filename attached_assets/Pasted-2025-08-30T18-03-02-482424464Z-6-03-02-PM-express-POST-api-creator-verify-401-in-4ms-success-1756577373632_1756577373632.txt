@@ -1,0 +1,50 @@
+2025-08-30T18:03:02.482424464Z 6:03:02 PM [express] POST /api/creator/verify 401 in 4ms :: {"success":false,"message":"Invalid cred…
+2025-08-30T18:03:25.773718945Z 6:03:25 PM [express] POST /api/creator/verify 401 in 8ms :: {"success":false,"message":"Invalid cred…
+2025-08-30T18:03:26.761917872Z 6:03:26 PM [express] POST /api/creator/verify 401 in 3ms :: {"success":false,"message":"Invalid cred…
+2025-08-30T18:07:41.444078548Z ==> Deploying...
+2025-08-30T18:08:09.389896028Z ==> Running 'npm start'
+2025-08-30T18:08:09.678227963Z 
+2025-08-30T18:08:09.678247754Z > rest-express@1.0.0 start
+2025-08-30T18:08:09.678252724Z > NODE_ENV=production node dist/index.js
+2025-08-30T18:08:09.678254454Z 
+2025-08-30T18:08:11.868507366Z [dotenv@17.2.1] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2025-08-30T18:08:11.872545695Z 📊 Database Configuration:
+2025-08-30T18:08:11.872655047Z    User: pocket_user
+2025-08-30T18:08:11.872661297Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T18:08:11.872664717Z    Database: pocket_bounty
+2025-08-30T18:08:11.872667247Z    SSL: enabled
+2025-08-30T18:08:11.872670097Z    Type: Render Internal Database
+2025-08-30T18:08:11.872672647Z 🚀 Environment: PRODUCTION
+2025-08-30T18:08:11.872675177Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T18:08:11.893809779Z 🚀 PocketBounty Server Starting...
+2025-08-30T18:08:11.893836689Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T18:08:11.893839799Z 📱 App Name: PocketBounty
+2025-08-30T18:08:11.893841579Z 🌍 Environment: production
+2025-08-30T18:08:11.89386895Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T18:08:11.89387208Z 🚪 Port: 3000
+2025-08-30T18:08:11.89388205Z 💳 Stripe Mode: LIVE
+2025-08-30T18:08:11.89388397Z 📧 Email: Configured
+2025-08-30T18:08:11.89388767Z 🔐 Session: Configured
+2025-08-30T18:08:11.89389211Z 🗄️  Database: Configured
+2025-08-30T18:08:11.893904381Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T18:08:11.986012984Z ✅ Database connection successful
+2025-08-30T18:08:11.986192848Z    Server time: Sat Aug 30 2025 18:08:11 GMT+0000 (Coordinated Universal Time)
+2025-08-30T18:08:11.986198098Z    Database: pocket_bounty
+2025-08-30T18:08:11.986201188Z    PostgreSQL: 16.10
+2025-08-30T18:08:12.002611907Z 6:08:11 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T18:08:12.006132876Z 6:08:12 PM [express] serving on port 3000
+2025-08-30T18:08:23.516026492Z ==> Your service is live 🎉
+2025-08-30T18:08:23.544495749Z ==> 
+2025-08-30T18:08:23.568283585Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T18:08:23.592290433Z ==> 
+2025-08-30T18:08:23.61444284Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T18:08:23.637441737Z ==> 
+2025-08-30T18:08:23.662609614Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T18:08:32.884951872Z 6:08:32 PM [express] POST /api/reset-creator-password 200 in 98ms :: {"success":true,"message":"Dall…
+2025-08-30T18:08:42.403758967Z 6:08:42 PM [express] POST /api/creator/verify 200 in 64ms :: {"success":true,"username":"Dallas1221"…
+2025-08-30T18:08:54.64559565Z 6:08:54 PM [express] GET /api/user 304 in 6ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T18:08:55.294317343Z 6:08:55 PM [express] GET /api/bounties 304 in 19ms :: []
+2025-08-30T18:09:13.256812947Z Login attempt for username: Dallas1221
+2025-08-30T18:09:13.259190104Z 6:09:13 PM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-30T18:09:13.584718403Z 6:09:13 PM [express] GET /api/bounties 304 in 5ms :: []
+2025-08-30T18:09:19.972390584Z 6:09:19 PM [express] POST /api/creator/verify 401 in 87ms :: {"success":false,"message":"Invalid cre…

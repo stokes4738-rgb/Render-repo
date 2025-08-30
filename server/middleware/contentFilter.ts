@@ -38,9 +38,10 @@ export function containsInappropriateContent(text: string): boolean {
     return true;
   }
   
-  // Check for repeated characters (spam indicator)
-  if (/(.)\1{4,}/.test(text)) {
-    logger.warn('Inappropriate content detected: repeated characters');
+  // Check for repeated characters (spam indicator) - allow punctuation
+  // Only block repeated letters/numbers, not punctuation
+  if (/([a-zA-Z0-9])\1{6,}/.test(text)) {
+    logger.warn('Inappropriate content detected: excessive repeated characters');
     return true;
   }
   

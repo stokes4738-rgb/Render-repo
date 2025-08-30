@@ -1,0 +1,29 @@
+2025-08-30T14:24:24.206143474Z 2:24:24 PM [express] GET /api/user 304 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T14:24:24.722845846Z 2:24:24 PM [express] GET /api/bounties 304 in 20ms :: []
+2025-08-30T14:24:33.082764006Z [ERROR] 2025-08-30T14:24:33.081Z: Error fetching transactions: error: column "currency" does not exist
+2025-08-30T14:24:33.082785726Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-30T14:24:33.082790066Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T14:24:33.082793157Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-30T14:24:33.082795717Z     at async file:///opt/render/project/src/dist/index.js:3426:29 {
+2025-08-30T14:24:33.082798677Z   length: 108,
+2025-08-30T14:24:33.082802277Z   severity: 'ERROR',
+2025-08-30T14:24:33.082805527Z   code: '42703',
+2025-08-30T14:24:33.082807477Z   detail: undefined,
+2025-08-30T14:24:33.082809207Z   hint: undefined,
+2025-08-30T14:24:33.082810837Z   position: '56',
+2025-08-30T14:24:33.082813147Z   internalPosition: undefined,
+2025-08-30T14:24:33.082814807Z   internalQuery: undefined,
+2025-08-30T14:24:33.082816457Z   where: undefined,
+2025-08-30T14:24:33.082818227Z   schema: undefined,
+2025-08-30T14:24:33.082819857Z   table: undefined,
+2025-08-30T14:24:33.082821527Z   column: undefined,
+2025-08-30T14:24:33.082823597Z   dataType: undefined,
+2025-08-30T14:24:33.082825407Z   constraint: undefined,
+2025-08-30T14:24:33.082827087Z   file: 'parse_relation.c',
+2025-08-30T14:24:33.082828807Z   line: '3722',
+2025-08-30T14:24:33.082830557Z   routine: 'errorMissingColumn'
+2025-08-30T14:24:33.082832247Z }
+2025-08-30T14:24:33.083256366Z 2:24:33 PM [express] GET /api/user/transactions 500 in 6ms :: {"message":"Failed to fetch transactio…
+2025-08-30T14:24:33.209506979Z 2:24:33 PM [express] GET /api/payments/methods 304 in 126ms :: []
+2025-08-30T14:24:33.218509975Z 2:24:33 PM [express] GET /api/payments/history 304 in 133ms :: []
+2025-08-30T14:24:48.67100851Z 2:24:48 PM [express] POST /api/payments/setup-intent 200 in 194ms :: {"clientSecret":"seti_1S1pi0Qqd…

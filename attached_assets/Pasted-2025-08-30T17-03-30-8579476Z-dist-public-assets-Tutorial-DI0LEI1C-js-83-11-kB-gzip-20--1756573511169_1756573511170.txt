@@ -1,0 +1,52 @@
+2025-08-30T17:03:30.8579476Z ../dist/public/assets/Tutorial-DI0LEI1C.js         83.11 kB │ gzip: 20.28 kB
+2025-08-30T17:03:30.857971811Z ../dist/public/assets/Home-KmlEMk19.js            192.90 kB │ gzip: 48.65 kB
+2025-08-30T17:03:30.857974111Z ../dist/public/assets/index-BSpL0PPU.js           292.37 kB │ gzip: 95.64 kB
+2025-08-30T17:03:30.858244328Z ✓ built in 4.38s
+2025-08-30T17:03:30.919089178Z 
+2025-08-30T17:03:30.919113728Z   dist/index.js  209.5kb
+2025-08-30T17:03:30.919116818Z 
+2025-08-30T17:03:30.919119949Z ⚡ Done in 14ms
+2025-08-30T17:03:32.42333122Z ==> Uploading build...
+2025-08-30T17:03:44.30556779Z ==> Uploaded in 8.2s. Compression took 3.7s
+2025-08-30T17:03:44.359409232Z ==> Build successful 🎉
+2025-08-30T17:03:46.977666243Z ==> Deploying...
+2025-08-30T17:04:06.409075854Z ==> Running 'npm start'
+2025-08-30T17:04:06.775419241Z 
+2025-08-30T17:04:06.775480923Z > rest-express@1.0.0 start
+2025-08-30T17:04:06.775488173Z > NODE_ENV=production node dist/index.js
+2025-08-30T17:04:06.775491863Z 
+2025-08-30T17:04:08.908983259Z [dotenv@17.2.1] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2025-08-30T17:04:08.911947127Z 📊 Database Configuration:
+2025-08-30T17:04:08.911968467Z    User: pocket_user
+2025-08-30T17:04:08.911977797Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T17:04:08.912074909Z    Database: pocket_bounty
+2025-08-30T17:04:08.91209508Z    SSL: enabled
+2025-08-30T17:04:08.91213034Z    Type: Render Internal Database
+2025-08-30T17:04:08.912714712Z 🚀 Environment: PRODUCTION
+2025-08-30T17:04:08.912949636Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T17:04:08.985529832Z 🚀 PocketBounty Server Starting...
+2025-08-30T17:04:08.985558973Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T17:04:08.985573093Z 📱 App Name: PocketBounty
+2025-08-30T17:04:08.985580413Z 🌍 Environment: production
+2025-08-30T17:04:08.985584884Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T17:04:08.985593404Z 🚪 Port: 3000
+2025-08-30T17:04:08.985597594Z 💳 Stripe Mode: LIVE
+2025-08-30T17:04:08.985601094Z 📧 Email: Configured
+2025-08-30T17:04:08.985604544Z 🔐 Session: Configured
+2025-08-30T17:04:08.985607964Z 🗄️  Database: Configured
+2025-08-30T17:04:08.985611464Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T17:04:09.070951919Z ✅ Database connection successful
+2025-08-30T17:04:09.071094412Z    Server time: Sat Aug 30 2025 17:04:09 GMT+0000 (Coordinated Universal Time)
+2025-08-30T17:04:09.071102262Z    Database: pocket_bounty
+2025-08-30T17:04:09.071110392Z    PostgreSQL: 16.10
+2025-08-30T17:04:09.088128624Z 5:04:09 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T17:04:09.088235186Z 5:04:09 PM [express] serving on port 3000
+2025-08-30T17:04:18.807255745Z ==> Your service is live 🎉
+2025-08-30T17:04:18.861453018Z ==> 
+2025-08-30T17:04:18.895787774Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:04:18.937787659Z ==> 
+2025-08-30T17:04:18.981098944Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T17:04:19.031338438Z ==> 
+2025-08-30T17:04:19.072022564Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:04:38.077442807Z 5:04:38 PM [express] GET /api/admin/banned-ips 200 in 7ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-30T17:04:38.242067699Z 5:04:38 PM [express] GET /api/creator/stats 200 in 163ms :: {"revenue":{"data":[{"id":"d1cda56b-4435…

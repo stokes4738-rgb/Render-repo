@@ -5,11 +5,10 @@ export default function CreatorProtected({ children }: { children: React.ReactNo
   const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
-    // Check if creator was already verified this session
-    const verified = sessionStorage.getItem("creator_verified");
-    if (verified === "true") {
-      setIsVerified(true);
-    }
+    // Always require fresh verification - don't trust session storage
+    // This ensures only Dallas1221 can access even if someone else was logged in
+    sessionStorage.removeItem("creator_verified");
+    setIsVerified(false);
   }, []);
 
   const handleVerificationSuccess = () => {

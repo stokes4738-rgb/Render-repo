@@ -860,7 +860,7 @@ export default function Account() {
                         
                         <TabsContent value="card" className="space-y-3">
                           <div className="text-xs text-muted-foreground">
-                            Add your debit card for instant transfers (0.5% + $0.25 fee)
+                            Add your debit card for instant transfers (1% fee, $0.50 minimum)
                           </div>
                           <Input
                             placeholder="Card Number"
@@ -966,7 +966,7 @@ export default function Account() {
                 </Button>
                 
                 <div className="text-xs text-muted-foreground text-center">
-                  Payouts are processed within 1-2 business days
+                  Bank transfers: 1-2 business days | Instant debit: Immediate (1% fee)
                 </div>
               </form>
             </CardContent>

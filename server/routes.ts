@@ -2024,7 +2024,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       let description = `Withdrawal: $${withdrawalAmount.toFixed(2)}`;
       
       if (method === 'debit_card') {
-        feeAmount = Math.max(0.25, withdrawalAmount * 0.015); // 1.5% or $0.25 minimum
+        feeAmount = Math.max(0.50, withdrawalAmount * 0.01); // 1% or $0.50 minimum (Stripe's instant payout fee)
         finalAmount = withdrawalAmount - feeAmount;
         description += ` (Instant transfer fee: $${feeAmount.toFixed(2)})`;
       }

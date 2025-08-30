@@ -1,0 +1,50 @@
+2025-08-30T18:35:09.260565979Z Failed to resolve hardcoded user ID: error: duplicate key value violates unique constraint "users_username_unique"
+2025-08-30T18:35:09.260595869Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-30T18:35:09.260599479Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T18:35:09.2606033Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-30T18:35:09.2606059Z     at async DatabaseStorage.resolveUserId (file:///opt/render/project/src/dist/index.js:1124:29)
+2025-08-30T18:35:09.26060844Z     at async verifyToken (file:///opt/render/project/src/dist/index.js:2084:32) {
+2025-08-30T18:35:09.2606107Z   length: 217,
+2025-08-30T18:35:09.26061354Z   severity: 'ERROR',
+2025-08-30T18:35:09.26061608Z   code: '23505',
+2025-08-30T18:35:09.2606189Z   detail: 'Key (username)=(Dallas1221) already exists.',
+2025-08-30T18:35:09.26062121Z   hint: undefined,
+2025-08-30T18:35:09.26062335Z   position: undefined,
+2025-08-30T18:35:09.26062766Z   internalPosition: undefined,
+2025-08-30T18:35:09.26062992Z   internalQuery: undefined,
+2025-08-30T18:35:09.26063209Z   where: undefined,
+2025-08-30T18:35:09.26063423Z   schema: 'public',
+2025-08-30T18:35:09.26063684Z   table: 'users',
+2025-08-30T18:35:09.26063918Z   column: undefined,
+2025-08-30T18:35:09.26064133Z   dataType: undefined,
+2025-08-30T18:35:09.260645401Z   constraint: 'users_username_unique',
+2025-08-30T18:35:09.26064829Z   file: 'nbtinsert.c',
+2025-08-30T18:35:09.260650481Z   line: '666',
+2025-08-30T18:35:09.260652951Z   routine: '_bt_check_unique'
+2025-08-30T18:35:09.260655251Z }
+2025-08-30T18:35:09.261320507Z 6:35:09 PM [express] GET /api/creator/stats 401 in 11ms :: {"message":"User account needs to be migr…
+2025-08-30T18:35:09.265881217Z Failed to resolve hardcoded user ID: error: duplicate key value violates unique constraint "users_username_unique"
+2025-08-30T18:35:09.265896837Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-30T18:35:09.26601819Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T18:35:09.2660226Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-30T18:35:09.26602524Z     at async DatabaseStorage.resolveUserId (file:///opt/render/project/src/dist/index.js:1124:29)
+2025-08-30T18:35:09.266160034Z     at async verifyToken (file:///opt/render/project/src/dist/index.js:2084:32) {
+2025-08-30T18:35:09.266162954Z   length: 217,
+2025-08-30T18:35:09.266166134Z   severity: 'ERROR',
+2025-08-30T18:35:09.266168614Z   code: '23505',
+2025-08-30T18:35:09.266171914Z   detail: 'Key (username)=(Dallas1221) already exists.',
+2025-08-30T18:35:09.266174484Z   hint: undefined,
+2025-08-30T18:35:09.266177114Z   position: undefined,
+2025-08-30T18:35:09.266191824Z   internalPosition: undefined,
+2025-08-30T18:35:09.266194444Z   internalQuery: undefined,
+2025-08-30T18:35:09.266196884Z   where: undefined,
+2025-08-30T18:35:09.266199215Z   schema: 'public',
+2025-08-30T18:35:09.266201605Z   table: 'users',
+2025-08-30T18:35:09.266204215Z   column: undefined,
+2025-08-30T18:35:09.266206505Z   dataType: undefined,
+2025-08-30T18:35:09.266209415Z   constraint: 'users_username_unique',
+2025-08-30T18:35:09.266211745Z   file: 'nbtinsert.c',
+2025-08-30T18:35:09.266214055Z   line: '666',
+2025-08-30T18:35:09.266216385Z   routine: '_bt_check_unique'
+2025-08-30T18:35:09.266218795Z }
+2025-08-30T18:35:09.267007184Z 6:35:09 PM [express] GET /api/admin/banned-ips 401 in 10ms :: {"message":"User account needs to be m…

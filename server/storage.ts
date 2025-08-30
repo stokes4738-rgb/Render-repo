@@ -639,34 +639,28 @@ export class DatabaseStorage implements IStorage {
     
     // Handle special hardcoded numeric IDs by creating/finding corresponding UUID users
     if (id === "46848986") {
-      // This is Dallas Abbott - check if user exists, create if not
-      const [existingUser] = await db.select({ id: users.id })
+      // This is Dallas Abbott - check if user exists by username first
+      const [existingUserByUsername] = await db.select({ id: users.id })
+        .from(users)
+        .where(eq(users.username, "Dallas1221"))
+        .limit(1);
+      
+      if (existingUserByUsername) {
+        return existingUserByUsername.id;
+      }
+      
+      // Then check by email
+      const [existingUserByEmail] = await db.select({ id: users.id })
         .from(users)
         .where(eq(users.email, "stokes4738@gmail.com"))
         .limit(1);
       
-      if (existingUser) {
-        return existingUser.id;
+      if (existingUserByEmail) {
+        return existingUserByEmail.id;
       }
       
-      // Create the user if they don't exist
-      const [newUser] = await db.insert(users).values({
-        username: "Dallas1221",
-        email: "stokes4738@gmail.com",
-        passwordHash: "$2a$10$dummy.hash.for.external.user.only", // Dummy hash since they use JWT bypass
-        firstName: "dallas",
-        lastName: "abbott",
-        handle: "Dallas1221",
-        points: 309691,
-        balance: "0.00",
-        lifetimeEarned: "1.00",
-        level: 999,
-        rating: "5.00",
-        reviewCount: 100,
-        bio: "🏆 Creator • App Founder • Level 999 Legend",
-      }).returning({ id: users.id });
-      
-      return newUser.id;
+      // User doesn't exist - this should not happen in production since Dallas1221 exists
+      throw new Error(`Dallas1221 user not found in database. Please ensure the user exists.`);
     }
     
     // For any other numeric ID, reject

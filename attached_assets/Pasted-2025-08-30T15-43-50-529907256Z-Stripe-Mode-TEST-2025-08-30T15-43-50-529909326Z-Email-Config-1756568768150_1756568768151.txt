@@ -1,0 +1,50 @@
+2025-08-30T15:43:50.529907256Z 💳 Stripe Mode: TEST
+2025-08-30T15:43:50.529909326Z 📧 Email: Configured
+2025-08-30T15:43:50.529911496Z 🔐 Session: Configured
+2025-08-30T15:43:50.529923347Z 🗄️  Database: Configured
+2025-08-30T15:43:50.529925757Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T15:43:50.568716362Z ✅ Database connection successful
+2025-08-30T15:43:50.568925347Z    Server time: Sat Aug 30 2025 15:43:50 GMT+0000 (Coordinated Universal Time)
+2025-08-30T15:43:50.568930577Z    Database: pocket_bounty
+2025-08-30T15:43:50.568947637Z    PostgreSQL: 16.10
+2025-08-30T15:43:50.635280045Z 3:43:50 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T15:43:50.635441519Z 3:43:50 PM [express] serving on port 3000
+2025-08-30T15:44:20.563715182Z ==> Deploying...
+2025-08-30T15:44:40.923666048Z 📊 Database Configuration:
+2025-08-30T15:44:40.923679449Z    User: pocket_user
+2025-08-30T15:44:40.9236928Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T15:44:40.923785667Z    Database: pocket_bounty
+2025-08-30T15:44:40.923817399Z    SSL: enabled
+2025-08-30T15:44:40.923836981Z    Type: Render Internal Database
+2025-08-30T15:44:40.924425225Z 🚀 Environment: PRODUCTION
+2025-08-30T15:44:40.924660523Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T15:44:40.999461727Z 🚀 PocketBounty Server Starting...
+2025-08-30T15:44:40.99949647Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T15:44:40.99950552Z 📱 App Name: PocketBounty
+2025-08-30T15:44:40.99950892Z 🌍 Environment: production
+2025-08-30T15:44:40.999517381Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T15:44:40.999543423Z 🚪 Port: 3000
+2025-08-30T15:44:40.999548113Z 💳 Stripe Mode: TEST
+2025-08-30T15:44:40.999551124Z 📧 Email: Configured
+2025-08-30T15:44:40.999570765Z 🔐 Session: Configured
+2025-08-30T15:44:40.999574115Z 🗄️  Database: Configured
+2025-08-30T15:44:40.999615239Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T15:44:41.088688415Z ✅ Database connection successful
+2025-08-30T15:44:41.08889267Z    Server time: Sat Aug 30 2025 15:44:41 GMT+0000 (Coordinated Universal Time)
+2025-08-30T15:44:41.088898651Z    Database: pocket_bounty
+2025-08-30T15:44:41.088913622Z    PostgreSQL: 16.10
+2025-08-30T15:44:41.102907943Z 3:44:41 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T15:44:41.103036313Z 3:44:41 PM [express] serving on port 3000
+2025-08-30T15:44:52.226400117Z ==> Your service is live 🎉
+2025-08-30T15:44:52.623990091Z ==> 
+2025-08-30T15:44:52.651933318Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T15:44:52.686546204Z ==> 
+2025-08-30T15:44:52.712359331Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T15:44:52.741281587Z ==> 
+2025-08-30T15:44:52.768917074Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T15:45:23.10195591Z 3:45:23 PM [express] GET /api/user 304 in 18ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-30T15:45:23.599069396Z 3:45:23 PM [express] GET /api/bounties 304 in 17ms :: []
+2025-08-30T15:45:26.112680334Z 3:45:26 PM [express] GET /api/user/transactions 304 in 11ms :: []
+2025-08-30T15:45:26.235062287Z 3:45:26 PM [express] GET /api/payments/methods 304 in 145ms :: []
+2025-08-30T15:45:26.236108106Z 3:45:26 PM [express] GET /api/payments/history 304 in 149ms :: []
+2025-08-30T15:45:35.998228036Z 3:45:35 PM [express] POST /api/payments/setup-intent 200 in 181ms :: {"clientSecret":"seti_1S1qyBQqd…

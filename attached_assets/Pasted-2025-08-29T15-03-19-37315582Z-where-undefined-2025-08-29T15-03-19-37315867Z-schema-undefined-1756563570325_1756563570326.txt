@@ -1,0 +1,100 @@
+2025-08-29T15:03:19.37315582Z   where: undefined,
+2025-08-29T15:03:19.37315867Z   schema: undefined,
+2025-08-29T15:03:19.37316143Z   table: undefined,
+2025-08-29T15:03:19.37317654Z   column: undefined,
+2025-08-29T15:03:19.373178431Z   dataType: undefined,
+2025-08-29T15:03:19.373180111Z   constraint: undefined,
+2025-08-29T15:03:19.373181741Z   file: 'parse_relation.c',
+2025-08-29T15:03:19.373183581Z   line: '3722',
+2025-08-29T15:03:19.373185201Z   routine: 'errorMissingColumn'
+2025-08-29T15:03:19.373186861Z }
+2025-08-29T15:03:19.373714344Z 3:03:19 PM [express] GET /api/user/transactions 500 in 8ms :: {"message":"Failed to fetch transactio…
+2025-08-29T15:03:19.485814986Z 3:03:19 PM [express] GET /api/payments/history 200 in 129ms :: []
+2025-08-29T15:03:19.660025681Z 3:03:19 PM [express] GET /api/payments/methods 200 in 136ms :: []
+2025-08-29T15:03:34.495113984Z 3:03:34 PM [express] POST /api/payments/setup-intent 200 in 214ms :: {"clientSecret":"seti_1S1TpyQqd…
+2025-08-29T15:03:56.292701715Z 3:03:56 PM [express] POST /api/payments/setup-intent 200 in 191ms :: {"clientSecret":"seti_1S1TqKQqd…
+2025-08-29T15:53:10.172763985Z ==> Deploying...
+2025-08-29T15:53:45.166971385Z    Database: pocket_bounty
+2025-08-29T15:53:45.166984675Z    SSL: enabled
+2025-08-29T15:53:45.167033046Z    Type: Render Internal Database
+2025-08-29T15:53:45.167618107Z 🚀 Environment: PRODUCTION
+2025-08-29T15:53:45.167848112Z 🔍 Testing database connection (3 attempts)...
+2025-08-29T15:53:45.186885566Z 🚀 PocketBounty Server Starting...
+2025-08-29T15:53:45.215203063Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T15:53:45.215229444Z 📱 App Name: PocketBounty
+2025-08-29T15:53:45.215244654Z 🌍 Environment: production
+2025-08-29T15:53:45.215251615Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-29T15:53:45.215256104Z 🚪 Port: 3000
+2025-08-29T15:53:45.215261435Z 💳 Stripe Mode: TEST
+2025-08-29T15:53:45.215266165Z 📧 Email: Configured
+2025-08-29T15:53:45.215269095Z 🔐 Session: Configured
+2025-08-29T15:53:45.215271855Z 🗄️  Database: Configured
+2025-08-29T15:53:45.215274795Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-29T15:53:45.27804825Z ✅ Database connection successful
+2025-08-29T15:53:45.284880554Z    Server time: Fri Aug 29 2025 15:53:45 GMT+0000 (Coordinated Universal Time)
+2025-08-29T15:53:45.284889054Z    Database: pocket_bounty
+2025-08-29T15:53:45.284901855Z    PostgreSQL: 16.10
+2025-08-29T15:53:45.296822299Z 3:53:45 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-29T15:53:45.296988073Z 3:53:45 PM [express] serving on port 3000
+2025-08-29T15:53:50.901710788Z ==> Your service is live 🎉
+2025-08-29T15:53:50.931795164Z ==> 
+2025-08-29T15:53:50.96002519Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T15:53:50.989348736Z ==> 
+2025-08-29T15:53:51.020077842Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-29T15:53:51.055116598Z ==> 
+2025-08-29T15:53:51.085997133Z ==> ///////////////////////////////////////////////////////////
+2025-08-29T15:58:52.467505236Z ==> Detected service running on port 3000
+2025-08-29T15:58:52.582844006Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-29T17:11:16.110385862Z 5:11:16 PM [express] GET /api/user 200 in 23ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-29T17:11:16.644266921Z 5:11:16 PM [express] GET /api/bounties 304 in 24ms :: []
+2025-08-29T18:18:04.332014807Z 6:18:04 PM [express] GET /api/user 304 in 24ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-29T18:18:04.646155811Z 6:18:04 PM [express] GET /api/bounties 304 in 19ms :: []
+2025-08-29T18:18:09.19366133Z 6:18:09 PM [express] GET /api/admin/banned-ips 200 in 5ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-29T18:18:09.440479218Z 6:18:09 PM [express] GET /api/creator/stats 200 in 249ms :: {"revenue":{"data":[],"total":"0","trans…
+2025-08-29T18:18:49.203465053Z 6:18:49 PM [express] GET /api/friends/requests 200 in 10ms :: []
+2025-08-29T18:18:49.235200024Z 6:18:49 PM [express] GET /api/friends 200 in 38ms :: []
+2025-08-29T18:18:50.208258887Z [ERROR] 2025-08-29T18:18:50.205Z: Error fetching transactions: error: column "currency" does not exist
+2025-08-29T18:18:50.208288077Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-29T18:18:50.208293238Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-29T18:18:50.208297098Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-29T18:18:50.208300587Z     at async file:///opt/render/project/src/dist/index.js:3426:29 {
+2025-08-29T18:18:50.208319708Z   length: 108,
+2025-08-29T18:18:50.208322958Z   severity: 'ERROR',
+2025-08-29T18:18:50.208325068Z   code: '42703',
+2025-08-29T18:18:50.208327308Z   detail: undefined,
+2025-08-29T18:18:50.208329358Z   hint: undefined,
+2025-08-29T18:18:50.208331558Z   position: '56',
+2025-08-29T18:18:50.208334398Z   internalPosition: undefined,
+2025-08-29T18:18:50.208336458Z   internalQuery: undefined,
+2025-08-29T18:18:50.208338468Z   where: undefined,
+2025-08-29T18:18:50.208340548Z   schema: undefined,
+2025-08-29T18:18:50.208342659Z   table: undefined,
+2025-08-29T18:18:50.208344728Z   column: undefined,
+2025-08-29T18:18:50.208346728Z   dataType: undefined,
+2025-08-29T18:18:50.208348759Z   constraint: undefined,
+2025-08-29T18:18:50.208351108Z   file: 'parse_relation.c',
+2025-08-29T18:18:50.208353159Z   line: '3722',
+2025-08-29T18:18:50.208355229Z   routine: 'errorMissingColumn'
+2025-08-29T18:18:50.208357279Z }
+2025-08-29T18:18:50.208817128Z 6:18:50 PM [express] GET /api/user/transactions 500 in 7ms :: {"message":"Failed to fetch transactio…
+2025-08-29T18:18:50.36079301Z 6:18:50 PM [express] GET /api/payments/history 200 in 146ms :: []
+2025-08-29T18:18:50.363114206Z 6:18:50 PM [express] GET /api/payments/methods 200 in 149ms :: []
+2025-08-29T18:18:52.760939768Z 6:18:52 PM [express] GET /api/messages/threads 200 in 9ms :: [{"id":"32b993f8-b347-4164-854a-4bc9267…
+2025-08-29T18:35:24.242315609Z 6:35:24 PM [express] GET /api/user 304 in 18ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-29T18:35:24.81872049Z 6:35:24 PM [express] GET /api/bounties 304 in 17ms :: []
+2025-08-29T18:35:29.771314076Z 6:35:29 PM [express] GET /api/user 304 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-29T22:40:45.412660895Z 10:40:45 PM [express] GET /api/user 304 in 20ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-29T22:40:46.025227746Z 10:40:46 PM [express] GET /api/bounties 304 in 66ms :: []
+2025-08-29T22:57:01.02936342Z 10:57:01 PM [express] GET /api/friends/requests 304 in 34ms :: []
+2025-08-29T22:57:01.030404163Z 10:57:01 PM [express] GET /api/friends 304 in 32ms :: []
+2025-08-29T22:59:38.602111461Z 10:59:38 PM [express] GET /api/creator/feedback-threads 200 in 21ms :: [{"id":"32b993f8-b347-4164-854…
+2025-08-29T22:59:47.535181435Z 10:59:47 PM [express] GET /api/admin/banned-ips 200 in 174ms :: {"bannedIPs":[],"suspiciousIPs":[],"t…
+2025-08-29T22:59:47.633498064Z 10:59:47 PM [express] GET /api/creator/stats 200 in 352ms :: {"revenue":{"data":[],"total":"0","trans…
+2025-08-29T23:00:17.898225987Z 11:00:17 PM [express] GET /api/admin/banned-ips 200 in 16ms :: {"bannedIPs":[],"suspiciousIPs":[],"ti…
+2025-08-29T23:10:56.036730416Z 11:10:56 PM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-30T01:05:50.45037777Z 1:05:50 AM [express] GET /api/user 304 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T01:05:51.138015822Z 1:05:51 AM [express] GET /api/bounties 304 in 18ms :: []
+2025-08-30T01:05:55.628921689Z 1:05:55 AM [express] GET /api/admin/banned-ips 200 in 147ms :: {"bannedIPs":[],"suspiciousIPs":[],"t…
+2025-08-30T01:05:55.735959314Z 1:05:55 AM [express] GET /api/creator/stats 200 in 278ms :: {"revenue":{"data":[],"total":"0","trans…
+2025-08-30T01:05:59.931062506Z 1:05:59 AM [express] GET /api/creator/details/users 304 in 99ms :: {"users":[{"id":"9f1f3ebb-ab6a-4a…
+2025-08-30T02:59:45.980270908Z 2:59:45 AM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…

@@ -5,9 +5,10 @@ Allow: /
 Allow: /auth
 Allow: /login
 Allow: /signup
+Allow: /about.html
 
 # Sitemap location
-Sitemap: https://pocketbounty.life/sitemap.xml
+Sitemap: https://pocketbounty-web.onrender.com/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1

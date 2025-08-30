@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://pocketbounty.life/</loc>
+    <loc>https://pocketbounty-web.onrender.com/</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://pocketbounty.life/about.html</loc>
+    <loc>https://pocketbounty-web.onrender.com/about.html</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://pocketbounty.life/auth</loc>
+    <loc>https://pocketbounty-web.onrender.com/auth</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://pocketbounty.life/arcade</loc>
+    <loc>https://pocketbounty-web.onrender.com/arcade</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pocketbounty.life/profile</loc>
+    <loc>https://pocketbounty-web.onrender.com/profile</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://pocketbounty.life/account</loc>
+    <loc>https://pocketbounty-web.onrender.com/account</loc>
     <lastmod>2025-08-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

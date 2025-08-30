@@ -307,6 +307,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Temporary endpoint to fix test1 balance
+  app.post('/api/fix-test1-balance', async (req, res) => {
+    try {
+      // Update test1 balance to $50
+      await db.update(users)
+        .set({ balance: "50.00" })
+        .where(eq(users.username, 'test1'));
+      
+      const [updatedUser] = await db.select({ 
+        username: users.username, 
+        balance: users.balance 
+      }).from(users).where(eq(users.username, 'test1'));
+      
+      logger.info('test1 balance updated to $50');
+      res.json({ 
+        success: true, 
+        message: "test1 balance updated",
+        balance: updatedUser?.balance
+      });
+    } catch (error) {
+      logger.error("Fix balance error:", error);
+      res.status(500).json({ success: false, message: "Failed to fix balance" });
+    }
+  });
+
 
   // Auth middleware
   setupAuthJWT(app);

@@ -1,0 +1,50 @@
+2025-08-30T19:46:54.077115672Z 
+2025-08-30T19:46:56.369992687Z [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+2025-08-30T19:46:56.371994511Z 📊 Database Configuration:
+2025-08-30T19:46:56.372012041Z    User: pocket_user
+2025-08-30T19:46:56.372038692Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T19:46:56.372146725Z    Database: pocket_bounty
+2025-08-30T19:46:56.372171546Z    SSL: enabled
+2025-08-30T19:46:56.372195537Z    Type: Render Internal Database
+2025-08-30T19:46:56.372750771Z 🚀 Environment: PRODUCTION
+2025-08-30T19:46:56.372952557Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T19:46:56.461142232Z 🚀 PocketBounty Server Starting...
+2025-08-30T19:46:56.461172573Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T19:46:56.461179423Z 📱 App Name: PocketBounty
+2025-08-30T19:46:56.461181763Z 🌍 Environment: production
+2025-08-30T19:46:56.461185323Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T19:46:56.461187533Z 🚪 Port: 3000
+2025-08-30T19:46:56.461194514Z 💳 Stripe Mode: LIVE
+2025-08-30T19:46:56.461196794Z 📧 Email: Configured
+2025-08-30T19:46:56.461198964Z 🔐 Session: Configured
+2025-08-30T19:46:56.461203324Z 🗄️  Database: Configured
+2025-08-30T19:46:56.461205584Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T19:46:56.551832535Z ✅ Database connection successful
+2025-08-30T19:46:56.552001889Z    Server time: Sat Aug 30 2025 19:46:56 GMT+0000 (Coordinated Universal Time)
+2025-08-30T19:46:56.552009309Z    Database: pocket_bounty
+2025-08-30T19:46:56.5520166Z    PostgreSQL: 16.10
+2025-08-30T19:46:56.566098269Z 7:46:56 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T19:46:56.566207092Z 7:46:56 PM [express] serving on port 3000
+2025-08-30T19:47:06.744164804Z ==> Your service is live 🎉
+2025-08-30T19:47:07.113049771Z ==> 
+2025-08-30T19:47:07.506503086Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T19:47:07.536689292Z ==> 
+2025-08-30T19:47:07.571119738Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T19:47:07.949499304Z ==> 
+2025-08-30T19:47:07.97997822Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T19:52:01.854021978Z ==> Detected service running on port 3000
+2025-08-30T19:52:01.953909388Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-30T19:57:28.116185253Z 7:57:28 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T19:57:30.804298621Z 7:57:30 PM [express] POST /api/creator/verify 200 in 69ms :: {"success":true,"username":"Dallas1221"…
+2025-08-30T19:57:31.034636845Z 7:57:31 PM [express] GET /api/admin/banned-ips 200 in 85ms :: {"bannedIPs":[],"suspiciousIPs":[],"ti…
+2025-08-30T19:57:31.236243448Z 7:57:31 PM [express] GET /api/creator/stats 200 in 289ms :: {"revenue":{"data":[{"id":"d1cda56b-4435…
+2025-08-30T19:57:39.737076819Z 7:57:39 PM [express] GET /api/creator/details/spending 304 in 22ms :: {"spending":[{"id":"59cf03cb-8…
+2025-08-30T19:58:00.124243247Z Login attempt for username: test1
+2025-08-30T19:58:00.126051914Z User found in DB: Yes
+2025-08-30T19:58:00.180346219Z Password valid: true
+2025-08-30T19:58:00.183214044Z 7:58:00 PM [express] POST /api/login 200 in 59ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e…
+2025-08-30T19:58:00.32186378Z 7:58:00 PM [express] GET /api/bounties 304 in 5ms :: []
+2025-08-30T19:58:02.530324783Z 7:58:02 PM [express] GET /api/user/transactions 200 in 57ms :: [{"id":"59cf03cb-8824-4dae-9ac3-cfd98…
+2025-08-30T19:58:02.638186885Z 7:58:02 PM [express] GET /api/payments/methods 200 in 176ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T19:58:02.685310904Z 7:58:02 PM [express] GET /api/payments/history 200 in 204ms :: [{"id":"pi_3S1rvqQqdcdobcY61qqKl98c",…
+2025-08-30T19:58:17.161926884Z 7:58:17 PM [express] POST /api/payments/withdraw 400 in 6ms :: {"message":"Insufficient balance"}

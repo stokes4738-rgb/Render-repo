@@ -1,0 +1,50 @@
+2025-08-30T20:40:08.521650008Z   },
+2025-08-30T20:40:08.521651708Z   payment_method: {
+2025-08-30T20:40:08.521653428Z     id: 'pm_1S1rpZQqdcdobcY6bfslPx0G',
+2025-08-30T20:40:08.521655128Z     object: 'payment_method',
+2025-08-30T20:40:08.521656798Z     allow_redisplay: 'unspecified',
+2025-08-30T20:40:08.521658458Z     billing_details: {
+2025-08-30T20:40:08.521660118Z       address: [Object],
+2025-08-30T20:40:08.521661798Z       email: null,
+2025-08-30T20:40:08.521663469Z       name: null,
+2025-08-30T20:40:08.521665098Z       phone: null,
+2025-08-30T20:40:08.521666738Z       tax_id: null
+2025-08-30T20:40:08.521668389Z     },
+2025-08-30T20:40:08.521670099Z     card: {
+2025-08-30T20:40:08.521671799Z       brand: 'mastercard',
+2025-08-30T20:40:08.521673479Z       checks: [Object],
+2025-08-30T20:40:08.521675169Z       country: 'US',
+2025-08-30T20:40:08.521676849Z       display_brand: 'mastercard',
+2025-08-30T20:40:08.521678509Z       exp_month: 2,
+2025-08-30T20:40:08.521688399Z       exp_year: 2029,
+2025-08-30T20:40:08.521706989Z       fingerprint: 'nPapeFHnA1LrUdym',
+2025-08-30T20:40:08.52171642Z       funding: 'debit',
+2025-08-30T20:40:08.52171981Z       generated_from: null,
+2025-08-30T20:40:08.52172227Z       last4: '8162',
+2025-08-30T20:40:08.52172444Z       networks: [Object],
+2025-08-30T20:40:08.52172658Z       regulated_status: 'regulated',
+2025-08-30T20:40:08.52172871Z       three_d_secure_usage: [Object],
+2025-08-30T20:40:08.52173076Z       wallet: null
+2025-08-30T20:40:08.52173298Z     },
+2025-08-30T20:40:08.52173516Z     created: 1756572045,
+2025-08-30T20:40:08.5217373Z     customer: 'cus_SxnQBdp8Be5dIY',
+2025-08-30T20:40:08.52173945Z     livemode: true,
+2025-08-30T20:40:08.52174152Z     metadata: {},
+2025-08-30T20:40:08.52174357Z     type: 'card'
+2025-08-30T20:40:08.52174569Z   },
+2025-08-30T20:40:08.52174787Z   payment_method_type: undefined,
+2025-08-30T20:40:08.52175007Z   setup_intent: undefined,
+2025-08-30T20:40:08.521787691Z   source: undefined
+2025-08-30T20:40:08.521791371Z }
+2025-08-30T20:40:08.522107318Z 8:40:08 PM [express] POST /api/payments/deposit 400 in 2403ms :: {"message":"Your card has insuffici…
+2025-08-30T20:40:36.774990858Z 8:40:36 PM [express] POST /api/payments/deposit 200 in 1878ms :: {"success":true,"paymentIntent":{"i…
+2025-08-30T20:40:36.916917591Z 8:40:36 PM [express] GET /api/user/transactions 304 in 5ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…
+2025-08-30T20:40:39.406380833Z 8:40:39 PM [express] GET /api/user/transactions 304 in 3ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…
+2025-08-30T20:40:39.551014333Z 8:40:39 PM [express] GET /api/payments/methods 304 in 153ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:41:50.207201573Z 8:41:50 PM [express] GET /api/user 200 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T20:41:50.669860109Z 8:41:50 PM [express] GET /api/bounties 304 in 14ms :: []
+2025-08-30T20:41:52.936967363Z 8:41:52 PM [express] GET /api/user/transactions 304 in 18ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1…
+2025-08-30T20:41:53.050287914Z 8:41:53 PM [express] GET /api/payments/methods 304 in 135ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:41:53.153790805Z 8:41:53 PM [express] GET /api/payments/history 200 in 236ms :: [{"id":"pi_3S1vZfQqdcdobcY61Qp1k2oJ",…
+2025-08-30T20:41:54.250563719Z 8:41:54 PM [express] GET /api/messages/threads 200 in 10ms :: [{"id":"32b993f8-b347-4164-854a-4bc926…
+2025-08-30T20:42:31.289499462Z 8:42:31 PM [express] POST /api/bounties 400 in 38ms :: {"message":"Your content contains inappropria…

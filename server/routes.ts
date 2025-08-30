@@ -1833,6 +1833,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const { amount, paymentMethodId } = req.body;
 
+      logger.info(`Deposit request: userId=${userId}, amount=${amount}, paymentMethodId=${paymentMethodId}`);
+
       if (!amount || !paymentMethodId) {
         return res.status(400).json({ message: "Amount and payment method required" });
       }
@@ -1848,12 +1850,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       ]);
       
       if (!user?.stripeCustomerId) {
-        return res.status(400).json({ message: "Stripe customer not found" });
+        logger.error(`No Stripe customer ID for user ${userId}`);
+        return res.status(400).json({ message: "Stripe customer not found. Please add a payment method first." });
       }
+
+      logger.info(`Using Stripe customer: ${user.stripeCustomerId}`);
 
       // Calculate platform fee (5% of deposit)
       const feeInfo = storage.calculatePlatformFee(amount.toString());
       const totalCharge = parseFloat(feeInfo.grossAmount) + parseFloat(feeInfo.fee);
+
+      logger.info(`Creating payment intent: amount=${totalCharge}, fee=${feeInfo.fee}`);
 
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Math.round(totalCharge * 100), // Convert to cents, include fee
@@ -1861,9 +1868,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customer: user.stripeCustomerId,
         payment_method: paymentMethodId,
         confirm: true,
-        automatic_payment_methods: {
-          enabled: true,
-        },
+        off_session: true,
         return_url: `${req.protocol}://${req.get('host')}/account`,
       });
 

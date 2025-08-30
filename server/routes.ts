@@ -307,12 +307,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Temporary endpoint to restore test1's original $5
-  app.post('/api/restore-test1-funds', async (req, res) => {
+  // Endpoint to sync test1's balance with actual Stripe balance
+  app.post('/api/sync-test1-balance', async (req, res) => {
     try {
-      // Restore the original $5 that was withdrawn before fees existed
+      // Set test1 balance to 0 since money was manually refunded
       await db.update(users)
-        .set({ balance: "5.00" })
+        .set({ balance: "0.00" })
         .where(eq(users.username, 'test1'));
       
       const [updatedUser] = await db.select({ 
@@ -320,15 +320,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         balance: users.balance 
       }).from(users).where(eq(users.username, 'test1'));
       
-      logger.info('test1 balance restored to original $5');
+      logger.info('test1 balance synced to $0 (manually refunded)');
       res.json({ 
         success: true, 
-        message: "test1 balance restored to original $5 (pre-fee withdrawal)",
+        message: "test1 balance synced to $0",
         balance: updatedUser?.balance
       });
     } catch (error) {
-      logger.error("Restore balance error:", error);
-      res.status(500).json({ success: false, message: "Failed to restore balance" });
+      logger.error("Sync balance error:", error);
+      res.status(500).json({ success: false, message: "Failed to sync balance" });
     }
   });
 
@@ -2139,19 +2139,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Process automatic withdrawals using Stripe refunds (simplest method for individuals)
+      // Process automatic withdrawals - try refund first, then fallback to manual
       let payoutResult;
       let transferId;
       
-      if (stripe && user.lastPaymentIntentId) {
+      // Get user's payment history from Stripe
+      let lastPaymentId = user.lastPaymentIntentId;
+      
+      if (stripe && !lastPaymentId) {
         try {
-          // Use Stripe refunds API - much simpler than Connect for individual payouts
-          // This automatically sends money back to the user's original payment method
-          logger.info(`Processing automatic withdrawal for ${user.username}: $${finalAmount}`);
+          // Find user's most recent payment
+          const payments = await stripe.paymentIntents.list({
+            customer: user.stripeCustomerId,
+            limit: 10
+          });
           
-          // Create a partial refund on their last payment
+          // Find a payment that can be refunded
+          const refundablePayment = payments.data.find(p => 
+            p.status === 'succeeded' && 
+            p.amount_refunded < p.amount
+          );
+          
+          if (refundablePayment) {
+            lastPaymentId = refundablePayment.id;
+          }
+        } catch (err) {
+          logger.warn("Could not fetch payment history:", err);
+        }
+      }
+      
+      if (stripe && lastPaymentId) {
+        try {
+          // Try automatic refund to original payment method
+          logger.info(`Processing automatic refund for ${user.username}: $${finalAmount} from payment ${lastPaymentId}`);
+          
           const refund = await stripe.refunds.create({
-            payment_intent: user.lastPaymentIntentId,
+            payment_intent: lastPaymentId,
             amount: Math.round(finalAmount * 100), // Convert to cents
             reason: 'requested_by_customer',
             metadata: {
@@ -2168,35 +2191,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
             payoutId: transferId,
             amount: finalAmount,
             status: refund.status,
-            estimatedArrival: method === 'debit_card' ? 'instant' : '5-10 business days'
+            estimatedArrival: '5-10 business days'
           };
           
-          logger.info(`Stripe refund ${refund.id} created for $${finalAmount}`);
+          logger.info(`SUCCESS: Stripe refund ${refund.id} created for $${finalAmount}`);
         } catch (refundError: any) {
-          // If refund fails (e.g., too old, already refunded), create a payout request
-          logger.warn(`Refund failed, creating withdrawal request: ${refundError.message}`);
+          logger.error(`Refund failed for payment ${lastPaymentId}:`, refundError.message);
           
-          // Store withdrawal request for alternative processing
-          transferId = `withdrawal_${Date.now()}_${userId}`;
+          // Fallback: Create withdrawal request for manual processing
+          transferId = `manual_withdrawal_${Date.now()}`;
           payoutResult = {
             success: true,
             payoutId: transferId,
             amount: finalAmount,
-            status: 'pending',
+            status: 'pending_manual',
             estimatedArrival: '2-5 business days',
-            note: 'Processing via alternative method'
+            note: `Manual processing required: ${refundError.message}`
           };
+          
+          logger.info(`MANUAL: Withdrawal request ${transferId} created for manual processing`);
         }
       } else {
-        // No payment history, store withdrawal request
-        transferId = `withdrawal_${Date.now()}_${userId}`;
+        // No payment to refund - needs manual processing
+        transferId = `manual_withdrawal_${Date.now()}`;
         payoutResult = {
           success: true,
           payoutId: transferId,
           amount: finalAmount,
-          status: 'pending',
-          estimatedArrival: method === 'debit_card' ? '1-3 business days' : '3-5 business days'
+          status: 'pending_manual',
+          estimatedArrival: '2-5 business days',
+          note: 'Manual payout required - no payment history'
         };
+        
+        logger.info(`MANUAL: No payment history for ${user.username}, created manual withdrawal request`);
       }
 
       // Create withdrawal transaction record

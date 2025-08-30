@@ -1,0 +1,100 @@
+2025-08-30T20:20:06.503479907Z ==> Your service is live 🎉
+2025-08-30T20:20:06.532306803Z ==> 
+2025-08-30T20:20:06.55828176Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:20:06.590164337Z ==> 
+2025-08-30T20:20:06.618979323Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T20:20:06.64761415Z ==> 
+2025-08-30T20:20:06.694569314Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:20:08.50162596Z 8:20:08 PM [express] GET /api/user 200 in 4ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T20:25:13.303899549Z ==> Detected service running on port 3000
+2025-08-30T20:25:13.417489613Z ==> Docs on specifying a port: https://render.com/docs/web-services#port-binding
+2025-08-30T20:27:38.531923002Z 8:27:38 PM [express] GET /api/admin/banned-ips 200 in 4ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-30T20:28:08.847352388Z 8:28:08 PM [express] GET /api/admin/banned-ips 200 in 3ms :: {"bannedIPs":[],"suspiciousIPs":[],"tim…
+2025-08-30T20:29:43.541445622Z 8:29:43 PM [express] POST /api/restore-test1-funds 200 in 5ms :: {"success":true,"message":"test1 ba…
+2025-08-30T20:29:48.972449001Z 8:29:48 PM [express] GET /api/user/transactions 304 in 23ms :: [{"id":"63a2dbb0-45e6-4d21-b3aa-3aa58…
+2025-08-30T20:29:49.093593264Z 8:29:49 PM [express] GET /api/payments/methods 304 in 147ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:29:50.666146475Z 8:29:50 PM [express] GET /api/user 304 in 3ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","usern…
+2025-08-30T20:29:51.14261822Z 8:29:51 PM [express] GET /api/bounties 304 in 5ms :: []
+2025-08-30T20:29:52.263880741Z 8:29:52 PM [express] GET /api/user/transactions 304 in 6ms :: [{"id":"63a2dbb0-45e6-4d21-b3aa-3aa584…
+2025-08-30T20:29:52.403048924Z 8:29:52 PM [express] GET /api/payments/history 304 in 143ms :: [{"id":"pi_3S1rvqQqdcdobcY61qqKl98c",…
+2025-08-30T20:29:52.405200299Z 8:29:52 PM [express] GET /api/payments/methods 304 in 140ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:30:12.06219145Z 8:30:12 PM [express] POST /api/payments/withdraw 400 in 4ms :: {"message":"Please add your bank acco…
+2025-08-30T20:30:16.154073599Z [ERROR] 2025-08-30T20:30:16.151Z: Card payout error: StripeInvalidRequestError: Your destination account needs to have at least one of the following capabilities enabled: transfers, crypto_transfers, legacy_payments
+2025-08-30T20:30:16.154096609Z     at generateV1Error (file:///opt/render/project/src/node_modules/stripe/esm/Error.js:8:20)
+2025-08-30T20:30:16.154103379Z     at res.toJSON.then.StripeAPIError.message (file:///opt/render/project/src/node_modules/stripe/esm/RequestSender.js:105:31)
+2025-08-30T20:30:16.15410846Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+2025-08-30T20:30:16.15411289Z   type: 'StripeInvalidRequestError',
+2025-08-30T20:30:16.1541164Z   raw: {
+2025-08-30T20:30:16.15412097Z     code: 'insufficient_capabilities_for_transfer',
+2025-08-30T20:30:16.15412513Z     message: 'Your destination account needs to have at least one of the following capabilities enabled: transfers, crypto_transfers, legacy_payments',
+2025-08-30T20:30:16.15412863Z     request_log_url: 'https://dashboard.stripe.com/logs/req_t3J5ajVWk2PIi4?t=1756585815',
+2025-08-30T20:30:16.15413218Z     type: 'invalid_request_error',
+2025-08-30T20:30:16.15413571Z     headers: {
+2025-08-30T20:30:16.154139881Z       server: 'nginx',
+2025-08-30T20:30:16.154143421Z       date: 'Sat, 30 Aug 2025 20:30:16 GMT',
+2025-08-30T20:30:16.154146921Z       'content-type': 'application/json',
+2025-08-30T20:30:16.154150861Z       'content-length': '357',
+2025-08-30T20:30:16.154154561Z       connection: 'keep-alive',
+2025-08-30T20:30:16.154157991Z       'access-control-allow-credentials': 'true',
+2025-08-30T20:30:16.154164331Z       'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T20:30:16.154167931Z       'access-control-allow-origin': '*',
+2025-08-30T20:30:16.154171982Z       'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T20:30:16.154175462Z       'access-control-max-age': '300',
+2025-08-30T20:30:16.154179162Z       'cache-control': 'no-cache, no-store',
+2025-08-30T20:30:16.154185092Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=285o1oHMByJC5sedMlMPatOAiMOdAqy5Tf8yhq0Cch8IDjHsLw4C6v7REVmUPdfJmPrpPJ1pbWedmt2Z",
+2025-08-30T20:30:16.154202512Z       'idempotency-key': 'stripe-node-retry-7f96c75c-4708-4a01-973d-102a31b194c0',
+2025-08-30T20:30:16.154204802Z       'original-request': 'req_t3J5ajVWk2PIi4',
+2025-08-30T20:30:16.154206883Z       'request-id': 'req_t3J5ajVWk2PIi4',
+2025-08-30T20:30:16.154208983Z       'stripe-should-retry': 'false',
+2025-08-30T20:30:16.154211072Z       'stripe-version': '2025-07-30.basil',
+2025-08-30T20:30:16.154213213Z       vary: 'Origin',
+2025-08-30T20:30:16.154215283Z       'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T20:30:16.154217403Z       'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T20:30:16.154219443Z       'x-wc': 'ABGHIJ',
+2025-08-30T20:30:16.154221513Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T20:30:16.154223593Z     },
+2025-08-30T20:30:16.154225743Z     statusCode: 400,
+2025-08-30T20:30:16.154227893Z     requestId: 'req_t3J5ajVWk2PIi4'
+2025-08-30T20:30:16.154229983Z   },
+2025-08-30T20:30:16.154232133Z   rawType: 'invalid_request_error',
+2025-08-30T20:30:16.154234603Z   code: 'insufficient_capabilities_for_transfer',
+2025-08-30T20:30:16.154236673Z   doc_url: undefined,
+2025-08-30T20:30:16.154238733Z   param: undefined,
+2025-08-30T20:30:16.154240824Z   detail: undefined,
+2025-08-30T20:30:16.154242993Z   headers: {
+2025-08-30T20:30:16.154245164Z     server: 'nginx',
+2025-08-30T20:30:16.154247244Z     date: 'Sat, 30 Aug 2025 20:30:16 GMT',
+2025-08-30T20:30:16.154249344Z     'content-type': 'application/json',
+2025-08-30T20:30:16.154251624Z     'content-length': '357',
+2025-08-30T20:30:16.154253684Z     connection: 'keep-alive',
+2025-08-30T20:30:16.154255754Z     'access-control-allow-credentials': 'true',
+2025-08-30T20:30:16.154257884Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T20:30:16.154281395Z     'access-control-allow-origin': '*',
+2025-08-30T20:30:16.154290485Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T20:30:16.154293095Z     'access-control-max-age': '300',
+2025-08-30T20:30:16.154295215Z     'cache-control': 'no-cache, no-store',
+2025-08-30T20:30:16.154297415Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=285o1oHMByJC5sedMlMPatOAiMOdAqy5Tf8yhq0Cch8IDjHsLw4C6v7REVmUPdfJmPrpPJ1pbWedmt2Z",
+2025-08-30T20:30:16.154300255Z     'idempotency-key': 'stripe-node-retry-7f96c75c-4708-4a01-973d-102a31b194c0',
+2025-08-30T20:30:16.154302355Z     'original-request': 'req_t3J5ajVWk2PIi4',
+2025-08-30T20:30:16.154304466Z     'request-id': 'req_t3J5ajVWk2PIi4',
+2025-08-30T20:30:16.154306555Z     'stripe-should-retry': 'false',
+2025-08-30T20:30:16.154308675Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T20:30:16.154310726Z     vary: 'Origin',
+2025-08-30T20:30:16.154312796Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T20:30:16.154314896Z     'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T20:30:16.154317066Z     'x-wc': 'ABGHIJ',
+2025-08-30T20:30:16.154319176Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T20:30:16.154325706Z   },
+2025-08-30T20:30:16.154327886Z   requestId: 'req_t3J5ajVWk2PIi4',
+2025-08-30T20:30:16.154329956Z   statusCode: 400,
+2025-08-30T20:30:16.154332006Z   userMessage: undefined,
+2025-08-30T20:30:16.154344567Z   charge: undefined,
+2025-08-30T20:30:16.154346997Z   decline_code: undefined,
+2025-08-30T20:30:16.154349107Z   payment_intent: undefined,
+2025-08-30T20:30:16.154351167Z   payment_method: undefined,
+2025-08-30T20:30:16.154353317Z   payment_method_type: undefined,
+2025-08-30T20:30:16.154355407Z   setup_intent: undefined,
+2025-08-30T20:30:16.154357537Z   source: undefined
+2025-08-30T20:30:16.154359707Z }
+2025-08-30T20:30:16.162211183Z 8:30:16 PM [express] POST /api/payments/withdraw 200 in 233ms :: {"success":true,"transactionId":"02…
+2025-08-30T20:30:16.296311731Z 8:30:16 PM [express] GET /api/user/transactions 200 in 4ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…

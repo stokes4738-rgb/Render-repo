@@ -1697,6 +1697,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/payments/setup-intent', verifyToken, async (req: any, res) => {
     if (!stripe) {
+      logger.error("Stripe not configured");
       return res.status(503).json({ message: "Payment system not configured" });
     }
 
@@ -1704,8 +1705,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const userId = req.user.id;
       const queryTimeout = 15000; // 15 seconds for payment operations
       
+      logger.info(`Creating setup intent for user ${userId}`);
+      
       // Ensure Stripe customer exists for this user
       const customerId = await ensureStripeCustomer(req.user);
+      logger.info(`Using Stripe customer: ${customerId}`);
 
       const setupIntent = await Promise.race([
         stripe.setupIntents.create({
@@ -1718,10 +1722,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
         )
       ]);
 
+      logger.info(`Setup intent created: ${setupIntent.id}, client_secret exists: ${!!setupIntent.client_secret}`);
+      
+      if (!setupIntent.client_secret) {
+        throw new Error("Setup intent created but no client secret returned");
+      }
+
       res.json({ clientSecret: setupIntent.client_secret });
     } catch (error: any) {
       logger.error("Error creating setup intent:", error);
-      res.status(500).json({ message: "Failed to create setup intent" });
+      res.status(500).json({ message: error.message || "Failed to create setup intent" });
     }
   });
 

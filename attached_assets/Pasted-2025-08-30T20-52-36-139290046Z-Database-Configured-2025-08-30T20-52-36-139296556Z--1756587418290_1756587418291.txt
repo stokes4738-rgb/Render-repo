@@ -1,0 +1,50 @@
+2025-08-30T20:52:36.139290046Z 🗄️  Database: Configured
+2025-08-30T20:52:36.139296556Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T20:52:36.238076814Z ✅ Database connection successful
+2025-08-30T20:52:36.238267844Z    Server time: Sat Aug 30 2025 20:52:36 GMT+0000 (Coordinated Universal Time)
+2025-08-30T20:52:36.238273135Z    Database: pocket_bounty
+2025-08-30T20:52:36.238279865Z    PostgreSQL: 16.10
+2025-08-30T20:52:36.245197274Z Database operation "getUserByUsername(support)" failed (attempt 1/3): column "last_payment_intent_id" does not exist
+2025-08-30T20:52:36.268329323Z 8:52:36 PM [express] Warning: Failed to ensure support user: column "last_payment_intent_id" of relation "users" does not exist
+2025-08-30T20:52:36.268498372Z 8:52:36 PM [express] serving on port 3000
+2025-08-30T20:52:46.695811191Z ==> Your service is live 🎉
+2025-08-30T20:52:46.726691108Z ==> 
+2025-08-30T20:52:46.753208554Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:52:46.787747681Z ==> 
+2025-08-30T20:52:46.815371887Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T20:52:46.842860364Z ==> 
+2025-08-30T20:52:46.868365111Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T20:53:00.133943884Z 8:53:00 PM [express] POST /api/migrate-database-add-payment-intent 200 in 151ms :: {"success":true,"…
+2025-08-30T20:53:13.354490685Z Login attempt for username: test1
+2025-08-30T20:53:13.358712116Z User found in DB: Yes
+2025-08-30T20:53:13.448485377Z Password valid: true
+2025-08-30T20:53:13.451570306Z 8:53:13 PM [express] POST /api/login 200 in 97ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e…
+2025-08-30T20:53:13.931019359Z 8:53:13 PM [express] GET /api/bounties 304 in 18ms :: []
+2025-08-30T20:53:17.579935603Z 8:53:17 PM [express] GET /api/user/transactions 304 in 13ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1…
+2025-08-30T20:53:17.756588096Z 8:53:17 PM [express] GET /api/payments/methods 304 in 187ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:53:17.864944136Z 8:53:17 PM [express] GET /api/payments/history 304 in 245ms :: [{"id":"pi_3S1vZfQqdcdobcY61Qp1k2oJ",…
+2025-08-30T20:53:19.982761043Z 8:53:19 PM [express] GET /api/user/transactions 304 in 4ms :: [{"id":"025f5b38-c6a9-488d-8c93-eccc1a…
+2025-08-30T20:53:20.119044973Z 8:53:20 PM [express] GET /api/payments/methods 304 in 130ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T20:53:27.101927192Z Login attempt for username: Dallas1221
+2025-08-30T20:53:27.103489127Z 8:53:27 PM [express] POST /api/login 200 in 2ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-30T20:53:27.24184287Z 8:53:27 PM [express] GET /api/bounties 304 in 4ms :: []
+2025-08-30T20:53:31.186506933Z 8:53:31 PM [express] GET /api/user/transactions 200 in 5ms :: []
+2025-08-30T20:53:31.278771029Z 8:53:31 PM [express] GET /api/payments/methods 200 in 125ms :: []
+2025-08-30T20:53:31.294639459Z 8:53:31 PM [express] GET /api/payments/history 200 in 114ms :: []
+2025-08-30T20:53:53.701818001Z 8:53:53 PM [express] POST /api/payments/setup-intent 200 in 186ms :: {"clientSecret":"seti_1S1vmXQqd…
+2025-08-30T20:53:56.244720746Z 8:53:56 PM [express] POST /api/payments/save-method 201 in 213ms :: {"id":"0159cce9-44fc-4821-b45c-0…
+2025-08-30T20:53:56.523128739Z 8:53:56 PM [express] GET /api/payments/methods 200 in 142ms :: [{"id":"pm_1S1vmXQqdcdobcY6NxtxjfO8",…
+2025-08-30T20:53:57.810697067Z 8:53:57 PM [express] POST /api/payments/set-default 200 in 6ms :: {"success":true}
+2025-08-30T20:53:58.104522234Z 8:53:58 PM [express] GET /api/payments/methods 304 in 146ms :: [{"id":"pm_1S1vmXQqdcdobcY6NxtxjfO8",…
+2025-08-30T20:54:05.948523932Z 8:54:05 PM [express] POST /api/payments/deposit 200 in 1624ms :: {"success":true,"paymentIntent":{"i…
+2025-08-30T20:54:06.109539592Z 8:54:06 PM [express] GET /api/user/transactions 304 in 6ms :: []
+2025-08-30T20:54:09.467623983Z 8:54:09 PM [express] GET /api/user 200 in 4ms :: {"id":"149687f8-9bae-4d15-8883-f88a4a997b2b","usern…
+2025-08-30T20:54:09.932903849Z 8:54:09 PM [express] GET /api/bounties 304 in 15ms :: []
+2025-08-30T20:54:13.037487856Z 8:54:13 PM [express] GET /api/user/transactions 304 in 4ms :: []
+2025-08-30T20:54:13.16317107Z 8:54:13 PM [express] GET /api/payments/methods 304 in 141ms :: [{"id":"pm_1S1vmXQqdcdobcY6NxtxjfO8",…
+2025-08-30T20:54:13.192285585Z 8:54:13 PM [express] GET /api/payments/history 200 in 154ms :: [{"id":"pi_3S1vmiQqdcdobcY61hJFF8GD",…
+2025-08-30T20:54:15.633787217Z 8:54:15 PM [express] GET /api/user/transactions 304 in 11ms :: []
+2025-08-30T20:54:15.736891044Z 8:54:15 PM [express] GET /api/payments/methods 304 in 128ms :: [{"id":"pm_1S1vmXQqdcdobcY6NxtxjfO8",…
+2025-08-30T20:55:47.248845433Z 8:55:47 PM [express] POST /api/user/points 200 in 34ms :: {"success":true}
+2025-08-30T20:55:47.397272432Z 8:55:47 PM [express] GET /api/user 200 in 4ms :: {"id":"149687f8-9bae-4d15-8883-f88a4a997b2b","usern…
+2025-08-30T20:55:51.627540149Z 8:55:51 PM [express] GET /api/messages/threads 200 in 33ms :: []

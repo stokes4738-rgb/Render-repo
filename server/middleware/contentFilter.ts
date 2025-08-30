@@ -2,19 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import { logger } from '../utils/logger';
 
 // List of inappropriate words and patterns that should be blocked
+// RELAXED FILTER - Only blocking explicit sexual content and extreme cases
 const inappropriateWords = [
-  // Adult content terms
-  'porn', 'xxx', 'nsfw', 'nude', 'sex',
-  // Violence and illegal activities
-  'kill', 'murder', 'drug', 'cocaine', 'heroin', 'meth',
-  // Hate speech and discrimination
-  'hate', 'racist',
-  // Gambling
-  'casino', 'gambling', 'bet365',
-  // Scam indicators
-  'nigerian prince', 'lottery winner', 'bitcoin doubler',
-  // Other inappropriate content
-  'escort', 'onlyfans'
+  // Adult content terms (very explicit only)
+  'porn', 'xxx', 'nsfw', 'nude pics', 'sex videos',
+  // Extreme illegal activities only
+  'cocaine', 'heroin', 'meth',
+  // Clear scam indicators
+  'nigerian prince', 'lottery winner', 'bitcoin doubler'
 ];
 
 // Check if content contains inappropriate material
@@ -31,31 +26,22 @@ export function containsInappropriateContent(text: string): boolean {
     }
   }
   
-  // Check for excessive capital letters (spam indicator)
+  // Check for excessive capital letters (spam indicator) - RELAXED
   const capitalRatio = (text.match(/[A-Z]/g) || []).length / text.length;
-  if (text.length > 20 && capitalRatio > 0.7) {
+  if (text.length > 50 && capitalRatio > 0.9) {
     logger.warn('Inappropriate content detected: excessive capitals');
     return true;
   }
   
-  // Check for repeated characters (spam indicator) - allow punctuation
-  // Only block repeated letters/numbers, not punctuation
-  if (/([a-zA-Z0-9])\1{6,}/.test(text)) {
+  // Check for repeated characters (spam indicator) - VERY RELAXED
+  // Only block if someone types like 20+ of the same letter/number
+  if (/([a-zA-Z0-9])\1{19,}/.test(text)) {
     logger.warn('Inappropriate content detected: excessive repeated characters');
     return true;
   }
   
-  // Check for suspicious URLs
-  const urlPattern = /(https?:\/\/[^\s]+)/g;
-  const urls = text.match(urlPattern);
-  if (urls) {
-    for (const url of urls) {
-      if (url.includes('bit.ly') || url.includes('tinyurl') || url.includes('t.co')) {
-        logger.warn('Inappropriate content detected: suspicious shortened URL');
-        return true;
-      }
-    }
-  }
+  // URL checking disabled - too restrictive for legitimate use
+  // Users should be able to share links freely
   
   return false;
 }

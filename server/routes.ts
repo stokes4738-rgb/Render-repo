@@ -3336,6 +3336,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Database migration endpoint (temporary - for adding missing columns)
+  app.post('/api/migrate-database-add-payment-intent', async (req, res) => {
+    try {
+      // Add the missing column if it doesn't exist
+      await db.execute(sql`
+        ALTER TABLE users 
+        ADD COLUMN IF NOT EXISTS last_payment_intent_id VARCHAR(255)
+      `);
+      
+      res.json({ success: true, message: "Database migrated successfully" });
+    } catch (error: any) {
+      logger.error("Migration error:", error);
+      res.status(500).json({ success: false, message: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
 
   // WebSocket server for real-time messaging

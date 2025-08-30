@@ -1,0 +1,104 @@
+AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Fetching user with token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 User fetch response status: 200
+index-tQNovapV.js:89 User data received: Object
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: Object
+(index):1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+/api/payments/deposit:1  Failed to load resource: the server responded with a status of 500 ()Understand this error
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89  POST https://pocketbounty-web.onrender.com/api/payments/deposit 500 (Internal Server Error)
+window.fetch @ index-tQNovapV.js:89
+iE @ index-tQNovapV.js:49
+mutationFn @ Account-C2Ktr28B.js:97
+fn @ index-tQNovapV.js:49
+x @ index-tQNovapV.js:49
+start @ index-tQNovapV.js:49
+execute @ index-tQNovapV.js:49
+await in execute
+mutate @ index-tQNovapV.js:49
+(anonymous) @ index-tQNovapV.js:49
+w @ Account-C2Ktr28B.js:97
+gg @ index-tQNovapV.js:38
+wg @ index-tQNovapV.js:38
+xg @ index-tQNovapV.js:38
+Jc @ index-tQNovapV.js:38
+Lp @ index-tQNovapV.js:38
+(anonymous) @ index-tQNovapV.js:38
+$u @ index-tQNovapV.js:41
+rp @ index-tQNovapV.js:38
+gl @ index-tQNovapV.js:38
+hu @ index-tQNovapV.js:38
+Ig @ index-tQNovapV.js:38Understand this error
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89  POST https://pocketbounty-web.onrender.com/api/payments/deposit 500 (Internal Server Error)
+window.fetch @ index-tQNovapV.js:89
+iE @ index-tQNovapV.js:49
+mutationFn @ Account-C2Ktr28B.js:97
+fn @ index-tQNovapV.js:49
+x @ index-tQNovapV.js:49
+start @ index-tQNovapV.js:49
+execute @ index-tQNovapV.js:49
+await in execute
+mutate @ index-tQNovapV.js:49
+(anonymous) @ index-tQNovapV.js:49
+w @ Account-C2Ktr28B.js:97
+gg @ index-tQNovapV.js:38
+wg @ index-tQNovapV.js:38
+xg @ index-tQNovapV.js:38
+Jc @ index-tQNovapV.js:38
+Lp @ index-tQNovapV.js:38
+(anonymous) @ index-tQNovapV.js:38
+$u @ index-tQNovapV.js:41
+rp @ index-tQNovapV.js:38
+gl @ index-tQNovapV.js:38
+hu @ index-tQNovapV.js:38
+Ig @ index-tQNovapV.js:38Understand this error
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}
+index-tQNovapV.js:89 Auth context state: {isAuthenticated: true, user: {…}, token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwM…1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA', isLoading: false}

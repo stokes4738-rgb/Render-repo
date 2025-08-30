@@ -15,6 +15,7 @@ import { contentFilterMiddleware } from "./middleware/contentFilter";
 import { db } from "./db";
 import { sql, eq } from "drizzle-orm";
 import Stripe from "stripe";
+import bcrypt from "bcrypt";
 
 // Stripe setup with error handling for missing keys
 let stripe: Stripe | null = null;

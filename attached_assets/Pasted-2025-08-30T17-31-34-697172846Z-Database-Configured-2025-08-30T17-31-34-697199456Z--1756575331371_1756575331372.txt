@@ -1,0 +1,50 @@
+2025-08-30T17:31:34.697172846Z 🗄️  Database: Configured
+2025-08-30T17:31:34.697199456Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T17:31:34.891424328Z ✅ Database connection successful
+2025-08-30T17:31:34.891675983Z    Server time: Sat Aug 30 2025 17:31:34 GMT+0000 (Coordinated Universal Time)
+2025-08-30T17:31:34.891696173Z    Database: pocket_bounty
+2025-08-30T17:31:34.891722574Z    PostgreSQL: 16.10
+2025-08-30T17:31:34.952865594Z 5:31:34 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T17:31:34.953000396Z 5:31:34 PM [express] serving on port 3000
+2025-08-30T17:31:42.088430404Z ==> Your service is live 🎉
+2025-08-30T17:31:42.11923797Z ==> 
+2025-08-30T17:31:42.145397717Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:31:42.176804623Z ==> 
+2025-08-30T17:31:42.20472521Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T17:31:42.670221516Z ==> 
+2025-08-30T17:31:43.218603561Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T17:32:48.243006479Z Login attempt for username: Dallas1221
+2025-08-30T17:32:48.245959457Z 5:32:48 PM [express] POST /api/login 200 in 3ms :: {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey…
+2025-08-30T17:32:48.729490255Z 5:32:48 PM [express] GET /api/bounties 200 in 26ms :: []
+2025-08-30T17:33:05.04774506Z 5:33:05 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:13.016941003Z 5:33:13 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:15.778267252Z 5:33:15 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:20.04618381Z 5:33:20 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:23.662546016Z 5:33:23 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:26.228619963Z 5:33:26 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:28.632312094Z 5:33:28 PM [express] POST /api/creator/verify 403 in 0ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:30.855071545Z 5:33:30 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:33:54.810722807Z 5:33:54 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:34:04.883175129Z 5:34:04 PM [express] GET /api/user 304 in 21ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-30T17:34:05.39649622Z 5:34:05 PM [express] GET /api/bounties 304 in 19ms :: []
+2025-08-30T17:34:44.945941029Z 5:34:44 PM [express] POST /api/creator/verify 403 in 1ms :: {"success":false,"message":"Unauthorized…
+2025-08-30T17:34:56.63513385Z [ERROR] 2025-08-30T17:34:56.633Z: Creator verification error: ReferenceError: bcrypt is not defined
+2025-08-30T17:34:56.635158721Z     at file:///opt/render/project/src/dist/index.js:2802:29
+2025-08-30T17:34:56.635164581Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:34:56.635758192Z 5:34:56 PM [express] POST /api/creator/verify 500 in 18ms :: {"success":false,"message":"Verificatio…
+2025-08-30T17:34:59.61619187Z [ERROR] 2025-08-30T17:34:59.615Z: Creator verification error: ReferenceError: bcrypt is not defined
+2025-08-30T17:34:59.61622346Z     at file:///opt/render/project/src/dist/index.js:2802:29
+2025-08-30T17:34:59.61622957Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:34:59.61668837Z 5:34:59 PM [express] POST /api/creator/verify 500 in 3ms :: {"success":false,"message":"Verification…
+2025-08-30T17:35:11.801904916Z [ERROR] 2025-08-30T17:35:11.801Z: Creator verification error: ReferenceError: bcrypt is not defined
+2025-08-30T17:35:11.801926166Z     at file:///opt/render/project/src/dist/index.js:2802:29
+2025-08-30T17:35:11.801930396Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:35:11.802605289Z 5:35:11 PM [express] POST /api/creator/verify 500 in 3ms :: {"success":false,"message":"Verification…
+2025-08-30T17:35:14.037745285Z [ERROR] 2025-08-30T17:35:14.037Z: Creator verification error: ReferenceError: bcrypt is not defined
+2025-08-30T17:35:14.037768286Z     at file:///opt/render/project/src/dist/index.js:2802:29
+2025-08-30T17:35:14.037773956Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:35:14.038372418Z 5:35:14 PM [express] POST /api/creator/verify 500 in 3ms :: {"success":false,"message":"Verification…
+2025-08-30T17:35:20.086570173Z [ERROR] 2025-08-30T17:35:20.086Z: Creator verification error: ReferenceError: bcrypt is not defined
+2025-08-30T17:35:20.086589433Z     at file:///opt/render/project/src/dist/index.js:2802:29
+2025-08-30T17:35:20.086594963Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T17:35:20.087093023Z 5:35:20 PM [express] POST /api/creator/verify 500 in 3ms :: {"success":false,"message":"Verification…

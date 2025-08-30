@@ -1,0 +1,170 @@
+   615fd48..a8a856d  main -> main
+~/workspace$ git add -A
+git commit -m "Complete Creator authentication fix: bcrypt, user creation, and password verification"
+git push origin main
+On branch main
+nothing to commit, working tree clean
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.76 KiB | 2.76 MiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   a8a856d..fb2813e  main -> main
+~/workspace$ git add -A
+git commit -m "Add temporary Creator password reset endpoint"
+git push origin main
+On branch main
+nothing to commit, working tree clean
+Enumerating objects: 14, done.
+Counting objects: 100% (14/14), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 2.88 KiB | 2.88 MiB/s, done.
+Total 10 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   fb2813e..95aa360  main -> main
+~/workspace$ git add -A
+git commit -m "Remove temporary Creator password reset endpoint"  
+git push origin main
+On branch main
+nothing to commit, working tree clean
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.20 KiB | 2.21 MiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   95aa360..3f8b4e4  main -> main
+~/workspace$ git add -A
+git commit -m "Fix Creator authentication - auto-update Dallas1221 password"
+git push origin main
+On branch main
+nothing to commit, working tree clean
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.60 KiB | 2.60 MiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   3f8b4e4..42d1782  main -> main
+~/workspace$ git add -A
+git commit -m "Fix Creator tab duplicate user error - check by username first"
+git push origin main
+On branch main
+nothing to commit, working tree clean
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.14 KiB | 2.14 MiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   42d1782..6627d00  main -> main
+~/workspace$ git add -A && git commit -m "Add Google Search Console verification" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git add -A && git commit -m "Add Google Search Console verification" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git add -A && git commit -m "Add Google verification - both HTML file and meta tag" && git push origin main
+[main c3c1a93] Add Google verification - both HTML file and meta tag
+ 1 file changed, 3 insertions(+)
+Enumerating objects: 20, done.
+Counting objects: 100% (20/20), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (15/15), 2.87 KiB | 2.87 MiB/s, done.
+Total 15 (delta 8), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (8/8), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   6627d00..c3c1a93  main -> main
+~/workspace$ git add -A && git commit -m "Add Google verification - both HTML file and meta tag" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git add -A && git commit -m "Fix sitemap with updated pages and dates" && git push origin main
+[main 3dad47b] Fix sitemap with updated pages and dates
+ 1 file changed, 20 insertions(+), 8 deletions(-)
+Enumerating objects: 9, done.
+Counting objects: 100% (9/9), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 573 bytes | 573.00 KiB/s, done.
+Total 5 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   c3c1a93..3dad47b  main -> main
+~/workspace$ git add -A && git commit -m "Update sitemap and robots.txt to use Render domain" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git add -A && git commit -m "Update sitemap and robots.txt to use Render domain" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ ^C
+~/workspace$ git add -A && git commit -m "Force sitemap rebuild with correct Render URLs" && git push origin main
+[main c1fbcb2] Force sitemap rebuild with correct Render URLs
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Enumerating objects: 16, done.
+Counting objects: 100% (16/16), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (11/11), 1.38 KiB | 1.38 MiB/s, done.
+Total 11 (delta 7), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (7/7), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   3dad47b..c1fbcb2  main -> main
+~/workspace$ git add -A && git commit -m "Fix sitemap XML - remove invalid comment" && git push origin main
+[main 918f59a] Fix sitemap XML - remove invalid comment
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 933 bytes | 933.00 KiB/s, done.
+Total 6 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   c1fbcb2..918f59a  main -> main
+~/workspace$ git add -A && git commit -m "Add endpoint to fix test1 balance" && git push origin main
+[main f679603] Add endpoint to fix test1 balance
+ 2 files changed, 75 insertions(+)
+ create mode 100644 attached_assets/Pasted-2025-08-30T19-46-54-077115672Z-2025-08-30T19-46-56-369992687Z-dotenv-17-2-1-injecting-env-0-fr-1756583933859_1756583933860.txt
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 2.39 KiB | 2.39 MiB/s, done.
+Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 4 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   918f59a..f679603  main -> main
+~/workspace$ git add -A && git commit -m "Restore test1 original $5 deposit" && git push origin main
+[main e431488] Restore test1 original  deposit
+ 1 file changed, 25 insertions(+)
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 1.13 KiB | 1.13 MiB/s, done.
+Total 8 (delta 6), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (6/6), completed with 3 local objects.
+To https://github.com/stokes4738-rgb/Render-repo.git
+   f679603..e431488  main -> main
+~/workspace$ ^[[200~git add -A && git commit -m "Restore test1 original $5 deposit" && git push origin main~
+git add -A && git commit -m \"Restore test1 original $5 deposit\" && git push origin main~bash: git: command not found
+~/workspace$ git add -A && git commit -m "Restore test1 original $5 deposit" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ git add -A && git commit -m "Remove temporary balance restoration endpoint" && git push origin main
+On branch main
+nothing to commit, working tree clean
+~/workspace$ ^C
+~/workspace$ 

@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import { isUnauthorizedError } from "@/lib/authUtils";
 import { apiRequest } from "@/lib/queryClient";
 import { formatDate } from "@/lib/utils";
+import CreatorProtected from "@/components/CreatorProtected";
 
 export default function CreatorInbox() {
   const [selectedThread, setSelectedThread] = useState<any>(null);

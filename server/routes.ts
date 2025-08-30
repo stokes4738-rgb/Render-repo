@@ -2233,6 +2233,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get Stripe Connect onboarding link
+  app.get('/api/payments/onboarding', verifyToken, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      if (!stripe) {
+        return res.status(400).json({ message: "Stripe not configured" });
+      }
+      
+      let connectAccountId = user.stripeConnectAccountId;
+      
+      // Create Connect account if doesn't exist
+      if (!connectAccountId) {
+        const account = await stripe.accounts.create({
+          type: 'express',
+          country: 'US',
+          email: user.email,
+          capabilities: {
+            transfers: { requested: true },
+            card_payments: { requested: true },
+          },
+          business_type: 'individual',
+          metadata: {
+            userId: userId
+          }
+        });
+        
+        connectAccountId = account.id;
+        await storage.updateUser(userId, {
+          stripeConnectAccountId: connectAccountId
+        });
+      }
+      
+      // Create onboarding link
+      const accountLink = await stripe.accountLinks.create({
+        account: connectAccountId,
+        refresh_url: `${process.env.BASE_URL}/account?tab=withdraw`,
+        return_url: `${process.env.BASE_URL}/account?tab=withdraw&onboarding=complete`,
+        type: 'account_onboarding',
+      });
+      
+      res.json({ url: accountLink.url });
+    } catch (error) {
+      logger.error("Onboarding error:", error);
+      res.status(500).json({ message: "Failed to create onboarding link" });
+    }
+  });
+
   // Add bank account for direct payouts
   app.post('/api/payments/add-bank', verifyToken, async (req: any, res) => {
     try {

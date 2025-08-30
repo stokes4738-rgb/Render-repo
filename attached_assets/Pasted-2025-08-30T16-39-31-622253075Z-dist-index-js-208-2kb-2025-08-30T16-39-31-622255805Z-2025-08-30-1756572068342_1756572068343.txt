@@ -1,0 +1,128 @@
+2025-08-30T16:39:31.622253075Z   dist/index.js  208.2kb
+2025-08-30T16:39:31.622255805Z 
+2025-08-30T16:39:31.622258195Z ⚡ Done in 18ms
+2025-08-30T16:39:41.374954084Z ==> Uploading build...
+2025-08-30T16:39:54.822296384Z ==> Uploaded in 9.2s. Compression took 4.3s
+2025-08-30T16:39:54.87905468Z ==> Build successful 🎉
+2025-08-30T16:39:56.717408579Z ==> Deploying...
+2025-08-30T16:40:14.603370614Z ==> Running 'npm start'
+2025-08-30T16:40:14.834640949Z 
+2025-08-30T16:40:14.83466833Z > rest-express@1.0.0 start
+2025-08-30T16:40:14.83467304Z > NODE_ENV=production node dist/index.js
+2025-08-30T16:40:14.83467525Z 
+2025-08-30T16:40:17.194333072Z [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+2025-08-30T16:40:17.196688407Z 📊 Database Configuration:
+2025-08-30T16:40:17.196700807Z    User: pocket_user
+2025-08-30T16:40:17.196709737Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T16:40:17.19685206Z    Database: pocket_bounty
+2025-08-30T16:40:17.196893511Z    SSL: enabled
+2025-08-30T16:40:17.196902551Z    Type: Render Internal Database
+2025-08-30T16:40:17.197545113Z 🚀 Environment: PRODUCTION
+2025-08-30T16:40:17.197803918Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T16:40:17.218019636Z 🚀 PocketBounty Server Starting...
+2025-08-30T16:40:17.218051777Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T16:40:17.218064937Z 📱 App Name: PocketBounty
+2025-08-30T16:40:17.218074567Z 🌍 Environment: production
+2025-08-30T16:40:17.218081037Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T16:40:17.218085447Z 🚪 Port: 3000
+2025-08-30T16:40:17.218093398Z 💳 Stripe Mode: LIVE
+2025-08-30T16:40:17.218097287Z 📧 Email: Configured
+2025-08-30T16:40:17.218103958Z 🔐 Session: Configured
+2025-08-30T16:40:17.218107878Z 🗄️  Database: Configured
+2025-08-30T16:40:17.218115328Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T16:40:17.307873159Z ✅ Database connection successful
+2025-08-30T16:40:17.308056793Z    Server time: Sat Aug 30 2025 16:40:17 GMT+0000 (Coordinated Universal Time)
+2025-08-30T16:40:17.308064083Z    Database: pocket_bounty
+2025-08-30T16:40:17.308068753Z    PostgreSQL: 16.10
+2025-08-30T16:40:17.338944035Z 4:40:17 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T16:40:17.339068378Z 4:40:17 PM [express] serving on port 3000
+2025-08-30T16:40:28.332352125Z ==> Your service is live 🎉
+2025-08-30T16:40:28.359821771Z ==> 
+2025-08-30T16:40:28.384419748Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T16:40:28.408841926Z ==> 
+2025-08-30T16:40:28.433505942Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T16:40:28.46011564Z ==> 
+2025-08-30T16:40:28.485434487Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T16:40:45.674203904Z 4:40:45 PM [express] POST /api/payments/setup-intent 200 in 246ms :: {"clientSecret":"seti_1S1rpZQqd…
+2025-08-30T16:40:48.236508671Z 4:40:48 PM [express] POST /api/payments/save-method 201 in 155ms :: {"id":"453a0383-053d-4247-820a-d…
+2025-08-30T16:40:48.51854046Z 4:40:48 PM [express] GET /api/payments/methods 200 in 151ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T16:40:49.524888383Z 4:40:49 PM [express] POST /api/payments/set-default 200 in 7ms :: {"success":true}
+2025-08-30T16:40:49.77866562Z 4:40:49 PM [express] GET /api/payments/methods 304 in 132ms :: [{"id":"pm_1S1rpZQqdcdobcY6bfslPx0G",…
+2025-08-30T16:40:57.795017354Z [ERROR] 2025-08-30T16:40:57.792Z: Error processing deposit: StripeInvalidRequestError: No such PaymentMethod: 'MASTERCARD •••• 8162'; It's possible this PaymentMethod exists on one of your connected accounts, in which case you should retry this request on that connected account. Learn more at https://stripe.com/docs/connect/authentication
+2025-08-30T16:40:57.795048425Z     at generateV1Error (file:///opt/render/project/src/node_modules/stripe/esm/Error.js:8:20)
+2025-08-30T16:40:57.795054575Z     at res.toJSON.then.StripeAPIError.message (file:///opt/render/project/src/node_modules/stripe/esm/RequestSender.js:105:31)
+2025-08-30T16:40:57.795059265Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+2025-08-30T16:40:57.795064346Z   type: 'StripeInvalidRequestError',
+2025-08-30T16:40:57.795094576Z   raw: {
+2025-08-30T16:40:57.795098326Z     code: 'resource_missing',
+2025-08-30T16:40:57.795101586Z     doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:40:57.795105236Z     message: "No such PaymentMethod: 'MASTERCARD •••• 8162'; It's possible this PaymentMethod exists on one of your connected accounts, in which case you should retry this request on that connected account. Learn more at https://stripe.com/docs/connect/authentication",
+2025-08-30T16:40:57.795107826Z     param: 'payment_method',
+2025-08-30T16:40:57.795110466Z     request_log_url: 'https://dashboard.stripe.com/logs/req_jVkpn2l1Z4Xkys?t=1756572057',
+2025-08-30T16:40:57.795113227Z     type: 'invalid_request_error',
+2025-08-30T16:40:57.795115907Z     headers: {
+2025-08-30T16:40:57.795119136Z       server: 'nginx',
+2025-08-30T16:40:57.795121967Z       date: 'Sat, 30 Aug 2025 16:40:57 GMT',
+2025-08-30T16:40:57.795124457Z       'content-type': 'application/json',
+2025-08-30T16:40:57.795126907Z       'content-length': '563',
+2025-08-30T16:40:57.795129377Z       connection: 'keep-alive',
+2025-08-30T16:40:57.795132857Z       'access-control-allow-credentials': 'true',
+2025-08-30T16:40:57.795136147Z       'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:40:57.795139207Z       'access-control-allow-origin': '*',
+2025-08-30T16:40:57.795142577Z       'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:40:57.795145087Z       'access-control-max-age': '300',
+2025-08-30T16:40:57.795147807Z       'cache-control': 'no-cache, no-store',
+2025-08-30T16:40:57.795154037Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=5SijvHcKVJurqj1GyKW1vGw81YlSiqzkETgNe4AT5VuSkC3R95_8o04lAs7sYTAa2F8eY2Yjmf5S6Ens",
+2025-08-30T16:40:57.795157207Z       'idempotency-key': 'stripe-node-retry-6d2b30b3-fe5e-4c01-aaa4-aea5aed763b2',
+2025-08-30T16:40:57.795160397Z       'original-request': 'req_jVkpn2l1Z4Xkys',
+2025-08-30T16:40:57.795163107Z       'request-id': 'req_jVkpn2l1Z4Xkys',
+2025-08-30T16:40:57.795165968Z       'stripe-version': '2025-07-30.basil',
+2025-08-30T16:40:57.795168788Z       vary: 'Origin',
+2025-08-30T16:40:57.795171308Z       'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:40:57.795174117Z       'x-stripe-routing-context-priority-tier': 'livemode-critical',
+2025-08-30T16:40:57.795176848Z       'x-wc': 'ABGHIJ',
+2025-08-30T16:40:57.795180098Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:40:57.795182628Z     },
+2025-08-30T16:40:57.795185368Z     statusCode: 400,
+2025-08-30T16:40:57.795187958Z     requestId: 'req_jVkpn2l1Z4Xkys'
+2025-08-30T16:40:57.795190488Z   },
+2025-08-30T16:40:57.795193288Z   rawType: 'invalid_request_error',
+2025-08-30T16:40:57.795195908Z   code: 'resource_missing',
+2025-08-30T16:40:57.795198608Z   doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:40:57.795201138Z   param: 'payment_method',
+2025-08-30T16:40:57.795203548Z   detail: undefined,
+2025-08-30T16:40:57.795206278Z   headers: {
+2025-08-30T16:40:57.795208768Z     server: 'nginx',
+2025-08-30T16:40:57.795211228Z     date: 'Sat, 30 Aug 2025 16:40:57 GMT',
+2025-08-30T16:40:57.795213858Z     'content-type': 'application/json',
+2025-08-30T16:40:57.795216268Z     'content-length': '563',
+2025-08-30T16:40:57.795218598Z     connection: 'keep-alive',
+2025-08-30T16:40:57.795226209Z     'access-control-allow-credentials': 'true',
+2025-08-30T16:40:57.795229599Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:40:57.795232219Z     'access-control-allow-origin': '*',
+2025-08-30T16:40:57.795234939Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:40:57.795237569Z     'access-control-max-age': '300',
+2025-08-30T16:40:57.795240409Z     'cache-control': 'no-cache, no-store',
+2025-08-30T16:40:57.795242859Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=5SijvHcKVJurqj1GyKW1vGw81YlSiqzkETgNe4AT5VuSkC3R95_8o04lAs7sYTAa2F8eY2Yjmf5S6Ens",
+2025-08-30T16:40:57.795245309Z     'idempotency-key': 'stripe-node-retry-6d2b30b3-fe5e-4c01-aaa4-aea5aed763b2',
+2025-08-30T16:40:57.795248109Z     'original-request': 'req_jVkpn2l1Z4Xkys',
+2025-08-30T16:40:57.795250879Z     'request-id': 'req_jVkpn2l1Z4Xkys',
+2025-08-30T16:40:57.795253769Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T16:40:57.795256839Z     vary: 'Origin',
+2025-08-30T16:40:57.79527473Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:40:57.795278359Z     'x-stripe-routing-context-priority-tier': 'livemode-critical',
+2025-08-30T16:40:57.79528128Z     'x-wc': 'ABGHIJ',
+2025-08-30T16:40:57.79528449Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:40:57.79528716Z   },
+2025-08-30T16:40:57.79529006Z   requestId: 'req_jVkpn2l1Z4Xkys',
+2025-08-30T16:40:57.79529276Z   statusCode: 400,
+2025-08-30T16:40:57.79529834Z   userMessage: undefined,
+2025-08-30T16:40:57.79530122Z   charge: undefined,
+2025-08-30T16:40:57.79530371Z   decline_code: undefined,
+2025-08-30T16:40:57.79530628Z   payment_intent: undefined,
+2025-08-30T16:40:57.79530902Z   payment_method: undefined,
+2025-08-30T16:40:57.79531153Z   payment_method_type: undefined,
+2025-08-30T16:40:57.79531424Z   setup_intent: undefined,
+2025-08-30T16:40:57.79531681Z   source: undefined
+2025-08-30T16:40:57.79531943Z }
+2025-08-30T16:40:57.795600046Z 4:40:57 PM [express] POST /api/payments/deposit 500 in 159ms :: {"message":"No such PaymentMethod: '…

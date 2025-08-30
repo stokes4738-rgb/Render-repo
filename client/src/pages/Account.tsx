@@ -311,7 +311,7 @@ function DepositForm({ paymentMethods }: { paymentMethods: any[] }) {
         >
           <option value="">Select payment method</option>
           {paymentMethods.map((method) => (
-            <option key={method.stripePaymentMethodId} value={method.stripePaymentMethodId}>
+            <option key={method.id} value={method.id}>
               {method.brand?.toUpperCase()} •••• {method.last4} {method.isDefault ? "(Default)" : ""}
             </option>
           ))}

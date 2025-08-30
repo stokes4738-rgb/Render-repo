@@ -307,6 +307,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Temporary endpoint to restore test1's original $5
+  app.post('/api/restore-test1-funds', async (req, res) => {
+    try {
+      // Restore the original $5 that was withdrawn before fees existed
+      await db.update(users)
+        .set({ balance: "5.00" })
+        .where(eq(users.username, 'test1'));
+      
+      const [updatedUser] = await db.select({ 
+        username: users.username, 
+        balance: users.balance 
+      }).from(users).where(eq(users.username, 'test1'));
+      
+      logger.info('test1 balance restored to original $5');
+      res.json({ 
+        success: true, 
+        message: "test1 balance restored to original $5 (pre-fee withdrawal)",
+        balance: updatedUser?.balance
+      });
+    } catch (error) {
+      logger.error("Restore balance error:", error);
+      res.status(500).json({ success: false, message: "Failed to restore balance" });
+    }
+  });
+
 
 
   // Auth middleware

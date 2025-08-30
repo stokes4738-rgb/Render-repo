@@ -1,0 +1,14 @@
+AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: Object
+index-tQNovapV.js:89 Fetching user with token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 User fetch response status: 200
+index-tQNovapV.js:89 User data received: Object
+index-tQNovapV.js:89 AuthProvider - Initial token from localStorage: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwMzk5OWRmLTNiOTMtNDBhMi05YTVlLTAxNjE2Yjc1YmMxNCIsInVzZXJuYW1lIjoidGVzdDEiLCJlbWFpbCI6ImRhbGxhc2FiYm90dDIwMDVAZ21haWwuY29tIiwiaWF0IjoxNzU2NDc1Nzg2LCJleHAiOjE3NTcwODA1ODZ9.A5wROIqw3DDhZ3r8yd2Ew1rFnUsboGr3ab4yaF941eA
+index-tQNovapV.js:89 Auth context state: Object
+badge-Ri1-Hrzp.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+Profile-UN6x6uQ_.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+shield-D2lMZ-_l.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+index-BQCe52vT.js:1 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "text/html". Strict MIME type checking is enforced for module scripts per HTML spec.Understand this error
+index-tQNovapV.js:41 TypeError: Failed to fetch dynamically imported module: https://pocketbounty-web.onrender.com/assets/Home-43qwaJF9.js
+ya @ index-tQNovapV.js:41Understand this error
+index-tQNovapV.js:41 Uncaught TypeError: Failed to fetch dynamically imported module: https://pocketbounty-web.onrender.com/assets/Home-43qwaJF9.js

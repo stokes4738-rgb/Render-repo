@@ -307,28 +307,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Endpoint to sync test1's balance with actual Stripe balance
-  app.post('/api/sync-test1-balance', async (req, res) => {
+  // Endpoint to sync ALL user balances to $0 (when all money withdrawn from Stripe)
+  app.post('/api/sync-all-balances-to-zero', async (req, res) => {
     try {
-      // Set test1 balance to 0 since money was manually refunded
-      await db.update(users)
-        .set({ balance: "0.00" })
-        .where(eq(users.username, 'test1'));
+      // Set ALL user balances to 0 since all money was withdrawn
+      const result = await db.update(users)
+        .set({ balance: "0.00" });
       
-      const [updatedUser] = await db.select({ 
+      // Get count of updated users
+      const allUsers = await db.select({ 
         username: users.username, 
         balance: users.balance 
-      }).from(users).where(eq(users.username, 'test1'));
+      }).from(users);
       
-      logger.info('test1 balance synced to $0 (manually refunded)');
+      logger.info(`All user balances reset to $0 (${allUsers.length} users updated)`);
       res.json({ 
         success: true, 
-        message: "test1 balance synced to $0",
-        balance: updatedUser?.balance
+        message: `All ${allUsers.length} user balances reset to $0`,
+        usersUpdated: allUsers.length
       });
     } catch (error) {
-      logger.error("Sync balance error:", error);
-      res.status(500).json({ success: false, message: "Failed to sync balance" });
+      logger.error("Sync all balances error:", error);
+      res.status(500).json({ success: false, message: "Failed to sync balances" });
     }
   });
 

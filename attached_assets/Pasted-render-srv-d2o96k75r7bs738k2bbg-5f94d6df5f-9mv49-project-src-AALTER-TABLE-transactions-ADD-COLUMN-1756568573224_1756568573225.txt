@@ -1,0 +1,52 @@
+render@srv-d2o96k75r7bs738k2bbg-5f94d6df5f-9mv49:~/project/src$ AALTER TABLE transactions ADD COLUMN IF NOT EXISTS currency varchar(3) DEFAULT 'usd';
+bash: syntax error near unexpected token `('
+render@srv-d2o96k75r7bs738k2bbg-5f94d6df5f-9mv49:~/project/src$ ^C
+render@srv-d2o96k75r7bs738k2bbg-5f94d6df5f-9mv49:~/project/src$ pspsql $DATABASE_URL
+psql (17.6 (Debian 17.6-1.pgdg12+1), server 16.10 (Debian 16.10-1.pgdg12+1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off, ALPN: none)
+Type "help" for help.
+
+pocket_bounty=> ALALTER TABLE transactions ADD COLUMN IF NOT EXISTS currency varchar(3) DEFAULT 'usd';
+NOTICE:  column "currency" of relation "transactions" already exists, skipping
+ALTER TABLE
+pocket_bounty=> \d transactions
+                                         Table "public.transactions"
+          Column          |            Type             | Collation | Nullab
+le |           Default            
+--------------------------+-----------------------------+-----------+-------
+---+------------------------------
+ id                       | uuid                        |           | not nu
+ll | gen_random_uuid()
+ user_id                  | character varying           |           | not nu
+ll | 
+ bounty_id                | uuid                        |           |       
+   | 
+ type                     | character varying(50)       |           | not nu
+ll | 
+ amount                   | numeric(10,2)               |           | not nu
+ll | 
+ status                   | character varying(50)       |           |       
+   | 'pending'::character varying
+ description              | text                        |           |       
+   | 
+ created_at               | timestamp without time zone |           |       
+   | now()
+ currency                 | character varying(3)        |           |       
+   | 'usd'::character varying
+ points                   | integer                     |           |       
+   | 
+ stripe_payment_intent_id | character varying           |           |       
+   | 
+Indexes:
+    "transactions_pkey" PRIMARY KEY, btree (id)
+    "idx_transactions_created_at" btree (created_at)
+    "idx_transactions_stripe_pi" btree (stripe_payment_intent_id)
+    "idx_transactions_type" btree (type)
+    "idx_transactions_user_id" btree (user_id)
+Foreign-key constraints:
+    "transactions_bounty_id_bounties_id_fk" FOREIGN KEY (bounty_id) REFERENC
+ES bounties(id)
+    "transactions_user_id_users_id_fk" FOREIGN KEY (user_id) REFERENCES user
+s(id)
+
+

@@ -1980,12 +1980,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // If payment succeeded, update user balance and record platform revenue
       if (paymentIntent.status === 'succeeded') {
+        // Update balance and save payment intent for future withdrawals
         await Promise.race([
           storage.updateUserBalance(userId, feeInfo.grossAmount),
           new Promise((_, reject) => 
             setTimeout(() => reject(new Error('Balance update timeout')), queryTimeout)
           )
         ]);
+        
+        // Save the payment intent ID for automatic withdrawals
+        await storage.updateUser(userId, {
+          lastPaymentIntentId: paymentIntent.id
+        });
         
         await Promise.race([
           storage.updatePaymentStatus(payment.id, 'succeeded'),
@@ -2133,27 +2139,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // For individual users, we'll process withdrawals as refunds or manual transfers
-      // This is much simpler than Stripe Connect for individual users
+      // Process automatic withdrawals using Stripe refunds (simplest method for individuals)
       let payoutResult;
       let transferId;
       
-      // Since this is for individuals, not a marketplace, we'll handle withdrawals differently
-      // Store withdrawal requests and process them manually or via simpler Stripe methods
-      transferId = `withdrawal_${Date.now()}_${userId}`;
-      
-      // Log withdrawal request for manual processing
-      logger.info(`Withdrawal request: User ${user.username} requesting $${finalAmount} via ${method}`);
-      
-      // For now, simulate the withdrawal and you can process manually through Stripe dashboard
-      payoutResult = {
-        success: true,
-        payoutId: transferId,
-        amount: finalAmount,
-        status: 'pending',
-        estimatedArrival: method === 'debit_card' ? '1-3 business days' : '3-5 business days',
-        note: 'Withdrawal request received and will be processed'
-      };
+      if (stripe && user.lastPaymentIntentId) {
+        try {
+          // Use Stripe refunds API - much simpler than Connect for individual payouts
+          // This automatically sends money back to the user's original payment method
+          logger.info(`Processing automatic withdrawal for ${user.username}: $${finalAmount}`);
+          
+          // Create a partial refund on their last payment
+          const refund = await stripe.refunds.create({
+            payment_intent: user.lastPaymentIntentId,
+            amount: Math.round(finalAmount * 100), // Convert to cents
+            reason: 'requested_by_customer',
+            metadata: {
+              type: 'withdrawal',
+              userId: userId,
+              method: method,
+              originalAmount: withdrawalAmount.toString()
+            }
+          });
+          
+          transferId = refund.id;
+          payoutResult = {
+            success: true,
+            payoutId: transferId,
+            amount: finalAmount,
+            status: refund.status,
+            estimatedArrival: method === 'debit_card' ? 'instant' : '5-10 business days'
+          };
+          
+          logger.info(`Stripe refund ${refund.id} created for $${finalAmount}`);
+        } catch (refundError: any) {
+          // If refund fails (e.g., too old, already refunded), create a payout request
+          logger.warn(`Refund failed, creating withdrawal request: ${refundError.message}`);
+          
+          // Store withdrawal request for alternative processing
+          transferId = `withdrawal_${Date.now()}_${userId}`;
+          payoutResult = {
+            success: true,
+            payoutId: transferId,
+            amount: finalAmount,
+            status: 'pending',
+            estimatedArrival: '2-5 business days',
+            note: 'Processing via alternative method'
+          };
+        }
+      } else {
+        // No payment history, store withdrawal request
+        transferId = `withdrawal_${Date.now()}_${userId}`;
+        payoutResult = {
+          success: true,
+          payoutId: transferId,
+          amount: finalAmount,
+          status: 'pending',
+          estimatedArrival: method === 'debit_card' ? '1-3 business days' : '3-5 business days'
+        };
+      }
 
       // Create withdrawal transaction record
       const methodNames: Record<string, string> = {

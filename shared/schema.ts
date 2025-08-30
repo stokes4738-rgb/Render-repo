@@ -55,6 +55,7 @@ export const users: any = pgTable("users", {
   debitCardLast4: varchar("debit_card_last4", { length: 4 }),
   debitCardToken: varchar("debit_card_token"), // Stripe tokenized debit card  
   preferredPayoutMethod: varchar("preferred_payout_method", { length: 20 }), // 'bank' or 'card'
+  lastPaymentIntentId: varchar("last_payment_intent_id"), // Track last deposit for refund-based withdrawals
   referralCode: varchar("referral_code").unique(),
   referredBy: varchar("referred_by").references((): any => users.id),
   referralCount: integer("referral_count").default(0),

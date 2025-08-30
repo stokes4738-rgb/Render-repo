@@ -1,0 +1,50 @@
+2025-08-30T16:10:31.641812973Z     },
+2025-08-30T16:10:31.641814693Z     statusCode: 400,
+2025-08-30T16:10:31.641816384Z     requestId: 'req_54SV0GiL1nBAyn'
+2025-08-30T16:10:31.641818053Z   },
+2025-08-30T16:10:31.641819764Z   rawType: 'invalid_request_error',
+2025-08-30T16:10:31.641821514Z   code: 'resource_missing',
+2025-08-30T16:10:31.641823244Z   doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:31.641824894Z   param: 'customer',
+2025-08-30T16:10:31.641826544Z   detail: undefined,
+2025-08-30T16:10:31.641828204Z   headers: {
+2025-08-30T16:10:31.641829864Z     server: 'nginx',
+2025-08-30T16:10:31.641831544Z     date: 'Sat, 30 Aug 2025 16:10:31 GMT',
+2025-08-30T16:10:31.641833214Z     'content-type': 'application/json',
+2025-08-30T16:10:31.641834894Z     'content-length': '424',
+2025-08-30T16:10:31.641836545Z     connection: 'keep-alive',
+2025-08-30T16:10:31.641838225Z     'access-control-allow-credentials': 'true',
+2025-08-30T16:10:31.641839945Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:31.641841645Z     'access-control-allow-origin': '*',
+2025-08-30T16:10:31.641843395Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:31.641845145Z     'access-control-max-age': '300',
+2025-08-30T16:10:31.641846795Z     'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:31.641848615Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=tX2fUNzdP7jMZHKZFFvYbh1Eo6zIbNennAHNYXo5L6PJlk2LTIPf57ODG_8T3Fqf8-Q8_8De7nlj_h2g",
+2025-08-30T16:10:31.641850285Z     'idempotency-key': 'stripe-node-retry-3451c5e4-5d7a-4dce-8c60-67b72fb53f0b',
+2025-08-30T16:10:31.641851915Z     'original-request': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641853526Z     'request-id': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641855155Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:31.641856786Z     vary: 'Origin',
+2025-08-30T16:10:31.641858426Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:31.641860076Z     'x-stripe-routing-context-priority-tier': 'livemode-critical',
+2025-08-30T16:10:31.641861736Z     'x-wc': 'ABGHIJ',
+2025-08-30T16:10:31.641863396Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:31.641865076Z   },
+2025-08-30T16:10:31.641866756Z   requestId: 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641868446Z   statusCode: 400,
+2025-08-30T16:10:31.641882887Z   userMessage: undefined,
+2025-08-30T16:10:31.641884807Z   charge: undefined,
+2025-08-30T16:10:31.641886577Z   decline_code: undefined,
+2025-08-30T16:10:31.641888247Z   payment_intent: undefined,
+2025-08-30T16:10:31.641889947Z   payment_method: undefined,
+2025-08-30T16:10:31.641891617Z   payment_method_type: undefined,
+2025-08-30T16:10:31.641893277Z   setup_intent: undefined,
+2025-08-30T16:10:31.641894908Z   source: undefined
+2025-08-30T16:10:31.641896568Z }
+2025-08-30T16:10:31.642378533Z 4:10:31 PM [express] POST /api/payments/setup-intent 500 in 153ms :: {"message":"Failed to create se…
+2025-08-30T16:11:20.377914985Z 4:11:20 PM [express] GET /api/user 304 in 246ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","use…
+2025-08-30T16:11:20.845401028Z 4:11:20 PM [express] GET /api/bounties 304 in 15ms :: []
+2025-08-30T16:11:22.260967493Z 4:11:22 PM [express] GET /api/user/transactions 304 in 3ms :: []
+2025-08-30T16:11:22.346876196Z 4:11:22 PM [express] GET /api/payments/methods 304 in 105ms :: []
+2025-08-30T16:11:22.385554573Z 4:11:22 PM [express] GET /api/payments/history 304 in 110ms :: []
+2025-08-30T16:11:28.255438949Z 4:11:28 PM [express] POST /api/payments/setup-intent 200 in 191ms :: {"clientSecret":"seti_1S1rNEQqd…

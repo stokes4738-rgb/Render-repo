@@ -94,30 +94,48 @@ function AddPaymentMethodForm({ onSuccess }: { onSuccess: () => void }) {
 
     setIsLoading(true);
 
-    const response = await setupIntentMutation.mutateAsync();
-    const clientSecret = (response as any).clientSecret;
+    try {
+      const response = await setupIntentMutation.mutateAsync();
+      const clientSecret = (response as any).clientSecret;
 
-    const { error, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement)!,
-      },
-    });
+      const { error, setupIntent } = await stripe.confirmCardSetup(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement)!,
+        },
+      });
 
-    if (error) {
+      if (error) {
+        console.error("Stripe error:", error);
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      if (setupIntent?.payment_method) {
+        await saveMethodMutation.mutateAsync(setupIntent.payment_method as string);
+      } else {
+        console.error("No payment method in setup intent:", setupIntent);
+        toast({
+          title: "Error",
+          description: "Failed to save payment method",
+          variant: "destructive",
+        });
+      }
+
+      setIsLoading(false);
+    } catch (error: any) {
+      console.error("Payment method error:", error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error.message || "Failed to add payment method",
         variant: "destructive",
       });
       setIsLoading(false);
-      return;
     }
-
-    if (setupIntent?.payment_method) {
-      await saveMethodMutation.mutateAsync(setupIntent.payment_method as string);
-    }
-
-    setIsLoading(false);
   };
 
   return (

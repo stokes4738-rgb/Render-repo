@@ -1,0 +1,51 @@
+2025-08-30T15:10:16.607440945Z 🚀 PocketBounty Server Starting...
+2025-08-30T15:10:16.607479525Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T15:10:16.607493056Z 📱 App Name: PocketBounty
+2025-08-30T15:10:16.607497676Z 🌍 Environment: production
+2025-08-30T15:10:16.607505986Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T15:10:16.607509966Z 🚪 Port: 3000
+2025-08-30T15:10:16.607514166Z 💳 Stripe Mode: TEST
+2025-08-30T15:10:16.607521106Z 📧 Email: Configured
+2025-08-30T15:10:16.607524896Z 🔐 Session: Configured
+2025-08-30T15:10:16.607535436Z 🗄️  Database: Configured
+2025-08-30T15:10:16.607545586Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T15:10:16.704647207Z ✅ Database connection successful
+2025-08-30T15:10:16.70485274Z    Server time: Sat Aug 30 2025 15:10:16 GMT+0000 (Coordinated Universal Time)
+2025-08-30T15:10:16.704861831Z    Database: pocket_bounty
+2025-08-30T15:10:16.705011673Z    PostgreSQL: 16.10
+2025-08-30T15:10:16.722669096Z 3:10:16 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T15:10:16.722795548Z 3:10:16 PM [express] serving on port 3000
+2025-08-30T15:10:24.636369641Z ==> Your service is live 🎉
+2025-08-30T15:10:24.666499387Z ==> 
+2025-08-30T15:10:24.694807464Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T15:10:24.722513661Z ==> 
+2025-08-30T15:10:25.220893142Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T15:10:25.247549799Z ==> 
+2025-08-30T15:10:25.274144806Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T15:10:35.701366351Z [ERROR] 2025-08-30T15:10:35.698Z: Error fetching transactions: error: column "currency" does not exist
+2025-08-30T15:10:35.701388812Z     at /opt/render/project/src/node_modules/pg-pool/index.js:45:11
+2025-08-30T15:10:35.701392682Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-08-30T15:10:35.701396522Z     at async file:///opt/render/project/src/node_modules/drizzle-orm/node-postgres/session.js:83:22
+2025-08-30T15:10:35.701401202Z     at async file:///opt/render/project/src/dist/index.js:3426:29 {
+2025-08-30T15:10:35.701406102Z   length: 108,
+2025-08-30T15:10:35.701411122Z   severity: 'ERROR',
+2025-08-30T15:10:35.701415772Z   code: '42703',
+2025-08-30T15:10:35.701420083Z   detail: undefined,
+2025-08-30T15:10:35.701424232Z   hint: undefined,
+2025-08-30T15:10:35.701429163Z   position: '56',
+2025-08-30T15:10:35.701432913Z   internalPosition: undefined,
+2025-08-30T15:10:35.701435693Z   internalQuery: undefined,
+2025-08-30T15:10:35.701438533Z   where: undefined,
+2025-08-30T15:10:35.701441293Z   schema: undefined,
+2025-08-30T15:10:35.701444053Z   table: undefined,
+2025-08-30T15:10:35.701446873Z   column: undefined,
+2025-08-30T15:10:35.701449603Z   dataType: undefined,
+2025-08-30T15:10:35.701452323Z   constraint: undefined,
+2025-08-30T15:10:35.701455063Z   file: 'parse_relation.c',
+2025-08-30T15:10:35.701457823Z   line: '3722',
+2025-08-30T15:10:35.701469233Z   routine: 'errorMissingColumn'
+2025-08-30T15:10:35.701471083Z }
+2025-08-30T15:10:35.702362838Z 3:10:35 PM [express] GET /api/user/transactions 500 in 19ms :: {"message":"Failed to fetch transacti…
+2025-08-30T15:10:35.831599092Z 3:10:35 PM [express] GET /api/payments/methods 304 in 153ms :: []
+2025-08-30T15:10:35.836241489Z 3:10:35 PM [express] GET /api/payments/history 304 in 140ms :: []
+2025-08-30T15:10:53.061640446Z 3:10:53 PM [express] POST /api/payments/setup-intent 200 in 221ms :: {"clientSecret":"seti_1S1qQaQqd…

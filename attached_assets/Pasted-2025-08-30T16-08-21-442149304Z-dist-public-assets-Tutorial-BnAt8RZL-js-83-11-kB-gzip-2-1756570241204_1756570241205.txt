@@ -1,0 +1,279 @@
+2025-08-30T16:08:21.442149304Z ../dist/public/assets/Tutorial-BnAt8RZL.js         83.11 kB │ gzip: 20.28 kB
+2025-08-30T16:08:21.442154664Z ../dist/public/assets/Home-DaMnpgOY.js            192.90 kB │ gzip: 48.65 kB
+2025-08-30T16:08:21.442221026Z ../dist/public/assets/index-CUYeu16j.js           292.36 kB │ gzip: 95.64 kB
+2025-08-30T16:08:21.442461521Z ✓ built in 4.32s
+2025-08-30T16:08:21.501851673Z 
+2025-08-30T16:08:21.501876994Z   dist/index.js  207.4kb
+2025-08-30T16:08:21.501880834Z 
+2025-08-30T16:08:21.501883714Z ⚡ Done in 13ms
+2025-08-30T16:08:22.79956332Z ==> Uploading build...
+2025-08-30T16:08:35.473658118Z ==> Uploaded in 9.2s. Compression took 3.4s
+2025-08-30T16:08:35.526706336Z ==> Build successful 🎉
+2025-08-30T16:08:38.193678117Z ==> Deploying...
+2025-08-30T16:08:54.902724665Z ==> Running 'npm start'
+2025-08-30T16:08:55.186207511Z 
+2025-08-30T16:08:55.186226562Z > rest-express@1.0.0 start
+2025-08-30T16:08:55.186231252Z > NODE_ENV=production node dist/index.js
+2025-08-30T16:08:55.186233722Z 
+2025-08-30T16:08:57.299339481Z [dotenv@17.2.1] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+2025-08-30T16:08:57.301149726Z 📊 Database Configuration:
+2025-08-30T16:08:57.301159877Z    User: pocket_user
+2025-08-30T16:08:57.301170657Z    Host: dpg-d2o96k75r7bs738k2bfg-a:5432
+2025-08-30T16:08:57.301177878Z    Database: pocket_bounty
+2025-08-30T16:08:57.301184298Z    SSL: enabled
+2025-08-30T16:08:57.301189298Z    Type: Render Internal Database
+2025-08-30T16:08:57.301742707Z 🚀 Environment: PRODUCTION
+2025-08-30T16:08:57.301949318Z 🔍 Testing database connection (3 attempts)...
+2025-08-30T16:08:57.376698205Z 🚀 PocketBounty Server Starting...
+2025-08-30T16:08:57.376733087Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T16:08:57.376741317Z 📱 App Name: PocketBounty
+2025-08-30T16:08:57.376745538Z 🌍 Environment: production
+2025-08-30T16:08:57.376754048Z 🔗 Base URL: https://pocketbounty-web.onrender.com
+2025-08-30T16:08:57.376757778Z 🚪 Port: 3000
+2025-08-30T16:08:57.376761679Z 💳 Stripe Mode: LIVE
+2025-08-30T16:08:57.376765399Z 📧 Email: Configured
+2025-08-30T16:08:57.376767989Z 🔐 Session: Configured
+2025-08-30T16:08:57.376770029Z 🗄️  Database: Configured
+2025-08-30T16:08:57.376774959Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2025-08-30T16:08:57.412968166Z ✅ Database connection successful
+2025-08-30T16:08:57.413135935Z    Server time: Sat Aug 30 2025 16:08:57 GMT+0000 (Coordinated Universal Time)
+2025-08-30T16:08:57.413140575Z    Database: pocket_bounty
+2025-08-30T16:08:57.413143495Z    PostgreSQL: 16.10
+2025-08-30T16:08:57.475964737Z 4:08:57 PM [express] Support user ensured with ID: 9f1f3ebb-ab6a-4a00-867d-76a1472b656c
+2025-08-30T16:08:57.476102274Z 4:08:57 PM [express] serving on port 3000
+2025-08-30T16:09:01.142894611Z ==> Your service is live 🎉
+2025-08-30T16:09:01.711853225Z ==> 
+2025-08-30T16:09:02.450909188Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T16:09:02.501180532Z ==> 
+2025-08-30T16:09:02.544763757Z ==> Available at your primary URL https://pocketbounty-web.onrender.com
+2025-08-30T16:09:03.164654265Z ==> 
+2025-08-30T16:09:03.20097753Z ==> ///////////////////////////////////////////////////////////
+2025-08-30T16:10:19.628007706Z 4:10:19 PM [express] GET /api/user 304 in 16ms :: {"id":"c03999df-3b93-40a2-9a5e-01616b75bc14","user…
+2025-08-30T16:10:20.156449492Z 4:10:20 PM [express] GET /api/bounties 304 in 16ms :: []
+2025-08-30T16:10:22.901487932Z 4:10:22 PM [express] GET /api/user/transactions 304 in 13ms :: []
+2025-08-30T16:10:23.013541625Z [ERROR] 2025-08-30T16:10:23.011Z: Failed to fetch Stripe payment methods: StripeInvalidRequestError: No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.
+2025-08-30T16:10:23.013565096Z     at generateV1Error (file:///opt/render/project/src/node_modules/stripe/esm/Error.js:8:20)
+2025-08-30T16:10:23.013572646Z     at res.toJSON.then.StripeAPIError.message (file:///opt/render/project/src/node_modules/stripe/esm/RequestSender.js:105:31)
+2025-08-30T16:10:23.013577287Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+2025-08-30T16:10:23.013582797Z   type: 'StripeInvalidRequestError',
+2025-08-30T16:10:23.013587027Z   raw: {
+2025-08-30T16:10:23.013592437Z     code: 'resource_missing',
+2025-08-30T16:10:23.013596837Z     doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:23.013600468Z     message: "No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.",
+2025-08-30T16:10:23.013604128Z     param: 'customer',
+2025-08-30T16:10:23.013617689Z     request_log_url: 'https://dashboard.stripe.com/logs/req_60tDoUva5Tk7kT?t=1756570222',
+2025-08-30T16:10:23.013619699Z     type: 'invalid_request_error',
+2025-08-30T16:10:23.013621439Z     headers: {
+2025-08-30T16:10:23.013623129Z       server: 'nginx',
+2025-08-30T16:10:23.013624829Z       date: 'Sat, 30 Aug 2025 16:10:23 GMT',
+2025-08-30T16:10:23.013626499Z       'content-type': 'application/json',
+2025-08-30T16:10:23.013628199Z       'content-length': '424',
+2025-08-30T16:10:23.013629889Z       connection: 'keep-alive',
+2025-08-30T16:10:23.013632389Z       'access-control-allow-credentials': 'true',
+2025-08-30T16:10:23.01363423Z       'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:23.01363609Z       'access-control-allow-origin': '*',
+2025-08-30T16:10:23.01363924Z       'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:23.01364093Z       'access-control-max-age': '300',
+2025-08-30T16:10:23.01364258Z       'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:23.01364589Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=YaxjoOD9VD61mywY59e99xFmyzpMpdxUvdrSnjRbGpPARyOrN4ujj-bVBSdHjuPitztlNT0nYMdTpthz",
+2025-08-30T16:10:23.01364886Z       'request-id': 'req_60tDoUva5Tk7kT',
+2025-08-30T16:10:23.01365136Z       'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:23.013679492Z       vary: 'Origin',
+2025-08-30T16:10:23.013682412Z       'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:23.013684832Z       'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T16:10:23.013687192Z       'x-wc': 'ABGHIJ',
+2025-08-30T16:10:23.013689882Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:23.013692513Z     },
+2025-08-30T16:10:23.013695113Z     statusCode: 400,
+2025-08-30T16:10:23.013697813Z     requestId: 'req_60tDoUva5Tk7kT'
+2025-08-30T16:10:23.013700273Z   },
+2025-08-30T16:10:23.013703173Z   rawType: 'invalid_request_error',
+2025-08-30T16:10:23.013706043Z   code: 'resource_missing',
+2025-08-30T16:10:23.013708123Z   doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:23.013709843Z   param: 'customer',
+2025-08-30T16:10:23.013711474Z   detail: undefined,
+2025-08-30T16:10:23.013713194Z   headers: {
+2025-08-30T16:10:23.013714944Z     server: 'nginx',
+2025-08-30T16:10:23.013716684Z     date: 'Sat, 30 Aug 2025 16:10:23 GMT',
+2025-08-30T16:10:23.013718394Z     'content-type': 'application/json',
+2025-08-30T16:10:23.013720024Z     'content-length': '424',
+2025-08-30T16:10:23.013721684Z     connection: 'keep-alive',
+2025-08-30T16:10:23.013723314Z     'access-control-allow-credentials': 'true',
+2025-08-30T16:10:23.013724954Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:23.013726594Z     'access-control-allow-origin': '*',
+2025-08-30T16:10:23.013728354Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:23.013730044Z     'access-control-max-age': '300',
+2025-08-30T16:10:23.013731715Z     'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:23.013733525Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=YaxjoOD9VD61mywY59e99xFmyzpMpdxUvdrSnjRbGpPARyOrN4ujj-bVBSdHjuPitztlNT0nYMdTpthz",
+2025-08-30T16:10:23.013739505Z     'request-id': 'req_60tDoUva5Tk7kT',
+2025-08-30T16:10:23.013741265Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:23.013742915Z     vary: 'Origin',
+2025-08-30T16:10:23.013744595Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:23.013746215Z     'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T16:10:23.013747925Z     'x-wc': 'ABGHIJ',
+2025-08-30T16:10:23.013749616Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:23.013751305Z   },
+2025-08-30T16:10:23.013753006Z   requestId: 'req_60tDoUva5Tk7kT',
+2025-08-30T16:10:23.013765896Z   statusCode: 400,
+2025-08-30T16:10:23.013769446Z   userMessage: undefined,
+2025-08-30T16:10:23.013772417Z   charge: undefined,
+2025-08-30T16:10:23.013775057Z   decline_code: undefined,
+2025-08-30T16:10:23.013777947Z   payment_intent: undefined,
+2025-08-30T16:10:23.013780717Z   payment_method: undefined,
+2025-08-30T16:10:23.013783337Z   payment_method_type: undefined,
+2025-08-30T16:10:23.013785797Z   setup_intent: undefined,
+2025-08-30T16:10:23.013788298Z   source: undefined
+2025-08-30T16:10:23.013791198Z }
+2025-08-30T16:10:23.014241981Z 4:10:23 PM [express] GET /api/payments/methods 304 in 136ms :: []
+2025-08-30T16:10:23.015042543Z [ERROR] 2025-08-30T16:10:23.014Z: Failed to fetch Stripe payment intents: StripeInvalidRequestError: No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.
+2025-08-30T16:10:23.015053164Z     at generateV1Error (file:///opt/render/project/src/node_modules/stripe/esm/Error.js:8:20)
+2025-08-30T16:10:23.015055974Z     at res.toJSON.then.StripeAPIError.message (file:///opt/render/project/src/node_modules/stripe/esm/RequestSender.js:105:31)
+2025-08-30T16:10:23.015057694Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+2025-08-30T16:10:23.015060274Z   type: 'StripeInvalidRequestError',
+2025-08-30T16:10:23.015062014Z   raw: {
+2025-08-30T16:10:23.015064444Z     code: 'resource_missing',
+2025-08-30T16:10:23.015066754Z     doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:23.015069594Z     message: "No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.",
+2025-08-30T16:10:23.015072095Z     param: 'customer',
+2025-08-30T16:10:23.015073805Z     request_log_url: 'https://dashboard.stripe.com/logs/req_SxNVA7NlmUrYi1?t=1756570222',
+2025-08-30T16:10:23.015075495Z     type: 'invalid_request_error',
+2025-08-30T16:10:23.015077225Z     headers: {
+2025-08-30T16:10:23.015078925Z       server: 'nginx',
+2025-08-30T16:10:23.015080755Z       date: 'Sat, 30 Aug 2025 16:10:23 GMT',
+2025-08-30T16:10:23.015082405Z       'content-type': 'application/json',
+2025-08-30T16:10:23.015084045Z       'content-length': '424',
+2025-08-30T16:10:23.015085695Z       connection: 'keep-alive',
+2025-08-30T16:10:23.015088046Z       'access-control-allow-credentials': 'true',
+2025-08-30T16:10:23.015089786Z       'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:23.015091556Z       'access-control-allow-origin': '*',
+2025-08-30T16:10:23.015094066Z       'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:23.015095736Z       'access-control-max-age': '300',
+2025-08-30T16:10:23.015105807Z       'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:23.015108817Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=tX2fUNzdP7jMZHKZFFvYbh1Eo6zIbNennAHNYXo5L6PJlk2LTIPf57ODG_8T3Fqf8-Q8_8De7nlj_h2g",
+2025-08-30T16:10:23.015110557Z       'request-id': 'req_SxNVA7NlmUrYi1',
+2025-08-30T16:10:23.015112237Z       'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:23.015113887Z       vary: 'Origin',
+2025-08-30T16:10:23.015115547Z       'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:23.015117257Z       'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T16:10:23.015118867Z       'x-wc': 'ABGHIJ',
+2025-08-30T16:10:23.015120547Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:23.015122227Z     },
+2025-08-30T16:10:23.015123957Z     statusCode: 400,
+2025-08-30T16:10:23.015125688Z     requestId: 'req_SxNVA7NlmUrYi1'
+2025-08-30T16:10:23.015127337Z   },
+2025-08-30T16:10:23.015129098Z   rawType: 'invalid_request_error',
+2025-08-30T16:10:23.015130798Z   code: 'resource_missing',
+2025-08-30T16:10:23.015132558Z   doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:23.015134298Z   param: 'customer',
+2025-08-30T16:10:23.015135938Z   detail: undefined,
+2025-08-30T16:10:23.015137668Z   headers: {
+2025-08-30T16:10:23.015139368Z     server: 'nginx',
+2025-08-30T16:10:23.015141048Z     date: 'Sat, 30 Aug 2025 16:10:23 GMT',
+2025-08-30T16:10:23.015142748Z     'content-type': 'application/json',
+2025-08-30T16:10:23.015144478Z     'content-length': '424',
+2025-08-30T16:10:23.015146189Z     connection: 'keep-alive',
+2025-08-30T16:10:23.015147909Z     'access-control-allow-credentials': 'true',
+2025-08-30T16:10:23.015149719Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:23.015151439Z     'access-control-allow-origin': '*',
+2025-08-30T16:10:23.015153229Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:23.015154899Z     'access-control-max-age': '300',
+2025-08-30T16:10:23.015156569Z     'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:23.015158369Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=tX2fUNzdP7jMZHKZFFvYbh1Eo6zIbNennAHNYXo5L6PJlk2LTIPf57ODG_8T3Fqf8-Q8_8De7nlj_h2g",
+2025-08-30T16:10:23.015160049Z     'request-id': 'req_SxNVA7NlmUrYi1',
+2025-08-30T16:10:23.015161729Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:23.015163399Z     vary: 'Origin',
+2025-08-30T16:10:23.01516507Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:23.01516676Z     'x-stripe-routing-context-priority-tier': 'livemode',
+2025-08-30T16:10:23.01516844Z     'x-wc': 'ABGHIJ',
+2025-08-30T16:10:23.01517014Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:23.01517186Z   },
+2025-08-30T16:10:23.01517378Z   requestId: 'req_SxNVA7NlmUrYi1',
+2025-08-30T16:10:23.01517549Z   statusCode: 400,
+2025-08-30T16:10:23.01517714Z   userMessage: undefined,
+2025-08-30T16:10:23.01517883Z   charge: undefined,
+2025-08-30T16:10:23.015183351Z   decline_code: undefined,
+2025-08-30T16:10:23.015185061Z   payment_intent: undefined,
+2025-08-30T16:10:23.015186691Z   payment_method: undefined,
+2025-08-30T16:10:23.015188401Z   payment_method_type: undefined,
+2025-08-30T16:10:23.015190051Z   setup_intent: undefined,
+2025-08-30T16:10:23.015191761Z   source: undefined
+2025-08-30T16:10:23.015193461Z }
+2025-08-30T16:10:23.015517978Z 4:10:23 PM [express] GET /api/payments/history 304 in 123ms :: []
+2025-08-30T16:10:31.641677076Z [ERROR] 2025-08-30T16:10:31.641Z: Error creating setup intent: StripeInvalidRequestError: No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.
+2025-08-30T16:10:31.641698427Z     at generateV1Error (file:///opt/render/project/src/node_modules/stripe/esm/Error.js:8:20)
+2025-08-30T16:10:31.641702567Z     at res.toJSON.then.StripeAPIError.message (file:///opt/render/project/src/node_modules/stripe/esm/RequestSender.js:105:31)
+2025-08-30T16:10:31.641705598Z     at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+2025-08-30T16:10:31.641709138Z   type: 'StripeInvalidRequestError',
+2025-08-30T16:10:31.641712008Z   raw: {
+2025-08-30T16:10:31.641715778Z     code: 'resource_missing',
+2025-08-30T16:10:31.641719458Z     doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:31.641723068Z     message: "No such customer: 'cus_SxEIEmKzHBLbd3'; a similar object exists in test mode, but a live mode key was used to make this request.",
+2025-08-30T16:10:31.641726679Z     param: 'customer',
+2025-08-30T16:10:31.641729499Z     request_log_url: 'https://dashboard.stripe.com/logs/req_54SV0GiL1nBAyn?t=1756570231',
+2025-08-30T16:10:31.641732349Z     type: 'invalid_request_error',
+2025-08-30T16:10:31.641735199Z     headers: {
+2025-08-30T16:10:31.641738069Z       server: 'nginx',
+2025-08-30T16:10:31.641740909Z       date: 'Sat, 30 Aug 2025 16:10:31 GMT',
+2025-08-30T16:10:31.64174374Z       'content-type': 'application/json',
+2025-08-30T16:10:31.64174655Z       'content-length': '424',
+2025-08-30T16:10:31.64174929Z       connection: 'keep-alive',
+2025-08-30T16:10:31.64175287Z       'access-control-allow-credentials': 'true',
+2025-08-30T16:10:31.64175574Z       'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:31.641758521Z       'access-control-allow-origin': '*',
+2025-08-30T16:10:31.641761981Z       'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:31.641764871Z       'access-control-max-age': '300',
+2025-08-30T16:10:31.641767671Z       'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:31.641771211Z       'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=tX2fUNzdP7jMZHKZFFvYbh1Eo6zIbNennAHNYXo5L6PJlk2LTIPf57ODG_8T3Fqf8-Q8_8De7nlj_h2g",
+2025-08-30T16:10:31.641774021Z       'idempotency-key': 'stripe-node-retry-3451c5e4-5d7a-4dce-8c60-67b72fb53f0b',
+2025-08-30T16:10:31.641780982Z       'original-request': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641783832Z       'request-id': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641786632Z       'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:31.641789372Z       vary: 'Origin',
+2025-08-30T16:10:31.641792472Z       'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:31.641795642Z       'x-stripe-routing-context-priority-tier': 'livemode-critical',
+2025-08-30T16:10:31.641809153Z       'x-wc': 'ABGHIJ',
+2025-08-30T16:10:31.641811253Z       'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:31.641812973Z     },
+2025-08-30T16:10:31.641814693Z     statusCode: 400,
+2025-08-30T16:10:31.641816384Z     requestId: 'req_54SV0GiL1nBAyn'
+2025-08-30T16:10:31.641818053Z   },
+2025-08-30T16:10:31.641819764Z   rawType: 'invalid_request_error',
+2025-08-30T16:10:31.641821514Z   code: 'resource_missing',
+2025-08-30T16:10:31.641823244Z   doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+2025-08-30T16:10:31.641824894Z   param: 'customer',
+2025-08-30T16:10:31.641826544Z   detail: undefined,
+2025-08-30T16:10:31.641828204Z   headers: {
+2025-08-30T16:10:31.641829864Z     server: 'nginx',
+2025-08-30T16:10:31.641831544Z     date: 'Sat, 30 Aug 2025 16:10:31 GMT',
+2025-08-30T16:10:31.641833214Z     'content-type': 'application/json',
+2025-08-30T16:10:31.641834894Z     'content-length': '424',
+2025-08-30T16:10:31.641836545Z     connection: 'keep-alive',
+2025-08-30T16:10:31.641838225Z     'access-control-allow-credentials': 'true',
+2025-08-30T16:10:31.641839945Z     'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+2025-08-30T16:10:31.641841645Z     'access-control-allow-origin': '*',
+2025-08-30T16:10:31.641843395Z     'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+2025-08-30T16:10:31.641845145Z     'access-control-max-age': '300',
+2025-08-30T16:10:31.641846795Z     'cache-control': 'no-cache, no-store',
+2025-08-30T16:10:31.641848615Z     'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=tX2fUNzdP7jMZHKZFFvYbh1Eo6zIbNennAHNYXo5L6PJlk2LTIPf57ODG_8T3Fqf8-Q8_8De7nlj_h2g",
+2025-08-30T16:10:31.641850285Z     'idempotency-key': 'stripe-node-retry-3451c5e4-5d7a-4dce-8c60-67b72fb53f0b',
+2025-08-30T16:10:31.641851915Z     'original-request': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641853526Z     'request-id': 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641855155Z     'stripe-version': '2025-07-30.basil',
+2025-08-30T16:10:31.641856786Z     vary: 'Origin',
+2025-08-30T16:10:31.641858426Z     'x-stripe-priority-routing-enabled': 'true',
+2025-08-30T16:10:31.641860076Z     'x-stripe-routing-context-priority-tier': 'livemode-critical',
+2025-08-30T16:10:31.641861736Z     'x-wc': 'ABGHIJ',
+2025-08-30T16:10:31.641863396Z     'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+2025-08-30T16:10:31.641865076Z   },
+2025-08-30T16:10:31.641866756Z   requestId: 'req_54SV0GiL1nBAyn',
+2025-08-30T16:10:31.641868446Z   statusCode: 400,
+2025-08-30T16:10:31.641882887Z   userMessage: undefined,
+2025-08-30T16:10:31.641884807Z   charge: undefined,
+2025-08-30T16:10:31.641886577Z   decline_code: undefined,
+2025-08-30T16:10:31.641888247Z   payment_intent: undefined,
+2025-08-30T16:10:31.641889947Z   payment_method: undefined,
+2025-08-30T16:10:31.641891617Z   payment_method_type: undefined,
+2025-08-30T16:10:31.641893277Z   setup_intent: undefined,
+2025-08-30T16:10:31.641894908Z   source: undefined
+2025-08-30T16:10:31.641896568Z }
+2025-08-30T16:10:31.642378533Z 4:10:31 PM [express] POST /api/payments/setup-intent 500 in 153ms :: {"message":"Failed to create se…

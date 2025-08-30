@@ -245,10 +245,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to send support request" });
     }
   });
-  // Auth middleware
-  setupAuthJWT(app);
 
-  // Creator verification endpoint (special auth for Creator tab)
+  // Creator verification endpoint (special auth for Creator tab) - BEFORE setupAuthJWT
   app.post('/api/creator/verify', async (req, res) => {
     try {
       const { username, password } = req.body;
@@ -286,6 +284,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ success: false, message: "Verification failed" });
     }
   });
+
+  // Auth middleware
+  setupAuthJWT(app);
 
   // Admin safety monitoring endpoints (protected)
   app.get('/api/admin/banned-ips', verifyToken, async (req: any, res) => {

@@ -276,3 +276,37 @@
     opacity: .5;
   }
 }
+
+/* Mobile touch optimization - better input handling */
+@media (hover: none) and (pointer: coarse) {
+  /* Improve touch targets for mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  textarea,
+  select {
+    touch-action: manipulation;
+    -webkit-touch-callout: default;
+    -webkit-user-select: text;
+    user-select: text;
+    min-height: 44px; /* Apple's recommended touch target size */
+  }
+  
+  /* Remove delay on touch events */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+  
+  /* Ensure buttons and links are easily tappable */
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

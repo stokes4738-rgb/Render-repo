@@ -262,6 +262,9 @@ export default function AuthPage() {
                         onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="John"
+                        onTouchStart={(e) => e.currentTarget.focus()}
+                        autoCapitalize="words"
+                        autoCorrect="off"
                       />
                       {errors.firstName && (
                         <p className="text-red-300 text-sm mt-1">
@@ -281,6 +284,9 @@ export default function AuthPage() {
                         onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
                         className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                         placeholder="Doe"
+                        onTouchStart={(e) => e.currentTarget.focus()}
+                        autoCapitalize="words"
+                        autoCorrect="off"
                       />
                       {errors.lastName && (
                         <p className="text-red-300 text-sm mt-1">
@@ -303,6 +309,9 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your username" : "Choose a unique username"}
                     autoComplete="username"
+                    onTouchStart={(e) => e.currentTarget.focus()}
+                    autoCapitalize="off"
+                    autoCorrect="off"
                   />
                   {errors.username && (
                     <p className="text-red-300 text-sm mt-1">
@@ -324,6 +333,9 @@ export default function AuthPage() {
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       placeholder="john@example.com"
                       autoComplete="email"
+                      onTouchStart={(e) => e.currentTarget.focus()}
+                      autoCapitalize="off"
+                      autoCorrect="off"
                     />
                     {errors.email && (
                       <p className="text-red-300 text-sm mt-1">
@@ -345,6 +357,7 @@ export default function AuthPage() {
                       onChange={(e) => updateField('dateOfBirth', e.target.value)}
                       className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                       max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]} // Max age 13 years
+                      onTouchStart={(e) => e.currentTarget.focus()}
                     />
                     {errors.dateOfBirth && (
                       <p className="text-red-300 text-sm mt-1">
@@ -388,6 +401,9 @@ export default function AuthPage() {
                           onChange={(e) => updateField('parentName', e.target.value)}
                           className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                           placeholder="Parent or Guardian Full Name"
+                          onTouchStart={(e) => e.currentTarget.focus()}
+                          autoCapitalize="words"
+                          autoCorrect="off"
                         />
                         {errors.parentName && (
                           <p className="text-red-300 text-sm mt-1">
@@ -407,6 +423,9 @@ export default function AuthPage() {
                           onChange={(e) => updateField('parentEmail', e.target.value)}
                           className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                           placeholder="parent@example.com"
+                          onTouchStart={(e) => e.currentTarget.focus()}
+                          autoCapitalize="off"
+                          autoCorrect="off"
                         />
                         {errors.parentEmail && (
                           <p className="text-red-300 text-sm mt-1">
@@ -453,6 +472,9 @@ export default function AuthPage() {
                     className="bg-white/20 border-white/30 text-white placeholder:text-gray-300"
                     placeholder={isLogin ? "Enter your password" : "Choose a secure password"}
                     autoComplete={isLogin ? "current-password" : "new-password"}
+                    onTouchStart={(e) => e.currentTarget.focus()}
+                    autoCapitalize="off"
+                    autoCorrect="off"
                   />
                   {errors.password && (
                     <p className="text-red-300 text-sm mt-1">

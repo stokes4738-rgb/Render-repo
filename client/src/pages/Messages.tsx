@@ -172,6 +172,9 @@ export default function Messages() {
                 placeholder="Type a message..."
                 onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                 data-testid="input-message"
+                onTouchStart={(e) => e.currentTarget.focus()}
+                autoCapitalize="sentences"
+                autoCorrect="on"
               />
               <Button 
                 onClick={handleSendMessage}

@@ -176,6 +176,9 @@ export default function Post() {
                         placeholder="What do you need done?" 
                         {...field}
                         data-testid="input-bounty-title"
+                        onTouchStart={(e) => e.currentTarget.focus()}
+                        autoCapitalize="sentences"
+                        autoCorrect="on"
                       />
                     </FormControl>
                     <FormMessage />
@@ -198,6 +201,9 @@ export default function Post() {
                         className="resize-none"
                         {...field}
                         data-testid="textarea-bounty-description"
+                        onTouchStart={(e) => e.currentTarget.focus()}
+                        autoCapitalize="sentences"
+                        autoCorrect="on"
                       />
                     </FormControl>
                     <FormMessage />
@@ -248,6 +254,8 @@ export default function Post() {
                           placeholder="5.00"
                           {...field}
                           data-testid="input-bounty-reward"
+                          onTouchStart={(e) => e.currentTarget.focus()}
+                          inputMode="decimal"
                         />
                       </FormControl>
                       <FormMessage />
@@ -269,6 +277,9 @@ export default function Post() {
                         placeholder="mobile, testing, feedback" 
                         {...field}
                         data-testid="input-bounty-tags"
+                        onTouchStart={(e) => e.currentTarget.focus()}
+                        autoCapitalize="off"
+                        autoCorrect="off"
                       />
                     </FormControl>
                     <FormMessage />
@@ -348,6 +359,9 @@ export default function Post() {
                             placeholder="123 Main St, or general area" 
                             {...field}
                             data-testid="input-location-address"
+                            onTouchStart={(e) => e.currentTarget.focus()}
+                            autoCapitalize="words"
+                            autoCorrect="on"
                           />
                         </FormControl>
                         <FormMessage />
@@ -369,6 +383,9 @@ export default function Post() {
                               placeholder="Dallas" 
                               {...field}
                               data-testid="input-city"
+                              onTouchStart={(e) => e.currentTarget.focus()}
+                              autoCapitalize="words"
+                              autoCorrect="off"
                             />
                           </FormControl>
                           <FormMessage />
@@ -389,6 +406,9 @@ export default function Post() {
                               placeholder="TX" 
                               {...field}
                               data-testid="input-state"
+                              onTouchStart={(e) => e.currentTarget.focus()}
+                              autoCapitalize="characters"
+                              autoCorrect="off"
                             />
                           </FormControl>
                           <FormMessage />

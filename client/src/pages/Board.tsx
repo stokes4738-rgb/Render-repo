@@ -299,7 +299,7 @@ export default function Board() {
                     
                     <div className="text-xs text-muted-foreground">
                       <span>Posted by </span>
-                      <span className="text-foreground font-medium">@{bounty.authorId}</span>
+                      <span className="text-foreground font-medium">@{bounty.authorUsername || 'anonymous'}</span>
                       <span> • {formatDate(bounty.createdAt || new Date())}</span>
                     </div>
                   </div>

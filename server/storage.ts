@@ -417,11 +417,39 @@ export class DatabaseStorage implements IStorage {
           );
         }
         
-        return db
-          .select()
+        const results = await db
+          .select({
+            id: bounties.id,
+            title: bounties.title,
+            description: bounties.description,
+            category: bounties.category,
+            reward: bounties.reward,
+            tags: bounties.tags,
+            duration: bounties.duration,
+            status: bounties.status,
+            authorId: bounties.authorId,
+            authorUsername: users.username,
+            claimedBy: bounties.claimedBy,
+            completedAt: bounties.completedAt,
+            boostLevel: bounties.boostLevel,
+            boostExpiresAt: bounties.boostExpiresAt,
+            boostPurchasedAt: bounties.boostPurchasedAt,
+            isRemote: bounties.isRemote,
+            locationAddress: bounties.locationAddress,
+            city: bounties.city,
+            state: bounties.state,
+            locationRadius: bounties.locationRadius,
+            latitude: bounties.latitude,
+            longitude: bounties.longitude,
+            createdAt: bounties.createdAt,
+            updatedAt: bounties.updatedAt,
+          })
           .from(bounties)
+          .leftJoin(users, eq(bounties.authorId, users.id))
           .where(and(...conditions))
           .orderBy(desc(bounties.boostLevel), desc(bounties.createdAt));
+        
+        return results as Bounty[];
       },
       'getBounties',
       3
